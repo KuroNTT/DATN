@@ -1,1 +1,83 @@
-<p>sign-up works!</p>
+<div class="signup-body w-full h-[700px]">
+  <div class="signup-card w-[80%] h-[660px]">
+    <div
+      class="signup-colleft w-[50%] h-[660px] rounded-l-[50px] text-center content-center"
+    >
+      <form name="frmdk" class="p-6 rounded-lg max-w-md mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-6">Đăng ký</h1>
+
+        <!-- Tên đăng ký -->
+        <div class="mb-4">
+          <input
+            type="text"
+            name="ho_ten"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            placeholder="Tên đăng ký"
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="mb-1">
+          <input
+            type="email"
+            name="email"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg invalid:border-red-500 peer"
+            placeholder="Email"
+            required
+          />
+          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
+            Email không hợp lệ
+          </p>
+        </div>
+
+        <!-- Mật khẩu -->
+        <div class="mb-1">
+          <input
+            type="password"
+            name="mat_khau"
+            pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg peer"
+            placeholder="Mật khẩu"
+            required
+          />
+          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
+            Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số
+          </p>
+        </div>
+
+        <!-- Xác nhận mật khẩu -->
+        <div class="mb-4">
+          <input
+            type="password"
+            name="go_lai_mat_khau"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            placeholder="Xác nhận mật khẩu"
+          />
+          <p class="text-red-500 text-sm mt-1 hidden" id="matchError">
+            Mật khẩu không khớp
+          </p>
+        </div>
+
+        <!-- Đã có tài khoản -->
+        <p class="text-red-500 text-center text-md mb-4">
+          Bạn đã có tài khoản?
+        </p>
+
+        <!-- Nút đăng ký -->
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="px-10 py-5 text-lg rounded-full bg-white text-black border-1 border-black font-semibold signup-button"
+          >
+            ĐĂNG KÝ
+          </button>
+        </div>
+      </form>
+    </div>
+    <img
+      src="/images/colsignup.jpg"
+      alt=""
+      class="signup-colright w-[50%] h-[660px] rounded-r-[50px] object-cover"
+    />
+  </div>
+</div>
