@@ -1,0 +1,73 @@
+<div class="signup-body w-full h-[700px]">
+  <div class="signup-card w-[80%] h-[660px]">
+    <img
+      src="/images/colsignup.jpg"
+      alt=""
+      class="signup-colleft w-[50%] h-[660px] rounded-l-[50px] object-cover"
+    />
+    <div
+      class="signup-colright w-[50%] h-[660px] rounded-r-[50px] text-center content-center"
+    >
+      <form name="frmdn" class="p-6 rounded-lg max-w-md mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-6">Đăng nhập</h1>
+
+        <!-- Email -->
+        <div class="mb-1">
+          <input
+            type="email"
+            name="email"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg invalid:border-red-500 peer"
+            placeholder="Email"
+            required
+          />
+          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
+            Email không hợp lệ
+          </p>
+        </div>
+
+        <!-- Mật khẩu -->
+        <div class="mb-1">
+          <input
+            type="password"
+            name="mat_khau"
+            pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg peer"
+            placeholder="Mật khẩu"
+            required
+          />
+          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
+            Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số
+          </p>
+        </div>
+        <a
+          href="/forget-password"
+          class="mt-4 text-red-500 text-center text-md mb-4 text-sm"
+        >
+          BẠN MUỐN ĐỔI MẬT KHẨU?
+        </a>
+        <!-- Nút  -->
+        <div class="flex justify-between items-center mt-3 gap-5">
+          <button
+            type="button"
+            name="btn"
+            class="w-[50%] px-10 py-4 text-lg rounded-full bg-black text-white border border-black font-semibold signup-login-button"
+          >
+            ĐĂNG NHẬP
+          </button>
+          <button
+            type="button"
+            name="btn"
+            class="w-[50%] px-10 py-4 text-lg rounded-full bg-white text-black border border-black font-semibold signup-signup-button"
+          >
+             <a href="/sign-up">ĐĂNG KÝ </a> 
+          </button>
+        </div>
+
+        <!-- Thông báo -->
+        <p class="text-red-500 text-center mt-4 text-md">
+          <!-- {{thong_bao}} -->
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

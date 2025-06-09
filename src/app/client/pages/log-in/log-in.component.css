@@ -1,0 +1,27 @@
+.signup-body {
+  background-image: url("/images/backgroundsignup.png");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.signup-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 50px;
+}
+
+.signup-colright {
+  background-color: #d3d3d3;
+}
+.signup-signup-button:hover {
+  border: none;
+  background-color: #7070724d;
+}
+
+.signup-login-button:hover {
+  border: none;
+  background-color: #707072;
+}
