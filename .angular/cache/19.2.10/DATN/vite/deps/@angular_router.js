@@ -1,13 +1,15 @@
 import {
+  Title
+} from "./chunk-NGPT6DHR.js";
+import {
   DOCUMENT,
   HashLocationStrategy,
   LOCATION_INITIALIZED,
   Location,
   LocationStrategy,
   PathLocationStrategy,
-  Title,
   ViewportScroller
-} from "./chunk-2CN2KCXO.js";
+} from "./chunk-NHVGEO6Z.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
