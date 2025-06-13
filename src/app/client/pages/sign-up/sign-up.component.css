@@ -13,11 +13,14 @@
   border-radius: 50px;
 }
 
-.signup-colleft {
-  background-color: #d3d3d3;
+.signup-colleft, .signup-card {
+  background-color: #eeeeee;
+}
+.signup-button{
+  transition: 0.3s;
+  cursor: pointer;
 }
 .signup-button:hover{
     border: none;
-    background-color: #7070724D
-;
+    background-color: #7070724D;
 }
