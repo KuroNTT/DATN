@@ -1,0 +1,23 @@
+<swiper-container
+  navigation="true"
+  pagination="true"
+  autoplay-delay="5000"
+  autoplay="true"
+  loop="true"
+  class="w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh]"
+>
+  <swiper-slide *ngFor="let slide of slides">
+    <div class="relative w-full h-full">
+      <img
+        [src]="slide.image"
+        [alt]="slide.title"
+        class="w-full h-full object-fit object-center"
+      />
+      <div
+        class="absolute bottom-5 left-5 text-white text-xl sm:text-2xl md:text-3xl font-bold bg-black/50 px-2 py-1 rounded"
+      >
+        {{ slide.title }}
+      </div>
+    </div>
+  </swiper-slide>
+</swiper-container>

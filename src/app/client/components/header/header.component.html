@@ -1,1 +1,550 @@
-<div class="w-full h-[120px] bg-amber-500">Header</div>
+<div class="header bg-white shadow-md">
+  <div
+    class="container max-w-7xl mx-auto px-4 py-4 relative flex items-center justify-between"
+  >
+    <!-- Logo -->
+    <div class="header-logo flex-shrink-0">
+      <a routerLink="/">
+        <img src="images/logo.png" alt="logo" class="h-15 w-auto" />
+      </a>
+    </div>
+
+    <!-- Desktop Menu -->
+    <div class="header-menu hidden lg:flex items-center">
+      <ul class="header-menu_list flex space-x-8">
+        <li>
+          <a routerLink="/" class="hover:text-blue-600 transition font-bold"
+            >Trang chủ</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/products"
+            class="hover:text-blue-600 transition font-bold"
+            >Sản phẩm</a
+          >
+        </li>
+        <li class="dropdown relative group">
+          <a
+            routerLink="/shoes"
+            class="hover:text-blue-600 transition font-bold flex items-center"
+          >
+            Giày <i class="fa-solid fa-chevron-down ml-1 text-sm"></i>
+          </a>
+          <div
+            class="mega-menu hidden group-hover:block lg:absolute lg:top-full lg:left-0 lg:bg-white lg:shadow-lg lg:p-6 lg:grid lg:grid-cols-4 lg:gap-6 z-10 w-[90vw] max-w-7xl"
+          >
+            <div class="menu-column">
+              <h4 class="font-semibold mb-2">Nổi bật</h4>
+              <ul class="space-y-2">
+                <li>
+                  <a routerLink="/best-sellers" class="hover:text-blue-600"
+                    >Bán chạy nhất</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/new-products" class="hover:text-blue-600"
+                    >Sản phẩm mới</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/featured" class="hover:text-blue-600"
+                    >Nổi bật nhất</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="menu-column">
+              <h4 class="font-semibold mb-2">Giày</h4>
+              <ul class="space-y-2">
+                <li>
+                  <a routerLink="/shoes/all" class="hover:text-blue-600"
+                    >Tất cả</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/men" class="hover:text-blue-600"
+                    >Giày nam</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/women" class="hover:text-blue-600"
+                    >Giày nữ</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/running" class="hover:text-blue-600"
+                    >Giày chạy bộ</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/football" class="hover:text-blue-600"
+                    >Giày chơi đá bóng</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/basketball" class="hover:text-blue-600"
+                    >Giày chơi bóng rổ</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/shoes/gym" class="hover:text-blue-600"
+                    >Giày tập gym & rèn luyện</a
+                  >
+                </li>
+                <li>
+                  <a
+                    routerLink="/shoes/skateboarding"
+                    class="hover:text-blue-600"
+                    >Giày chơi skateboarding</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="menu-column">
+              <h4 class="font-semibold mb-2">Xu hướng</h4>
+              <ul class="space-y-2">
+                <li>
+                  <a
+                    routerLink="/trends/air-force-1"
+                    class="hover:text-blue-600"
+                    >Air Force 1</a
+                  >
+                </li>
+                <li>
+                  <a
+                    routerLink="/trends/air-jordan-1"
+                    class="hover:text-blue-600"
+                    >Air Jordan 1</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/trends/dunk" class="hover:text-blue-600"
+                    >Dunk</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/trends/blazer" class="hover:text-blue-600"
+                    >Blazer</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/trends/pegasus" class="hover:text-blue-600"
+                    >Pegasus</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/trends/vomero" class="hover:text-blue-600"
+                    >Vomero</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="menu-column">
+              <h4 class="font-semibold mb-2">Mua sắm với các loại thể thao</h4>
+              <ul class="space-y-2">
+                <li>
+                  <a routerLink="/sports/running" class="hover:text-blue-600"
+                    >Giày chạy bộ</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/football" class="hover:text-blue-600"
+                    >Giày chơi đá bóng</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/basketball" class="hover:text-blue-600"
+                    >Giày chơi bóng rổ</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/gym" class="hover:text-blue-600"
+                    >Giày tập gym & rèn luyện</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/tennis" class="hover:text-blue-600"
+                    >Giày chơi tennis</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/golf" class="hover:text-blue-600"
+                    >Giày chơi golf</a
+                  >
+                </li>
+                <li>
+                  <a routerLink="/sports/yoga" class="hover:text-blue-600"
+                    >Giày tập yoga</a
+                  >
+                </li>
+                <li>
+                  <a
+                    routerLink="/sports/skateboarding"
+                    class="hover:text-blue-600"
+                    >Giày chơi skateboarding</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a
+            routerLink="/about"
+            class="hover:text-blue-600 transition font-bold"
+            >Về chúng tôi</a
+          >
+        </li>
+        <li>
+          <a routerLink="/blog" class="hover:text-blue-600 transition font-bold"
+            >Bài viết</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/contact"
+            class="hover:text-blue-600 transition font-bold"
+            >Liên hệ</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header Icons -->
+    <div class="header-icon flex items-center space-x-4">
+      <ul class="flex space-x-4">
+        <li>
+          <a routerLink="/search" class="hover:text-blue-600"
+            ><i class="fa-solid fa-magnifying-glass"></i
+          ></a>
+        </li>
+        <li>
+          <a routerLink="/profile" class="hover:text-blue-600"
+            ><i class="fa-solid fa-user"></i
+          ></a>
+        </li>
+        <li>
+          <a routerLink="/wishlist" class="hover:text-blue-600"
+            ><i class="fa-solid fa-heart"></i
+          ></a>
+        </li>
+        <li>
+          <a routerLink="/cart" class="hover:text-blue-600"
+            ><i class="fa-solid fa-cart-shopping"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hamburger Menu Button (Visible on Mobile) -->
+    <button
+      class="lg:hidden text-2xl focus:outline-none"
+      (click)="toggleMenu()"
+    >
+      <i class="fa-solid" [ngClass]="isMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+    </button>
+  </div>
+
+  <!-- Overlay (Backdrop) -->
+  <div
+    *ngIf="isMenuOpen"
+    class="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+    (click)="toggleMenu()"
+  ></div>
+
+  <!-- Mobile Menu -->
+  <div
+    class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 overflow-y-auto"
+    [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+  >
+    <div
+      class="mobile-menu-content flex justify-between items-center p-4 border-b"
+    >
+      <h3 class="text-lg font-semibold">Menu</h3>
+      <button (click)="toggleMenu()" class="text-2xl">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+    <ul class="flex flex-col p-4 space-y-4">
+      <li>
+        <a
+          routerLink="/"
+          (click)="toggleMenu()"
+          class="block text-lg hover:text-blue-600"
+          >Trang chủ</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/products"
+          (click)="toggleMenu()"
+          class="block text-lg hover:text-blue-600"
+          >Sản phẩm</a
+        >
+      </li>
+      <li>
+        <div class="flex justify-between items-center">
+          <a routerLink="/shoes" class="block text-lg hover:text-blue-600"
+            >Giày</a
+          >
+          <button (click)="toggleShoesMenu()" class="text-lg">
+            <i
+              class="fa-solid"
+              [ngClass]="isShoesMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"
+            ></i>
+          </button>
+        </div>
+        <div
+          class="pl-4 space-y-2"
+          [ngClass]="isShoesMenuOpen ? 'block' : 'hidden'"
+        >
+          <div class="menu-column">
+            <h4 class="font-semibold mt-2">Nổi bật</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  routerLink="/best-sellers"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Bán chạy nhất</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/new-products"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Sản phẩm mới</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/featured"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Nổi bật nhất</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4 class="font-semibold mt-2">Giày</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  routerLink="/shoes/all"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Tất cả</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/men"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày nam</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/women"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày nữ</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/running"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chạy bộ</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/football"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi đá bóng</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/basketball"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi bóng rổ</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/gym"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày tập gym & rèn luyện</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/shoes/skateboarding"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi skateboarding</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4 class="font-semibold mt-2">Xu hướng</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  routerLink="/trends/air-force-1"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Air Force 1</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/trends/air-jordan-1"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Air Jordan 1</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/trends/dunk"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Dunk</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/trends/blazer"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Blazer</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/trends/pegasus"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Pegasus</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/trends/vomero"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Vomero</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="menu-column">
+            <h4 class="font-semibold mt-2">Mua sắm với các loại thể thao</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  routerLink="/sports/running"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chạy bộ</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/football"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi đá bóng</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/basketball"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi bóng rổ</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/gym"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày tập gym & rèn luyện</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/tennis"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi tennis</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/golf"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi golf</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/yoga"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày tập yoga</a
+                >
+              </li>
+              <li>
+                <a
+                  routerLink="/sports/skateboarding"
+                  (click)="toggleMenu()"
+                  class="block hover:text-blue-600"
+                  >Giày chơi skateboarding</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a
+          routerLink="/about"
+          (click)="toggleMenu()"
+          class="block text-lg hover:text-blue-600"
+          >Về chúng tôi</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/blog"
+          (click)="toggleMenu()"
+          class="block text-lg hover:text-blue-600"
+          >Bài viết</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/contact"
+          (click)="toggleMenu()"
+          class="block text-lg hover:text-blue-600"
+          >Liên hệ</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

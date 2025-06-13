@@ -1,0 +1,123 @@
+.footer {
+  width: 100%;
+  color: #000000;
+  font-size: 13px;
+  line-height: 20px;
+  background-color: #f7f7f7;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+}
+
+.row {
+  margin: auto;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.logo-footer-image {
+  filter: invert(1000%);
+}
+
+.col {
+  flex-basis: 25%;
+  padding: 10px;
+}
+
+.col:nth-child(2),
+.col:nth-child(3) {
+  flex-basis: 15%;
+}
+
+.logo-footer {
+  width: 85px;
+  margin-bottom: 30px;
+}
+
+.col h3 {
+  width: fit-content;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.email-id {
+  width: fit-content;
+  border-bottom: 1px solid #cccccc;
+  margin: 20px 0;
+}
+
+.c3 ul li {
+  list-style: none;
+  margin-bottom: 12px;
+}
+
+.c3 ul li a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.c4 form {
+  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 50px;
+}
+
+.c4 form .fa-regular {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.c4 form input {
+  width: 100%;
+  background: transparent;
+  color: #cccccc;
+  border: 0;
+  outline: none;
+}
+
+.c4 form button {
+  background: transparent;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.c4 form button .fa-arrow-right {
+  font-size: 16px;
+  color: #cccccc;
+}
+
+.social-icons .fa-brands {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+  color: #000000;
+  background: #ffffff;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+}
+
+hr {
+  width: 90%;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  margin: 20px auto;
+}
+
+.copyright {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

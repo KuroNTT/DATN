@@ -7,4 +7,14 @@ export const routes: Routes = [
     {path:'sign-up', component:SignUpComponent, title:'Đăng ký'},
     {path:'sign-in', component:LogInComponent, title:'Đăng nhập'},
     {path:'contact', component:ContactComponent, title:'Liên hệ'},
+    {
+    path: "",
+    loadChildren: () =>
+      import("./client/client.module").then((m) => m.ClientModule),
+  },
+  {
+    path: "admin",
+    loadChildren: () =>
+      import("./admin/admin.module").then((m) => m.AdminModule),
+  }
 ];
