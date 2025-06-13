@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: "Nunito Sans", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --text-color: #ffffff;
+  --podium-cds-typography-320-to-959-display2: 800 2.5rem / 0.9 "Nike Futura ND",
+    "Helvetica Now Text Medium", Helvetica, Arial, sans-serif;
+  --max-width: 1280px;
+}
