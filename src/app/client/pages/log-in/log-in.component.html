@@ -1,14 +1,22 @@
-<div class="signup-body w-full h-[700px]">
-  <div class="signup-card w-[80%] h-[660px]">
-    <img
-      src="/images/colsignup.jpg"
-      alt=""
-      class="signup-colleft w-[50%] h-[660px] rounded-l-[50px] object-cover"
-    />
+<div
+  class="signup-body w-full min-h-screen flex items-center justify-center px-4 py-6"
+>
+  <div
+    class="signup-card w-full max-w-5xl flex flex-col md:flex-row shadow-lg md:rounded-[50px] md:gap-0"
+  >
+    <div class="w-full md:w-1/2 flex justify-center order-2 md:order-1">
+      <img
+        src="/images/colsignup.jpg"
+        alt=""
+        class="w-full h-[500px] md:h-[600px] object-cover md:rounded-none md:rounded-l-[50px]"
+      />
+    </div>
+
+    <!-- Form bên phải -->
     <div
-      class="signup-colright w-[50%] h-[660px] rounded-r-[50px] text-center content-center"
+      class="signup-colright w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 order-1 md:order-2"
     >
-      <form name="frmdn" class="p-6 rounded-lg max-w-md mx-auto">
+      <form name="frmdn" class="w-full max-w-md">
         <h1 class="text-3xl font-bold text-center mb-6">Đăng nhập</h1>
 
         <!-- Email -->
@@ -16,7 +24,7 @@
           <input
             type="email"
             name="email"
-            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg invalid:border-red-500 peer"
+            class="w-full p-4 max-[430px]:p-2 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg invalid:border-red-500 peer"
             placeholder="Email"
             required
           />
@@ -31,7 +39,7 @@
             type="password"
             name="mat_khau"
             pattern="(?=.*[A-Z])(?=.*\d).{8,}"
-            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg peer"
+            class="w-full p-4 max-[430px]:p-2 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg peer"
             placeholder="Mật khẩu"
             required
           />
@@ -39,33 +47,50 @@
             Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số
           </p>
         </div>
-        <a
-          href="/forget-password"
-          class="mt-4 text-red-500 text-center text-md mb-4 text-sm"
+
+        <!-- <div
+          class="flex flex-row justify-between items-center mt-5 gap-4 max-[430px]:gap-2"
         >
-          BẠN MUỐN ĐỔI MẬT KHẨU?
-        </a>
-        <!-- Nút  -->
-        <div class="flex justify-between items-center mt-3 gap-5">
           <button
             type="button"
             name="btn"
-            class="w-[50%] px-10 py-4 text-lg rounded-full bg-black text-white border border-black font-semibold signup-login-button"
+            class="signup-login-button w-[48%] max-[430px]:w-1/2 max-[430px]:px-2 max-[430px]:py-2 px-6 py-4 text-md rounded-full bg-black text-white border border-black font-semibold"
           >
             ĐĂNG NHẬP
           </button>
           <button
             type="button"
             name="btn"
-            class="w-[50%] px-10 py-4 text-lg rounded-full bg-white text-black border border-black font-semibold signup-signup-button"
+            class="signup-signup-button w-[48%] max-[430px]:w-1/2 max-[430px]:px-2 max-[430px]:py-2 px-6 py-4 text-md rounded-full bg-white text-black border border-black font-semibold"
           >
-             <a href="/sign-up">ĐĂNG KÝ </a> 
+            <a href="/sign-up">ĐĂNG KÝ</a>
+          </button>
+        </div> -->
+         <!-- Nút đăng nhập -->
+        <div class="flex justify-center mt-4">
+          <button
+            type="button"
+            class="signup-signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-black text-white shadow-lg   font-semibold"
+          >
+            ĐĂNG NHẬP
           </button>
         </div>
-
+<!-- Quên mật khẩu -->
+ <a
+          href="/sign-up"
+          class="mt-4 text-blue-500 text-center text-sm block"
+        >
+          Bạn chưa có tài khoản? <span class=" hover:underline text-red-500 ">Đăng ký</span> 
+        </a>
+        <a
+          href="/forget-password"
+          class="text-blue-500 text-center text-sm block"
+        >
+          Bạn muốn đổi mật khẩu?
+        </a>
         <!-- Thông báo -->
-        <p class="text-red-500 text-center mt-4 text-md">
-          <!-- {{thong_bao}} -->
+        <p class="text-red-500 text-center mt-4 text-sm">
+          <!-- {{thong_ bao}} -->
         </p>
       </form>
     </div>

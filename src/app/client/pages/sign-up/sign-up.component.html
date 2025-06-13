@@ -1,28 +1,32 @@
-<div class="signup-body w-full h-[700px]">
-  <div class="signup-card w-[80%] h-[660px]">
+<div
+  class="signup-body w-full min-h-screen flex items-center justify-center px-4 py-6"
+>
+  <div
+    class="signup-card w-full max-w-5xl flex flex-col md:flex-row shadow-lg rounded-[20px] md:rounded-[50px] overflow-hidden md:gap-0"
+  >
     <div
-      class="signup-colleft w-[50%] h-[660px] rounded-l-[50px] text-center content-center"
+      class="signup-colleft w-full md:w-1/2 flex items-center justify-center  md:p-8"
     >
-      <form name="frmdk" class="p-6 rounded-lg max-w-md mx-auto">
+      <form name="frmdk" class="w-full max-w-md p-6">
         <h1 class="text-3xl font-bold text-center mb-6">Đăng ký</h1>
 
         <!-- Tên đăng ký -->
-        <div class="mb-1">
+        <div class="mb-2">
           <input
             type="text"
             name="name"
-            class="w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            class="w-full mb-2 p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Tên đăng ký"
             [(ngModel)]="user.name"
           />
         </div>
 
         <!-- Email -->
-        <div class="mb-1">
+        <div class="mb-2">
           <input
             type="email"
             name="email"
-            class="email-input w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            class="email-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Email"
             [(ngModel)]="user.email"
           />
@@ -32,11 +36,11 @@
         </div>
 
         <!-- Mật khẩu -->
-        <div class="mb-1">
+        <div class="mb-2">
           <input
             type="password"
             name="mat_khau"
-            class="password-input w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            class="password-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Mật khẩu"
             [(ngModel)]="user.password"
           />
@@ -49,8 +53,8 @@
         <div class="mb-4">
           <input
             type="password"
-            name="go_lai_mat_khau"
-            class="confirm-input w-full p-4 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            name="re_password"
+            class="confirm-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Xác nhận mật khẩu"
             [(ngModel)]="user.re_password"
           />
@@ -61,29 +65,37 @@
             Mật khẩu không khớp
           </p>
         </div>
+
+        <!-- Thông báo lỗi -->
         <b class="m-4 text-red-500 text-center text-sm block">{{
           thong_bao
         }}</b>
+
         <!-- Nút đăng ký -->
         <div class="flex justify-center mt-4">
           <button
             type="button"
             (click)="dangky()"
-            class="w-[50%] px-10 py-4 text-lg rounded-full bg-white text-black border-1 border-black font-semibold"
+            class="signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-white text-black shadow-lg font-semibold"
           >
             ĐĂNG KÝ
           </button>
         </div>
-        <!-- Đã có tài khoản -->
-        <a href="/log-in" class="m-4 text-blue-500 text-center text-sm block">
-          BẠN ĐÃ CÓ TÀI KHOẢN?
+
+        <!-- Link đăng nhập -->
+        <a href="/log-in" class="mt-4 text-blue-500 text-center text-sm block">
+          Bạn đã có tài khoản? <span class=" hover:underline text-red-500 ">Đăng nhập</span>
+
         </a>
       </form>
     </div>
-    <img
-      src="/images/colsignup.jpg"
-      alt=""
-      class="signup-colright w-[50%] h-[660px] rounded-r-[50px] object-cover"
-    />
+
+    <div class="w-full md:w-1/2 flex justify-center">
+      <img
+        src="/images/colsignup.jpg"
+        alt=""
+        class="w-full h-[600px] object-cover md:rounded-none md:rounded-r-[50px]"
+      />
+    </div>
   </div>
 </div>
