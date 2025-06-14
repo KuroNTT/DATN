@@ -1,7 +1,5 @@
 * {
   font-family: "Nunito Sans", sans-serif;
-  padding: 0;
-  margin: 0;
   box-sizing: border-box;
 }
 
@@ -11,3 +9,6 @@
     "Helvetica Now Text Medium", Helvetica, Arial, sans-serif;
   --max-width: 1280px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

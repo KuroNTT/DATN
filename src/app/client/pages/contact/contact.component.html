@@ -1,1 +1,56 @@
-<p>contact works!</p>
+<nav class="flex items-center space-x-2 text-sm text-gray-600 w-[80%] mx-auto bg-gray-300 h-10 p-6" aria-label="Breadcrumb">
+  <a href="#" class="hover:underline hover:text-black font-medium text-gray-700">Trang chủ</a>
+  <span>/</span>
+  <a href="#" class="hover:underline hover:text-black font-medium">Liên hệ</a>
+</nav>
+<div class="container w-[80%] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 mx-auto">
+        <div class="space-y-6">
+            <div class="space-y-4 text-sm text-gray-700">
+                <div class="flex items-center gap-4">
+                    <span class="text-xl">📍</span>
+                    <span>Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xl">📞</span>
+                    <span>0999-999-999</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xl">✉️</span>
+                    <span>example&#64;gmail.com</span>
+                </div>
+            </div>
+
+            <hr class="border-gray-300" />
+
+            <h2 class="text-xl font-semibold">Liên hệ với chúng tôi.</h2>
+            <form class="space-y-1">
+                <mat-form-field class="w-[100%]">
+                    <mat-label>Họ và tên</mat-label>
+                    <input type="text" placeholder="Họ và tên" matInput/>
+                </mat-form-field>
+                <mat-form-field class="w-[100%]">
+                    <mat-label>Email</mat-label>
+                    <input type="email" placeholder="Email" matInput/>
+                </mat-form-field>
+                <mat-form-field class="w-[100%]">
+                    <mat-label>Nội dung</mat-label>
+                    <textarea placeholder="Nội dung" rows="6" matInput></textarea>
+                </mat-form-field>
+
+                <button type="submit"
+                    class="bg-black text-white rounded-full px-10 py-2 hover:opacity-90 transition float-right hover:bg-gray-900 hover:cursor-pointer">
+                    Gửi liên hệ
+                </button>
+            </form>
+        </div>
+
+        <!-- Right: Map -->
+        <div class="my-auto">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.286119993987!2d106.62718747480088!3d10.865001857457796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175299bb28e0131%3A0xa7680618329cf5cb!2zQ8O0bmcgdmnhu4d0IFBhbiBN4bqhbSBRdeG6rW5nIFRydW5n!5e0!3m2!1svi!2s!4v1718362571574!5m2!1svi!2s"
+                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" class="rounded-xl shadow-md"></iframe>
+        </div>
+    </div>
+</div>
