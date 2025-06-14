@@ -1,0 +1,201 @@
+<div class="container bg-white
+">
+    <div class="grid grid-cols-8 gap-4 ">
+        <div class="col-span-1 col-start-1">
+            <div class="grid gap-2 col-1">
+                <div class="grid gap-2">
+                    <img *ngFor="let img of imgList" [src]="img" (mouseover)="onHover(img)"
+                        class=" object-cover cursor-pointer hover:ring-2 hover:ring-blue-500" alt="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-span-3 col-start-2 col-end-6  ">
+
+            <img style="width:100%;height:100%;object-fit: cover;" [src]="mainImage" alt="">
+        </div>
+
+        <div class="col-span-4 col-start-6 col-end-9 " col-span-4>
+            <div class="ml-4">
+                <div class="overflow-y-auto overflow-x-hidden max-h-[700px] scroll-hidden">
+                    <h3 class="text-2xl font-bold">Air Jordan 1 Cổ Trung</h3>
+                    <p class="my-[5px]">Giày nam</p>
+                    <div class="flex text-2xl my-[5px]">
+                        <h4 class="price font-bold">4.250.000 <span>VNĐ</span></h4>
+                        <del class="price-sale">20000 <span>VNĐ</span></del>
+                        <p class="btn-sale ml-[20px]">25%</p>
+                    </div>
+                    <p class="my-[5px]">Màu sắc</p>
+                    <div class="color flex my-[5px]">
+                        <a href="">
+                            <img src="images/img-color1.png" alt="">
+                        </a>
+                        <a class="ml-[10px]" href="">
+                            <img src="images/img-color2.png" alt="">
+                        </a>
+                    </div>
+                    <div class="my-[5px]">
+                        <div class="flex justify-between my-[10px]">
+                            <p>Kích thước</p>
+                            <p>Bảng kích thước</p>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 my-[5px]">
+                            <p class="btn-size btn-effect">36</p>
+                            <p class="btn-size btn-effect">37</p>
+                            <p class="btn-size btn-effect">38</p>
+                            <p class="btn-size btn-effect">39</p>
+                            <p class="btn-size btn-effect">40</p>
+                        </div>
+                        <button
+                            class="w-full py-2 px-4 rounded shadow block h-[69px] my-[20px] text-white bg-black hover:bg-[#707072]">
+                            Thêm vào giỏ hàng
+                        </button>
+
+
+                        <button
+                            class="bg-white hover:bg-[#707072] text-black w-full py-2 px-4 rounded shadow block h-[69px] my-[20px]">
+                            Yêu thích
+                        </button>
+
+                    </div>
+                    <div class="">
+                        <h3 class="text-xl font-bold my-[5px]">Thông tin sản phẩm</h3>
+                        <p>Đừng bao giờ làm mất đi vẻ đẹp cổ điển. Hãy giữ di sản trên từng bước chân của bạn với phối
+                            màu trắng tinh tế – một phong cách không bao giờ lỗi thời.</p>
+                        <h3 class="text-xl font-bold my-[5px]">Lợi ích nổi bật</h3>
+                        <p>Chất liệu da thật và da tổng hợp mang lại độ bền vượt trội cùng vẻ ngoài sang trọng.
+                            Lưỡi gà và phần lót trong có đệm, mang đến cảm giác êm ái và thoải mái suốt ngày dài.
+                            Logo cánh Air Jordan mang tính</p>
+                        <p>Chất liệu da thật và da tổng hợp mang lại độ bền vượt trội cùng vẻ ngoài sang trọng.
+                            Lưỡi gà và phần lót trong có đệm, mang đến cảm giác êm ái và thoải mái suốt ngày dài.
+                            Logo cánh Air Jordan mang tính</p>
+
+                        <div class="infor-detail">
+                            <h3 class="text-xl font-bold my-[5px]">Thông tin chi tiết</h3>
+                            <p>Màu sắc: <span>Trắng</span></p>
+                            <p>Mã sản phẩm: <span>TVM-001</span></p>
+                            <p>Xuất xứ: <span>Việt Nam</span></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="">
+        <div class="">
+            <h3 class="text-xl font-bold my-[5px]">Đánh giá sản phẩm</h3>
+            <div class="review">
+                <div class="review-detail">
+                    <div class="name">
+                        <span>MinhLe</span> - <span class="date">14/6/2025</span>
+                    </div>
+                    <div class="start flex my-[10px]">
+                        <i class="fa-solid fa-star review-start"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="relative">
+                        <div style="width:60%" class="dsc line-clamp-2 transition-all duration-300 ease-in-out"
+                            [class.line-clamp-none]="showFullText">
+                            Tôi nghĩ đây là một lựa chọn tuyệt vời, vừa thoải mái vừa đẹp khi đi với giày. Nó đến rất
+                            nhanh,
+                            mất khoảng ba ngày nhưng như thường lệ, bạn luôn có thể trả tiền để nhận được chúng sớm hơn
+                            nhưng tôi nghĩ đây là một trong những đôi giày tốt nhất mà tôi từng mua và rất hợp với nhiều
+                            trang phục khác nhau nên nó được năm sao.
+
+                            <div class="img-review grid gap-2 grid-cols-5 my-5">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                            </div>
+                        </div>
+                        <button class="text-blue-500 mt-2" (click)="toggleShowText()">
+                            {{ showFullText ? 'Ẩn bớt' : 'Xem thêm' }}
+                        </button>
+                    </div>
+                </div>
+                <div class="review-detail">
+                    <div class="name">
+                        <span>TuanNguyen</span> - <span class="date">14/6/2025</span>
+                    </div>
+                    <div class="start flex my-[10px]">
+                        <i class="fa-solid fa-star review-start"></i>
+                        <i class="fa-solid fa-star review-start"></i>
+                        <i class="fa-solid fa-star review-start"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="relative">
+                        <div style="width:60%" class="dsc line-clamp-2 transition-all duration-300 ease-in-out"
+                            [class.line-clamp-none]="showFullText">
+                            Tôi nghĩ đây là một lựa chọn tuyệt vời, vừa thoải mái vừa đẹp khi đi với giày. Nó đến rất
+                            nhanh,
+                            mất khoảng ba ngày nhưng như thường lệ, bạn luôn có thể trả tiền để nhận được chúng sớm hơn
+                            nhưng tôi nghĩ đây là một trong những đôi giày tốt nhất mà tôi từng mua và rất hợp với nhiều
+                            trang phục khác nhau nên nó được năm sao.
+                            <div class="img-review grid gap-2 grid-cols-5 my-5">
+                                <img src="images/img-color1.png" alt="">
+                                <img src="images/img-color1.png" alt="">
+                            </div>
+                        </div>
+                        <button class="text-blue-500 mt-2" (click)="toggleShowText()">
+                            {{ showFullText ? 'Ẩn bớt' : 'Xem thêm' }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="product-related">
+            <h3 class="text-xl font-bold my-[10px]">Có thể bạn sẽ thích</h3>
+            <div class="grid grid-cols-4 my-6" #slider>
+                <div class="max-w-2xs bg-white rounded-lg shadow hover:shadow-lg transition duration-300">
+                    <img class="w-full h-[250px] object-cover rounded-t-lg" src="images/img-product4.png" alt="" />
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Nike Dunk Low SE</h3>
+                        <p class="text-gray-500 text-sm mt-1">Giày nam</p>
+                        <p class="text-xl font-bold mt-2">3,829,000đ</p>
+                    </div>
+                </div>
+                <div class="max-w-2xs bg-white rounded-lg shadow hover:shadow-lg transition duration-300">
+                    <img class="w-full h-[250px] object-cover rounded-t-lg" src="images/img-product3.png" alt="" />
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Nike Dunk Low SE</h3>
+                        <p class="text-gray-500 text-sm mt-1">Giày nam</p>
+                        <p class="text-xl font-bold mt-2">3,829,000đ</p>
+                    </div>
+                </div>
+                <div class="max-w-2xs bg-white rounded-lg shadow hover:shadow-lg transition duration-300">
+                    <img class="w-full h-[250px] object-cover rounded-t-lg" src="images/img-product2.png" alt="" />
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Nike Dunk Low SE</h3>
+                        <p class="text-gray-500 text-sm mt-1">Giày nam</p>
+                        <p class="text-xl font-bold mt-2">3,829,000đ</p>
+                    </div>
+                </div>
+                <div class="max-w-2xs bg-white rounded-lg shadow hover:shadow-lg transition duration-300">
+                    <img class="w-full h-[250px] object-cover rounded-t-lg" src="images/img-product1.png" alt="" />
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold">Nike Dunk Low SE</h3>
+                        <p class="text-gray-500 text-sm mt-1">Giày nam</p>
+                        <p class="text-xl font-bold mt-2">3,829,000đ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="icon-lr">
+                <i class="fa-solid fa-arrow-left"></i>
+                <i class="fa-solid fa-arrow-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,210 @@
+.container {
+    width: 95%;
+    margin: 0 auto;
+}
+.col-1 img {
+    width: 90px;
+    height: 80px;
+    margin: auto;
+}
+.color img {
+    width: 100px;
+    height: 100px;
+}
+.price {
+    color: blue;
+}
+.price-sale {
+    font-size: 16px;
+    color: gray;
+    margin: auto 0 auto 23px;
+}
+/* .btn-size {
+    width: 109px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-size: 18px;
+    color: #090909;
+    cursor: pointer;
+    background: #e8e8e8;
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s ease-in;
+}
+.btn-size:active {
+    color: #666;
+    box-shadow:
+        inset 4px 4px 12px #c5c5c5,
+        inset -4px -4px 12px #ffffff;
+}
+.btn-size::before,
+.btn-size::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+}
+.btn-size::before {
+    top: 100%;
+    left: 50%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+}
+.btn-size::after {
+    top: 180%;
+    left: 55%;
+    width: 160%;
+    height: 190%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+}
+.btn-size:hover {
+    color: #fff;
+    border-color: #707072;
+}
+.btn-size:hover::before {
+    top: -35%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+.btn-size:hover::after {
+    top: -45%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+} */
+
+/* Kích thước và layout cơ bản */
+.btn-size {
+    width: 109px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Hiệu ứng màu nền và animation */
+.btn-effect {
+    background: #e8e8e8;
+    color: #090909;
+    border: 1px solid #e8e8e8;
+    transition: all 0.2s ease-in;
+}
+
+.btn-effect:active {
+    color: #666;
+    box-shadow:
+        inset 4px 4px 12px #c5c5c5,
+        inset -4px -4px 12px #ffffff;
+}
+
+.btn-effect::before,
+.btn-effect::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+}
+
+.btn-effect::before {
+    top: 100%;
+    left: 50%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+}
+
+.btn-effect::after {
+    top: 180%;
+    left: 55%;
+    width: 160%;
+    height: 190%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+}
+
+.btn-effect:hover {
+    color: #fff;
+    border-color: #707072;
+}
+
+.btn-effect:hover::before {
+    top: -35%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+
+.btn-effect:hover::after {
+    top: -45%;
+    background-color: #707072;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+.btn-sale {
+    width: 60px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: red;
+    color: #fff;
+}
+.img-review {
+    width: 70%;
+}
+.img-review img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.review-start {
+    color: rgb(100, 243, 5);
+}
+button {
+    border-radius: 50px;
+}
+.product-related {
+    position: relative;
+}
+.icon-lr {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 30px;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none;
+}
+.icon-lr i {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.icon-lr i:hover {
+    background-color: #aaa;
+}
