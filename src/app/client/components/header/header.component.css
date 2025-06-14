@@ -1,0 +1,91 @@
+.header {
+  width: 100%;
+  background-color: #f7f7f7f7;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  height: 60px;
+}
+
+.header-menu_list {
+  display: flex;
+  gap: 32px;
+}
+
+.header-menu_list > li > a > p {
+  transition: 0.2s;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.header-icon > ul {
+  display: flex;
+  gap: 1rem;
+}
+
+.fa-solid {
+  transition: 0.2s;
+}
+
+/* Ẩn menu ban đầu */
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-43%);
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  width: max-content;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9;
+  gap: 40px;
+}
+
+.menu-column {
+  min-width: 180px;
+}
+
+.menu-column h4 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.menu-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-column ul li a {
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown:hover .mega-menu {
+  display: flex;
+}
+
+/* Đảm bảo menu cha có position: relative */
+.header-menu_list > li {
+  position: relative;
+}
+
+/* Mobile Menu */
+.fa-chevron-down {
+  margin-left: 6px;
+}
+
+.mobile-menu {
+  padding: 0 12px;
+}
