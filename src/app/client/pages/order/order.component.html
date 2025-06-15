@@ -19,7 +19,8 @@
     <!-- Thông tin giao hàng -->
     <div>
         <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
-        <p class="mb-4">Bạn đã có tài khoản ? <a href="#" class="text-blue-500 font-medium hover:underline">Đăng nhập</a></p>
+        <p class="mb-4">Bạn đã có tài khoản ? <a href="#" class="text-blue-500 font-medium hover:underline">Đăng
+                nhập</a></p>
         <form class="space-y-4">
             <mat-form-field class="w-full rounded">
                 <mat-label>Họ và tên</mat-label>
@@ -67,6 +68,19 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="mt-6">
+                <h2 class="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
+
+                <mat-radio-group class="flex flex-col gap-4">
+                    <mat-radio-button class="flex items-center gap-3" value="cod">
+                        <span>Thanh toán khi nhận hàng (COD)</span>
+                    </mat-radio-button>
+
+                    <mat-radio-button class="flex items-center gap-3" value="bank">
+                        <span>Chuyển khoản ngân hàng</span>
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
 
             <button
                 class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer">
@@ -75,7 +89,8 @@
 
         </form>
 
-        <a href="#" class="text-blue-600 font-semibold py-2 inline-block hover:underline"><i class="fa-solid fa-arrow-left"></i> 
+        <a href="#" class="text-blue-600 font-semibold py-2 inline-block hover:underline"><i
+                class="fa-solid fa-arrow-left"></i>
             Quay lại giỏ hàng</a>
     </div>
 
