@@ -24,13 +24,11 @@
           <input
             type="email"
             name="email"
-            class="w-full p-4 max-[430px]:p-2 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg invalid:border-red-500 peer"
+            class="email-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Email"
+            [(ngModel)]="user.email"
             required
           />
-          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
-            Email không hợp lệ
-          </p>
         </div>
 
         <!-- Mật khẩu -->
@@ -39,48 +37,29 @@
             type="password"
             name="mat_khau"
             pattern="(?=.*[A-Z])(?=.*\d).{8,}"
-            class="w-full p-4 max-[430px]:p-2 rounded-xl border-2 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg peer"
+            class="password-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Mật khẩu"
+            [(ngModel)]="user.password"
             required
           />
-          <p class="text-red-500 text-sm mt-1 hidden peer-invalid:block">
-            Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số
-          </p>
         </div>
-
-        <!-- <div
-          class="flex flex-row justify-between items-center mt-5 gap-4 max-[430px]:gap-2"
-        >
-          <button
-            type="button"
-            name="btn"
-            class="signup-login-button w-[48%] max-[430px]:w-1/2 max-[430px]:px-2 max-[430px]:py-2 px-6 py-4 text-md rounded-full bg-black text-white border border-black font-semibold"
-          >
-            ĐĂNG NHẬP
-          </button>
-          <button
-            type="button"
-            name="btn"
-            class="signup-signup-button w-[48%] max-[430px]:w-1/2 max-[430px]:px-2 max-[430px]:py-2 px-6 py-4 text-md rounded-full bg-white text-black border border-black font-semibold"
-          >
-            <a href="/sign-up">ĐĂNG KÝ</a>
-          </button>
-        </div> -->
-         <!-- Nút đăng nhập -->
+  <!-- Thông báo lỗi -->
+        <b class="m-4 text-red-500 text-center text-sm block">{{
+          thong_bao
+        }}</b>        <!-- Nút đăng nhập -->
         <div class="flex justify-center mt-4">
           <button
             type="button"
-            class="signup-signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-black text-white shadow-lg   font-semibold"
+            class="signup-signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-black text-white shadow-lg font-semibold"
+            (click)="dangnhap()"
           >
             ĐĂNG NHẬP
           </button>
         </div>
-<!-- Quên mật khẩu -->
- <a
-          href="/sign-up"
-          class="mt-4 text-blue-500 text-center text-sm block"
-        >
-          Bạn chưa có tài khoản? <span class=" hover:underline text-red-500 ">Đăng ký</span> 
+        <!-- Quên mật khẩu -->
+        <a href="/sign-up" class="mt-4 text-blue-500 text-center text-sm block">
+          Bạn chưa có tài khoản?
+          <span class="hover:underline text-red-500">Đăng ký</span>
         </a>
         <a
           href="/forget-password"
@@ -89,9 +68,6 @@
           Bạn muốn đổi mật khẩu?
         </a>
         <!-- Thông báo -->
-        <p class="text-red-500 text-center mt-4 text-sm">
-          <!-- {{thong_ bao}} -->
-        </p>
       </form>
     </div>
   </div>
