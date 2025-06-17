@@ -1,4 +1,5 @@
 .contact-button:hover{
     border: none;
     background-color: #707072;
+    transition: 0.3s;
 }

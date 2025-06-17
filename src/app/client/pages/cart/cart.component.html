@@ -6,7 +6,8 @@
 
             <!-- Cart Items (2/3) -->
             <div class="lg:col-span-2 space-y-6">
-                <div *ngFor="let item of cartItems; let isLast = last" class="flex gap-4 pb-4" [ngClass]="isLast ? '':'border-b' ">
+                <div *ngFor="let item of cartItems; let isLast = last" class="flex gap-4 pb-4"
+                    [ngClass]="isLast ? '':'border-b' ">
                     <img [src]="item.image" alt="" class="w-28 h-28 object-cover rounded" />
 
                     <div class="flex-1">
@@ -67,7 +68,7 @@
 
     <!-- Suggestions -->
     <h3 class="mt-10 text-lg font-semibold">Có thể bạn sẽ thích</h3>
-    <div class="grid grid-cols-4 gap-4 mt-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         <div class="bg-gray-50 rounded p-2" *ngFor="let product of suggestions">
             <img [src]="product.image" alt="" class="rounded w-full h-46 object-cover" />
             <h4 class="text-sm font-semibold mt-2">{{ product.name }}</h4>
