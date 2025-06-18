@@ -116,3 +116,12 @@ hr {
   justify-content: center;
   align-items: center;
 }
+
+.logo-footer img {
+  width: 120px;
+  height: 100px;
+  object: cover;
+}
+span {
+  font-weight: bold;
+}

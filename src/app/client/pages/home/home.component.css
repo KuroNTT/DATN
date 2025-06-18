@@ -108,7 +108,6 @@
 .shop-by-sport {
   gap: 12px;
   margin-top: 12px;
-  scrollbar-width: none;
   max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
@@ -134,14 +133,10 @@
   display: inline-block;
 }
 
-.shop-by-sport::-webkit-scrollbar {
-  display: none;
-}
-
 /* Section 4 */
 .favour-item {
   width: 400px;
-  height: 160px;
+  height: 220px;
   background-color: #f7f7f7;
   border-radius: 10px;
 }
