@@ -202,9 +202,7 @@
           >
         </li>
         <li>
-          <a
-            routerLink="/contact"
-            class="hover:text-blue-600 transition font-bold"
+          <a href="/contact" class="hover:text-blue-600 transition font-bold"
             >Liên hệ</a
           >
         </li>
@@ -219,11 +217,82 @@
             ><i class="fa-solid fa-magnifying-glass"></i
           ></a>
         </li>
-        <li>
-          <a routerLink="/sign-up" class="hover:text-blue-600"
+        <!-- <li>
+          <a href="/sign-up" class="hover:text-blue-600"
             ><i class="fa-solid fa-user"></i
           ></a>
-        </li>
+        </li> -->
+        <!-- dropdown dang nhap -->
+        <ul class="flex items-center space-x-4">
+          <!-- Icon user -->
+          <li class="relative">
+            <a
+              (click)="toggleDropdown()"
+              class="hover:text-blue-600 cursor-pointer"
+            >
+              <i class="fa-solid fa-user"></i>
+            </a>
+
+            <!-- Dropdown -->
+            <ul
+              *ngIf="showDropdown"
+              class="absolute lef-0 mt-2 w-48 bg-white border rounded shadow-md z-50"
+            >
+              <!-- Nếu chưa đăng nhập -->
+              <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+                <li>
+                  <a
+                    (click)="goToLogin()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Đăng nhập</a
+                  >
+                </li>
+                <li>
+                  <a
+                    (click)="goToSignup()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Đăng ký</a
+                  >
+                </li>
+              </ng-container>
+
+              <!-- Nếu đã đăng nhập -->
+              <!-- Nếu đã đăng nhập -->
+<ng-template #loggedInBlock>
+  <li>
+    <span class="block px-4 py-2 text-gray-500">
+      Xin chào
+      <span class="text-blue-500 uppercase">{{ username }}</span>
+    </span>
+  </li>
+
+  <!-- Mục dành riêng cho admin -->
+  <li *ngIf="isAdmin">
+    <a
+      (click)="goToAdminDashboard()"
+      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+    >Quản trị viên</a>
+  </li>
+
+  <!-- Chung cho mọi user (cả admin lẫn thường) -->
+  <li>
+    <a
+      (click)="goToProfile()"
+      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+    >Thông tin cá nhân</a>
+  </li>
+  <li>
+    <a
+      (click)="logout()"
+      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+    >Đăng xuất</a>
+  </li>
+</ng-template>
+
+            </ul>
+          </li>
+        </ul>
+
         <li>
           <a routerLink="/wishlist" class="hover:text-blue-600"
             ><i class="fa-solid fa-heart"></i

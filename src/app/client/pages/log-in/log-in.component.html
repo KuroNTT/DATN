@@ -2,7 +2,7 @@
   class="signup-body w-full min-h-screen flex items-center justify-center px-4 py-6"
 >
   <div
-    class="signup-card w-full max-w-5xl flex flex-col md:flex-row shadow-lg md:rounded-[50px] md:gap-0"
+    class="signup-card w-full max-w-5xl flex flex-col shadow-lg md:rounded-[50px] md:flex-row md:gap-0"
   >
     <div class="w-full md:w-1/2 flex justify-center order-2 md:order-1">
       <img
@@ -12,9 +12,8 @@
       />
     </div>
 
-    <!-- Form bên phải -->
-    <div
-      class="signup-colright w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 order-1 md:order-2"
+    
+    <div class="signup-colright w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 order-1 md:order-2"
     >
       <form name="frmdn" class="w-full max-w-md">
         <h1 class="text-3xl font-bold text-center mb-6">Đăng nhập</h1>
@@ -24,7 +23,7 @@
           <input
             type="email"
             name="email"
-            class="email-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            class="email-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Email"
             [(ngModel)]="user.email"
             required
@@ -37,7 +36,7 @@
             type="password"
             name="mat_khau"
             pattern="(?=.*[A-Z])(?=.*\d).{8,}"
-            class="password-input mb-2 w-full p-4 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            class="password-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
             placeholder="Mật khẩu"
             [(ngModel)]="user.password"
             required

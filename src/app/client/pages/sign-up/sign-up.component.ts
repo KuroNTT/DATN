@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import {inject} from '@angular/core';
 @Component({
   selector: 'app-sign-up',
   imports: [CommonModule, FormsModule],
@@ -8,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
+  router = inject(Router);
   user = { name: "", email: "", password: "", re_password: "" };
   thong_bao: string = "";
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,5 +44,9 @@ export class SignUpComponent {
     fetch("http://localhost:3000/api/dangky", opt)
       .then(res => res.json())
       .then(data => { this.thong_bao = data.thong_bao })
+      setTimeout(() => {
+        this.router.navigate(["/sign-in"])
+        alert("Đăng ký thành công!")
+      }, 2000);
   }
 }
