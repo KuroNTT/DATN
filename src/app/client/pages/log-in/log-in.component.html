@@ -1,0 +1,73 @@
+<div
+  class="signup-body w-full min-h-screen flex items-center justify-center px-4 py-6"
+>
+  <div
+    class="signup-card w-full max-w-5xl flex flex-col shadow-lg md:rounded-[50px] md:flex-row md:gap-0"
+  >
+    <div class="w-full md:w-1/2 flex justify-center order-2 md:order-1">
+      <img
+        src="/images/colsignup.jpg"
+        alt=""
+        class="w-full h-[500px] md:h-[600px] object-cover md:rounded-none md:rounded-l-[50px]"
+      />
+    </div>
+
+    
+    <div class="signup-colright w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 order-1 md:order-2"
+    >
+      <form name="frmdn" class="w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center mb-6">Đăng nhập</h1>
+
+        <!-- Email -->
+        <div class="mb-1">
+          <input
+            type="email"
+            name="email"
+            class="email-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            placeholder="Email"
+            [(ngModel)]="user.email"
+            required
+          />
+        </div>
+
+        <!-- Mật khẩu -->
+        <div class="mb-1">
+          <input
+            type="password"
+            name="mat_khau"
+            pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+            class="password-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
+            placeholder="Mật khẩu"
+            [(ngModel)]="user.password"
+            required
+          />
+        </div>
+  <!-- Thông báo lỗi -->
+        <b class="m-4 text-red-500 text-center text-sm block">{{
+          thong_bao
+        }}</b>        <!-- Nút đăng nhập -->
+        <div class="flex justify-center mt-4">
+          <button
+            type="button"
+            class="signup-signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-black text-white shadow-lg font-semibold"
+            (click)="dangnhap()"
+          >
+            ĐĂNG NHẬP
+          </button>
+        </div>
+        <!-- Quên mật khẩu -->
+        <a href="/sign-up" class="mt-4 text-blue-500 text-center text-sm block">
+          Bạn chưa có tài khoản?
+          <span class="hover:underline text-red-500">Đăng ký</span>
+        </a>
+        <a
+          href="/forget-password"
+          class="text-blue-500 text-center text-sm block"
+        >
+          Bạn muốn đổi mật khẩu?
+        </a>
+        <!-- Thông báo -->
+      </form>
+    </div>
+  </div>
+</div>

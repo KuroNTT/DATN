@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategories();
     this.getCategoriesWithoutGender();
+    this.checkLoginStatus();
   }
 
   getAllCategories(): void {
@@ -70,5 +71,56 @@ export class HeaderComponent implements OnInit {
       .catch((error) =>
         console.log("Lỗi khi lọc danh mục không có Giày nam/nữ:", error)
       );
+  }
+
+  // Dang nhap dropdown - tuong van
+  showDropdown = false;
+  isLoggedIn = false;
+  username: string = "";
+
+  userrole: string = "";
+  isAdmin: boolean = false;
+
+  checkLoginStatus() {
+    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
+
+    this.isLoggedIn = !!token && !!user;
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        this.username = parsedUser?.name || "Khách hàng";
+        this.userrole = parsedUser?.role || "customer";
+        this.isAdmin = this.userrole === "admin";
+      } catch (e) {
+        console.error("Lỗi phân tích user từ sessionStorage:", e);
+        this.username = "Khách hàng";
+      }
+    }
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  goToSignup() {
+    window.location.href = "/sign-up";
+  }
+
+  goToLogin() {
+    window.location.href = "/sign-in";
+  }
+
+  goToProfile() {
+    this.router.navigate(["/profile"]);
+  }
+
+  logout() {
+    sessionStorage.clear();
+    this.isLoggedIn = false;
+    window.location.href = "/sign-in";
+  }
+  goToAdminDashboard() {
+    window.location.href = "/admin";
   }
 }

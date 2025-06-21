@@ -1,6 +1,23 @@
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px]">
+  <div class="container">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">Sản phẩm</span></a
+    >
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">{{ product.name }}</span></a
+    >
+  </div>
+</div>
 <div class="flex justify-center">
   <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-8 gap-4 mt-10">
+    <div class="grid grid-cols-1 lg:grid-cols-8 gap-3 mt-10">
       <div class="col-span-1">
         <div class="flex lg:flex-col gap-2">
           <img
@@ -15,28 +32,28 @@
 
       <div class="col-span-3">
         <img
-          [src]="mainImage"
+          src="{{ product.image }}"
           alt=""
-          class="w-full h-full object-cover rounded"
+          class="w-full h-auto object-cover rounded"
         />
       </div>
 
       <div class="col-span-4">
         <div class="ml-0 lg:ml-4">
           <div class="overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">
-            <h3 class="text-2xl font-bold">Air Jordan 1 Cổ Trung</h3>
+            <h3 class="text-2xl font-bold">{{ product.name }}</h3>
             <p class="my-1">Giày nam</p>
             <div class="flex flex-wrap items-center text-2xl my-1 gap-4">
-              <h4 class="font-bold">4.250.000 <span>VNĐ</span></h4>
-              <del class="text-gray-400 text-[16px]"
+              <h4 class="font-bold">{{ product.price | number : "1.0-0" }}đ</h4>
+              <!-- <del class="text-gray-400 text-[16px]"
                 >20.000 <span>VNĐ</span></del
-              >
-              <p
+              > -->
+              <!-- <p
                 style="border-radius: 5px"
                 class="text-white border-xs font-semibold p-1 bg-red-500"
               >
                 25%
-              </p>
+              </p> -->
             </div>
 
             <p class="my-1">Màu sắc</p>
@@ -104,7 +121,9 @@
                 <h3 class="text-xl font-bold my-2">Thông tin chi tiết</h3>
                 <p>Màu sắc: <span>Trắng</span></p>
                 <p>Mã sản phẩm: <span>TVM-001</span></p>
-                <p>Xuất xứ: <span>Việt Nam</span></p>
+                <p>
+                  Xuất xứ: <span>{{ product.origin_country }}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -184,19 +203,40 @@
     <div class="product-related mt-10">
       <h3 class="text-xl font-bold mb-4">Có thể bạn sẽ thích</h3>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div
-          class="bg-white rounded-lg shadow hover:shadow-lg transition duration-300"
-          *ngFor="let p of [1, 2, 3, 4]"
-        >
-          <img
-            class="w-full h-[200px] object-cover rounded-t-lg"
-            src="images/img-product1.png"
-            alt=""
-          />
-          <div class="p-4">
-            <h3 class="text-lg font-semibold">Nike Dunk Low SE</h3>
-            <p class="text-gray-500 text-sm mt-1">Giày nam</p>
-            <p class="text-xl font-bold mt-2">3,829,000đ</p>
+        <div class="product" *ngFor="let product of product_arr">
+          <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+            <a href="/product-detail/{{ product.id }}">
+              <img
+                class="product-image w-full h-full object-cover"
+                src="{{ product.image }}"
+                alt="{{ product.name }}"
+              />
+            </a>
+
+            <!-- Overlay hiển thị khi hover -->
+            <div
+              class="absolute bottom-0 left-0 w-full h-1/5 bg-black/40 flex items-center justify-center opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+            >
+              <i
+                class="fa-solid fa-cart-plus text-white text-2xl cursor-pointer hover:text-yellow-400"
+              ></i>
+            </div>
+
+            <!-- Icon yêu thích -->
+            <div class="product-wish-list">
+              <i></i>
+            </div>
+          </div>
+
+          <!-- Product info -->
+          <div class="product-name font-bold text-base mb-2">
+            {{ product.name }}
+          </div>
+          <div class="category-name text-sm text-gray-500 mb-2">
+            <span>Giày nam</span>
+          </div>
+          <div class="product_price text-red-500 font-bold text-lg">
+            {{ product.price | number : "1.0-0" }}đ
           </div>
         </div>
       </div>
