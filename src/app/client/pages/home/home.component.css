@@ -3,6 +3,25 @@
   max-width: 1280px;
 }
 
+/* Section 1 */
+.product {
+  position: relative;
+}
+
+.product-wish-list {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.product-wish-list > .fa-heart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
 .section_1_product {
   justify-content: space-between;
   flex-wrap: wrap;
@@ -41,16 +60,12 @@
 .section_2,
 .section_1,
 .section_3,
-.section_4 {
+.section_4,
+.section_5 {
   margin: 32px 0;
 }
 
 /* Section 2 */
-
-.featured h3 {
-  margin-bottom: 12px;
-}
-
 .featured_product {
   display: flex;
   justify-content: space-between;
@@ -106,12 +121,10 @@
 }
 
 .shop-by-sport {
+  display: flex;
   gap: 12px;
   margin-top: 12px;
-  max-width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-  cursor: pointer;
+  width: max-content; /* giúp scroll hoạt động */
 }
 
 .shop-by-sport .sps-name {
@@ -122,6 +135,18 @@
   left: 16px;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.scroll-container {
+  min-width: 100%;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE và Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .shop-by-sport .sps-name:hover,
@@ -155,4 +180,9 @@
 .favour-content p {
   width: 340px;
   margin: 12px 0;
+}
+
+/* Section 5 */
+.section_5 {
+  background-color: #f7f7f7;
 }

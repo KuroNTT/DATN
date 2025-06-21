@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import { Routes, provideRouter } from "@angular/router";
 import { CartComponent } from "./client/pages/cart/cart.component";
 export const routes: Routes = [
   {
@@ -13,3 +13,5 @@ export const routes: Routes = [
   },
   { path: "**", redirectTo: "" },
 ];
+
+export const appRoutesProvider = provideRouter(routes);
