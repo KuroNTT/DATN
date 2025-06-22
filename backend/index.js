@@ -2,6 +2,7 @@ console.log("Đã chạy vào file index.js");
 
 const express = require("express");
 const { Op } = require("sequelize");
+const order = require('./routes/orders.router');
 var app = express();
 const port = 3000;
 // require("dotenv").config();
@@ -15,6 +16,7 @@ const {
   ProductModel,
   UserModel,
 } = require(".//database/database");
+const router = require("./routes/orders.router");
 
 app.listen(port, (err) => {
   if (err) {
@@ -174,3 +176,5 @@ app.post("/api/sign-in", async (req, res) => {
     info: { id: user.id, name: user.name, email: user.email, role: user.role },
   });
 });
+// orders
+app.use('/api/orders', order)
