@@ -5,7 +5,7 @@
     <!-- Logo -->
     <div class="header-logo flex-shrink-0">
       <a routerLink="/">
-        <img src="images/logo.png" alt="logo" class="h-15 w-auto" />
+        <img src="images/logo-black-white.png" alt="logo" class="h-15 w-auto" />
       </a>
     </div>
 
@@ -18,9 +18,7 @@
           >
         </li>
         <li>
-          <a
-            routerLink="/products"
-            class="hover:text-blue-600 transition font-bold"
+          <a href="/product" class="hover:text-blue-600 transition font-bold"
             >Sản phẩm</a
           >
         </li>
@@ -62,45 +60,14 @@
                     >Tất cả</a
                   >
                 </li>
-                <li>
-                  <a routerLink="/shoes/men" class="hover:text-blue-600"
-                    >Giày nam</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/shoes/women" class="hover:text-blue-600"
-                    >Giày nữ</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/shoes/running" class="hover:text-blue-600"
-                    >Giày chạy bộ</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/shoes/football" class="hover:text-blue-600"
-                    >Giày chơi đá bóng</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/shoes/basketball" class="hover:text-blue-600"
-                    >Giày chơi bóng rổ</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/shoes/gym" class="hover:text-blue-600"
-                    >Giày tập gym & rèn luyện</a
-                  >
-                </li>
-                <li>
-                  <a
-                    routerLink="/shoes/skateboarding"
-                    class="hover:text-blue-600"
-                    >Giày chơi skateboarding</a
-                  >
+                <li *ngFor="let category of category_arr">
+                  <a routerLink="/shoes/men" class="hover:text-blue-600">{{
+                    category.name
+                  }}</a>
                 </li>
               </ul>
             </div>
+
             <div class="menu-column">
               <h4 class="font-semibold mb-2">Xu hướng</h4>
               <ul class="space-y-2">
@@ -143,47 +110,10 @@
             <div class="menu-column">
               <h4 class="font-semibold mb-2">Mua sắm với các loại thể thao</h4>
               <ul class="space-y-2">
-                <li>
-                  <a routerLink="/sports/running" class="hover:text-blue-600"
-                    >Giày chạy bộ</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/football" class="hover:text-blue-600"
-                    >Giày chơi đá bóng</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/basketball" class="hover:text-blue-600"
-                    >Giày chơi bóng rổ</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/gym" class="hover:text-blue-600"
-                    >Giày tập gym & rèn luyện</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/tennis" class="hover:text-blue-600"
-                    >Giày chơi tennis</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/golf" class="hover:text-blue-600"
-                    >Giày chơi golf</a
-                  >
-                </li>
-                <li>
-                  <a routerLink="/sports/yoga" class="hover:text-blue-600"
-                    >Giày tập yoga</a
-                  >
-                </li>
-                <li>
-                  <a
-                    routerLink="/sports/skateboarding"
-                    class="hover:text-blue-600"
-                    >Giày chơi skateboarding</a
-                  >
+                <li *ngFor="let filter_category of filtered_categories">
+                  <a routerLink="/sports/running" class="hover:text-blue-600">{{
+                    filter_category.name
+                  }}</a>
                 </li>
               </ul>
             </div>
@@ -191,8 +121,8 @@
         </li>
         <li>
           <a
-            routerLink="/about"
-            class="hover:text-blue-600 transition font-bold"
+            (click)="scrollToSection('about-us')"
+            class="hover:text-blue-600 transition font-bold cursor-pointer"
             >Về chúng tôi</a
           >
         </li>
@@ -258,37 +188,39 @@
 
               <!-- Nếu đã đăng nhập -->
               <!-- Nếu đã đăng nhập -->
-<ng-template #loggedInBlock>
-  <li>
-    <span class="block px-4 py-2 text-gray-500">
-      Xin chào
-      <span class="text-blue-500 uppercase">{{ username }}</span>
-    </span>
-  </li>
+              <ng-template #loggedInBlock>
+                <li>
+                  <span class="block px-4 py-2 text-gray-500">
+                    Xin chào
+                    <span class="text-blue-500 uppercase">{{ username }}</span>
+                  </span>
+                </li>
 
-  <!-- Mục dành riêng cho admin -->
-  <li *ngIf="isAdmin">
-    <a
-      (click)="goToAdminDashboard()"
-      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-    >Quản trị viên</a>
-  </li>
+                <!-- Mục dành riêng cho admin -->
+                <li *ngIf="isAdmin">
+                  <a
+                    (click)="goToAdminDashboard()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Quản trị viên</a
+                  >
+                </li>
 
-  <!-- Chung cho mọi user (cả admin lẫn thường) -->
-  <li>
-    <a
-      (click)="goToProfile()"
-      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-    >Thông tin cá nhân</a>
-  </li>
-  <li>
-    <a
-      (click)="logout()"
-      class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-    >Đăng xuất</a>
-  </li>
-</ng-template>
-
+                <!-- Chung cho mọi user (cả admin lẫn thường) -->
+                <li>
+                  <a
+                    (click)="goToProfile()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Thông tin cá nhân</a
+                  >
+                </li>
+                <li>
+                  <a
+                    (click)="logout()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Đăng xuất</a
+                  >
+                </li>
+              </ng-template>
             </ul>
           </li>
         </ul>
@@ -299,7 +231,7 @@
           ></a>
         </li>
         <li>
-          <a routerLink="/cart" class="hover:text-blue-600"
+          <a href="/cart" class="hover:text-blue-600"
             ><i class="fa-solid fa-cart-shopping"></i
           ></a>
         </li>
@@ -408,60 +340,12 @@
                   >Tất cả</a
                 >
               </li>
-              <li>
+              <li *ngFor="let category of category_arr">
                 <a
                   routerLink="/shoes/men"
                   (click)="toggleMenu()"
                   class="block hover:text-blue-600"
-                  >Giày nam</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/women"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày nữ</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/running"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chạy bộ</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/football"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi đá bóng</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/basketball"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi bóng rổ</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/gym"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày tập gym & rèn luyện</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/shoes/skateboarding"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi skateboarding</a
+                  >{{ category.name }}</a
                 >
               </li>
             </ul>
@@ -522,68 +406,12 @@
           <div class="menu-column">
             <h4 class="font-semibold mt-2">Mua sắm với các loại thể thao</h4>
             <ul class="space-y-2">
-              <li>
+              <li *ngFor="let filter_category of filtered_categories">
                 <a
                   routerLink="/sports/running"
                   (click)="toggleMenu()"
                   class="block hover:text-blue-600"
-                  >Giày chạy bộ</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/football"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi đá bóng</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/basketball"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi bóng rổ</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/gym"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày tập gym & rèn luyện</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/tennis"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi tennis</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/golf"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi golf</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/yoga"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày tập yoga</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/sports/skateboarding"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Giày chơi skateboarding</a
+                  >{{ filter_category.name }}</a
                 >
               </li>
             </ul>
@@ -592,6 +420,7 @@
       </li>
       <li>
         <a
+          (click)="scrollToSection('about-us')"
           routerLink="/about"
           (click)="toggleMenu()"
           class="block text-lg hover:text-blue-600"

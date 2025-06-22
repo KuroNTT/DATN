@@ -1,0 +1,252 @@
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px]">
+  <div class="container">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">Sản phẩm</span></a
+    >
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">{{ product.name }}</span></a
+    >
+  </div>
+</div>
+<div class="flex justify-center">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-8 gap-3 mt-10">
+      <div class="col-span-1">
+        <div class="flex lg:flex-col gap-2">
+          <img
+            *ngFor="let img of imgList"
+            [src]="img"
+            (mouseover)="onHover(img)"
+            class="w-[80px] h-[80px] object-cover cursor-pointer hover:ring-2 hover:ring-blue-500 rounded"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="col-span-3">
+        <img
+          src="{{ product.image }}"
+          alt=""
+          class="w-full h-auto object-cover rounded"
+        />
+      </div>
+
+      <div class="col-span-4">
+        <div class="ml-0 lg:ml-4">
+          <div class="overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">
+            <h3 class="text-2xl font-bold">{{ product.name }}</h3>
+            <p class="my-1">Giày nam</p>
+            <div class="flex flex-wrap items-center text-2xl my-1 gap-4">
+              <h4 class="font-bold">{{ product.price | number : "1.0-0" }}đ</h4>
+              <!-- <del class="text-gray-400 text-[16px]"
+                >20.000 <span>VNĐ</span></del
+              > -->
+              <!-- <p
+                style="border-radius: 5px"
+                class="text-white border-xs font-semibold p-1 bg-red-500"
+              >
+                25%
+              </p> -->
+            </div>
+
+            <p class="my-1">Màu sắc</p>
+
+            <div class="flex my-1 gap-2">
+              <a href="">
+                <img
+                  src="images/img-color1.png"
+                  alt=""
+                  class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded"
+                />
+              </a>
+              <a href="">
+                <img
+                  src="images/img-color2.png"
+                  alt=""
+                  class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded"
+                />
+              </a>
+            </div>
+
+            <div class="my-2">
+              <div class="flex justify-between my-2 text-sm">
+                <p>Kích thước</p>
+                <p class="underline text-blue-500">Bảng kích thước</p>
+              </div>
+              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 my-2">
+                <a href="#" class="btn-size btn-effect block text-center">36</a>
+                <a href="#" class="btn-size btn-effect block text-center">37</a>
+                <a href="#" class="btn-size btn-effect block text-center">38</a>
+                <a href="#" class="btn-size btn-effect block text-center">39</a>
+                <a href="#" class="btn-size btn-effect block text-center">40</a>
+                <a href="#" class="btn-size btn-effect block text-center">41</a>
+                <a href="#" class="btn-size btn-effect block text-center">42</a>
+              </div>
+              <button
+                class="w-full py-3 rounded-full shadow my-4 text-white bg-black hover:bg-[#707072]"
+              >
+                Thêm vào giỏ hàng
+              </button>
+              <button
+                class="w-full py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3]"
+              >
+                Yêu thích
+              </button>
+            </div>
+
+            <div>
+              <h3 class="text-xl font-bold my-2">Thông tin sản phẩm</h3>
+              <p>Đừng bao giờ làm mất đi vẻ đẹp cổ điển...</p>
+              <h3 class="text-xl font-bold my-2">Lợi ích nổi bật</h3>
+              <p>
+                Chất liệu da thật và da tổng hợp mang lại độ bền vượt trội..
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Doloribus ipsum suscipit, recusandae ex, voluptatibus ut
+                repellat explicabo dolore tempora quae veniam consequatur
+                voluptas voluptates quibusdam unde vel illo pariatur eos. Lorem
+                ipsum dolor, sit amet consectetur adipisicing elit. Adipisci
+                culpa facere quidem nemo tempora iure, accusantium neque nam
+                eveniet, in, dolores natus voluptatem molestiae dignissimos esse
+                eaque sit. Amet, perferendis!
+              </p>
+
+              <div class="infor-detail mt-2">
+                <h3 class="text-xl font-bold my-2">Thông tin chi tiết</h3>
+                <p>Màu sắc: <span>Trắng</span></p>
+                <p>Mã sản phẩm: <span>TVM-001</span></p>
+                <p>
+                  Xuất xứ: <span>{{ product.origin_country }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 50%">
+      <h3 class="text-xl font-bold mt-8">Đánh giá sản phẩm</h3>
+      <div class="space-y-6 mt-4">
+        <div class="review-detail">
+          <div class="name text-sm text-gray-600">
+            <span>MinhLe</span> - <span>14/6/2025</span>
+          </div>
+          <div class="flex gap-1 my-2 text-yellow-400">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+          </div>
+          <div class="relative">
+            <div
+              class="dsc line-clamp-2 transition-all duration-300 ease-in-out"
+              [class.line-clamp-none]="showFullText"
+            >
+              Tôi nghĩ đây là một lựa chọn tuyệt vời... Lorem ipsum, dolor sit
+              amet consectetur adipisicing elit. Magni nulla cum obcaecati vero
+              distinctio odio quos ad recusandae hic assumenda! Quidem, sed.
+              Distinctio, voluptate! Obcaecati cupiditate eaque recusandae neque
+              aspernatur!
+              <div class="grid grid-cols-3 gap-2 my-4 sm:grid-cols-5">
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+              </div>
+            </div>
+            <button class="text-blue-500 mt-2" (click)="toggleShowText()">
+              {{ showFullText ? "Ẩn bớt" : "Xem thêm" }}
+            </button>
+          </div>
+        </div>
+
+        <div class="review-detail">
+          <div class="name text-sm text-gray-600">
+            <span>TuanNguyen</span> - <span>14/6/2025</span>
+          </div>
+          <div class="flex gap-1 my-2 text-yellow-400">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+            <i class="fa-solid fa-star text-gray-400"></i>
+          </div>
+          <div class="relative">
+            <div
+              class="dsc line-clamp-2 transition-all duration-300 ease-in-out"
+              [class.line-clamp-none]="showFullText"
+            >
+              Tôi nghĩ đây là một lựa chọn tuyệt vời...
+              <div class="grid grid-cols-2 gap-2 my-4 sm:grid-cols-5">
+                <img src="images/img-color1.png" alt="" />
+                <img src="images/img-color1.png" alt="" />
+              </div>
+            </div>
+            <button class="text-blue-500 mt-2" (click)="toggleShowText()">
+              {{ showFullText ? "Ẩn bớt" : "Xem thêm" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gợi ý sản phẩm -->
+    <div class="product-related mt-10">
+      <h3 class="text-xl font-bold mb-4">Có thể bạn sẽ thích</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="product" *ngFor="let product of product_arr">
+          <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+            <a href="/product-detail/{{ product.id }}">
+              <img
+                class="product-image w-full h-full object-cover"
+                src="{{ product.image }}"
+                alt="{{ product.name }}"
+              />
+            </a>
+
+            <!-- Overlay hiển thị khi hover -->
+            <div
+              class="absolute bottom-0 left-0 w-full h-1/5 bg-black/40 flex items-center justify-center opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+            >
+              <i
+                class="fa-solid fa-cart-plus text-white text-2xl cursor-pointer hover:text-yellow-400"
+              ></i>
+            </div>
+
+            <!-- Icon yêu thích -->
+            <div class="product-wish-list">
+              <i></i>
+            </div>
+          </div>
+
+          <!-- Product info -->
+          <div class="product-name font-bold text-base mb-2">
+            {{ product.name }}
+          </div>
+          <div class="category-name text-sm text-gray-500 mb-2">
+            <span>Giày nam</span>
+          </div>
+          <div class="product_price text-red-500 font-bold text-lg">
+            {{ product.price | number : "1.0-0" }}đ
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex justify-between items-center mt-4 px-4 text-2xl text-gray-500"
+      >
+        <i class="fa-solid fa-arrow-left cursor-pointer"></i>
+        <i class="fa-solid fa-arrow-right cursor-pointer"></i>
+      </div>
+    </div>
+  </div>
+</div>

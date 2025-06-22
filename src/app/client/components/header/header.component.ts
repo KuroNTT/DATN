@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
-import { Router } from "@angular/router";
-import { inject, OnInit } from "@angular/core";
+import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
+import { CommonModule,isPlatformBrowser } from "@angular/common";
+import { RouterLink, Router } from "@angular/router";
+import { ICategory } from "../../../core/models/structureData";
+
 @Component({
   selector: "app-header",
   standalone: true,
@@ -11,12 +11,16 @@ import { inject, OnInit } from "@angular/core";
   styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
   isMenuOpen = false;
   isShoesMenuOpen = false;
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    // Close shoes submenu when main menu is closed
     if (this.isMenuOpen) {
       document.body.classList.add("overflow-hidden");
     } else {
@@ -28,59 +32,101 @@ export class HeaderComponent implements OnInit {
     this.isShoesMenuOpen = !this.isShoesMenuOpen;
   }
 
+  scrollToSection(id: string) {
+    if (this.router.url === "/") {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      this.router.navigate(["/"], { fragment: id });
+    }
+  }
 
-// Dang nhap dropdown - tuong van
- private router = inject(Router);
-  showDropdown = false;
-  isLoggedIn = false;
-  username: string = '';
+  category_arr: ICategory[] = [];
+  filtered_categories: ICategory[] = [];
 
-  userrole : string = '';
-  isAdmin: boolean = false;
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getAllCategories();
+    this.getCategoriesWithoutGender();
     this.checkLoginStatus();
   }
 
+  getAllCategories(): void {
+    fetch("http://localhost:3000/api/categories").then((res) => {
+      res
+        .json()
+        .then((data) => (this.category_arr = data as ICategory[]))
+        .catch((error) =>
+          console.log("Có lỗi khi lấy dữ liệu danh mục!: ", error)
+        );
+    });
+  }
+
+  getCategoriesWithoutGender(): void {
+    fetch("http://localhost:3000/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        this.filtered_categories = (data as ICategory[]).filter(
+          (cat) => cat.name !== "Giày nam" && cat.name !== "Giày nữ"
+        );
+      })
+      .catch((error) =>
+        console.log("Lỗi khi lọc danh mục không có Giày nam/nữ:", error)
+      );
+  }
+
+  // Dang nhap dropdown - tuong van
+  showDropdown = false;
+  isLoggedIn = false;
+  username: string = "";
+
+  userrole: string = "";
+  isAdmin: boolean = false;
+
   checkLoginStatus() {
-    const token = sessionStorage.getItem('token');
-    const user = sessionStorage.getItem('user');
+  if (isPlatformBrowser(this.platformId)) {
+    const token = sessionStorage.getItem("token");
+    const user = sessionStorage.getItem("user");
 
     this.isLoggedIn = !!token && !!user;
     if (user) {
       try {
         const parsedUser = JSON.parse(user);
-        this.username = parsedUser?.name || 'Khách hàng';
-        this.userrole = parsedUser?.role || 'customer';
-        this.isAdmin = this.userrole === 'admin'
+        this.username = parsedUser?.name || "Khách hàng";
+        this.userrole = parsedUser?.role || "customer";
+        this.isAdmin = this.userrole === "admin";
       } catch (e) {
-        console.error('Lỗi phân tích user từ sessionStorage:', e);
-        this.username = 'Khách hàng';
+        console.error("Lỗi phân tích user từ sessionStorage:", e);
+        this.username = "Khách hàng";
       }
     }
   }
+}
+
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
 
   goToSignup() {
-    window.location.href = '/sign-up';
+    window.location.href = "/sign-up";
   }
 
   goToLogin() {
-    window.location.href = '/sign-in';
+    window.location.href = "/sign-in";
   }
 
   goToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(["/profile"]);
   }
 
   logout() {
     sessionStorage.clear();
     this.isLoggedIn = false;
-    window.location.href = '/sign-in';
+    window.location.href = "/sign-in";
   }
-  goToAdminDashboard(){
-    window.location.href = 'admin';
+  goToAdminDashboard() {
+    window.location.href = "/admin";
   }
 }

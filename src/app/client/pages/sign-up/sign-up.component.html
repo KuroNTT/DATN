@@ -1,101 +1,156 @@
-<div
-  class="signup-body w-full min-h-screen flex items-center justify-center px-4 py-6"
->
+<div class="w-full min-h-screen flex items-center justify-center">
   <div
-    class="signup-card w-full max-w-5xl flex flex-col md:flex-row shadow-lg rounded-[20px] md:rounded-[50px] overflow-hidden md:gap-0"
+    class="w-full md:h-[600px] max-w-5xl flex flex-col md:flex-row rounded-[50px] md:rounded-[50px] overflow-hidden md:gap-0 shadow-[0_0_20px_rgba(0,0,0,0.1)]"
   >
-    <div
-      class="signup-colleft w-full md:w-1/2 flex items-center justify-center  md:p-8"
-    >
-      <form name="frmdk" class="w-full max-w-md p-6">
-        <h1 class="text-3xl font-bold text-center mb-6">Đăng ký</h1>
+    <div class="w-full md:w-1/2 flex items-center justify-center p-6">
+      <form name="frmdk" class="w-[80%] max-w-md">
+        <h1 class="text-3xl font-bold text-center">Đăng ký</h1>
 
         <!-- Tên đăng ký -->
-        <div class="mb-2">
+        <div class="min-h-[95px]">
+          <label class="block mb-1 text-sm text-gray-600">Tên đăng ký</label>
+
           <input
             type="text"
             name="name"
-            class="w-full mb-2 p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
-            placeholder="Tên đăng ký"
+            class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+            [ngClass]="{
+              'border-red-500': thong_bao_name,
+              shake: invalidName
+            }"
             [(ngModel)]="user.name"
           />
+          <p *ngIf="thong_bao_name" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_name }}
+          </p>
         </div>
 
         <!-- Email -->
-        <div class="mb-2">
+        <div class="min-h-[100px]">
+          <label class="block mb-1 text-sm text-gray-600">Email</label>
           <input
             type="email"
             name="email"
-            class="email-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
-            placeholder="Email"
+            class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
             [(ngModel)]="user.email"
+            [ngClass]="{
+              'border-red-500': thong_bao_email,
+              shake: invalidEmail
+            }"
           />
-          <p class="error-email text-red-500 text-sm mt-1 hidden">
-            Email không hợp lệ
+
+          <p *ngIf="thong_bao_email" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_email }}
           </p>
         </div>
 
         <!-- Mật khẩu -->
-        <div class="mb-2">
-          <input
-            type="password"
-            name="mat_khau"
-            class="password-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
-            placeholder="Mật khẩu"
-            [(ngModel)]="user.password"
-          />
-          <p class="error-password text-red-500 text-sm mt-1 hidden">
-            Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số
+        <div class="min-h-[100px]">
+          <label class="block mb-1 text-sm text-gray-600">Mật khẩu</label>
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="password"
+              class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+              [(ngModel)]="user.password"
+              [ngClass]="{
+                'border-red-500': thong_bao_password,
+                shake: invalidPassword
+              }"
+              [(ngModel)]="user.password"
+            />
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+              (click)="togglePassword()"
+            >
+              <i
+                class="fa"
+                [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              ></i>
+            </button>
+          </div>
+          <p *ngIf="thong_bao_password" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_password }}
           </p>
         </div>
 
         <!-- Xác nhận mật khẩu -->
-        <div class="mb-4">
-          <input
-            type="password"
-            name="re_password"
-            class="confirm-input mb-2 w-full p-3 rounded-xl border-1 shadow-md border-black focus:border-blue-500 outline-none placeholder-gray-400 text-center text-lg"
-            placeholder="Xác nhận mật khẩu"
-            [(ngModel)]="user.re_password"
-          />
-          <p
-            class="error-confirm text-red-500 text-sm mt-1 hidden"
-            id="matchError"
+        <div class="min-h-[100px]">
+          <label class="block mb-1 text-sm text-gray-600"
+            >Xác nhận mật khẩu</label
           >
-            Mật khẩu không khớp
+          <div class="relative">
+            <input
+              [type]="showConfirm ? 'text' : 'password'"
+              name="re_password"
+              class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+              [(ngModel)]="user.re_password"
+              [ngClass]="{
+                'border-red-500': thong_bao_re_password,
+                shake: invalidRepassword
+              }"
+              [(ngModel)]="user.re_password"
+            />
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+              (click)="showCofirmPassword()"
+            >
+              <i
+                class="fa"
+                [ngClass]="showConfirm ? 'fa-eye-slash' : 'fa-eye'"
+              ></i>
+            </button>
+          </div>
+          <p *ngIf="thong_bao_re_password" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_re_password }}
           </p>
         </div>
-
-        <!-- Thông báo lỗi -->
-        <b class="m-4 text-red-500 text-center text-sm block">{{
-          thong_bao
-        }}</b>
-
+        <p class="text-center text-blue-500">{{thong_bao}}</p>
         <!-- Nút đăng ký -->
-        <div class="flex justify-center mt-4">
+        <div class="flex justify-center">
           <button
             type="button"
             (click)="dangky()"
-            class="signup-button w-[50%] px-6 py-4 text-lg rounded-full bg-white text-black shadow-lg font-semibold"
+            class="w-[50%] p-3 text-sm md:text-lg rounded-full bg-white text-black shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#7070724D] border-none"
           >
             ĐĂNG KÝ
           </button>
         </div>
 
-        <!-- Link đăng nhập -->
-        <a href="/sign-in" class="mt-4 text-blue-500 text-center text-sm block">
-          Bạn đã có tài khoản? <span class=" hover:underline text-red-500 ">Đăng nhập</span>
-
-        </a>
+        <!-- Link đăng nhập -->        
+        <div class="text-center mt-4 text-sm text-gray-600">
+          Bạn đã có tài khoản?
+          <a href="/sign-in" class="text-red-500 hover:underline ml-1"
+            >Đăng nhập</a
+          >
+          </div>
       </form>
     </div>
 
-    <div class="w-full md:w-1/2 flex justify-center">
+    <div
+      class="w-full md:w-1/2 relative order-2 md:order-1 min-h-[600px] md:min-h-[600px] rounded-b-[50px] md:rounded-l-none md:rounded-r-[50px] overflow-hidden"
+    >
       <img
-        src="/images/colsignup.jpg"
-        alt=""
-        class="w-full h-[600px] object-cover md:rounded-none md:rounded-r-[50px]"
+        src="images/colsignup.jpg"
+        alt="Background"
+        class="absolute inset-0 w-full h-full object-cover opacity-70"
       />
+      <div
+        class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white text-center px-4"
+      >
+        <img
+          src="images/Logolinewhitebackblack.png"
+          alt="Logo TVM"
+          class="w-[250px] h-auto object-contain mb-4"
+        />
+       <p class="text-sm md:text-base opacity-90 drop-shadow-sm">
+          Chúng tôi không chỉ bán giày <br />
+          Chúng tôi mang đến phong cách sống – nơi mỗi bước chân là một tuyên
+          ngôn cá tính. Phong cách từ những bước chân đầu tiên .
+        </p>
+      </div>
     </div>
   </div>
 </div>
