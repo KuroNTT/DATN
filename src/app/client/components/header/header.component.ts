@@ -82,20 +82,31 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
 
   checkLoginStatus() {
-    const token = sessionStorage.getItem("token");
-    const user = sessionStorage.getItem("user");
+    if (
+      typeof window !== "undefined" &&
+      typeof sessionStorage !== "undefined"
+    ) {
+      const token = sessionStorage.getItem("token");
+      const user = sessionStorage.getItem("user");
 
-    this.isLoggedIn = !!token && !!user;
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        this.username = parsedUser?.name || "Khách hàng";
-        this.userrole = parsedUser?.role || "customer";
-        this.isAdmin = this.userrole === "admin";
-      } catch (e) {
-        console.error("Lỗi phân tích user từ sessionStorage:", e);
-        this.username = "Khách hàng";
+      this.isLoggedIn = !!token && !!user;
+      if (user) {
+        try {
+          const parsedUser = JSON.parse(user);
+          this.username = parsedUser?.name || "Khách hàng";
+          this.userrole = parsedUser?.role || "customer";
+          this.isAdmin = this.userrole === "admin";
+        } catch (e) {
+          console.error("Lỗi phân tích user từ sessionStorage:", e);
+          this.username = "Khách hàng";
+        }
       }
+    } else {
+      // Đang chạy ở môi trường không phải trình duyệt
+      this.isLoggedIn = false;
+      this.username = "Khách hàng";
+      this.userrole = "customer";
+      this.isAdmin = false;
     }
   }
 

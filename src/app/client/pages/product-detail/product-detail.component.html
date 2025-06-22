@@ -20,13 +20,13 @@
     <div class="grid grid-cols-1 lg:grid-cols-8 gap-3 mt-10">
       <div class="col-span-1">
         <div class="flex lg:flex-col gap-2">
-          <img
-            *ngFor="let img of imgList"
-            [src]="img"
-            (mouseover)="onHover(img)"
-            class="w-[80px] h-[80px] object-cover cursor-pointer hover:ring-2 hover:ring-blue-500 rounded"
-            alt=""
-          />
+          <div>
+            <img
+              src=""
+              class="w-[80px] h-[80px] object-cover cursor-pointer hover:ring-2 hover:ring-blue-500 rounded"
+              alt=""
+            />
+          </div>
         </div>
       </div>
 
@@ -59,16 +59,9 @@
             <p class="my-1">Màu sắc</p>
 
             <div class="flex my-1 gap-2">
-              <a href="">
+              <a href="" *ngFor="let product_v of product_variant_arr">
                 <img
-                  src="images/img-color1.png"
-                  alt=""
-                  class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded"
-                />
-              </a>
-              <a href="">
-                <img
-                  src="images/img-color2.png"
+                  src="{{ product_v.image_url }}"
                   alt=""
                   class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded"
                 />
@@ -205,7 +198,7 @@
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="product" *ngFor="let product of product_arr">
           <div class="w-full aspect-square mb-4 overflow-hidden relative group">
-            <a href="/product-detail/{{ product.id }}">
+            <a href="/product-detail/{{ product.slug }}">
               <img
                 class="product-image w-full h-full object-cover"
                 src="{{ product.image }}"
@@ -239,13 +232,6 @@
             {{ product.price | number : "1.0-0" }}đ
           </div>
         </div>
-      </div>
-
-      <div
-        class="flex justify-between items-center mt-4 px-4 text-2xl text-gray-500"
-      >
-        <i class="fa-solid fa-arrow-left cursor-pointer"></i>
-        <i class="fa-solid fa-arrow-right cursor-pointer"></i>
       </div>
     </div>
   </div>
