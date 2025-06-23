@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
 
@@ -11,7 +11,10 @@ import { ICategory } from "../../../core/models/structureData";
   styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   isMenuOpen = false;
   isShoesMenuOpen = false;
@@ -82,10 +85,7 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
 
   checkLoginStatus() {
-    if (
-      typeof window !== "undefined" &&
-      typeof sessionStorage !== "undefined"
-    ) {
+    if (isPlatformBrowser(this.platformId)) {
       const token = sessionStorage.getItem("token");
       const user = sessionStorage.getItem("user");
 

@@ -24,6 +24,13 @@ const routes: Routes = [
   },
   { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
+  {
+    path: "verify-email",
+    loadComponent: () =>
+      import("./pages/verify-email/verify-email.component").then(
+        (m) => m.VerifyEmailComponent
+      ),
+  },
 ];
 
 const routerOptions: ExtraOptions = {

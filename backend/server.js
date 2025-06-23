@@ -1,6 +1,3 @@
-// server.js
-console.log("✅ Đã chạy vào file server.js");
-
 // 1. Load thư viện cần thiết
 const express = require("express");
 const dotenv = require("dotenv");
