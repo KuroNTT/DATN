@@ -1,0 +1,46 @@
+<div class="flex items-center gap-3 border-b pb-4 mb-4">
+  <img src="images/avatar.jpg" class="w-14 h-14 rounded-full object-cover" />
+  <div>
+    <p class="font-semibold">Tên người dùng</p>
+    <a href="/profile/edit" class="text-blue-500 text-sm">Sửa hồ sơ</a>
+  </div>
+</div>
+
+<nav class="flex flex-col text-sm font-medium">
+  <!-- Nhóm: Tài khoản -->
+  <div>
+    <button (click)="toggleAccountMenu()" class="flex items-center justify-between w-full px-3 py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer">
+      <span class="flex items-center gap-2">
+        <i class="fas fa-user-circle"></i>
+        Tài khoản
+      </span>
+      <i class="fas" [ngClass]="isAccountMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+    </button>
+
+    <!-- Submenu -->
+    <div *ngIf="isAccountMenuOpen" class="mt-1 ml-6 space-y-1">
+      <a href="/profile/edit" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+        <i class="fas fa-user"></i> Hồ sơ
+      </a>
+      <a href="/profile/change-pw" class="flex items-center gap-2 px-3 py-2 rounded-lg text-red-600 font-semibold hover:bg-gray-100 transition">
+        <i class="fas fa-lock"></i> Đổi Mật Khẩu
+      </a>
+    </div>
+  </div>
+
+  <a href="/profile/purchase" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+    <i class="fas fa-box-open"></i> Đơn Mua
+  </a>
+  <a href="/profile/voucher" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+    <i class="fas fa-ticket-alt"></i> Kho Voucher
+  </a>
+  <a href="/profile/favorite" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+    <i class="fas fa-heart"></i> Sản Phẩm Yêu Thích
+  </a>
+  <a href="/profile/notifications" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition">
+    <i class="fas fa-bell"></i> Thông Báo
+  </a>
+  <a  (click)="logout()" class="cursor-pointer flex items-center gap-2 px-3 py-2 rounded-lg text-gray-500 hover:text-red-500 hover:bg-gray-100 transition">
+    <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+  </a>
+</nav>

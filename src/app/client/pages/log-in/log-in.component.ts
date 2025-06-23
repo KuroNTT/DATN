@@ -13,9 +13,9 @@ export class LogInComponent {
   router = inject(Router);
   user = { email: "", password: "" };
 
-  thong_bao:string='';
-  thong_bao_email: string = '';
-  thong_bao_password: string = '';
+  thong_bao: string = "";
+  thong_bao_email: string = "";
+  thong_bao_password: string = "";
   invalidEmail: boolean = false;
   invalidPassword: boolean = false;
 
@@ -27,35 +27,35 @@ export class LogInComponent {
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   isValid(): boolean {
     const { email, password } = this.user;
-    this.thong_bao_email = '';
-    this.thong_bao_password = '';
+    this.thong_bao_email = "";
+    this.thong_bao_password = "";
 
     // Email
     if (!email.trim()) {
-      this.shakeField('email', 'Vui lòng nhập Email');
+      this.shakeField("email", "Vui lòng nhập Email");
       return false;
     }
     if (!this.emailRegex.test(email)) {
-      this.shakeField('email', 'Email không hợp lệ');
+      this.shakeField("email", "Email không hợp lệ");
       return false;
     }
 
     // Password
     if (!password.trim()) {
-      this.shakeField('password', 'Vui lòng nhập mật khẩu');
+      this.shakeField("password", "Vui lòng nhập mật khẩu");
       return false;
     }
     return true;
   }
-  shakeField(field: 'email' | 'password', message: string): void {
-    if (field === 'email') {
+  shakeField(field: "email" | "password", message: string): void {
+    if (field === "email") {
       this.thong_bao_email = message;
       this.invalidEmail = false;
       setTimeout(() => (this.invalidEmail = true), 10);
       setTimeout(() => (this.invalidEmail = false), 400);
     }
 
-    if (field === 'password') {
+    if (field === "password") {
       this.thong_bao_password = message;
       this.invalidPassword = false;
       setTimeout(() => (this.invalidPassword = true), 10);
@@ -69,23 +69,22 @@ export class LogInComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/sign-in", opt)
+    fetch("http://localhost:3000/api/auth/sign-in", opt)
       .then((res) => res.json())
       .then((data) => {
         console.log("data=", data);
         if (data.error) {
-  if (data.field === "email") {
-    this.shakeField("email", data.message);
-  } else if (data.field === "password") {
-    this.shakeField("password", data.message);
-  } else {
-    // ❗️Trường hợp như account bị khóa, message không có field cụ thể
-    this.thong_bao = data.message; // ⚠️ bạn cần có biến thong_bao trong component + HTML
-  }
-  return;
-}
+          if (data.field === "email") {
+            this.shakeField("email", data.message);
+          } else if (data.field === "password") {
+            this.shakeField("password", data.message);
+          } else {
+            // ❗️Trường hợp như account bị khóa, message không có field cụ thể
+            this.thong_bao = data.message; // ⚠️ bạn cần có biến thong_bao trong component + HTML
+          }
+          return;
+        }
 
-        
         let expiresIn = data.expiresIn; //1h
         let user = data.info;
         let token = data.token;

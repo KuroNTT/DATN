@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
-import { CommonModule,isPlatformBrowser } from "@angular/common";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
 
@@ -85,25 +85,30 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean = false;
 
   checkLoginStatus() {
-  if (isPlatformBrowser(this.platformId)) {
-    const token = sessionStorage.getItem("token");
-    const user = sessionStorage.getItem("user");
+    if (isPlatformBrowser(this.platformId)) {
+      const token = sessionStorage.getItem("token");
+      const user = sessionStorage.getItem("user");
 
-    this.isLoggedIn = !!token && !!user;
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        this.username = parsedUser?.name || "Khách hàng";
-        this.userrole = parsedUser?.role || "customer";
-        this.isAdmin = this.userrole === "admin";
-      } catch (e) {
-        console.error("Lỗi phân tích user từ sessionStorage:", e);
-        this.username = "Khách hàng";
+      this.isLoggedIn = !!token && !!user;
+      if (user) {
+        try {
+          const parsedUser = JSON.parse(user);
+          this.username = parsedUser?.name || "Khách hàng";
+          this.userrole = parsedUser?.role || "customer";
+          this.isAdmin = this.userrole === "admin";
+        } catch (e) {
+          console.error("Lỗi phân tích user từ sessionStorage:", e);
+          this.username = "Khách hàng";
+        }
       }
+    } else {
+      // Đang chạy ở môi trường không phải trình duyệt
+      this.isLoggedIn = false;
+      this.username = "Khách hàng";
+      this.userrole = "customer";
+      this.isAdmin = false;
     }
   }
-}
-
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
@@ -118,14 +123,10 @@ export class HeaderComponent implements OnInit {
   }
 
   goToProfile() {
-    this.router.navigate(["/profile"]);
+    window.location.href = "/profile";
   }
 
-  logout() {
-    sessionStorage.clear();
-    this.isLoggedIn = false;
-    window.location.href = "/sign-in";
-  }
+
   goToAdminDashboard() {
     window.location.href = "/admin";
   }

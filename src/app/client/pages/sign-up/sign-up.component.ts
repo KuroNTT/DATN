@@ -105,7 +105,7 @@ export class SignUpComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/sign-up", opt)
+    fetch("http://localhost:3000/api/auth/sign-up", opt)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {

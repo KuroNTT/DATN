@@ -51,6 +51,7 @@
             <input
               [type]="showPassword ? 'text' : 'password'"
               name="password"
+              tabindex="1"
               class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
               [(ngModel)]="user.password"
               [ngClass]="{
@@ -84,6 +85,7 @@
             <input
               [type]="showConfirm ? 'text' : 'password'"
               name="re_password"
+              tabindex="2"
               class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
               [(ngModel)]="user.re_password"
               [ngClass]="{
@@ -107,7 +109,7 @@
             {{ thong_bao_re_password }}
           </p>
         </div>
-        <p class="text-center text-blue-500">{{thong_bao}}</p>
+        <p class="text-center text-blue-500">{{ thong_bao }}</p>
         <!-- Nút đăng ký -->
         <div class="flex justify-center">
           <button
@@ -119,13 +121,13 @@
           </button>
         </div>
 
-        <!-- Link đăng nhập -->        
+        <!-- Link đăng nhập -->
         <div class="text-center mt-4 text-sm text-gray-600">
           Bạn đã có tài khoản?
           <a href="/sign-in" class="text-red-500 hover:underline ml-1"
             >Đăng nhập</a
           >
-          </div>
+        </div>
       </form>
     </div>
 
@@ -145,7 +147,7 @@
           alt="Logo TVM"
           class="w-[250px] h-auto object-contain mb-4"
         />
-       <p class="text-sm md:text-base opacity-90 drop-shadow-sm">
+        <p class="text-sm md:text-base opacity-90 drop-shadow-sm">
           Chúng tôi không chỉ bán giày <br />
           Chúng tôi mang đến phong cách sống – nơi mỗi bước chân là một tuyên
           ngôn cá tính. Phong cách từ những bước chân đầu tiên .
