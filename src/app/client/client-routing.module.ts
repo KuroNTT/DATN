@@ -29,12 +29,12 @@ const routes: Routes = [
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
   {
     path: 'profile',
-    component: ProfileComponent, 
+    component: ProfileComponent,
     children: [
       { path: '', redirectTo: 'purchase', pathMatch: 'full' },
-      { path: 'purchase', component: PurchaseComponent },
-      { path: 'edit', component: EditProfileComponent },
-      { path: 'change-pw', component: ChangePwComponent }
+      { path: 'purchase', component: PurchaseComponent, title: "Đơn hàng", data: { breadcrumb: 'Đơn hàng' } },
+      { path: 'edit', component: EditProfileComponent, title: "Chỉnh sửa thông tin", data: { breadcrumb: 'Chỉnh sửa thông tin' } },
+      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' } }
     ]
   },
   {

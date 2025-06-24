@@ -124,7 +124,6 @@ exports.signIn = async (req, res) => {
   }
 
   // Tạo token
-  const fs = require("fs");
   const PRIVATE_KEY = process.env.JWT_SECRET;
 
   const jwt = require("jsonwebtoken");
@@ -172,3 +171,59 @@ exports.verifyEmail = async (req, res) => {
       .json({ message: "Token không hợp lệ hoặc đã hết hạn." });
   }
 };
+
+
+exports.getProfile = async (req, res) => {
+  try {
+    console.log("Token resolved user:", req.user); // kiểm tra user có tồn tại không
+    const user = await UserModel.findByPk(req.user.id, {
+      attributes: ['id', 'name', 'email', 'phone', 'sex', 'address', 'email_verify_at']
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Lỗi khi lấy thông tin người dùng:", err); // ✅ log lỗi chi tiết
+    res.status(500).json({ message: "Lỗi khi lấy thông tin người dùng" });
+  }
+};
+
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id; // lấy từ middleware giải mã token
+
+    // Các field được cho phép cập nhật
+    const { name, phone, sex, address } = req.body;
+
+    // Tìm user
+    const user = await UserModel.findByPk(userId);
+    if (!user) return res.status(404).json({ message: "Không tìm thấy người dùng" });
+
+    // Cập nhật
+    user.name = name;
+    user.phone = phone;
+    user.sex = sex;
+    user.address = address;
+
+    await user.save();
+
+    // Trả về thông tin mới
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      sex: user.sex,
+      address: user.address,
+      email_verify_at: user.email_verify_at,
+    });
+  } catch (err) {
+    console.error("❌ Lỗi cập nhật:", err);
+    res.status(500).json({ message: "Lỗi máy chủ khi cập nhật" });
+  }
+};
+

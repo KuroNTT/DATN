@@ -92,7 +92,7 @@ export class LogInComponent {
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
-          window.location.href = "/";
+         this.router.navigate(['/']);
         }, 2000);
       });
   }
