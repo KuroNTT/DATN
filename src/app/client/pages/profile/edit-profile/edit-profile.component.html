@@ -52,8 +52,10 @@
   </div>
 
   <!-- Nút lưu -->
-  <button *ngIf="daThayDoi" (click)="capNhat()" class="btn btn-primary">
-  Lưu thay đổi
-</button>
-
+  <div class="mt-6 md:col-span-2" *ngIf="form.valid && form.dirty && daThayDoi">
+    <button type="submit"
+      class="w-[150px] p-2 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
+      Lưu thay đổi
+    </button>
+  </div>
 </form>

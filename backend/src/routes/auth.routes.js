@@ -10,5 +10,6 @@ router.post("/verify-email", authController.verifyEmail);
 router.get('/me', authMiddleware, authController.getProfile);
 // Cập nhật thông tin người dùng
 router.put('/me', authMiddleware, authController.updateProfile);
+router.post('/profile/change-pw', authController.changePw);
 
 module.exports = router;

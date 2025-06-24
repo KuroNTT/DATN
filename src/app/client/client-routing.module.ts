@@ -13,6 +13,7 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { EditProfileComponent } from "./pages/profile/edit-profile/edit-profile.component";
 import { ChangePwComponent } from "./pages/profile/change-pw/change-pw.component";
 import { PurchaseComponent } from "./pages/profile/purchase/purchase.component";
+import { authGuard } from "../core/guards/auth.guard";
 const routes: Routes = [
   { path: "", component: HomeComponent, title: "Home" },
   { path: "contact", component: ContactComponent, title: "Contact" },
@@ -34,7 +35,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'purchase', pathMatch: 'full' },
       { path: 'purchase', component: PurchaseComponent, title: "Đơn hàng", data: { breadcrumb: 'Đơn hàng' } },
       { path: 'edit', component: EditProfileComponent, title: "Chỉnh sửa thông tin", data: { breadcrumb: 'Chỉnh sửa thông tin' } },
-      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' } }
+      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' }, canActivate:[authGuard] }
     ]
   },
   {
