@@ -31,11 +31,13 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [authGuard],
+    data: { roles: ['customer', 'admin'] },
     children: [
       { path: '', redirectTo: 'purchase', pathMatch: 'full' },
       { path: 'purchase', component: PurchaseComponent, title: "Đơn hàng", data: { breadcrumb: 'Đơn hàng' } },
       { path: 'edit', component: EditProfileComponent, title: "Chỉnh sửa thông tin", data: { breadcrumb: 'Chỉnh sửa thông tin' } },
-      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' }, canActivate:[authGuard] }
+      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' } }
     ]
   },
   {
@@ -53,7 +55,7 @@ const routerOptions: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], // ✅ Đúng cho module con
+  imports: [RouterModule.forChild(routes)], 
   exports: [RouterModule],
 })
 export class ClientRoutingModule { }
