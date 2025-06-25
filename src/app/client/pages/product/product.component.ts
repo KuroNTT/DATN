@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { NgClass, CommonModule } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { IProduct } from "../../../core/models/structureData";
+import { ICategory, IProduct } from "../../../core/models/structureData";
 
 @Component({
   selector: "app-product",
@@ -15,17 +15,29 @@ export class ProductComponent {
   isSexFilterVisible = true;
 
   product_arr: IProduct[] = [];
+  category_arr: ICategory[] = [];
+
+  categoryName: string = "";
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
-      next: (data) => {
-        this.product_arr = data;
-      },
-      error: (error) => {
-        console.error("Lỗi khi gọi API:", error);
-      },
+    fetch(`http://localhost:3000/api/products`).then((res) => {
+      res
+        .json()
+        .then((data) => (this.product_arr = data as IProduct[]))
+        .catch((error) =>
+          console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
+        );
+    });
+
+    fetch("http://localhost:3000/api/categories").then((res) => {
+      res
+        .json()
+        .then((data) => (this.category_arr = data as ICategory[]))
+        .catch((error) =>
+          console.log("Có lỗi khi lấy dữ liệu danh mục!: ", error)
+        );
     });
   }
 

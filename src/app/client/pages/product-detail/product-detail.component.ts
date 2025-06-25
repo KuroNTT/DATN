@@ -4,11 +4,9 @@ import {
   IProduct,
   IProductImage,
   IProductVariant,
+  ISize,
 } from "../../../core/models/structureData";
-import { HttpClient } from "@angular/common/http";
-import { routes } from "../../../app.routes";
 import { ActivatedRoute } from "@angular/router";
-import { error } from "console";
 
 @Component({
   selector: "app-product-detail",
@@ -18,13 +16,6 @@ import { error } from "console";
 })
 export class ProductDetailComponent {
   constructor(private route: ActivatedRoute) {}
-  imgList: string[] = ["images/img-giay.png"];
-
-  mainImage: string = this.imgList[0];
-
-  onHover(img: string) {
-    this.mainImage = img;
-  }
   showFullText = false;
 
   toggleShowText() {
@@ -37,6 +28,11 @@ export class ProductDetailComponent {
   product: IProduct = {} as IProduct;
   product_variant_arr: IProductVariant[] = [];
   variant_image_arr: IProductImage[] = [];
+  size_arr: ISize[] = [];
+
+  selectedVariant: IProductVariant | null = null;
+  imgList: string[] = [];
+  mainImage: string = "";
 
   ngOnInit(): void {
     fetch(`http://localhost:3000/api/products/most-view/products`)
@@ -48,15 +44,37 @@ export class ProductDetailComponent {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
       );
 
-    this.id = Number(this.route.snapshot.paramMap.get("id"));
     this.slug = String(this.route.snapshot.paramMap.get("slug"));
+
     fetch(`http://localhost:3000/api/products/${this.slug}`)
       .then((res) => res.json())
       .then((data) => {
-        this.product = data.product as IProduct;
+        this.product = data.product;
         this.product_variant_arr = this.product.variants;
-        console.log("Variants:", this.product_variant_arr);
+        this.selectedVariant = this.product_variant_arr[0];
+
+        if (this.product_variant_arr?.[0]?.images?.length > 0) {
+          this.imgList = this.product_variant_arr[0].images.map(
+            (img: any) => img.image_url
+          );
+          this.mainImage = this.imgList[0];
+        }
       })
       .catch((error) => console.error("Có lỗi khi lấy sản phẩm: ", error));
+
+    fetch(`http://localhost:3000/api/sizes`)
+      .then((res) => res.json())
+      .then((data) => (this.size_arr = data as ISize[]))
+      .catch((error) => console.error("Có lỗi khi lấy dữ liệu size! ", error));
+  }
+
+  onClick(img: string) {
+    this.mainImage = img;
+  }
+
+  onSelectVariant(variant: IProductVariant) {
+    this.selectedVariant = variant;
+    this.imgList = variant.images?.map((img) => img.image_url) || [];
+    this.mainImage = this.imgList[0] || "";
   }
 }

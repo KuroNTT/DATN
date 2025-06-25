@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 32px;
 }
 
 .container {
@@ -22,6 +21,10 @@
   justify-content: space-between;
 }
 
+.logo-footer-image {
+  filter: invert(1000%);
+}
+
 .col {
   flex-basis: 25%;
   padding: 10px;
@@ -30,11 +33,6 @@
 .col:nth-child(2),
 .col:nth-child(3) {
   flex-basis: 15%;
-}
-
-.logo-footer {
-  width: 85px;
-  margin-bottom: 30px;
 }
 
 .col h3 {
@@ -117,4 +115,13 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.logo-footer img {
+  width: 120px;
+  height: 100px;
+  object: cover;
+}
+span {
+  font-weight: bold;
 }

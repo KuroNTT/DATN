@@ -93,7 +93,7 @@ export class LogInComponent {
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
           window.location.href = "/";
-        }, 3000);
+        }, 2000);
       });
   }
 }

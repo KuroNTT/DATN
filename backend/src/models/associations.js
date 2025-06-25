@@ -1,11 +1,19 @@
 const ProductModel = require("./Product");
 const ProductVariantModel = require("./ProductVariant");
 const ProductImage = require("./ProductImage");
+const CategoryModel = require("./Category");
+const ColorModel = require("./Color");
 
 // Một sản phẩm có nhiều biến thể
 ProductModel.hasMany(ProductVariantModel, {
   foreignKey: "product_id",
   as: "variants",
+});
+
+// Một product thuộc một category
+ProductModel.belongsTo(CategoryModel, {
+  foreignKey: "category_id",
+  as: "category",
 });
 
 // Một biến thể thuộc về một sản phẩm
@@ -24,4 +32,10 @@ ProductVariantModel.hasMany(ProductImage, {
 ProductImage.belongsTo(ProductVariantModel, {
   foreignKey: "variant_id",
   as: "variant",
+});
+
+// Một biến thể có một màu sắc
+ProductVariantModel.belongsTo(ColorModel, {
+  foreignKey: "color_id",
+  as: "color",
 });

@@ -15,6 +15,53 @@ export class EditProfileComponent implements OnInit {
   originalData: any = {};
   daThayDoi: boolean = false;
 
+thong_bao_name = '';
+thong_bao_phone = '';
+thong_bao_sex = '';
+thong_bao_address = '';
+
+chiNhapSo(event: KeyboardEvent): void {
+  const char = String.fromCharCode(event.keyCode);
+  if (!/^[0-9]$/.test(char)) {
+    event.preventDefault();
+  }
+}
+
+kiemTraLoi(): boolean {
+  const v = this.form.value;
+  this.thong_bao_name = '';
+  this.thong_bao_phone = '';
+  this.thong_bao_sex = '';
+  this.thong_bao_address = '';
+  let coLoi = false;
+
+  if (!v.name.trim()) {
+    this.thong_bao_name = 'Họ tên không được để trống';
+    coLoi = true;
+  }
+
+  if (!v.phone.trim()) {
+    this.thong_bao_phone = 'Số điện thoại không được để trống';
+    coLoi = true;
+  } else if (!/^\d{10}$/.test(v.phone)) {
+    this.thong_bao_phone = 'Số điện thoại phải gồm đúng 10 chữ số';
+    coLoi = true;
+  }
+
+  if (!v.sex) {
+    this.thong_bao_sex = 'Vui lòng chọn giới tính';
+    coLoi = true;
+  }
+
+  if (!v.address.trim() || v.address.trim().length < 10) {
+    this.thong_bao_address = 'Địa chỉ phải trên 10 ký tự';
+    coLoi = true;
+  }
+
+  return coLoi;
+}
+
+
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {

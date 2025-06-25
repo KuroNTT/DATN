@@ -16,10 +16,10 @@ export class SignUpComponent {
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   private passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  thong_bao_name: string = '';
-  thong_bao_email: string = '';
-  thong_bao_password: string = '';
-  thong_bao_re_password: string = '';
+  thong_bao_name: string = "";
+  thong_bao_email: string = "";
+  thong_bao_password: string = "";
+  thong_bao_re_password: string = "";
 
   invalidName: boolean = false;
   invalidEmail: boolean = false;
@@ -37,66 +37,70 @@ export class SignUpComponent {
   isValid(): boolean {
     const { name, email, password, re_password } = this.user;
 
-    this.thong_bao_name = '';
-    this.thong_bao_email = '';
-    this.thong_bao_password = '';
-    this.thong_bao_re_password = '';
+    this.thong_bao_name = "";
+    this.thong_bao_email = "";
+    this.thong_bao_password = "";
+    this.thong_bao_re_password = "";
     //Name
     if (!name.trim()) {
-      this.shakeField('name', "Vui lòng nhập tên");
+      this.shakeField("name", "Vui lòng nhập tên");
       return false;
     }
     if (!email.trim()) {
-      this.shakeField('email', 'Vui lòng nhập Email');
+      this.shakeField("email", "Vui lòng nhập Email");
       return false;
     }
     if (!this.emailRegex.test(email)) {
-      this.shakeField('email', 'Email không hợp lệ');
+      this.shakeField("email", "Email không hợp lệ");
       return false;
     }
     if (!password.trim()) {
-      this.shakeField('password', 'Vui lòng nhập mật khẩu');
+      this.shakeField("password", "Vui lòng nhập mật khẩu");
       return false;
     }
     if (!this.passwordRegex.test(password)) {
-      this.shakeField('password', "Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số"
+      this.shakeField(
+        "password",
+        "Mật khẩu phải có ít nhất 8 ký tự, 1 chữ hoa và 1 số"
       );
       return false;
     }
     if (password !== re_password) {
-      this.shakeField('re_password', 'Mật khẩu xác nhận không khớp');
+      this.shakeField("re_password", "Mật khẩu xác nhận không khớp");
       return false;
     }
     return true;
   }
 
-  shakeField(field: 'name' | 'email' | 'password' | 're_password', message: string): void {
-    if (field === 'name') {
+  shakeField(
+    field: "name" | "email" | "password" | "re_password",
+    message: string
+  ): void {
+    if (field === "name") {
       this.thong_bao_name = message;
       this.invalidName = false;
-      setTimeout(() => (this.invalidName = true), 10)
-      setTimeout(() => (this.invalidName = false), 400)
+      setTimeout(() => (this.invalidName = true), 10);
+      setTimeout(() => (this.invalidName = false), 400);
     }
-    if (field === 'email') {
+    if (field === "email") {
       this.thong_bao_email = message;
       this.invalidEmail = false;
       setTimeout(() => (this.invalidEmail = true), 10);
       setTimeout(() => (this.invalidEmail = false), 400);
     }
-    if (field === 'password') {
+    if (field === "password") {
       this.thong_bao_password = message;
       this.invalidPassword = false;
       setTimeout(() => (this.invalidPassword = true), 10);
       setTimeout(() => (this.invalidPassword = false), 400);
     }
-    if (field === 're_password') {
+    if (field === "re_password") {
       this.thong_bao_re_password = message;
       this.invalidRepassword = false;
       setTimeout(() => (this.invalidRepassword = true), 10);
       setTimeout(() => (this.invalidRepassword = false), 400);
     }
   }
-
 
   dangky() {
     if (!this.isValid()) return;
@@ -109,10 +113,10 @@ export class SignUpComponent {
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          if (data.field === 'email') {
+          if (data.field === "email") {
             this.shakeField("email", data.message);
           }
-          if (data.field === 'name') {
+          if (data.field === "name") {
             this.shakeField("name", data.message);
           }
           if (data.field === "password") {
@@ -122,12 +126,12 @@ export class SignUpComponent {
             this.shakeField("re_password", data.message);
           }
           return;
-        }  // ✅ Thông báo yêu cầu kiểm tra email
-        this.thong_bao = "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.";
+        } // ✅ Thông báo yêu cầu kiểm tra email
+        this.thong_bao =
+          "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.";
       })
       .catch((err) => {
         this.thong_bao = "Có lỗi xảy ra. Vui lòng thử lại sau.";
       });
-
   }
 }
