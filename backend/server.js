@@ -23,7 +23,7 @@ sequelize
   .then(() => sequelize.sync({ alter: true }))
   .then(() => console.log("📦 DB synced"))
   .catch((err) => {
-    console.error("❌ Database connection failed:", err.message);
+    console.error("❌ Database connection failed:", err);
     process.exit(1);
   });
 
@@ -32,6 +32,7 @@ app.use("/api/categories", require("./src/routes/category.routes"));
 app.use("/api/products", require("./src/routes/product.routes"));
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/orders", require("./src/routes/order.routes"));
+app.use("/api/cart", require("./src/routes/cart.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {

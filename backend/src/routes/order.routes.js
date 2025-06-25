@@ -1,7 +1,8 @@
 const express = require("express");
-const getAllOder = require("../controllers/orders.controller");
+const oders = require("../controllers/orders.controller");
 const router = express.Router();
 
-router.get("/", getAllOder);
+router.get("/", oders.getAllOder);
+router.get("/:id", oders.getOderById);
 
 module.exports = router;

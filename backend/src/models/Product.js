@@ -9,7 +9,7 @@ const ProductModel = sequelize.define(
     name: { type: DataTypes.STRING },
     category_id: { type: DataTypes.INTEGER },
     brand_id: { type: DataTypes.INTEGER },
-    description: { type: DataTypes.STRING },
+    description: { type: DataTypes.TEXT },
     slug: { type: DataTypes.STRING },
     image: { type: DataTypes.STRING },
     price: { type: DataTypes.INTEGER },
