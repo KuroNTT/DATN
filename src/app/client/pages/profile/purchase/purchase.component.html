@@ -1,41 +1,36 @@
-  <h2 class="text-xl font-semibold mb-4">Đơn Mua</h2>
-
-  <!-- Tabs trạng thái đơn hàng -->
-  <div class="flex space-x-6 border-b mb-4 text-sm">
-    <button class="pb-2 border-b-2 border-red-500 text-red-600 font-semibold">Tất cả</button>
-    <button class="pb-2 hover:text-red-500">Chờ thanh toán</button>
-    <button class="pb-2 hover:text-red-500">Vận chuyển</button>
-    <button class="pb-2 hover:text-red-500">Chờ giao hàng</button>
-    <button class="pb-2 hover:text-red-500">Hoàn thành</button>
-    <button class="pb-2 hover:text-red-500">Đã huỷ</button>
-    <button class="pb-2 hover:text-red-500">Trả hàng/Hoàn tiền</button>
-  </div>
+<div class="bg-white rounded-md shadow-sm mb-4 p-4">
 
 
-<div class="border rounded-md p-4 mb-4">   
-  <!-- Sản phẩm -->
-  <div class="flex items-start space-x-4">
-    <img src="images/nike_air_force_1_07_v2.avif" class="w-20 h-20 object-cover rounded" />
-    
-    <div>
-      <div class="font-medium text-gray-800">
+  <!-- Thông tin sản phẩm -->
+  <div class="flex gap-4 items-start">
+    <img
+      src="images/nike_air_force_1_07_v2.avif"
+      alt="product"
+      class="w-20 h-20 object-cover rounded-md"
+    />
+    <div class="flex-1">
+      <h3 class="text-sm font-medium line-clamp-2 text-gray-800">
         Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-sm text-gray-500">Phân loại hàng: Size 42</div>
-      <div class="text-sm text-gray-500">x1</div>
+      </h3>
+      <p class="text-xs text-gray-500 mt-1">Phân loại hàng: Size 42</p>
+      <p class="text-xs text-gray-500">x1</p>
     </div>
 
-    <div class="ml-auto text-right text-sm">
-      <div class="line-through text-gray-400">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
   </div>
 
-  <!-- Trạng thái -->
-  <div class="flex items-center justify-between mt-4">
-    <div class="text-green-600 text-sm flex items-center gap-1">
-      <i class="fas fa-check-circle"></i> Giao hàng thành công
-    </div>
-    <div class="text-red-600 text-sm font-semibold">HOÀN THÀNH</div>
+  <!-- Tổng tiền -->
+  <div class="text-right mt-4 text-sm">
+    <span class="text-gray-600">Tổng số tiền (1 sản phẩm):</span>
+    <span class="text-red-600 font-semibold ml-2">2.490.000₫</span>
+  </div>
+
+  <!-- Hành động -->
+  <div class="flex justify-end gap-2 mt-4 text-sm">
+    <button class="px-3 py-1 border rounded text-gray-600 hover:bg-gray-100">
+      Xem đánh giá
+    </button>
+    <button class="px-3 py-1 border border-red-500 text-red-500 rounded hover:bg-red-50">
+      Mua lại
+    </button>
   </div>
 </div>
