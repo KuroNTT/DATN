@@ -69,7 +69,7 @@ export class LogInComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/sign-in", opt)
+    fetch("http://localhost:3000/api/auth/sign-in", opt)
       .then((res) => res.json())
       .then((data) => {
         console.log("data=", data);
@@ -93,7 +93,7 @@ export class LogInComponent {
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
           window.location.href = "/";
-        }, 2000);
+        }, 1000);
       });
   }
 }

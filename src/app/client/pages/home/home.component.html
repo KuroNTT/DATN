@@ -1,6 +1,6 @@
 <app-banner></app-banner>
 
-<div class="just-in py-8 text-center">
+<div class="just-in py-8 text-center px-4 sm:px-0">
   <p class="just-in-title text-lg sm:text-xl font-bold">PHONG CÁCH.</p>
   <h3 class="text-2xl sm:text-3xl font-bold mt-2">Nothing beats the city.</h3>
   <p class="font-semibold text-base sm:text-lg mt-4">
@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div class="section_2 flex justify-center">
+<div class="section_2 flex justify-center px-4 sm:px-0">
   <div class="container">
     <div class="featured">
       <h3 class="text-3xl font-semibold mb-4">Đặc Sắc</h3>
@@ -55,7 +55,7 @@
   </div>
 </div>
 
-<div class="section_1 flex justify-center py-8">
+<div class="section_1 flex justify-center py-8 px-4 sm:px-0">
   <div class="container">
     <h3 class="text-3xl font-semibold mb-4">Sản Phẩm Bán Chạy</h3>
     <div
@@ -72,15 +72,6 @@
             />
           </a>
 
-          <!-- Overlay hiển thị khi hover -->
-          <div
-            class="absolute bottom-0 left-0 w-full h-1/5 bg-black/40 flex items-center justify-center opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-          >
-            <i
-              class="fa-solid fa-cart-plus text-white text-2xl cursor-pointer hover:text-yellow-400"
-            ></i>
-          </div>
-
           <!-- Icon yêu thích -->
           <div class="product-wish-list">
             <i
@@ -95,7 +86,7 @@
           {{ product.name }}
         </div>
         <div class="category-name text-sm text-gray-500 mb-2">
-          <span>Giày nam</span>
+          <span>{{ product.category?.name }}</span>
         </div>
         <div class="product_price text-red-500 font-bold text-lg">
           {{ product.price | number : "1.0-0" }}đ
@@ -105,7 +96,7 @@
   </div>
 </div>
 
-<div class="section_3 flex justify-center relative">
+<div class="section_3 flex justify-center relative px-4 sm:px-0">
   <div class="container">
     <!-- Header + button scroll -->
     <div class="flex justify-between items-center mb-4">
@@ -142,7 +133,7 @@
   </div>
 </div>
 
-<div class="section_4 flex justify-center px-4 py-8">
+<div class="section_4 flex justify-center px-4 sm:px-0 py-8">
   <div class="container">
     <div class="favour">
       <div
@@ -197,7 +188,10 @@
   </div>
 </div>
 
-<div id="about-us" class="section_5 flex justify-center items-center">
+<div
+  id="about-us"
+  class="section_5 flex justify-center items-center px-4 sm:px-0"
+>
   <div class="container">
     <div class="about-us-container w-2/3 max-w-2xl mx-auto">
       <h1 class="text-4xl font-black uppercase pt-9 text-center">

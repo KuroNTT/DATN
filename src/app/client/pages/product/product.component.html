@@ -1,4 +1,4 @@
-<div class="breadcrumb flex justify-center py-[12px] mb-[24px]">
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0">
   <div class="container">
     <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
     <i
@@ -9,7 +9,7 @@
     >
   </div>
 </div>
-<div class="flex justify-center">
+<div class="flex justify-center px-4 sm:px-0">
   <div class="container">
     <div class="grid grid-cols-1 lg:grid-cols-9 gap-7">
       <!-- Lọc -->
@@ -97,8 +97,9 @@
             <label class="block"
               ><input type="checkbox" checked /> Tất cả</label
             >
-            <label class="block"><input type="checkbox" /> Nam</label>
-            <label class="block"><input type="checkbox" /> Nữ</label>
+            <label class="block" *ngFor="let category of category_arr"
+              ><input type="checkbox" /> {{ category.name }}</label
+            >
           </div>
         </div>
       </div>
@@ -123,15 +124,6 @@
                   />
                 </a>
 
-                <!-- Overlay hiển thị khi hover -->
-                <div
-                  class="absolute bottom-0 left-0 w-full h-1/5 bg-black/40 flex items-center justify-center opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                >
-                  <i
-                    class="fa-solid fa-cart-plus text-white text-2xl cursor-pointer hover:text-yellow-400"
-                  ></i>
-                </div>
-
                 <!-- Icon yêu thích -->
                 <div class="product-wish-list">
                   <i
@@ -148,7 +140,7 @@
                 {{ product.name }}
               </div>
               <div class="category-name text-sm text-gray-500 mb-2">
-                <span>Giày nam</span>
+                <span>{{ product.category?.name }}</span>
               </div>
               <div class="product_price text-red-500 font-bold text-base">
                 {{ product.price | number : "1.0-0" }}đ
