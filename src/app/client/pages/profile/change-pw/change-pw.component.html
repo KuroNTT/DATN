@@ -1,0 +1,108 @@
+<h2 class="text-2xl font-bold mb-6 text-gray-800">Đổi Mật Khẩu</h2>
+<p class="text-sm text-gray-500 mb-4">
+  Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác
+</p>
+
+<form class="space-y-4 novalidate">
+  <div>
+    <label class="block text-sm font-medium mb-1">Email</label>
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="user.email"
+      disabled
+      class="w-full border px-3 py-2 rounded-lg bg-gray-100 border border-gray-300 text-gray-500"
+    />
+  </div>
+ <!-- Mật khẩu hiện tại -->
+<div class="min-h-[95px]">
+  <label class="block mb-1 text-sm text-gray-600">Mật khẩu hiện tại</label>
+  <div class="relative">
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      name="pass_old"
+      class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+      [ngClass]="{
+        'border-red-500': thong_bao_pass_old,
+        shake: invalidPassOld
+      }"
+      [(ngModel)]="user.pass_old"
+    />
+    <button
+      type="button"
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+      (click)="togglePassword()"
+    >
+      <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </button>
+  </div>
+  <p *ngIf="thong_bao_pass_old" class="mt-1 text-red-500 text-sm">
+    {{ thong_bao_pass_old }}
+  </p>
+</div>
+
+<!-- Mật khẩu mới -->
+<div class="min-h-[95px]">
+  <label class="block mb-1 text-sm text-gray-600">Mật khẩu mới</label>
+  <div class="relative">
+    <input
+      [type]="showNewPassword ? 'text' : 'password'"
+      name="passnew1"
+      class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+      [ngClass]="{
+        'border-red-500': thong_bao_passnew1,
+        shake: invalidPassNew1
+      }"
+      [(ngModel)]="user.passnew1"
+    />
+    <button
+      type="button"
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+      (click)="toggleNewPassword()"
+    >
+      <i class="fa" [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </button>
+  </div>
+  <p *ngIf="thong_bao_passnew1" class="mt-1 text-red-500 text-sm">
+    {{ thong_bao_passnew1 }}
+  </p>
+</div>
+
+<!-- Xác nhận mật khẩu -->
+<div class="min-h-[95px]">
+  <label class="block mb-1 text-sm text-gray-600">Xác nhận mật khẩu</label>
+  <div class="relative">
+    <input
+      [type]="showConfirmPassword ? 'text' : 'password'"
+      name="passnew2"
+      class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+      [ngClass]="{
+        'border-red-500': thong_bao_passnew2,
+        shake: invalidPassNew2
+      }"
+      [(ngModel)]="user.passnew2"
+    />
+    <button
+      type="button"
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+      (click)="toggleConfirmPassword()"
+    >
+      <i class="fa" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </button>
+  </div>
+  <p *ngIf="thong_bao_passnew2" class="mt-1 text-red-500 text-sm">
+    {{ thong_bao_passnew2 }}
+  </p>
+</div>
+<p class="text-red-500 text-sm mt-2" *ngIf="thong_bao">
+          {{ thong_bao }}
+        </p>
+
+  <button
+    type="button"
+    class="w-[150px] p-2 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+    (click)="doipass()"
+  >
+    Xác Nhận
+  </button>  
+</form>

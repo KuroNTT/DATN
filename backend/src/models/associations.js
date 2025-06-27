@@ -3,39 +3,65 @@ const ProductVariantModel = require("./ProductVariant");
 const ProductImage = require("./ProductImage");
 const CategoryModel = require("./Category");
 const ColorModel = require("./Color");
+const SizeModel = require("./Size");
+const VariantSizeModel = require("./VariantSize");
 
-// Một sản phẩm có nhiều biến thể
+/** 1. Một sản phẩm có nhiều biến thể */
 ProductModel.hasMany(ProductVariantModel, {
   foreignKey: "product_id",
   as: "variants",
 });
 
-// Một product thuộc một category
+/** 2. Một product thuộc một category */
 ProductModel.belongsTo(CategoryModel, {
   foreignKey: "category_id",
   as: "category",
 });
 
-// Một biến thể thuộc về một sản phẩm
+/** 3. Một biến thể thuộc về một sản phẩm */
 ProductVariantModel.belongsTo(ProductModel, {
   foreignKey: "product_id",
   as: "product",
 });
 
-// Một biến thể có nhiều ảnh
+/** 4. Một biến thể có nhiều ảnh */
 ProductVariantModel.hasMany(ProductImage, {
   foreignKey: "variant_id",
   as: "images",
 });
 
-// Một ảnh thuộc về một biến thể
+/**  5. Một ảnh thuộc về một biến thể */
 ProductImage.belongsTo(ProductVariantModel, {
   foreignKey: "variant_id",
   as: "variant",
 });
 
-// Một biến thể có một màu sắc
+/** 6. Một biến thể có một màu sắc */
 ProductVariantModel.belongsTo(ColorModel, {
   foreignKey: "color_id",
   as: "color",
+});
+
+/** 7. Mỗi biến thể có nhiều dòng variant_sizes */
+ProductVariantModel.hasMany(VariantSizeModel, {
+  foreignKey: "variant_id",
+  as: "product_variant_sizes",
+});
+
+/** 8. Mỗi dòng variant_size thuộc về một biến thể */
+VariantSizeModel.belongsTo(ProductVariantModel, {
+  foreignKey: "variant_id",
+  as: "variant",
+});
+
+/** 9. Mỗi dòng variant_size tham chiếu tới một size cụ thể */
+VariantSizeModel.belongsTo(SizeModel, {
+  foreignKey: "size_id",
+  as: "size",
+});
+
+/** (tuỳ chọn) 10. Một size xuất hiện trong nhiều variant_size  */
+SizeModel.hasMany(VariantSizeModel, {
+  foreignKey: "size_id",
+  as: "variant_sizes",
 });

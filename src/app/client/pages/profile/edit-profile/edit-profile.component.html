@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="capNhat()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <!-- Họ và tên -->
+  <div>
+    <label class="block text-sm font-medium mb-1 text-gray-700">Họ và tên</label>
+    <input type="text" formControlName="name"
+      class="w-full px-4 py-2 border rounded-lg"
+      placeholder="Nguyễn Văn A" />
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label class="block text-sm font-medium mb-1 text-gray-700">Email</label>
+    <input type="email" formControlName="email" readonly
+      class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-500"
+      placeholder="example@gmail.com" />
+  </div>
+
+  <!-- Số điện thoại -->
+  <div>
+    <label class="block text-sm font-medium mb-1 text-gray-700">Số điện thoại</label>
+    <input type="text" formControlName="phone"
+      class="w-full px-4 py-2 border rounded-lg"
+      placeholder="0123456789" />
+  </div>
+
+  <!-- Giới tính -->
+  <div>
+    <label class="block text-sm font-medium mb-1 text-gray-700">Giới tính</label>
+    <select formControlName="sex" class="w-full px-4 py-2 border rounded-lg">
+  <option value="">Chọn giới tính</option>
+  <option value="male">Nam</option>
+  <option value="female">Nữ</option>
+  <option value="other">Khác</option>
+</select>
+
+  </div>
+
+  <!-- Địa chỉ -->
+  <div class="md:col-span-2">
+    <label class="block text-sm font-medium mb-1 text-gray-700">Địa chỉ</label>
+    <textarea formControlName="address"
+      class="w-full px-4 py-2 border rounded-lg resize-none h-24"
+      placeholder="Số nhà, đường, phường, quận/huyện, tỉnh/thành..."></textarea>
+  </div>
+
+  <!-- Thông báo xác minh -->
+  <div class="mt-4 text-sm flex items-center gap-2 md:col-span-2"
+       [ngClass]="emailVerified ? 'text-green-600' : 'text-red-500'">
+    <i class="fas fa-check-circle" *ngIf="emailVerified"></i>
+    <i class="fas fa-exclamation-circle" *ngIf="!emailVerified"></i>
+    {{ emailVerified ? 'Email của bạn đã được xác minh.' : 'Email của bạn chưa được xác minh.' }}
+  </div>
+
+  <!-- Nút lưu -->
+  <div class="mt-6 md:col-span-2" *ngIf="form.valid && form.dirty && daThayDoi">
+    <button type="submit"
+      class="w-[150px] p-2 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
+      Lưu thay đổi
+    </button>
+  </div>
+</form>
