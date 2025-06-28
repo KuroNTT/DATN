@@ -1,14 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-verify-email",
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
-  templateUrl: "./verify-email.component.html",
-  styleUrls: ["./verify-email.component.css"],
+  imports: [CommonModule],
+  templateUrl: "./verify-email.component.html"
 })
 export class VerifyEmailComponent implements OnInit {
   message: string = "";
@@ -24,7 +23,6 @@ export class VerifyEmailComponent implements OnInit {
       this.isError = true;
       return;
     }
-    console.log("Đang gửi token:", token);
 
     this.http
       .post("http://localhost:3000/api/auth/verify-email", { token })

@@ -14,6 +14,8 @@ import { EditProfileComponent } from "./pages/profile/edit-profile/edit-profile.
 import { ChangePwComponent } from "./pages/profile/change-pw/change-pw.component";
 import { PurchaseComponent } from "./pages/profile/purchase/purchase.component";
 import { authGuard } from "../core/guards/auth.guard";
+import { ResetPasswordComponent } from "./pages/reset-pw/reset-pw.component";
+import { ForgotPasswordComponent } from "./pages/forgot-pw/forgot-pw.component";
 const routes: Routes = [
   { path: "", component: HomeComponent, title: "Home" },
   { path: "contact", component: ContactComponent, title: "Contact" },
@@ -28,6 +30,8 @@ const routes: Routes = [
   },
   { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
+  {path:"forgot-pw", component:  ForgotPasswordComponent, title: "Quên mật khẩu"},
+  {path:"reset-pw", component: ResetPasswordComponent, title: "Đổi mật khẩu mới"},
   {
     path: 'profile',
     component: ProfileComponent,

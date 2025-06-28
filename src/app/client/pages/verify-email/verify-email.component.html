@@ -1,10 +1,16 @@
-<div class="max-w-xl mx-auto mt-20 p-4 text-center">
-  <h2 class="text-2xl font-bold mb-4">Xác thực tài khoản</h2>
+<div class="max-w-xl mx-auto mt-2 p-4 text-center">
+  <h2 class="text-2xl font-bold m-6">Xác thực tài khoản</h2>
 
-  <p *ngIf="isSuccess" class="text-green-600">{{ message }}</p>
-  <p *ngIf="isError" class="text-red-600">{{ message }}</p>
+  <p *ngIf="isSuccess" class="text-green-600 mb-6">{{ message }}</p>
+  <p *ngIf="isError" class="text-red-600 mb-6">{{ message }}</p>
 
-  <a href="/sign-in" *ngIf="isSuccess" class="mt-4 inline-block text-blue-600 underline">
-    → Đăng nhập ngay
-  </a>
+  <button class="m-6">
+    <a
+      href="/sign-in"
+      *ngIf="isSuccess"
+      class="p-3 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+    >
+      Đăng nhập ngay
+    </a>
+  </button>
 </div>

@@ -126,6 +126,11 @@ export class HeaderComponent implements OnInit {
     window.location.href = "/profile";
   }
 
+  
+  logout() {
+    sessionStorage.clear();
+    window.location.href = "/sign-in";
+  }
 
   goToAdminDashboard() {
     window.location.href = "/admin";
