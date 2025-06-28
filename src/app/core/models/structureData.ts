@@ -26,6 +26,11 @@ export interface IProduct {
   category?: ICategory;
 }
 
+export interface IProductVariantSize {
+  size: ISize;
+  stock?: number;
+}
+
 export interface IProductVariant {
   id: number;
   color_id: number;
@@ -37,6 +42,8 @@ export interface IProductVariant {
   updated_at: string;
   images: IProductImage[];
   color?: IColor;
+  size?: ISize;
+  product_variant_sizes?: IProductVariantSize[];
 }
 
 export interface IProductImage {

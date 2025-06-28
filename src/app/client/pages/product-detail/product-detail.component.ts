@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   IProduct,
@@ -14,23 +14,29 @@ import { ActivatedRoute } from "@angular/router";
   templateUrl: "./product-detail.component.html",
   styleUrl: "./product-detail.component.css",
 })
-export class ProductDetailComponent {
+export class ProductDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
-  showFullText = false;
 
+  /** ---------------- State hiển thị mô tả dài / ngắn ---------------- */
+  showFullText = false;
   toggleShowText() {
     this.showFullText = !this.showFullText;
   }
 
+  /** ---------------- Dữ liệu sản phẩm liên quan ---------------- */
   product_arr: IProduct[] = [];
-  id: number = 0;
+
+  /** ---------------- Dữ liệu & state sản phẩm hiện tại ---------------- */
   slug: string = "";
   product: IProduct = {} as IProduct;
   product_variant_arr: IProductVariant[] = [];
-  variant_image_arr: IProductImage[] = [];
   size_arr: ISize[] = [];
 
   selectedVariant: IProductVariant | null = null;
+  selectedSize: ISize | null = null;
+  quantity = 1; // có thể binding ra input number trong template
+
+  /** ---------------- Hình ảnh ---------------- */
   imgList: string[] = [];
   mainImage: string = "";
 
@@ -49,9 +55,12 @@ export class ProductDetailComponent {
     fetch(`http://localhost:3000/api/products/${this.slug}`)
       .then((res) => res.json())
       .then((data) => {
-        this.product = data.product;
+        this.product = data.product as IProduct;
+
+        /* --------- Biến thể & size --------- */
         this.product_variant_arr = this.product.variants;
-        this.selectedVariant = this.product_variant_arr[0];
+        this.selectedVariant = this.product_variant_arr[0] ?? null;
+        this.size_arr = (this.selectedVariant?.size || []) as ISize[];
 
         if (this.product_variant_arr?.[0]?.images?.length > 0) {
           this.imgList = this.product_variant_arr[0].images.map(
@@ -76,5 +85,9 @@ export class ProductDetailComponent {
     this.selectedVariant = variant;
     this.imgList = variant.images?.map((img) => img.image_url) || [];
     this.mainImage = this.imgList[0] || "";
+  }
+
+  onSelectSize(size: ISize) {
+    this.selectedSize = size;
   }
 }

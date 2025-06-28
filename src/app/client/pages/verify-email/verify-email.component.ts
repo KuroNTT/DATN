@@ -25,7 +25,7 @@ export class VerifyEmailComponent implements OnInit {
     }
 
     this.http
-      .post("http://localhost:3000/api/auth/verify-email", { token })
+      .post("http://localhost:3000/api/verify-email", { token })
       .subscribe({
         next: (res: any) => {
           this.message = res.message || "Xác thực thành công.";

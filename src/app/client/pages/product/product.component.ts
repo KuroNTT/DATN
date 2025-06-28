@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { NgClass, CommonModule } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
 import { ICategory, IProduct } from "../../../core/models/structureData";
 
 @Component({
@@ -18,8 +17,6 @@ export class ProductComponent {
   category_arr: ICategory[] = [];
 
   categoryName: string = "";
-
-  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     fetch(`http://localhost:3000/api/products`).then((res) => {

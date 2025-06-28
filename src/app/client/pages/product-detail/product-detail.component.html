@@ -79,12 +79,14 @@
                 </div>
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                <a
-                  href="#"
+                <button
+                  href=""
                   class="btn-size btn-effect text-center"
                   *ngFor="let size of size_arr"
-                  >{{ size.size }}</a
+                  (click)="onSelectSize(size)"
                 >
+                  {{ size.size }}
+                </button>
               </div>
               <div class="button mb-4">
                 <button

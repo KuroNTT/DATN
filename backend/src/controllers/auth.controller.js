@@ -286,6 +286,7 @@ exports.changePw = async (req, res) => {
   if (!passnew1 || passnew1 !== passnew2)
     return res.json({ thong_bao: "Hai mật khẩu mới không khớp hoặc rỗng" });
 
+
   const isSameAsOld = bcrypt.compareSync(passnew1, pw_db);
   if (isSameAsOld) {
     return res.status(400).json({
