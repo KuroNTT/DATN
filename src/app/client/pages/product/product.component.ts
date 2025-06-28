@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
 import { NgClass, CommonModule } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
 import { ICategory, IProduct } from "../../../core/models/structureData";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-product",
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterModule],
   templateUrl: "./product.component.html",
   styleUrls: ["./product.component.css"],
 })
@@ -18,8 +18,6 @@ export class ProductComponent {
   category_arr: ICategory[] = [];
 
   categoryName: string = "";
-
-  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     fetch(`http://localhost:3000/api/products`).then((res) => {

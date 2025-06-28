@@ -9,7 +9,11 @@ import { ProductComponent } from "./pages/product/product.component";
 import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 import { LogInComponent } from "./pages/log-in/log-in.component";
-
+import { ProfileComponent } from "./pages/profile/profile.component";
+import { EditProfileComponent } from "./pages/profile/edit-profile/edit-profile.component";
+import { ChangePwComponent } from "./pages/profile/change-pw/change-pw.component";
+import { PurchaseComponent } from "./pages/profile/purchase/purchase.component";
+import { authGuard } from "../core/guards/auth.guard";
 const routes: Routes = [
   { path: "", component: HomeComponent, title: "Home" },
   { path: "contact", component: ContactComponent, title: "Contact" },
@@ -25,6 +29,33 @@ const routes: Routes = [
   { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
   {
+    path: "profile",
+    component: ProfileComponent,
+    canActivate: [authGuard],
+    data: { roles: ["customer", "admin"] },
+    children: [
+      { path: "", redirectTo: "purchase", pathMatch: "full" },
+      {
+        path: "purchase",
+        component: PurchaseComponent,
+        title: "Đơn hàng",
+        data: { breadcrumb: "Đơn hàng" },
+      },
+      {
+        path: "edit",
+        component: EditProfileComponent,
+        title: "Chỉnh sửa thông tin",
+        data: { breadcrumb: "Chỉnh sửa thông tin" },
+      },
+      {
+        path: "change-pw",
+        component: ChangePwComponent,
+        title: "Thay đổi mật khẩu",
+        data: { breadcrumb: "Thay đổi mật khẩu" },
+      },
+    ],
+  },
+  {
     path: "verify-email",
     loadComponent: () =>
       import("./pages/verify-email/verify-email.component").then(
@@ -39,7 +70,7 @@ const routerOptions: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], // ✅ Đúng cho module con
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class ClientRoutingModule {}

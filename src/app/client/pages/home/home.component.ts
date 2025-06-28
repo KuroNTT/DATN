@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
 import { IProduct } from "../../../core/models/structureData";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 @Component({
   selector: "app-home",
@@ -55,16 +54,14 @@ export class HomeComponent implements AfterViewInit {
 
   product_arr: IProduct[] = [];
 
-  constructor(private http: HttpClient) {}
-
   ngOnInit(): void {
-    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
-      next: (data) => {
-        this.product_arr = data.slice(0, 8);
-      },
-      error: (error) => {
-        console.error("Lỗi khi gọi API:", error);
-      },
+    fetch(`http://localhost:3000/api/products`).then((res) => {
+      res
+        .json()
+        .then((data) => (this.product_arr = data as IProduct[]).slice(0, 8))
+        .catch((error) =>
+          console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
+        );
     });
   }
 

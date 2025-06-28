@@ -124,7 +124,6 @@ exports.signIn = async (req, res) => {
   }
 
   // Tạo token
-  const fs = require("fs");
   const PRIVATE_KEY = process.env.JWT_SECRET;
   const jwt = require("jsonwebtoken");
   const payload = { id: user.id, email: user.email }; // Nội dung token
@@ -170,4 +169,123 @@ exports.verifyEmail = async (req, res) => {
       .status(400)
       .json({ message: "Token không hợp lệ hoặc đã hết hạn." });
   }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    //console.log("Token resolved user:", req.user); // kiểm tra user có tồn tại không
+    const user = await UserModel.findByPk(req.user.id, {
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "phone",
+        "sex",
+        "address",
+        "email_verify_at",
+      ],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Lỗi khi lấy thông tin người dùng:", err); // ✅ log lỗi chi tiết
+    res.status(500).json({ message: "Lỗi khi lấy thông tin người dùng" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id; // lấy từ middleware giải mã token
+
+    // Các field được cho phép cập nhật
+    const { name, phone, sex, address } = req.body;
+
+    // Tìm user
+    const user = await UserModel.findByPk(userId);
+    if (!user)
+      return res.status(404).json({ message: "Không tìm thấy người dùng" });
+
+    // Cập nhật
+    user.name = name;
+    user.phone = phone;
+    user.sex = sex;
+    user.address = address;
+
+    await user.save();
+
+    // Trả về thông tin mới
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      sex: user.sex,
+      address: user.address,
+      email_verify_at: user.email_verify_at,
+    });
+  } catch (err) {
+    console.error("❌ Lỗi cập nhật:", err);
+    res.status(500).json({ message: "Lỗi máy chủ khi cập nhật" });
+  }
+};
+
+exports.changePw = async (req, res) => {
+  const { pass_old, passnew1, passnew2 } = req.body;
+  const authHeader = req.headers["authorization"];
+  if (!authHeader)
+    return res.status(403).json({ thong_bao: "Token không hợp lệ" });
+
+  const token = authHeader.split(" ")[1];
+  const PRIVATE_KEY = process.env.JWT_SECRET;
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, PRIVATE_KEY);
+  } catch (err) {
+    return res
+      .status(403)
+      .json({ thong_bao: "Token hết hạn hoặc không hợp lệ" });
+  }
+
+  const id = decoded.id;
+  const user = await UserModel.findByPk(id);
+  if (!user)
+    return res.status(404).json({ thong_bao: "Không tìm thấy người dùng" });
+
+  const pw_db = user.password;
+  const isMatch = bcrypt.compareSync(pass_old, pw_db);
+  if (!isMatch) {
+    return res.status(403).json({
+      error: true,
+      field: "pass_old",
+      message: "Mật khẩu cũ không đúng",
+    });
+  }
+
+  if (passnew1 !== passnew2) {
+    return res.json({
+      error: true,
+      field: "passnew2",
+      message: "Hai mật khẩu không khớp",
+    });
+  }
+  if (!passnew1 || passnew1 !== passnew2)
+    return res.json({ thong_bao: "Hai mật khẩu mới không khớp hoặc rỗng" });
+
+  const isSameAsOld = bcrypt.compareSync(passnew1, pw_db);
+  if (isSameAsOld) {
+    return res.status(400).json({
+      error: true,
+      field: "passnew1",
+      message: "Mật khẩu mới không được giống mật khẩu cũ",
+    });
+  }
+  const mk_mahoa = bcrypt.hashSync(passnew1, bcrypt.genSaltSync(10));
+  await UserModel.update({ password: mk_mahoa }, { where: { id } });
+
+  res.status(200).json({ thong_bao: "Đã thay đổi mật khẩu thành công" });
 };

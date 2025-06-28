@@ -14,6 +14,13 @@ const app = express();
 
 // 5. Cấu hình middleware toàn cục
 app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4200", // hoặc '*'
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ thêm Authorization
+  })
+);
 app.use(express.json());
 
 // 6. Kết nối và đồng bộ CSDL
@@ -34,6 +41,8 @@ app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/orders", require("./src/routes/order.routes"));
 app.use("/api/cart", require("./src/routes/cart.routes"));
 app.use("/api/sizes", require("./src/routes/size.routes"));
+const authRouter = require("./src/routes/auth.routes");
+app.use("/api/user", authRouter);
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {
   res.send("🚀 Welcome to TVM Shoes API");

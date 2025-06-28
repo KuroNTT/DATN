@@ -49,6 +49,7 @@
           </div>
         </div>
 
+        <!-- Lọc hãng -->
         <div
           class="flex items-center justify-between cursor-pointer mt-4"
           (click)="toggleBrandFilter()"
@@ -76,6 +77,7 @@
           </div>
         </div>
 
+        <!-- Lọc loại -->
         <div
           class="flex items-center justify-between cursor-pointer mt-4"
           (click)="toggleSexFilter()"
@@ -116,10 +118,10 @@
               <div
                 class="w-full aspect-square mb-4 overflow-hidden relative group"
               >
-                <a href="/product-detail/{{ product.slug }}">
+                <a [routerLink]="['/product-detail', product.slug]">
                   <img
                     class="product-image w-full h-full object-cover"
-                    src="{{ product.image }}"
+                    [src]="product.image"
                     alt="{{ product.name }}"
                   />
                 </a>

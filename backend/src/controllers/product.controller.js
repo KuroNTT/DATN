@@ -5,6 +5,8 @@ const ProductVariantModel = require("../models/ProductVariant");
 const ProductImageModel = require("../models/ProductImage");
 const CategoryModel = require("../models/Category");
 const ColorModel = require("../models/Color");
+const VariantSizeModel = require("../models/VariantSize");
+const SizeModel = require("../models/Size");
 
 exports.getAllProducts = async (req, res) => {
   const products = await ProductModel.findAll({
@@ -33,6 +35,18 @@ exports.getProductBySlug = async (req, res) => {
         include: [
           { model: ProductImageModel, as: "images" },
           { model: ColorModel, as: "color" },
+          {
+            model: VariantSizeModel,
+            as: "product_variant_sizes",
+            attributes: ["stock"],
+            include: [
+              {
+                model: SizeModel,
+                as: "size",
+                attributes: ["id", "size"],
+              },
+            ],
+          },
         ],
       },
       {

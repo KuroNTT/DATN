@@ -3,7 +3,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
-import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-cart",
