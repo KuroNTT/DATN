@@ -29,16 +29,31 @@ const routes: Routes = [
   { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
   {
-    path: 'profile',
+    path: "profile",
     component: ProfileComponent,
     canActivate: [authGuard],
-    data: { roles: ['customer', 'admin'] },
+    data: { roles: ["customer", "admin"] },
     children: [
-      { path: '', redirectTo: 'purchase', pathMatch: 'full' },
-      { path: 'purchase', component: PurchaseComponent, title: "Đơn hàng", data: { breadcrumb: 'Đơn hàng' } },
-      { path: 'edit', component: EditProfileComponent, title: "Chỉnh sửa thông tin", data: { breadcrumb: 'Chỉnh sửa thông tin' } },
-      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' } }
-    ]
+      { path: "", redirectTo: "purchase", pathMatch: "full" },
+      {
+        path: "purchase",
+        component: PurchaseComponent,
+        title: "Đơn hàng",
+        data: { breadcrumb: "Đơn hàng" },
+      },
+      {
+        path: "edit",
+        component: EditProfileComponent,
+        title: "Chỉnh sửa thông tin",
+        data: { breadcrumb: "Chỉnh sửa thông tin" },
+      },
+      {
+        path: "change-pw",
+        component: ChangePwComponent,
+        title: "Thay đổi mật khẩu",
+        data: { breadcrumb: "Thay đổi mật khẩu" },
+      },
+    ],
   },
   {
     path: "verify-email",
@@ -55,7 +70,7 @@ const routerOptions: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], 
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ClientRoutingModule { }
+export class ClientRoutingModule {}

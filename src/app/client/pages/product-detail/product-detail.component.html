@@ -57,13 +57,18 @@
               <button
                 *ngFor="let product_v of product_variant_arr"
                 (click)="onSelectVariant(product_v)"
-                class="focus:outline-none"
+                class="relative ml-1"
               >
                 <img
                   [src]="product_v.image_url"
-                  alt=""
-                  class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded cursor-pointer"
-                  [class.border-blue-500]="selectedVariant?.id === product_v.id"
+                  alt="{{ product_v.style_code }}"
+                  class="w-[50px] h-[50px] sm:w-[70px] sm:h-[70px] object-cover rounded cursor-pointer border"
+                  [ngClass]="{
+                    'border-blue-300 ring-1 ring-blue-400':
+                      selectedVariant?.id === product_v.id,
+                    'border-gray-300 hover:ring-1 hover:ring-gray-200':
+                      selectedVariant?.id !== product_v.id
+                  }"
                 />
               </button>
             </div>
@@ -80,8 +85,9 @@
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
                 <button
-                  href=""
-                  class="btn-size btn-effect text-center"
+                  class="btn-size"
+                  [class.bg-black]="selectedSize?.size === size.size"
+                  [class.text-white]="selectedSize?.size === size.size"
                   *ngFor="let size of size_arr"
                   (click)="onSelectSize(size)"
                 >
@@ -90,6 +96,8 @@
               </div>
               <div class="button mb-4">
                 <button
+                  type="button"
+                  (click)="addToCart()"
                   class="w-full py-3 rounded-full shadow my-4 text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Thêm vào giỏ hàng

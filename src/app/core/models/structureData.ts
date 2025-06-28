@@ -23,6 +23,7 @@ export interface IProduct {
   created_at: string;
   update_at: string;
   variants: IProductVariant[];
+  style_code?: string;
   category?: ICategory;
 }
 
@@ -43,7 +44,7 @@ export interface IProductVariant {
   images: IProductImage[];
   color?: IColor;
   size?: ISize;
-  product_variant_sizes?: IProductVariantSize[];
+  product_variant_sizes: IProductVariantSize[];
 }
 
 export interface IProductImage {
