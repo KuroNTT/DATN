@@ -125,7 +125,7 @@ exports.signIn = async (req, res) => {
 
   // Tạo token
   const fs = require("fs");
-  const PRIVATE_KEY = fs.readFileSync("../../private-key.txt");
+  const PRIVATE_KEY = process.env.JWT_SECRET;
   const jwt = require("jsonwebtoken");
   const payload = { id: user.id, email: user.email }; // Nội dung token
   const maxAge = "1h";

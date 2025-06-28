@@ -60,18 +60,14 @@ export class CartComponent {
 
   product_arr: IProduct[] = [];
 
-  constructor(private http: HttpClient) {}
-
   ngOnInit(): void {
-    this.http
-      .get<IProduct[]>("http://localhost:3000/api/most-view-product/products")
-      .subscribe({
-        next: (data) => {
-          this.product_arr = data;
-        },
-        error: (error) => {
-          console.error("Lỗi khi gọi API:", error);
-        },
-      });
+    fetch(`http://localhost:3000/api/products/most-view/products`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.product_arr = data as IProduct[];
+      })
+      .catch((error) =>
+        console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
+      );
   }
 }

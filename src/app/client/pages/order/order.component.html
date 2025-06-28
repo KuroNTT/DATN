@@ -1,195 +1,220 @@
-<nav class="bg-gray-100 px-4 py-2 text-sm w-[80%] mx-auto mt-4">
-    <ol class="flex items-center space-x-1 text-gray-700">
-        <li>
-            <a href="#" class="hover:underline">Trang chủ</a>
-        </li>
-        <li>
-            <span class="mx-1 text-gray-500">›</span>
-        </li>
-        <li>
-            <a href="#" class="hover:underline">Giỏ hàng</a>
-        </li>
-        <li>
-            <span class="mx-1 text-gray-500">›</span>
-        </li>
-        <li class="text-black font-medium">Đơn hàng</li>
-    </ol>
-</nav>
-<div class="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 gap-8 w-[80%]">
-    <!-- Thông tin giao hàng -->
-    <div>
-        <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
-        <p class="mb-4">Bạn đã có tài khoản ? <a href="#" class="text-blue-500 font-medium hover:underline">Đăng
-                nhập</a></p>
-        <form class="space-y-4">
-            <mat-form-field class="w-full rounded">
-                <mat-label>Họ và tên</mat-label>
-                <input matInput placeholder="Nhập họ tên">
-            </mat-form-field>
+<div class="breadcrumb flex justify-center py-[12px] px-4 sm:px-0">
+  <div class="container">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">Giỏ hàng</span></a
+    >
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">Đơn hàng</span></a
+    >
+  </div>
+</div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <mat-form-field>
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email">
-                </mat-form-field>
+<div
+  class="container mx-auto px-4 sm:px-0 py-6 grid grid-cols-1 md:grid-cols-2 gap-8"
+>
+  <!-- Thông tin giao hàng -->
+  <div>
+    <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
+    <p class="mb-4">
+      Bạn đã có tài khoản ?
+      <a href="#" class="text-blue-500 font-medium hover:underline"
+        >Đăng nhập</a
+      >
+    </p>
+    <form class="space-y-4">
+      <mat-form-field class="w-full rounded">
+        <mat-label>Họ và tên</mat-label>
+        <input matInput placeholder="Nhập họ tên" />
+      </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>Điện thoại</mat-label>
-                    <input matInput type="tel">
-                </mat-form-field>
-            </div>
+      <div class="grid grid-cols-2 gap-4">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" />
+        </mat-form-field>
 
-            <mat-form-field class="w-full">
-                <mat-label>Địa chỉ</mat-label>
-                <input matInput>
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Điện thoại</mat-label>
+          <input matInput type="tel" />
+        </mat-form-field>
+      </div>
 
-            <div class="grid grid-cols-3 gap-4">
-                <mat-form-field>
-                    <mat-label>Tỉnh / Thành</mat-label>
-                    <mat-select>
-                        <mat-option value="">Chọn</mat-option>
-                    </mat-select>
-                </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Địa chỉ</mat-label>
+        <input matInput />
+      </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>Quận / Huyện</mat-label>
-                    <mat-select>
-                        <mat-option>Chọn</mat-option>
-                        <mat-option value="">Chọn</mat-option>
-                        <mat-option value="">Chọn</mat-option>
-                    </mat-select>
-                </mat-form-field>
+      <div class="grid grid-cols-3 gap-4">
+        <mat-form-field>
+          <mat-label>Tỉnh / Thành</mat-label>
+          <mat-select>
+            <mat-option value="">Chọn</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>Phường / Xã</mat-label>
-                    <mat-select>
-                        <mat-option value="">Chọn</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="mt-6">
-                <h2 class="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
+        <mat-form-field>
+          <mat-label>Quận / Huyện</mat-label>
+          <mat-select>
+            <mat-option>Chọn</mat-option>
+            <mat-option value="">Chọn</mat-option>
+            <mat-option value="">Chọn</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-                <mat-radio-group class="flex flex-col gap-4">
-                    <mat-radio-button class="flex items-center gap-3" value="cod">
-                        <span>Thanh toán khi nhận hàng (COD)</span>
-                    </mat-radio-button>
+        <mat-form-field>
+          <mat-label>Phường / Xã</mat-label>
+          <mat-select>
+            <mat-option value="">Chọn</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mt-6">
+        <h2 class="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
 
-                    <mat-radio-button class="flex items-center gap-3" value="bank">
-                        <span>Chuyển khoản ngân hàng</span>
-                    </mat-radio-button>
-                </mat-radio-group>
-            </div>
+        <mat-radio-group class="flex flex-col gap-4">
+          <mat-radio-button class="flex items-center gap-3" value="cod">
+            <span>Thanh toán khi nhận hàng (COD)</span>
+          </mat-radio-button>
 
+          <mat-radio-button class="flex items-center gap-3" value="bank">
+            <span>Chuyển khoản ngân hàng</span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <button
+        class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer"
+      >
+        Thanh toán
+      </button>
+    </form>
+
+    <a
+      href="#"
+      class="text-blue-600 font-semibold py-2 inline-block hover:underline"
+      ><i class="fa-solid fa-arrow-left"></i> Quay lại giỏ hàng</a
+    >
+  </div>
+
+  <!-- Chi tiết sản phẩm -->
+  <div>
+    <h2 class="text-2xl font-bold mb-4">Chi tiết sản phẩm</h2>
+    <div class="space-y-4">
+      <!-- Sản phẩm -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <img
+            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
+            class="w-14 h-14 object-cover"
+            alt="sp"
+          />
+          <p class="text-sm">Tên sản phẩm...</p>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-medium">2,499,000 VND</p>
+          <div class="flex items-center space-x-2">
             <button
-                class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer">
-                Thanh toán
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              −
             </button>
-
-        </form>
-
-        <a href="#" class="text-blue-600 font-semibold py-2 inline-block hover:underline"><i
-                class="fa-solid fa-arrow-left"></i>
-            Quay lại giỏ hàng</a>
+            <span class="w-6 text-center">x1</span>
+            <button
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <img
+            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
+            class="w-14 h-14 object-cover"
+            alt="sp"
+          />
+          <p class="text-sm">Tên sản phẩm...</p>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-medium">2,499,000 VND</p>
+          <div class="flex items-center space-x-2">
+            <button
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              −
+            </button>
+            <span class="w-6 text-center">x1</span>
+            <button
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <img
+            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
+            class="w-14 h-14 object-cover"
+            alt="sp"
+          />
+          <p class="text-sm">Tên sản phẩm...</p>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-medium">2,499,000 VND</p>
+          <div class="flex items-center space-x-2">
+            <button
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              −
+            </button>
+            <span class="w-6 text-center">x1</span>
+            <button
+              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Chi tiết sản phẩm -->
-    <div>
-        <h2 class="text-2xl font-bold mb-4">Chi tiết sản phẩm</h2>
-        <div class="space-y-4">
-            <!-- Sản phẩm -->
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
-                        class="w-14 h-14 object-cover" alt="sp">
-                    <p class="text-sm">Tên sản phẩm...</p>
-                </div>
-                <div class="text-right text-sm">
-                    <p class="font-medium">2,499,000 VND</p>
-                    <div class="flex items-center space-x-2">
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            −
-                        </button>
-                        <span class="w-6 text-center">x1</span>
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            +
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
-                        class="w-14 h-14 object-cover" alt="sp">
-                    <p class="text-sm">Tên sản phẩm...</p>
-                </div>
-                <div class="text-right text-sm">
-                    <p class="font-medium">2,499,000 VND</p>
-                    <div class="flex items-center space-x-2">
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            −
-                        </button>
-                        <span class="w-6 text-center">x1</span>
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            +
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <img src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
-                        class="w-14 h-14 object-cover" alt="sp">
-                    <p class="text-sm">Tên sản phẩm...</p>
-                </div>
-                <div class="text-right text-sm">
-                    <p class="font-medium">2,499,000 VND</p>
-                    <div class="flex items-center space-x-2">
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            −
-                        </button>
-                        <span class="w-6 text-center">x1</span>
-                        <button
-                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200">
-                            +
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mã giảm giá -->
-        <div class="flex mt-6 gap-2">
-            <mat-form-field class="flex-grow">
-                <mat-label>Mã giảm giá</mat-label>
-                <input matInput>
-            </mat-form-field>
-            <button
-                class="bg-black text-white px-6 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer h-14">
-                Áp dụng
-            </button>
-        </div>
-
-        <!-- Tổng tiền -->
-        <div class="border-t mt-6 pt-4 text-sm space-y-2">
-            <div class="flex justify-between">
-                <span>Tạm tính:</span>
-                <span>7,497,000 VND</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Phí vận chuyển:</span>
-                <span>---</span>
-            </div>
-            <div class="flex justify-between border-t pt-2 font-semibold">
-                <span>Tổng cộng:</span>
-                <span>7,497,000 VND</span>
-            </div>
-        </div>
+    <!-- Mã giảm giá -->
+    <div class="flex mt-6 gap-2">
+      <mat-form-field class="flex-grow">
+        <mat-label>Mã giảm giá</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <button
+        class="bg-black text-white px-6 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer h-14"
+      >
+        Áp dụng
+      </button>
     </div>
+
+    <!-- Tổng tiền -->
+    <div class="border-t mt-6 pt-4 text-sm space-y-2">
+      <div class="flex justify-between">
+        <span>Tạm tính:</span>
+        <span>7,497,000 VND</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Phí vận chuyển:</span>
+        <span>---</span>
+      </div>
+      <div class="flex justify-between border-t pt-2 font-semibold">
+        <span>Tổng cộng:</span>
+        <span>7,497,000 VND</span>
+      </div>
+    </div>
+  </div>
 </div>

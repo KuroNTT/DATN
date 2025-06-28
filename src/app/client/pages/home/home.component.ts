@@ -60,7 +60,7 @@ export class HomeComponent implements AfterViewInit {
   ngOnInit(): void {
     this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
       next: (data) => {
-        this.product_arr = data;
+        this.product_arr = data.slice(0, 8);
       },
       error: (error) => {
         console.error("Lỗi khi gọi API:", error);

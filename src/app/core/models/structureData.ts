@@ -23,6 +23,7 @@ export interface IProduct {
   created_at: string;
   update_at: string;
   variants: IProductVariant[];
+  category?: ICategory;
 }
 
 export interface IProductVariant {
@@ -34,6 +35,8 @@ export interface IProductVariant {
   status: number;
   created_at: string;
   updated_at: string;
+  images: IProductImage[];
+  color?: IColor;
 }
 
 export interface IProductImage {
@@ -42,4 +45,17 @@ export interface IProductImage {
   image_url: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface ISize {
+  id: number;
+  size: number;
+  created_at: string;
+  update_at: string;
+}
+export interface IColor {
+  id: number;
+  color_name: string;
+  original_name: string;
+  description: string;
 }
