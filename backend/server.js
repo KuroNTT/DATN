@@ -42,6 +42,9 @@ app.use("/api/orders", require("./src/routes/order.routes"));
 app.use("/api/sizes", require("./src/routes/size.routes"));
 const authRouter = require("./src/routes/auth.routes");
 app.use("/api/user", authRouter);
+const blogRoutes = require("./src/routes/blog.routes");
+app.use("/api/blogs", blogRoutes);
+
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {
   res.send("🚀 Welcome to TVM Shoes API");

@@ -1,10 +1,11 @@
 import { Component } from "@angular/core";
 import { NgClass, CommonModule } from "@angular/common";
 import { ICategory, IProduct } from "../../../core/models/structureData";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-product",
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterModule],
   templateUrl: "./product.component.html",
   styleUrls: ["./product.component.css"],
 })

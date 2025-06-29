@@ -16,6 +16,10 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ProductDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
+  // Helper chung
+  private extractSizes(variant: IProductVariant): ISize[] {
+    return (variant.product_variant_sizes || []).map((pvs) => pvs.size);
+  }
 
   /** ---------------- State hiển thị mô tả dài / ngắn ---------------- */
   showFullText = false;
@@ -50,9 +54,15 @@ export class ProductDetailComponent implements OnInit {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
       );
 
-    this.slug = String(this.route.snapshot.paramMap.get("slug"));
+    // Lắng nghe thay đổi của route param
+    this.route.paramMap.subscribe((params) => {
+      this.slug = String(params.get("slug"));
+      this.loadProductDetail(this.slug);
+    });
+  }
 
-    fetch(`http://localhost:3000/api/products/${this.slug}`)
+  loadProductDetail(slug: string) {
+    fetch(`http://localhost:3000/api/products/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         this.product = data.product as IProduct;
@@ -60,7 +70,12 @@ export class ProductDetailComponent implements OnInit {
         /* --------- Biến thể & size --------- */
         this.product_variant_arr = this.product.variants;
         this.selectedVariant = this.product_variant_arr[0] ?? null;
-        this.size_arr = (this.selectedVariant?.size || []) as ISize[];
+
+        // ✅ Lấy size từ product_variant_sizes
+        this.size_arr = this.selectedVariant
+          ? this.extractSizes(this.selectedVariant)
+          : [];
+        this.selectedSize = null;
 
         if (this.product_variant_arr?.[0]?.images?.length > 0) {
           this.imgList = this.product_variant_arr[0].images.map(
@@ -70,11 +85,6 @@ export class ProductDetailComponent implements OnInit {
         }
       })
       .catch((error) => console.error("Có lỗi khi lấy sản phẩm: ", error));
-
-    fetch(`http://localhost:3000/api/sizes`)
-      .then((res) => res.json())
-      .then((data) => (this.size_arr = data as ISize[]))
-      .catch((error) => console.error("Có lỗi khi lấy dữ liệu size! ", error));
   }
 
   onClick(img: string) {
@@ -83,11 +93,50 @@ export class ProductDetailComponent implements OnInit {
 
   onSelectVariant(variant: IProductVariant) {
     this.selectedVariant = variant;
+
+    // ✅ Cập nhật size theo product_variant_sizes
+    this.size_arr = this.extractSizes(variant);
+    this.selectedSize = null;
+
+    // ✅ Cập nhật ảnh hiển thị
     this.imgList = variant.images?.map((img) => img.image_url) || [];
     this.mainImage = this.imgList[0] || "";
+
+    // ✅ Log thông tin biến thể đã chọn
+    console.log("🟦 Biến thể đã chọn:", {
+      id: variant.id,
+      style_code: variant.style_code,
+      color: variant.color?.color_name,
+    });
   }
 
   onSelectSize(size: ISize) {
     this.selectedSize = size;
+
+    console.log("🟩 Size đã chọn:", {
+      size_id: size.id,
+      size: size.size,
+      variant_id: this.selectedVariant?.id,
+    });
+  }
+
+  addToCart() {
+    if (!this.selectedVariant) {
+      alert("⚠️ Vui lòng chọn biến thể (màu sắc) trước khi thêm vào giỏ hàng!");
+      return;
+    }
+
+    if (!this.selectedSize) {
+      alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng!");
+      return;
+    }
+
+    alert(
+      `🛒 Thông tin bạn đã chọn:\n` +
+        `Sản phẩm: ${this.product.name}\n` +
+        `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
+        `Size: ${this.selectedSize.size}\n` +
+        `Số lượng: ${this.quantity}`
+    );
   }
 }

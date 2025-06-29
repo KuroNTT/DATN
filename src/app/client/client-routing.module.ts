@@ -3,7 +3,8 @@ import { RouterModule, Routes, ExtraOptions } from "@angular/router";
 import { HomeComponent } from "./pages/home/home.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { CartComponent } from "./pages/cart/cart.component";
-import { BlogComponent } from "./pages/blog/blog.component";
+import { BlogListComponent } from "./pages/blog-list/blog-list.component";
+import { BlogDetailComponent } from "./pages/blog-detail/blog-detail.component";
 import { OrderComponent } from "./pages/order/order.component";
 import { ProductComponent } from "./pages/product/product.component";
 import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
@@ -20,7 +21,9 @@ const routes: Routes = [
   { path: "", component: HomeComponent, title: "Home" },
   { path: "contact", component: ContactComponent, title: "Contact" },
   { path: "cart", component: CartComponent, title: "Cart" },
-  { path: "blog", component: BlogComponent, title: "Blog" },
+  { path: "blog", component: BlogListComponent, title: "Blog List" },
+  { path: 'blog/:id', component: BlogDetailComponent, title: "Blog Detail" },
+  { path: '', redirectTo: 'blogs', pathMatch: 'full' }, 
   { path: "order", component: OrderComponent, title: "Order" },
   { path: "product", component: ProductComponent, title: "Product" },
   {
@@ -30,19 +33,34 @@ const routes: Routes = [
   },
   { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
   { path: "sign-in", component: LogInComponent, title: "Sign In" },
-  {path:"forgot-pw", component:  ForgotPasswordComponent, title: "Quên mật khẩu"},
-  {path:"reset-pw", component: ResetPasswordComponent, title: "Đổi mật khẩu mới"},
+  { path: "forgot-pw", component: ForgotPasswordComponent, title: "Quên mật khẩu" },
+  { path: "reset-pw", component: ResetPasswordComponent, title: "Đổi mật khẩu mới" },
   {
-    path: 'profile',
+    path: "profile",
     component: ProfileComponent,
     canActivate: [authGuard],
-    data: { roles: ['customer', 'admin'] },
+    data: { roles: ["customer", "admin"] },
     children: [
-      { path: '', redirectTo: 'purchase', pathMatch: 'full' },
-      { path: 'purchase', component: PurchaseComponent, title: "Đơn hàng", data: { breadcrumb: 'Đơn hàng' } },
-      { path: 'edit', component: EditProfileComponent, title: "Chỉnh sửa thông tin", data: { breadcrumb: 'Chỉnh sửa thông tin' } },
-      { path: 'change-pw', component: ChangePwComponent, title: "Thay đổi mật khẩu", data: { breadcrumb: 'Thay đổi mật khẩu' } }
-    ]
+      { path: "", redirectTo: "purchase", pathMatch: "full" },
+      {
+        path: "purchase",
+        component: PurchaseComponent,
+        title: "Đơn hàng",
+        data: { breadcrumb: "Đơn hàng" },
+      },
+      {
+        path: "edit",
+        component: EditProfileComponent,
+        title: "Chỉnh sửa thông tin",
+        data: { breadcrumb: "Chỉnh sửa thông tin" },
+      },
+      {
+        path: "change-pw",
+        component: ChangePwComponent,
+        title: "Thay đổi mật khẩu",
+        data: { breadcrumb: "Thay đổi mật khẩu" },
+      },
+    ],
   },
   {
     path: "verify-email",
@@ -59,7 +77,7 @@ const routerOptions: ExtraOptions = {
 };
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], 
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class ClientRoutingModule { }

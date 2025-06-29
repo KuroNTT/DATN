@@ -1,0 +1,91 @@
+<!-- Breadcrumb -->
+<div
+  class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0 bg-[#f5f5f5]"
+>
+  <div class="w-full max-w-[1280px]">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer">
+      <span class="text-base font-semibold">Bài viết</span>
+    </a>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="flex justify-center px-4 sm:px-0">
+  <div class="w-full max-w-[1280px]">
+    <div class="grid grid-cols-1 lg:grid-cols-9 gap-7">
+      <!-- Sidebar lọc danh mục blog -->
+      <div class="lg:col-span-2">
+        <h3 class="text-xl font-bold mb-6">Danh mục bài viết</h3>
+        <div class="space-y-2">
+          <label
+            *ngFor="let category of category_arr"
+            (click)="filterByCategorySlug(category.slug)"
+            class="flex items-center space-x-2 cursor-pointer py-1 group select-none"
+          >
+            <input type="checkbox" class="peer hidden" />
+            <div
+              class="w-4 h-4 border-2 border-gray-400 rounded-sm peer-checked:bg-red-600 peer-checked:border-red-600 transition-all duration-200"
+            ></div>
+            <span
+              class="text-sm text-gray-800 peer-checked:text-red-600 group-hover:underline"
+            >
+              {{ category?.name }}
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Danh sách blog -->
+      <div class="lg:col-span-7 space-y-6">
+        <div
+          *ngFor="let blog of blogs; let i = index"
+          class="md:flex md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
+          [ngClass]="{ 'flex-row-reverse': i % 2 !== 0 }"
+          (click)="goToBlog(blog.id)"
+        >
+          <!-- Ảnh -->
+          <img
+            [src]="blog.thumbnail"
+            class="w-full h-auto md:w-1/2 h-[360px] object-cover group-hover:scale-105 transition duration-500 ease-in-out"
+          />
+
+          <!-- Nội dung -->
+          <div
+            class="flex flex-col justify-center md:w-1/2 p-6 space-y-4"
+            style="
+              background: linear-gradient(
+                90deg,
+                rgba(196, 196, 196, 1) 20%,
+                rgba(255, 255, 255, 1) 80%
+              );
+            "
+          >
+            <span
+              class="text-sm text-red-600 font-semibold uppercase tracking-wide"
+            >
+              {{ blog.category?.name }}
+            </span>
+
+            <h2 class="text-3xl font-bold text-brown-800 uppercase">
+              {{ blog.title }}
+            </h2>
+
+            <p class="text-sm text-gray-800 leading-relaxed">
+              {{ getPreviewText(blog.content, 120) }}
+            </p>
+
+            <button
+              class="w-[50%] md:w-[30%] p-2 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+            >
+              XEM CHI TIẾT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,9 @@ const ColorModel = require("./Color");
 const SizeModel = require("./Size");
 const VariantSizeModel = require("./VariantSize");
 
+const BlogModel = require("./Blog");
+const BlogCategoryModel = require("./BlogCategory");
+
 /** 1. Một sản phẩm có nhiều biến thể */
 ProductModel.hasMany(ProductVariantModel, {
   foreignKey: "product_id",
@@ -65,3 +68,16 @@ SizeModel.hasMany(VariantSizeModel, {
   foreignKey: "size_id",
   as: "variant_sizes",
 });
+
+
+// Thiết lập mối quan hệ blog + cate
+BlogModel.belongsTo(BlogCategoryModel, {
+  foreignKey: "category_id",
+  as: "category",
+});
+
+BlogCategoryModel.hasMany(BlogModel, {
+  foreignKey: "category_id",
+  as: "blogs",
+});
+
