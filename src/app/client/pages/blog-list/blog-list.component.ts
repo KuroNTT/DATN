@@ -16,7 +16,7 @@ export class BlogListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchAllBlogs();
-    this.fetchCategories(); // ✅ Gọi hàm load danh mục
+  this.fetchCategories();     // ✅ Phải có dòng này!
   }
 
   fetchAllBlogs(): void {
@@ -47,12 +47,22 @@ export class BlogListComponent implements OnInit {
     return div.textContent?.substring(0, maxLength) + '...' || '';
   }
 
-  filterByCategorySlug(slug: string): void {
-    fetch(`http://localhost:3000/api/blogs/category/${slug}`)
-      .then(res => res.json())
-      .then(data => {
-        this.blogs = data;
-      })
-      .catch(err => console.error(err));
-  }
+ selectedCategorySlug: string = ''; // Theo dõi danh mục đang chọn
+
+filterByCategorySlug(slug: string): void {
+  this.selectedCategorySlug = slug;
+
+  fetch(`http://localhost:3000/api/blogs/category/${slug}`)
+    .then(res => res.json())
+    .then(data => {
+      this.blogs = data;
+    })
+    .catch(err => console.error(err));
+}
+
+selectAllCategories(): void {
+  this.selectedCategorySlug = ''; // Bỏ chọn tất cả
+  this.fetchAllBlogs();           // Gọi lại toàn bộ blog
+}
+
 }
