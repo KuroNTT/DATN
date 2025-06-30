@@ -15,6 +15,9 @@
       <!-- Lọc -->
       <div class="lg:col-span-2">
         <h3 class="text-xl font-bold mb-6">Bộ lọc tìm kiếm</h3>
+        <div class="border-t border-gray-200 my-4"></div>
+
+        <!-- Lọc giá -->
         <div
           class="flex items-center justify-between cursor-pointer mt -6"
           (click)="togglePriceFilter()"
@@ -48,6 +51,7 @@
             >
           </div>
         </div>
+        <div class="border-t border-gray-200 my-4"></div>
 
         <!-- Lọc hãng -->
         <div
@@ -76,6 +80,7 @@
             <label class="block"><input type="checkbox" /> Puma</label>
           </div>
         </div>
+        <div class="border-t border-gray-200 my-4"></div>
 
         <!-- Lọc loại -->
         <div
@@ -104,6 +109,7 @@
             >
           </div>
         </div>
+        <div class="border-t border-gray-200 my-4"></div>
       </div>
 
       <!-- Sản phẩm -->
@@ -145,7 +151,7 @@
                 <span>{{ product.category?.name }}</span>
               </div>
               <div class="product_price text-red-500 font-bold text-base">
-                {{ product.price | number : "1.0-0" }}đ
+                {{ product.price_sale | number : "1.0-0" }}đ
               </div>
             </div>
           </div>

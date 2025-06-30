@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes, ExtraOptions } from "@angular/router";
+import { ClientLayoutComponent } from "../layouts/client-layout/client-layout/client-layout.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { CartComponent } from "./pages/cart/cart.component";
@@ -14,53 +15,66 @@ import { EditProfileComponent } from "./pages/profile/edit-profile/edit-profile.
 import { ChangePwComponent } from "./pages/profile/change-pw/change-pw.component";
 import { PurchaseComponent } from "./pages/profile/purchase/purchase.component";
 import { authGuard } from "../core/guards/auth.guard";
+import { ProductWishlistComponent } from "./pages/product-wishlist/product-wishlist.component";
+
 const routes: Routes = [
-  { path: "", component: HomeComponent, title: "Home" },
-  { path: "contact", component: ContactComponent, title: "Contact" },
-  { path: "cart", component: CartComponent, title: "Cart" },
-  { path: "blog", component: BlogComponent, title: "Blog" },
-  { path: "order", component: OrderComponent, title: "Order" },
-  { path: "product", component: ProductComponent, title: "Product" },
   {
-    path: "product-detail/:slug",
-    component: ProductDetailComponent,
-    title: "Product Detail",
-  },
-  { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
-  { path: "sign-in", component: LogInComponent, title: "Sign In" },
-  {
-    path: "profile",
-    component: ProfileComponent,
-    canActivate: [authGuard],
-    data: { roles: ["customer", "admin"] },
+    path: "",
+    component: ClientLayoutComponent,
     children: [
-      { path: "", redirectTo: "purchase", pathMatch: "full" },
+      { path: "", component: HomeComponent, title: "Home", pathMatch: "full" },
+      { path: "contact", component: ContactComponent, title: "Contact" },
+      { path: "cart", component: CartComponent, title: "Cart" },
+      { path: "blog", component: BlogComponent, title: "Blog" },
+      { path: "order", component: OrderComponent, title: "Order" },
+      { path: "product", component: ProductComponent, title: "Product" },
       {
-        path: "purchase",
-        component: PurchaseComponent,
-        title: "Đơn hàng",
-        data: { breadcrumb: "Đơn hàng" },
+        path: "product-detail/:slug",
+        component: ProductDetailComponent,
+        title: "Product Detail",
       },
       {
-        path: "edit",
-        component: EditProfileComponent,
-        title: "Chỉnh sửa thông tin",
-        data: { breadcrumb: "Chỉnh sửa thông tin" },
+        path: "product-wishlist",
+        component: ProductWishlistComponent,
+        title: "Product Wishlist",
+      },
+      { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
+      { path: "sign-in", component: LogInComponent, title: "Sign In" },
+      {
+        path: "profile",
+        component: ProfileComponent,
+        canActivate: [authGuard],
+        data: { roles: ["customer", "admin"] },
+        children: [
+          { path: "", redirectTo: "purchase", pathMatch: "full" },
+          {
+            path: "purchase",
+            component: PurchaseComponent,
+            title: "Đơn hàng",
+            data: { breadcrumb: "Đơn hàng" },
+          },
+          {
+            path: "edit",
+            component: EditProfileComponent,
+            title: "Chỉnh sửa thông tin",
+            data: { breadcrumb: "Chỉnh sửa thông tin" },
+          },
+          {
+            path: "change-pw",
+            component: ChangePwComponent,
+            title: "Thay đổi mật khẩu",
+            data: { breadcrumb: "Thay đổi mật khẩu" },
+          },
+        ],
       },
       {
-        path: "change-pw",
-        component: ChangePwComponent,
-        title: "Thay đổi mật khẩu",
-        data: { breadcrumb: "Thay đổi mật khẩu" },
+        path: "verify-email",
+        loadComponent: () =>
+          import("./pages/verify-email/verify-email.component").then(
+            (m) => m.VerifyEmailComponent
+          ),
       },
     ],
-  },
-  {
-    path: "verify-email",
-    loadComponent: () =>
-      import("./pages/verify-email/verify-email.component").then(
-        (m) => m.VerifyEmailComponent
-      ),
   },
 ];
 
