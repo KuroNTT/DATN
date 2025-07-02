@@ -1,43 +1,50 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-verify-email",
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
-  templateUrl: "./verify-email.component.html",
-  styleUrls: ["./verify-email.component.css"],
+  imports: [CommonModule],
+  templateUrl: "./verify-email.component.html"
 })
 export class VerifyEmailComponent implements OnInit {
   message: string = "";
   isSuccess = false;
   isError = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get("token");
+
     if (!token) {
       this.message = "Không tìm thấy token";
       this.isError = true;
       return;
     }
-    console.log("Đang gửi token:", token);
 
-    this.http
-      .post("http://localhost:3000/api/verify-email", { token })
-      .subscribe({
-        next: (res: any) => {
-          this.message = res.message || "Xác thực thành công.";
-          this.isSuccess = true;
-        },
-        error: (err) => {
-          this.message =
-            err.error?.message || "Token không hợp lệ hoặc đã hết hạn.";
-          this.isError = true;
-        },
+    // Dùng Fetch API thay vì HttpClient
+    fetch("http://localhost:3000/api/auth/verify-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw data;
+        }
+
+        this.message = data.message || "Xác thực thành công.";
+        this.isSuccess = true;
+      })
+      .catch((err) => {
+        this.message = err?.message || "Token không hợp lệ hoặc đã hết hạn.";
+        this.isError = true;
       });
   }
 }

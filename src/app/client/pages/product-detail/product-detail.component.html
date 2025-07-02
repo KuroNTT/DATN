@@ -48,8 +48,35 @@
             <p class="font-semibold text-gray-600">
               {{ product.category?.name }}
             </p>
-            <div class="flex flex-wrap items-center text-2xl my-5 gap-4">
-              <h4 class="font-bold">{{ product.price | number : "1.0-0" }}đ</h4>
+            <div class="flex flex-wrap items-center text-2xl my-5 gap-6">
+              <ng-container
+                *ngIf="
+                  product.price_sale && product.price_sale < product.price;
+                  else noSale
+                "
+              >
+                <h4 class="font-bold text-black-600">
+                  {{ product.price_sale | number : "1.0-0" }}đ
+                </h4>
+
+                <del class="font-semibold text-lg text-gray-500">
+                  {{ product.price | number : "1.0-0" }}đ
+                </del>
+
+                <span class="font-semibold text-green-500 text-lg">
+                  Giảm
+                  {{
+                    ((product.price - product.price_sale) / product.price) * 100
+                      | number : "1.0-0"
+                  }}%
+                </span>
+              </ng-container>
+
+              <ng-template #noSale>
+                <h4 class="font-bold">
+                  {{ product.price_sale | number : "1.0-0" }}đ
+                </h4>
+              </ng-template>
             </div>
 
             <p class="text-lg font-semibold">Màu sắc</p>
@@ -103,6 +130,8 @@
                   Thêm vào giỏ hàng
                 </button>
                 <button
+                  type="button"
+                  (click)="addToWishlist()"
                   class="w-full py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Yêu thích
@@ -250,11 +279,6 @@
                   alt="{{ product.name }}"
                 />
               </a>
-
-              <!-- Icon yêu thích -->
-              <div class="product-wish-list">
-                <i></i>
-              </div>
             </div>
 
             <!-- Product info -->
@@ -265,7 +289,7 @@
               <span>{{ product.category?.name }}</span>
             </div>
             <div class="product_price text-red-500 font-bold text-lg">
-              {{ product.price | number : "1.0-0" }}đ
+              {{ product.price_sale | number : "1.0-0" }}đ
             </div>
           </div>
         </div>

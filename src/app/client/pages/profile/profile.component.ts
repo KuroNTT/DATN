@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router"; //
-import { SidebarComponent } from "./sidebar/sidebar.component";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { filter, map } from "rxjs/operators";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; //
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 @Component({
   selector: "app-profile",
   standalone: true,

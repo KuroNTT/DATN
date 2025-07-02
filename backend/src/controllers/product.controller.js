@@ -9,8 +9,16 @@ const VariantSizeModel = require("../models/VariantSize");
 const SizeModel = require("../models/Size");
 
 exports.getAllProducts = async (req, res) => {
+  const searchQuery = req.query.q || "";
   const products = await ProductModel.findAll({
-    where: { status: 1 },
+    where: {
+      status: 1,
+      ...(searchQuery && {
+        name: {
+          [Op.like]: `%${searchQuery}%`,
+        },
+      }),
+    },
     order: [["created_at", "ASC"]],
     include: [
       { model: ProductVariantModel, as: "variants" },
@@ -100,7 +108,7 @@ exports.getHotProducts = async (req, res) => {
 exports.getMostViewed = async (req, res) => {
   const count = Number(req.params.count) || 4;
   const products = await ProductModel.findAll({
-    where: { status: 1, view: { [Op.gt]: 100 } },
+    where: { status: 1, view: { [Op.gt]: 50 } },
     order: [
       ["created_at", "DESC"],
       ["id", "DESC"],
@@ -135,4 +143,17 @@ exports.getNewProducts = async (req, res) => {
     limit: count,
   });
   res.json(products);
+};
+
+exports.searchProducts = async (req, res) => {
+  const searchQuery = req.query.q || "";
+  try {
+    const [rows] = await db.execute(
+      `SELECT * FROM products WHERE name LIKE ?`,
+      [`%${searchQuery}%`]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi truy vấn database" });
+  }
 };

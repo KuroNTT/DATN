@@ -1,0 +1,121 @@
+<div class="w-full min-h-screen flex items-center justify-center">
+  <div
+    class="w-full max-w-5xl flex flex-col rounded-lg md:flex-row md:gap-0 shadow-[0_0_20px_rgba(0,0,0,0.1)]"
+  >
+    <!-- Cột bên trái với hình ảnh và mô tả -->
+    <div
+      class="w-full md:w-1/2 relative order-2 md:order-1 h-[500px] md:h-[600px] rounded-b-lg md:rounded-r-none md:rounded-l-lg overflow-hidden"
+    >
+      <img
+        src="images/colforgetpw.png"
+        alt="Background"
+        class="absolute inset-0 w-full h-full object-cover opacity-70"
+      />
+      <div
+        class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white text-center px-4"
+      >
+        <img
+          src="images/Logolinewhitebackblack.png"
+          alt="Logo TVM"
+          class="w-[250px] h-auto object-contain"
+        />
+        <p class="text-sm md:text-base opacity-90 drop-shadow-sm">
+          Chúng tôi không chỉ bán giày <br />
+          Chúng tôi mang đến phong cách sống – nơi mỗi bước chân là một tuyên
+          ngôn cá tính. Phong cách từ những bước chân đầu tiên.
+        </p>
+      </div>
+    </div>
+
+    <!-- Cột phải là form -->
+    <div
+      class="w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 order-1 md:order-2"
+    >
+      <form
+        (ngSubmit)="submit()"
+        #frm="ngForm"
+        class="w-[80%] max-w-md"
+        autocomplete="off"
+      >
+        <h1 class="text-3xl font-bold text-center mb-6">Đổi mật khẩu</h1>
+
+        <!-- Mật khẩu mới -->
+        <div class="min-h-[95px]">
+          <label class="block mb-1 text-sm text-gray-600">Mật khẩu mới</label>
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="new_password"
+              required
+              [(ngModel)]="newPassword"
+              [ngClass]="{
+                'border-red-500': thong_bao_new,
+                shake: invalidNew
+              }"
+              class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+            />
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black cursor-pointer"
+              (click)="togglePassword()"
+            >
+              <i
+                class="fa"
+                [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              ></i>
+            </button>
+          </div>
+          <p *ngIf="thong_bao_new" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_new }}
+          </p>
+        </div>
+
+        <!-- Xác nhận mật khẩu -->
+        <div class="min-h-[95px]">
+          <label class="block mb-1 text-sm text-gray-600">Xác nhận mật khẩu</label>
+          <div class="relative">
+            <input
+              [type]="showConfirm ? 'text' : 'password'"
+              name="confirm_password"
+              required
+              [(ngModel)]="confirmPassword"
+              [ngClass]="{
+                'border-red-500': thong_bao_confirm,
+                shake: invalidConfirm
+              }"
+              class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+            />
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black cursor-pointer"
+              (click)="toggleConfirmPassword()"
+            >
+              <i
+                class="fa"
+                [ngClass]="showConfirm ? 'fa-eye-slash' : 'fa-eye'"
+              ></i>
+            </button>
+          </div>
+          <p *ngIf="thong_bao_confirm" class="mt-1 text-red-500 text-sm">
+            {{ thong_bao_confirm }}
+          </p>
+        </div>
+
+        <!-- Lỗi tổng quát -->
+        <p class="text-red-500 text-sm mt-2 text-center" *ngIf="thong_bao">
+          {{ thong_bao }}
+        </p>
+
+        <!-- Nút submit -->
+        <div class="flex justify-center mt-4">
+          <button
+            type="submit"
+            class="w-[50%] p-3 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+          >
+            ĐỔI MẬT KHẨU
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

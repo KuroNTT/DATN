@@ -1,1 +1,15 @@
-<p>sidebar works!</p>
+<aside class="sidebar flex">
+  <div class="logo text-center">TVM Admin</div>
+
+  <nav class="menu">
+    <a
+      *ngFor="let item of menu"
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <i [class]="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </a>
+  </nav>
+</aside>

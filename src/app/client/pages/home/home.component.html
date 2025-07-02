@@ -22,33 +22,45 @@
 
       <div class="featured_product">
         <div class="featured_image">
-          <img
-            class="w-[418.67px] h-[600px]"
-            src="images/Lebron XXII 'Crown Jewel'.png"
-            alt=""
-          />
+          <a href="/product-detail/lebron-xxii">
+            <img
+              class="w-[418.67px] h-[600px] rounded-md"
+              src="images/Lebron XXII 'Crown Jewel'.png"
+              alt=""
+            />
+          </a>
           <p class="title font-bold text-xl">Lebron XXII 'Crown Jewel'</p>
-          <button class="button">Shop</button>
+          <button class="button">
+            <a href="/product-detail/lebron-xxii">Shop</a>
+          </button>
         </div>
 
         <div class="featured_image">
-          <img
-            class="w-[418.67px] h-[600px]"
-            src="images/game-time-must-haves.avif"
-            alt=""
-          />
+          <a href="/product-detail/ja-2-ep">
+            <img
+              class="w-[418.67px] h-[600px] rounded-md"
+              src="images/game-time-must-haves.avif"
+              alt=""
+            />
+          </a>
           <p class="title font-bold text-xl">Thời Gian Giải Trí Phải Có</p>
-          <button class="button">Shop</button>
+          <button class="button">
+            <a href="/product-detail/ja-2-ep">Shop</a>
+          </button>
         </div>
 
         <div class="featured_image">
-          <img
-            class="w-[418.67px] h-[600px]"
-            src="images/pretty-in-pink.avif"
-            alt=""
-          />
-          <p class="title font-bold text-xl">Xinh Đẹp Trong Màu Hồng</p>
-          <button class="button">Shop</button>
+          <a href="/product-detail/nike-air-max-dn8">
+            <img
+              class="w-[418.67px] h-[600px] rounded-md"
+              src="images/featured-nike-air-max-dn8.avif"
+              alt=""
+            />
+          </a>
+          <p class="title font-bold text-xl">Nike Air Max Dn8</p>
+          <button class="button">
+            <a href="/product-detail/nike-air-max-dn8">Shop</a>
+          </button>
         </div>
       </div>
     </div>
@@ -71,14 +83,6 @@
               alt="{{ product.name }}"
             />
           </a>
-
-          <!-- Icon yêu thích -->
-          <div class="product-wish-list">
-            <i
-              [ngClass]="isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"
-              (click)="toggleLike()"
-            ></i>
-          </div>
         </div>
 
         <!-- Product info -->
@@ -89,7 +93,7 @@
           <span>{{ product.category?.name }}</span>
         </div>
         <div class="product_price text-red-500 font-bold text-lg">
-          {{ product.price | number : "1.0-0" }}đ
+          {{ product.price_sale | number : "1.0-0" }}đ
         </div>
       </div>
     </div>
@@ -135,53 +139,51 @@
 
 <div class="section_4 flex justify-center px-4 sm:px-0 py-8">
   <div class="container">
-    <div class="favour">
-      <div
-        class="favour-list flex flex-col md:flex-row justify-between text-center flex-wrap gap-6"
-      >
-        <!-- Item 1 -->
-        <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
-          <div class="favour-icon text-4xl text-blue-500 mb-4">
-            <i class="fa-solid fa-truck"></i>
-          </div>
-          <div class="favour-title mb-2">
-            <h3 class="text-lg font-semibold">
-              Miễn phí vận chuyển từ 2 đơn trở lên
-            </h3>
-          </div>
-          <div class="favour-content flex justify-center">
-            <p class="text-gray-600">Cộng thêm, gia hạn trả hàng miễn phí.</p>
-          </div>
+    <div
+      class="favour-list flex flex-col md:flex-row justify-between text-center flex-wrap gap-6"
+    >
+      <!-- Item 1 -->
+      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+        <div class="favour-icon text-4xl text-blue-500 mb-4">
+          <i class="fa-solid fa-truck"></i>
         </div>
-
-        <!-- Item 2 -->
-        <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
-          <div class="favour-icon text-4xl text-green-500 mb-4">
-            <i class="fa-solid fa-gift"></i>
-          </div>
-          <div class="favour-title mb-2">
-            <h3 class="text-lg font-semibold">Quà tặng miễn phí</h3>
-          </div>
-          <div class="favour-content flex justify-center">
-            <p class="text-gray-600">
-              Tặng quà miễn phí đối với những đơn hàng từ 1.999.000đ trở lên.
-            </p>
-          </div>
+        <div class="favour-title mb-2">
+          <h3 class="text-lg font-semibold">
+            Miễn phí vận chuyển từ 2 đơn trở lên
+          </h3>
         </div>
+        <div class="favour-content flex justify-center">
+          <p class="text-gray-600">Cộng thêm, gia hạn trả hàng miễn phí.</p>
+        </div>
+      </div>
 
-        <!-- Item 3 -->
-        <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
-          <div class="favour-icon text-4xl text-red-500 mb-4">
-            <i class="fa-solid fa-envelope"></i>
-          </div>
-          <div class="favour-title mb-2">
-            <h3 class="text-lg font-semibold">Hỗ trợ 24/7</h3>
-          </div>
-          <div class="favour-content flex justify-center">
-            <p class="text-gray-600">
-              Luôn luôn hỗ trợ, tư vấn khách hàng mọi lúc.
-            </p>
-          </div>
+      <!-- Item 2 -->
+      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+        <div class="favour-icon text-4xl text-green-500 mb-4">
+          <i class="fa-solid fa-gift"></i>
+        </div>
+        <div class="favour-title mb-2">
+          <h3 class="text-lg font-semibold">Quà tặng miễn phí</h3>
+        </div>
+        <div class="favour-content flex justify-center">
+          <p class="text-gray-600">
+            Tặng quà miễn phí đối với những đơn hàng từ 1.999.000đ trở lên.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+        <div class="favour-icon text-4xl text-red-500 mb-4">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="favour-title mb-2">
+          <h3 class="text-lg font-semibold">Hỗ trợ 24/7</h3>
+        </div>
+        <div class="favour-content flex justify-center">
+          <p class="text-gray-600">
+            Luôn luôn hỗ trợ, tư vấn khách hàng mọi lúc.
+          </p>
         </div>
       </div>
     </div>

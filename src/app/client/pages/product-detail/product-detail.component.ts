@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
   IProduct,
-  IProductImage,
   IProductVariant,
   ISize,
 } from "../../../core/models/structureData";
@@ -10,6 +9,7 @@ import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-product-detail",
+  standalone: true,
   imports: [CommonModule],
   templateUrl: "./product-detail.component.html",
   styleUrl: "./product-detail.component.css",
@@ -94,15 +94,12 @@ export class ProductDetailComponent implements OnInit {
   onSelectVariant(variant: IProductVariant) {
     this.selectedVariant = variant;
 
-    // ✅ Cập nhật size theo product_variant_sizes
     this.size_arr = this.extractSizes(variant);
     this.selectedSize = null;
 
-    // ✅ Cập nhật ảnh hiển thị
     this.imgList = variant.images?.map((img) => img.image_url) || [];
     this.mainImage = this.imgList[0] || "";
 
-    // ✅ Log thông tin biến thể đã chọn
     console.log("🟦 Biến thể đã chọn:", {
       id: variant.id,
       style_code: variant.style_code,
@@ -133,10 +130,27 @@ export class ProductDetailComponent implements OnInit {
 
     alert(
       `🛒 Thông tin bạn đã chọn:\n` +
+        `ID: ${this.selectedVariant.id}\n` +
         `Sản phẩm: ${this.product.name}\n` +
         `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
         `Size: ${this.selectedSize.size}\n` +
         `Số lượng: ${this.quantity}`
+    );
+  }
+
+  wishlist: IProductVariant[] = [];
+
+  addToWishlist() {
+    if (!this.selectedVariant) {
+      alert("⚠️ Vui lòng chọn màu sắc (biến thể) để thêm vào yêu thích!");
+      return;
+    }
+
+    alert(
+      `❤️ Sản phẩm đã thêm vào danh sách yêu thích:\n` +
+        `ID: ${this.selectedVariant.id}\n` +
+        `Sản phẩm: ${this.product.name}\n` +
+        `Mã biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}`
     );
   }
 }

@@ -6,8 +6,7 @@ import { inject } from "@angular/core";
 @Component({
   selector: "app-sign-up",
   imports: [CommonModule, FormsModule],
-  templateUrl: "./sign-up.component.html",
-  styleUrl: "./sign-up.component.css",
+  templateUrl: "./sign-up.component.html"
 })
 export class SignUpComponent {
   router = inject(Router);

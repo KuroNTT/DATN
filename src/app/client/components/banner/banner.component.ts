@@ -13,15 +13,12 @@ export class BannerComponent {
   slides = [
     {
       image: "/images/banner1.png",
-      title: "Nike Air Max – Sự lựa chọn hoàn hảo",
     },
     {
       image: "/images/banner2.png",
-      title: "Jordan Retro – Phong cách và thoải mái",
     },
     {
       image: "/images/banner3.png",
-      title: "Khám phá BST 2025 mới nhất",
     },
   ];
 }
