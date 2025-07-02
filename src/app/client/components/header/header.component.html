@@ -143,15 +143,13 @@
     <div class="header-icon flex items-center space-x-4">
       <ul class="flex space-x-2">
         <li>
-          <a routerLink="/search" class="hover:text-blue-600"
-            ><i class="fa-solid fa-magnifying-glass"></i
-          ></a>
+          <a
+            (click)="toggleSearchBar()"
+            class="hover:text-blue-600 cursor-pointer"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </a>
         </li>
-        <!-- <li>
-          <a href="/sign-up" class="hover:text-blue-600"
-            ><i class="fa-solid fa-user"></i
-          ></a>
-        </li> -->
         <!-- dropdown dang nhap -->
         <ul class="flex items-center space-x-4">
           <!-- Icon user -->
@@ -226,7 +224,7 @@
         </ul>
 
         <li>
-          <a routerLink="/wishlist" class="hover:text-blue-600"
+          <a routerLink="/product-wishlist" class="hover:text-blue-600"
             ><i class="fa-solid fa-heart"></i
           ></a>
         </li>
@@ -444,5 +442,32 @@
         >
       </li>
     </ul>
+  </div>
+  <!-- Search bar fixed giống Nike, chiếm 50% -->
+  <div
+    *ngIf="isSearchBarVisible"
+    class="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[90%] sm:w-2/3 lg:w-1/2 bg-white z-[999] shadow-lg border border-gray-200 px-4 py-3 rounded-xl flex items-center"
+  >
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (keydown.enter)="onSearch()"
+      placeholder="Tìm kiếm sản phẩm..."
+      class="flex-1 text-base px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
+      autofocus
+    />
+    <button
+      (click)="onSearch()"
+      class="ml-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+    >
+      Tìm
+    </button>
+    <button
+      (click)="toggleSearchBar()"
+      class="ml-2 text-gray-500 hover:text-black text-xl"
+      title="Đóng"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
 </div>

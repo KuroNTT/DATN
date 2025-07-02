@@ -133,6 +133,7 @@ export class ProductDetailComponent implements OnInit {
 
     alert(
       `🛒 Thông tin bạn đã chọn:\n` +
+        `ID: ${this.selectedVariant.id}\n` +
         `Sản phẩm: ${this.product.name}\n` +
         `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
         `Size: ${this.selectedSize.size}\n` +
