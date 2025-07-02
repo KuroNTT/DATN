@@ -31,14 +31,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   loadProducts() {
-    fetch(`http://localhost:3000/api/products`).then((res) => {
-      res
-        .json()
-        .then((data) => (this.product_arr = data as IProduct[]).slice(0, 8))
-        .catch((error) =>
-          console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
-        );
-    });
+    fetch(`http://localhost:3000/api/products`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.product_arr = (data as IProduct[]).slice(0, 8);
+      })
+      .catch((error) =>
+        console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
+      );
   }
 
   // Data source (tách data ra cho sạch)
@@ -47,8 +47,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { name: "Football", image: "images/nike-football.jpg" },
     { name: "Basketball", image: "images/nike-basketball.jpg" },
     { name: "Training and Gym", image: "images/nike-training-and-gym.jpg" },
-    { name: "Tennis", image: "images/nike-tennis.jpg" },
-    { name: "Yoga", image: "images/nike-yoga.jpg" },
     { name: "Skateboarding", image: "images/nike-skateboard.jpg" },
     { name: "Golf", image: "images/nike-dance.jpg" },
   ];
@@ -77,9 +75,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
     } else {
       container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
     }
-  }
-
-  toggleLike() {
-    this.isLiked = !this.isLiked;
   }
 }

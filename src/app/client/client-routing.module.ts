@@ -22,7 +22,12 @@ const routes: Routes = [
     path: "",
     component: ClientLayoutComponent,
     children: [
-      { path: "", component: HomeComponent, title: "Home", pathMatch: "full" },
+      {
+        path: "",
+        component: HomeComponent,
+        title: "TVM Shop",
+        pathMatch: "full",
+      },
       { path: "contact", component: ContactComponent, title: "Contact" },
       { path: "cart", component: CartComponent, title: "Cart" },
       { path: "blog", component: BlogComponent, title: "Blog" },
