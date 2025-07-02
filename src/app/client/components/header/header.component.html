@@ -127,7 +127,7 @@
           >
         </li>
         <li>
-          <a routerLink="/blog" class="hover:text-blue-600 transition font-bold"
+          <a href="/blog" class="hover:text-blue-600 transition font-bold"
             >Bài viết</a
           >
         </li>
@@ -209,6 +209,14 @@
                     class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     >Thông tin cá nhân</a
                   >
+                </li>
+                <li>
+                  <a
+                  (click)="logout()"
+                    class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >Đăng xuất</a
+                  >
+
                 </li>
               </ng-template>
             </ul>

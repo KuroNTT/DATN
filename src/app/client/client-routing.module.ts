@@ -1,10 +1,11 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes, ExtraOptions } from "@angular/router";
-import { ClientLayoutComponent } from "../layouts/client-layout/client-layout/client-layout.component";
+import { ClientLayoutComponent } from "../layouts/client-layout/client-layout.component";
 import { HomeComponent } from "./pages/home/home.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { CartComponent } from "./pages/cart/cart.component";
-import { BlogComponent } from "./pages/blog/blog.component";
+import { BlogListComponent } from "./pages/blog-list/blog-list.component";
+import { BlogDetailComponent } from "./pages/blog-detail/blog-detail.component";
 import { OrderComponent } from "./pages/order/order.component";
 import { ProductComponent } from "./pages/product/product.component";
 import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
@@ -15,7 +16,10 @@ import { EditProfileComponent } from "./pages/profile/edit-profile/edit-profile.
 import { ChangePwComponent } from "./pages/profile/change-pw/change-pw.component";
 import { PurchaseComponent } from "./pages/profile/purchase/purchase.component";
 import { authGuard } from "../core/guards/auth.guard";
+import { ResetPasswordComponent } from "./pages/reset-pw/reset-pw.component";
+import { ForgotPasswordComponent } from "./pages/forgot-pw/forgot-pw.component";
 import { ProductWishlistComponent } from "./pages/product-wishlist/product-wishlist.component";
+import { SearchResultComponent } from "./pages/search-result/search-result.component";
 
 const routes: Routes = [
   {
@@ -30,7 +34,12 @@ const routes: Routes = [
       },
       { path: "contact", component: ContactComponent, title: "Contact" },
       { path: "cart", component: CartComponent, title: "Cart" },
-      { path: "blog", component: BlogComponent, title: "Blog" },
+      { path: "blog", component: BlogListComponent, title: "Blog" },
+      {
+        path: "blog/:id",
+        component: BlogDetailComponent,
+        title: "Blog Detail",
+      },
       { path: "order", component: OrderComponent, title: "Order" },
       { path: "product", component: ProductComponent, title: "Product" },
       {
@@ -45,6 +54,18 @@ const routes: Routes = [
       },
       { path: "sign-up", component: SignUpComponent, title: "Sign Up" },
       { path: "sign-in", component: LogInComponent, title: "Sign In" },
+      {
+        path: "forgot-pw",
+        component: ForgotPasswordComponent,
+        title: "Forgot Password",
+      },
+      {
+        path: "reset-pw",
+        component: ResetPasswordComponent,
+        title: "Reset Pasword",
+      },
+      { path: "search", component: SearchResultComponent },
+
       {
         path: "profile",
         component: ProfileComponent,

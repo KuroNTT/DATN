@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { name: "Basketball", image: "images/nike-basketball.jpg" },
     { name: "Training and Gym", image: "images/nike-training-and-gym.jpg" },
     { name: "Skateboarding", image: "images/nike-skateboard.jpg" },
-    { name: "Golf", image: "images/nike-dance.jpg" },
+    { name: "Golf", image: "images/nike-golf.jpg" },
   ];
 
   ngAfterViewInit(): void {}

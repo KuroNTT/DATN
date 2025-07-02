@@ -6,8 +6,7 @@ import { inject } from "@angular/core";
 @Component({
   selector: "app-log-in",
   imports: [FormsModule, CommonModule],
-  templateUrl: "./log-in.component.html",
-  styleUrl: "./log-in.component.css",
+  templateUrl: "./log-in.component.html"
 })
 export class LogInComponent {
   router = inject(Router);
@@ -92,7 +91,7 @@ export class LogInComponent {
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
           window.location.href = "/";
-        }, 1000);
+        }, 2000);
       });
   }
 }
