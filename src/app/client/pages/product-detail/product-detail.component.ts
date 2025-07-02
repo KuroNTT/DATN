@@ -6,6 +6,7 @@ import {
   ISize,
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
+import { CartService } from "../../services/cart.service";
 
 @Component({
   selector: "app-product-detail",
@@ -15,7 +16,10 @@ import { ActivatedRoute } from "@angular/router";
   styleUrl: "./product-detail.component.css",
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cartService: CartService
+  ) {}
   // Helper chung
   private extractSizes(variant: IProductVariant): ISize[] {
     return (variant.product_variant_sizes || []).map((pvs) => pvs.size);
@@ -127,14 +131,10 @@ export class ProductDetailComponent implements OnInit {
       alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng!");
       return;
     }
-
-    alert(
-      `🛒 Thông tin bạn đã chọn:\n` +
-        `ID: ${this.selectedVariant.id}\n` +
-        `Sản phẩm: ${this.product.name}\n` +
-        `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
-        `Size: ${this.selectedSize.size}\n` +
-        `Số lượng: ${this.quantity}`
+    this.cartService.addToCart(
+      this.selectedVariant.id,
+      this.selectedSize.id,
+      this.quantity
     );
   }
 
