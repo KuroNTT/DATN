@@ -1,9 +1,7 @@
-import { Routes } from "@angular/router";
-
-import { ProductDetailComponent } from "./client/pages/product-detail/product-detail.component";
-import { ProductComponent } from "./client/pages/product/product.component";
-
+import { Routes, provideRouter } from "@angular/router";
 import { CartComponent } from "./client/pages/cart/cart.component";
+import { ProductDetailComponent } from "./client/pages/product-detail/product-detail.component";
+import { ProductsComponent } from "./client/pages/products/products.component";
 
 export const routes: Routes = [
   {
@@ -13,7 +11,7 @@ export const routes: Routes = [
   },
   {
     path: "product",
-    component: ProductComponent,
+    component: ProductsComponent,
     title: "Sản phẩm",
   },
   {
@@ -26,6 +24,6 @@ export const routes: Routes = [
     loadChildren: () =>
       import("./admin/admin.module").then((m) => m.AdminModule),
   },
-
-  { path: "**", redirectTo: "" },
 ];
+
+export const appRoutesProvider = provideRouter(routes);

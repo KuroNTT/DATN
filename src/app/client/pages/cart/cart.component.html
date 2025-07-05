@@ -1,78 +1,152 @@
-<!-- cart.component.html -->
-<div class="p-6 max-w-5xl mx-auto">
+<div class="breadcrumb flex justify-center py-[12px]">
+  <div class="container">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i
+      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
+    ></i>
+    <a class="cursor-pointer"
+      ><span class="text-base font-semibold">Giỏ hàng</span></a
+    >
+  </div>
+</div>
+<div class="flex justify-center">
+  <div class="container max-w-7xl">
     <!-- Cart Layout -->
-    <div class="max-w-6xl mx-auto p-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="mx-auto my-7">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Cart Items (2/3) -->
+        <div class="lg:col-span-2 space-y-6">
+          <div
+            *ngFor="let item of cartItems; let isLast = last"
+            class="flex gap-4 pb-4"
+            [ngClass]="isLast ? '' : 'border-b'"
+          >
+            <img
+              [src]="item.image"
+              alt=""
+              class="w-28 h-28 object-cover rounded"
+            />
 
-            <!-- Cart Items (2/3) -->
-            <div class="lg:col-span-2 space-y-6">
-                <div *ngFor="let item of cartItems; let isLast = last" class="flex gap-4 pb-4" [ngClass]="isLast ? '':'border-b' ">
-                    <img [src]="item.image" alt="" class="w-28 h-28 object-cover rounded" />
-
-                    <div class="flex-1">
-                        <div class="flex justify-between">
-                            <div>
-                                <h2 class="font-semibold">{{ item.name }}</h2>
-                                <p class="text-sm text-gray-500">{{ item.description }}</p>
-                                <p class="text-sm">Size {{ item.size }}</p>
-                            </div>
-                            <p class="font-semibold">{{ item.price | currency:'VND' }}</p>
-                        </div>
-
-                        <div class="flex items-center gap-2 mt-3">
-                            <button mat-icon-button class="border p-1" (click)="decrease(item)">
-                                <mat-icon>remove</mat-icon>
-                            </button>
-                            <span>{{ item.quantity }}</span>
-                            <button mat-icon-button class="border p-1" (click)="increase(item)">
-                                <mat-icon>add</mat-icon>
-                            </button>
-
-                            <!-- Nút tim yêu thích -->
-                            <button mat-icon-button class="border p-1 rounded-full" (click)="toggleFavorite(item)">
-                                <mat-icon>{{ item.favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
-                            </button>
-
-                            <button mat-icon-button color="warn" class="ml-auto" (click)="remove(item)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </div>
+            <div class="flex-1">
+              <div class="flex justify-between">
+                <div>
+                  <h2 class="font-semibold">{{ item.name }}</h2>
+                  <p class="text-sm text-gray-500">{{ item.description }}</p>
+                  <p class="text-sm">Size {{ item.size }}</p>
                 </div>
+                <p class="font-semibold">{{ item.price | currency : "VND" }}</p>
+              </div>
+
+              <div class="flex items-center gap-2 mt-3">
+                <button
+                  mat-icon-button
+                  class="border p-1"
+                  (click)="decrease(item)"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span>{{ item.quantity }}</span>
+                <button
+                  mat-icon-button
+                  class="border p-1"
+                  (click)="increase(item)"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+
+                <!-- Nút tim yêu thích -->
+                <button
+                  mat-icon-button
+                  class="border p-1 rounded-full"
+                  (click)="toggleFavorite(item)"
+                >
+                  <mat-icon>{{
+                    item.favorite ? "favorite" : "favorite_border"
+                  }}</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  color="warn"
+                  class="ml-auto"
+                  (click)="remove(item)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
-
-
-            <!-- Cart Summary (1/3) -->
-            <div class="bg-gray-50 p-4 rounded-lg border">
-                <h3 class="font-semibold text-lg mb-4">Tạm tính</h3>
-                <div class="flex justify-between text-sm mb-2">
-                    <span>Tổng phụ</span>
-                    <span>{{ subtotal | currency:'VND' }}</span>
-                </div>
-                <div class="flex justify-between text-sm mb-2">
-                    <span>Phí vận chuyển</span>
-                    <span class="font-semibold">Miễn phí</span>
-                </div>
-                <hr class="my-2">
-                <div class="flex justify-between font-semibold text-base mb-4">
-                    <span>Tổng</span>
-                    <span>{{ total | currency:'VND' }}</span>
-                </div>
-                <button mat-flat-button color="primary" class="w-full py-2 bg-black text-white rounded-full">MUA
-                    NGAY</button>
-            </div>
-
+          </div>
         </div>
+
+        <!-- Cart Summary (1/3) -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h3 class="font-semibold text-lg mb-4">Tạm tính</h3>
+          <div class="flex justify-between text-sm mb-2">
+            <span>Tổng phụ</span>
+            <span>{{ subtotal | currency : "VND" }}</span>
+          </div>
+          <div class="flex justify-between text-sm mb-2">
+            <span>Phí vận chuyển</span>
+            <span class="font-semibold">Miễn phí</span>
+          </div>
+          <hr class="my-2" />
+          <div class="flex justify-between font-semibold text-base mb-4">
+            <span>Tổng</span>
+            <span>{{ total | currency : "VND" }}</span>
+          </div>
+          <button
+            mat-flat-button
+            color="primary"
+            class="w-full py-2 bg-black text-white rounded-full"
+          >
+            MUA NGAY
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Suggestions -->
     <h3 class="mt-10 text-lg font-semibold">Có thể bạn sẽ thích</h3>
-    <div class="grid grid-cols-4 gap-4 mt-4">
-        <div class="bg-gray-50 rounded p-2" *ngFor="let product of suggestions">
-            <img [src]="product.image" alt="" class="rounded w-full h-46 object-cover" />
-            <h4 class="text-sm font-semibold mt-2">{{ product.name }}</h4>
-            <p class="text-xs text-gray-500">{{ product.description }}</p>
-            <p class="font-semibold mt-1">{{ product.price | currency:'VND' }}</p>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4"
+    >
+      <div class="product" *ngFor="let product of product_arr">
+        <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+          <a href="/product-detail/{{ product.slug }}">
+            <img
+              class="product-image w-full h-full object-cover"
+              src="{{ product.image }}"
+              alt="{{ product.name }}"
+            />
+          </a>
+
+          <!-- Overlay hiển thị khi hover -->
+          <div
+            class="absolute bottom-0 left-0 w-full h-1/5 bg-black/40 flex items-center justify-center opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+          >
+            <i
+              class="fa-solid fa-cart-plus text-white text-2xl cursor-pointer hover:text-yellow-400"
+            ></i>
+          </div>
+
+          <!-- Icon yêu thích -->
+          <div class="product-wish-list">
+            <i></i>
+          </div>
         </div>
+
+        <!-- Product info -->
+        <div class="product-name font-bold text-base mb-2">
+          {{ product.name }}
+        </div>
+        <div class="category-name text-sm text-gray-500 mb-2">
+          <span>Giày nam</span>
+        </div>
+        <div class="product_price text-red-500 font-bold text-lg">
+          {{ product.price | number : "1.0-0" }}đ
+        </div>
+      </div>
     </div>
+  </div>
 </div>

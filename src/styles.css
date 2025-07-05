@@ -7,5 +7,23 @@
   --text-color: #ffffff;
   --podium-cds-typography-320-to-959-display2: 800 2.5rem / 0.9 "Nike Futura ND",
     "Helvetica Now Text Medium", Helvetica, Arial, sans-serif;
-  --max-width: 1280px;
+}
+/* Animation form - tuongvan */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
 }

@@ -1,0 +1,111 @@
+<div class="lg:col-span-2">
+    <h3 class="text-xl font-bold mb-6">Bộ lọc tìm kiếm</h3>
+    <div class="flex items-center justify-between cursor-pointer mt -6" (click)="togglePriceFilter()">
+        <h2 class="text-lg font-semibold">Mức giá</h2>
+        <i class="fas fa-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'rotate-180': isPriceFilterVisible }"></i>
+    </div>
+    <div class="overflow-hidden transition-all duration-300" [ngClass]="{
+        'max-h-0 opacity-0': !isPriceFilterVisible,
+        'max-h-96 opacity-100': isPriceFilterVisible
+      }">
+
+        <label class="block">
+            <input type="checkbox" [checked]="selectAllPrices" (change)="onSelectAllPrices($event)" />
+            Tất cả
+        </label>
+
+        <label class="block" *ngFor="let price of price_ranges">
+            <input type="checkbox" [checked]="price.checked" (change)="onPriceChange(price, $event)" />
+            {{ price.name }}
+        </label>
+    </div>
+
+    <!-- Hãng -->
+    <div class="flex items-center justify-between cursor-pointer mt-4" (click)="toggleBrandFilter()">
+        <h2 class="text-lg font-semibold">Hãng</h2>
+        <i class="fas fa-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'rotate-180': isBrandFilterVisible }"></i>
+    </div>
+
+    <div class="overflow-hidden transition-all duration-300" [ngClass]="{
+    'max-h-0 opacity-0': !isBrandFilterVisible,
+    'max-h-96 opacity-100': isBrandFilterVisible
+  }">
+        <label class="block">
+            <input type="checkbox" [checked]="selectAllBrands" (change)="onSelectAllBrands($event)" />
+            Tất cả
+        </label>
+
+        <label class="block" *ngFor="let brand of brand_arr">
+            <input type="checkbox" [checked]="brand.checked" (change)="onBrandChange(brand, $event)" />
+            {{ brand.name }}
+        </label>
+
+    </div>
+    <!-- Loại -->
+    <div class="flex items-center justify-between cursor-pointer mt-4" (click)="toggleCategoryFilter()">
+        <h2 class="text-lg font-semibold">Loại</h2>
+        <i class="fas fa-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'rotate-180': isCategoryFilterVisible }"></i>
+    </div>
+
+    <div class="overflow-hidden transition-all duration-300" [ngClass]="{
+    'max-h-0 opacity-0': !isCategoryFilterVisible,
+    'max-h-96 opacity-100': isCategoryFilterVisible
+  }">
+        <label class="block">
+            <input type="checkbox" [checked]="selectAllCategory" (change)="onSelectAllCategories($event)" />
+            Tất cả
+        </label>
+
+        <label class="block" *ngFor="let category of category_arr">
+            <input type="checkbox" [checked]="category.checked" (change)="onCategoryChange(category, $event)" />
+            {{ category.name }}
+        </label>
+
+    </div>
+    <!-- size -->
+    <div class="flex items-center justify-between cursor-pointer mt-4" (click)="toggleSizeFilter()">
+        <h2 class="text-lg font-semibold">Size</h2>
+        <i class="fas fa-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'rotate-180': isSizeFilterVisible }"></i>
+    </div>
+
+    <div class="overflow-hidden transition-all duration-300" [ngClass]="{
+    'max-h-0 opacity-0': !isSizeFilterVisible,
+    'max-h-96 opacity-100': isSizeFilterVisible
+  }">
+        <label class="block">
+            <input type="checkbox" [(ngModel)]="selectAllSizes" (change)="onSelectAllSizes()" />
+            Tất cả
+        </label>
+
+        <label class="block" *ngFor="let size of size_arr">
+            <input type="checkbox" [(ngModel)]="size.checked" (change)="onSizeChange()" />
+            {{ size.size }}
+        </label>
+
+    </div>
+    <!-- gender -->
+    <div class="flex items-center justify-between cursor-pointer mt-4" (click)="toggleGenderFilter()">
+        <h2 class="text-lg font-semibold">Giới tính</h2>
+        <i class="fas fa-chevron-down transition-transform duration-300"
+            [ngClass]="{ 'rotate-180': isGenderFilterVisible }"></i>
+    </div>
+
+    <div class="overflow-hidden transition-all duration-300" [ngClass]="{
+    'max-h-0 opacity-0': !isGenderFilterVisible,
+    'max-h-96 opacity-100': isGenderFilterVisible
+  }">
+        <label class="block">
+            <input type="checkbox" [(ngModel)]="selectAllSizes" (change)="onSelectAllGenders()" />
+            Tất cả
+        </label>
+
+        <label class="block" *ngFor="let gender of gender_arr">
+            <input type="checkbox" [(ngModel)]="gender.checked" (change)="onGenderChange()" />
+            {{ gender.name }}
+        </label>
+
+    </div>

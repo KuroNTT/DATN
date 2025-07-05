@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
+import { IProduct } from "../../../core/models/structureData";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 @Component({
   selector: "app-home",
@@ -10,7 +12,8 @@ import { BannerComponent } from "../../components/banner/banner.component";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements AfterViewInit {
-  @ViewChild("scrollContainer") scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild("scrollContainer", { static: true })
+  scrollContainer!: ElementRef<HTMLDivElement>;
 
   // Data source (tách data ra cho sạch)
   sports = [
@@ -24,24 +27,51 @@ export class HomeComponent implements AfterViewInit {
     { name: "Golf", image: "images/nike-dance.jpg" },
   ];
 
-  ngAfterViewInit() {
-    console.log(
-      "Scroll container initialized:",
-      this.scrollContainer.nativeElement
-    );
+  ngAfterViewInit(): void {}
+
+  scrollRight() {
+    const container = this.scrollContainer.nativeElement;
+    const scrollAmount = 440 + 12;
+    if (
+      container.scrollLeft + container.clientWidth <
+      container.scrollWidth - scrollAmount
+    ) {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    } else {
+      container.scrollTo({ left: 0, behavior: "smooth" });
+    }
   }
 
   scrollLeft() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: -440,
-      behavior: "smooth",
+    const container = this.scrollContainer.nativeElement;
+    const scrollAmount = 440 + 12;
+
+    if (container.scrollLeft > 0) {
+      container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    } else {
+      container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
+    }
+  }
+
+  product_arr: IProduct[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
+      next: (data) => {
+        this.product_arr = data;
+      },
+      error: (error) => {
+        console.error("Lỗi khi gọi API:", error);
+      },
     });
   }
 
-  scrollRight() {
-    this.scrollContainer.nativeElement.scrollBy({
-      left: 440,
-      behavior: "smooth",
-    });
+  // Like
+  isLiked: boolean = false;
+
+  toggleLike() {
+    this.isLiked = !this.isLiked;
   }
 }
