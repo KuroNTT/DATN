@@ -207,7 +207,6 @@ export class ProductFilterComponent {
     this.isPriceFilterVisible = !this.isPriceFilterVisible;
   }
   toggleCategoryFilter() {
-    console.log("minh");
     this.isCategoryFilterVisible = !this.isCategoryFilterVisible;
   }
   toggleBrandFilter() {

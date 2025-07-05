@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 
 //Model mô tả bảng brands
-const BrandsModel = sequelize.define(
+const BrandModel = sequelize.define(
     "brands",
     {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -17,4 +17,4 @@ const BrandsModel = sequelize.define(
     { timestamps: false, tableName: "brands" }
 );
 
-module.exports = BrandsModel;
+module.exports = BrandModel;

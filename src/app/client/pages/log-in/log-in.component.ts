@@ -6,8 +6,7 @@ import { inject } from "@angular/core";
 @Component({
   selector: "app-log-in",
   imports: [FormsModule, CommonModule],
-  templateUrl: "./log-in.component.html",
-  styleUrl: "./log-in.component.css",
+  templateUrl: "./log-in.component.html"
 })
 export class LogInComponent {
   router = inject(Router);
@@ -69,7 +68,7 @@ export class LogInComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/sign-in", opt)
+    fetch("http://localhost:3000/api/auth/sign-in", opt)
       .then((res) => res.json())
       .then((data) => {
         console.log("data=", data);
@@ -79,7 +78,6 @@ export class LogInComponent {
           } else if (data.field === "password") {
             this.shakeField("password", data.message);
           } else {
-            // ❗️Trường hợp như account bị khóa, message không có field cụ thể
             this.thong_bao = data.message; // ⚠️ bạn cần có biến thong_bao trong component + HTML
           }
           return;

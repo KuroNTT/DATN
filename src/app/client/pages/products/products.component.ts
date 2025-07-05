@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+
 import { ProductFilterComponent } from "./components/product-filter/product-filter.component";
 import { ProductListComponent } from "./components/product-list/product-list.component";
 import { IProduct } from "../../../core/models/structureData";
@@ -40,7 +41,9 @@ export class ProductsComponent {
     this.product_arr = this.product_arr_all.filter((p) => {
       const matchPrice =
         filter.prices.length === 0 ||
-        filter.prices.some((r) => p.price >= r.min && p.price < r.max);
+        filter.prices.some(
+          (r) => p.price_sale >= r.min && p.price_sale < r.max
+        );
       const matchCategory =
         filter.categories.length === 0 ||
         filter.categories.includes(Number(p.category_id));

@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 32px;
 }
 
 .container {
@@ -20,6 +19,10 @@
   margin: auto;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.logo-footer-image {
+  filter: invert(1000%);
 }
 
 .col {

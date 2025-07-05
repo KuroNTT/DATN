@@ -2,11 +2,12 @@ import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.css"],
 })
@@ -19,6 +20,9 @@ export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isShoesMenuOpen = false;
 
+  isSearchBarVisible: boolean = false;
+  searchQuery: string = "";
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     if (this.isMenuOpen) {
@@ -30,6 +34,10 @@ export class HeaderComponent implements OnInit {
 
   toggleShoesMenu() {
     this.isShoesMenuOpen = !this.isShoesMenuOpen;
+  }
+
+  toggleSearchBar() {
+    this.isSearchBarVisible = !this.isSearchBarVisible;
   }
 
   scrollToSection(id: string) {
@@ -50,6 +58,16 @@ export class HeaderComponent implements OnInit {
     this.getAllCategories();
     this.getCategoriesWithoutGender();
     this.checkLoginStatus();
+  }
+
+  onSearch() {
+    if (this.searchQuery.trim()) {
+      this.router.navigate(["/search"], {
+        queryParams: { q: this.searchQuery },
+      });
+      this.isSearchBarVisible = false;
+      this.searchQuery = "";
+    }
   }
 
   getAllCategories(): void {
@@ -123,14 +141,15 @@ export class HeaderComponent implements OnInit {
   }
 
   goToProfile() {
-    this.router.navigate(["/profile"]);
+    window.location.href = "/profile";
   }
 
+  
   logout() {
     sessionStorage.clear();
-    this.isLoggedIn = false;
     window.location.href = "/sign-in";
   }
+
   goToAdminDashboard() {
     window.location.href = "/admin";
   }

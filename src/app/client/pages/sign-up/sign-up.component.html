@@ -1,6 +1,6 @@
 <div class="w-full min-h-screen flex items-center justify-center">
   <div
-    class="w-full md:h-[600px] max-w-5xl flex flex-col md:flex-row rounded-[50px] md:rounded-[50px] overflow-hidden md:gap-0 shadow-[0_0_20px_rgba(0,0,0,0.1)]"
+    class="w-full md:h-[600px] max-w-5xl flex flex-col md:flex-row rounded-lg md:rounded-md overflow-hidden md:gap-0 shadow-[0_0_20px_rgba(0,0,0,0.1)]"
   >
     <div class="w-full md:w-1/2 flex items-center justify-center p-6">
       <form name="frmdk" class="w-[80%] max-w-md">
@@ -62,7 +62,7 @@
             />
             <button
               type="button"
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black cursor-pointer"
               (click)="togglePassword()"
             >
               <i
@@ -96,7 +96,7 @@
             />
             <button
               type="button"
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black cursor-pointer"
               (click)="showCofirmPassword()"
             >
               <i
@@ -109,7 +109,7 @@
             {{ thong_bao_re_password }}
           </p>
         </div>
-        <p class="text-center text-blue-500">{{ thong_bao }}</p>
+        <p class="text-center text-green-500">{{ thong_bao }}</p>
         <!-- Nút đăng ký -->
         <div class="flex justify-center">
           <button
@@ -132,7 +132,7 @@
     </div>
 
     <div
-      class="w-full md:w-1/2 relative order-2 md:order-1 min-h-[600px] md:min-h-[600px] rounded-b-[50px] md:rounded-l-none md:rounded-r-[50px] overflow-hidden"
+      class="w-full md:w-1/2 relative order-2 md:order-1 min-h-[600px] md:min-h-[600px] rounded-b-lg md:rounded-lg-none md:rounded-r-lg overflow-hidden"
     >
       <img
         src="images/colsignup.jpg"

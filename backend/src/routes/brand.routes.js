@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const BrandModel = require("../models/Brand");
-const ProductModel = require("../models/Product");
 
 /* Lấy tất cả hãng */
 // router.get("/", async (req, res) => {

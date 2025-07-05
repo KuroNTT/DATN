@@ -14,6 +14,13 @@ const app = express();
 
 // 5. Cấu hình middleware toàn cục
 app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4200", // hoặc '*'
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ thêm Authorization
+  })
+);
 app.use(express.json());
 
 // 6. Kết nối và đồng bộ CSDL
@@ -36,6 +43,10 @@ app.use("/api/sizes", require("./src/routes/size.routes"));
 app.use("/api/products", require("./src/routes/product.routes"));
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/orders", require("./src/routes/order.routes"));
+app.use("/api/sizes", require("./src/routes/size.routes"));
+app.use("/api/wishlist", require("./src/routes/wishlist.routes"));
+app.use("/api/user", require("./src/routes/auth.routes"));
+app.use("/api/blogs", require("./src/routes/blog.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {
