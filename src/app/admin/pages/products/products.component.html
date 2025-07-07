@@ -1,1 +1,63 @@
-<p>products works!</p>
+<div class="">
+  <h2 class="text-lg font-semibold mb-1">pds</h2>
+
+  <div class="overflow-auto">
+    <table class="min-w-full text-sm text-left border border-gray-200">
+      <thead class="bg-gray-100 text-gray-700 text-center">
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Tên sản phẩm</th>
+          <th class="px-4 py-2 border">Giá</th>
+          <th class="px-4 py-2 border">Thương hiệu</th>
+          <th class="px-4 py-2 border">Danh mục</th>
+          <th class="px-4 py-2 border">Hình</th>
+          <th class="px-4 py-2 border">Trạng thái</th>
+          <th class="px-4 py-2 border">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-800">
+        <!-- Mỗi dòng sản phẩm -->
+        <tr class="hover:bg-gray-50" *ngFor="let pd of product_arr">
+          <td class="px-4 py-2 border text-center">{{ pd.id }}</td>
+          <td class="px-4 py-2 border">{{ pd.name }}</td>
+          <td class="px-4 py-2 border">
+            {{ pd.price_sale | number : "1.0-0" }}đ
+          </td>
+          <td class="px-4 py-2 border">{{ pd.brand?.name }}</td>
+          <td class="px-4 py-2 border">{{ pd.category?.name }}</td>
+          <td class="px-4 py-2 border">
+            <img
+              [src]="pd.image"
+              alt="{{ pd.name }}"
+              class="w-14 h-14 object-cover rounded"
+            />
+          </td>
+          <td class="px-4 py-2 border">
+            <i
+              class="fas"
+              [class.fa-eye]="pd.status"
+              [class.fa-eye-slash]="!pd.status"
+            ></i>
+          </td>
+          <td class="px-4 py-2 border text-center">
+            <button class="hover:text-gray-500 mr-2">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <!-- <button class="text-red-500 hover:text-red-700" (click)="deleteProduct(pd.id)">
+              <i class="fa-solid fa-trash"></i>
+            </button> -->
+                            <button (click)="deleteProduct(pd.id)">❌</button>
+
+          </td>
+        </tr>      
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phân trang -->
+  <div class="flex justify-center items-center mt-4 space-x-2">
+    <span class="w-3 h-3 rounded-full bg-gray-400"></span>
+    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+    <span class="w-3 h-3 rounded-full bg-gray-400"></span>
+  </div>
+</div>

@@ -5,10 +5,9 @@ const CategoryModel = require("./Category");
 const ColorModel = require("./Color");
 const SizeModel = require("./Size");
 const VariantSizeModel = require("./VariantSize");
-
 const BlogModel = require("./Blog");
 const BlogCategoryModel = require("./BlogCategory");
-
+const BrandModel = require("../models/Brand")
 /** 1. Một sản phẩm có nhiều biến thể */
 ProductModel.hasMany(ProductVariantModel, {
   foreignKey: "product_id",
@@ -80,4 +79,17 @@ BlogCategoryModel.hasMany(BlogModel, {
   foreignKey: "category_id",
   as: "blogs",
 });
+
+// Product thuộc về 1 thương hiệu
+ProductModel.belongsTo(BrandModel, {
+  foreignKey: 'brand_id',
+  as: 'brand',
+});
+
+// Brand có nhiều sản phẩm
+BrandModel.hasMany(ProductModel, {
+  foreignKey: 'brand_id',
+  as: 'products',
+});
+
 

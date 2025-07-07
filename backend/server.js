@@ -22,6 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // 6. Kết nối và đồng bộ CSDL
 sequelize
@@ -40,8 +41,10 @@ app.use("/api/products", require("./src/routes/product.routes"));
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/orders", require("./src/routes/order.routes"));
 app.use("/api/sizes", require("./src/routes/size.routes"));
+app.use("/api/wishlist", require("./src/routes/wishlist.routes"));
 app.use("/api/user", require("./src/routes/auth.routes"));
 app.use("/api/blogs", require("./src/routes/blog.routes"));
+app.use("/api/brand", require("./src/routes/brand.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {

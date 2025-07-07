@@ -130,6 +130,8 @@
                   Thêm vào giỏ hàng
                 </button>
                 <button
+                  type="button"
+                  (click)="addToWishlist()"
                   class="w-full py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Yêu thích
@@ -277,11 +279,6 @@
                   alt="{{ product.name }}"
                 />
               </a>
-
-              <!-- Icon yêu thích -->
-              <div class="product-wish-list">
-                <i></i>
-              </div>
             </div>
 
             <!-- Product info -->

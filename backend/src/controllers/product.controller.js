@@ -7,16 +7,29 @@ const CategoryModel = require("../models/Category");
 const ColorModel = require("../models/Color");
 const VariantSizeModel = require("../models/VariantSize");
 const SizeModel = require("../models/Size");
-
+const BrandModel = require("../models/Brand")
 exports.getAllProducts = async (req, res) => {
+  const searchQuery = req.query.q || "";
   const products = await ProductModel.findAll({
-    where: { status: 1 },
-    order: [["created_at", "ASC"]],
+    where: {
+      status: 1,
+      ...(searchQuery && {
+        name: {
+          [Op.like]: `%${searchQuery}%`,
+        },
+      }),
+    },
+    order: [["created_at", "desc"]],
     include: [
       { model: ProductVariantModel, as: "variants" },
       {
         model: CategoryModel,
         as: "category",
+        attributes: ["name"],
+      },
+      {
+        model: BrandModel,
+        as: "brand",
         attributes: ["name"],
       },
     ],
@@ -52,6 +65,11 @@ exports.getProductBySlug = async (req, res) => {
       {
         model: CategoryModel,
         as: "category",
+        attributes: ["name"],
+      },
+      {
+        model: BrandModel,
+        as: "brand",
         attributes: ["name"],
       },
     ],
@@ -100,7 +118,7 @@ exports.getHotProducts = async (req, res) => {
 exports.getMostViewed = async (req, res) => {
   const count = Number(req.params.count) || 4;
   const products = await ProductModel.findAll({
-    where: { status: 1, view: { [Op.gt]: 100 } },
+    where: { status: 1, view: { [Op.gt]: 50 } },
     order: [
       ["created_at", "DESC"],
       ["id", "DESC"],
@@ -136,3 +154,39 @@ exports.getNewProducts = async (req, res) => {
   });
   res.json(products);
 };
+
+exports.searchProducts = async (req, res) => {
+  const searchQuery = req.query.q || "";
+  try {
+    const [rows] = await db.execute(
+      `SELECT * FROM products WHERE name LIKE ?`,
+      [`%${searchQuery}%`]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi truy vấn database" });
+  }
+};
+
+
+
+exports.getProductById =  async (req, res) => {
+    try {
+    const sp = await ProductModel.findByPk(req.params.id);
+    sp ? res.json(sp) : res.status(404).json({ thong_bao: "Không tìm thấy" });
+  } catch (err) {
+    res.status(500).json({ thong_bao: "Lỗi server", err });
+  }
+
+  }
+exports.deleteProduct = async(req, res) => {
+    try {
+    const sp = await ProductModel.findByPk(req.params.id);
+    if (!sp) return res.status(404).json({ thong_bao: "Không tìm thấy" });
+    await sp.destroy();
+    res.json({ thong_bao: "Đã xóa thành công" });
+  } catch (err) {
+    res.status(500).json({ thong_bao: "Lỗi server", err });
+  }
+
+}
