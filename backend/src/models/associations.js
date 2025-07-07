@@ -5,10 +5,24 @@ const CategoryModel = require("./Category");
 const ColorModel = require("./Color");
 const SizeModel = require("./Size");
 const VariantSizeModel = require("./VariantSize");
+const ShoeHeightModel = require("./ShoeHeight");
+const GenderModel = require("./Gender");
 
 const BlogModel = require("./Blog");
 const BlogCategoryModel = require("./BlogCategory");
+// chưa chắc
+const BrandModel = require("./Brand");
 
+// Một sản phẩm thuộc về một thương hiệu
+ProductModel.belongsTo(BrandModel, {
+  foreignKey: "brand_id",
+  as: "brand",
+});
+// 1 brand có nhiều sản phẩm
+BrandModel.hasMany(ProductModel, {
+  foreignKey: "brand_id",
+  as: "products",
+});
 /** 1. Một sản phẩm có nhiều biến thể */
 ProductModel.hasMany(ProductVariantModel, {
   foreignKey: "product_id",
@@ -69,6 +83,17 @@ SizeModel.hasMany(VariantSizeModel, {
   as: "variant_sizes",
 });
 
+/** 11. Mỗi variant đều có 1 kiểu cổ giày */
+ProductVariantModel.belongsTo(ShoeHeightModel, {
+  foreignKey: "shoe_height_id",
+  as: "shoe_height",
+});
+
+/** 12. Mỗi sản phẩm đều có 1 giới tính */
+ProductModel.belongsTo(GenderModel, {
+  foreignKey: "gender_id",
+  as: "gender",
+});
 
 // Thiết lập mối quan hệ blog + cate
 BlogModel.belongsTo(BlogCategoryModel, {
@@ -80,4 +105,3 @@ BlogCategoryModel.hasMany(BlogModel, {
   foreignKey: "category_id",
   as: "blogs",
 });
-

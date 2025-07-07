@@ -1,0 +1,55 @@
+<div class="product-related">
+  <h3 class="text-xl font-bold">Tất cả sản phẩm</h3>
+  <div
+    class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-6"
+  >
+    <!-- Product Item -->
+    <div class="product" *ngFor="let product of products">
+      <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+        <a [routerLink]="['/product-detail', product.slug]">
+          <img
+            class="product-image w-full h-full object-cover"
+            [src]="product.image"
+            alt="{{ product.name }}"
+          />
+        </a>
+      </div>
+      <!-- Product info -->
+      <div class="product-info">
+        <div class="product-name font-bold text-base mb-2">
+          {{ product.name }}
+        </div>
+        <div class="category-name text-sm text-gray-500 mb-2">
+          <span>{{ product.category?.name }}</span>
+        </div>
+        <div class="price flex gap-3 items-center">
+          <ng-container
+            *ngIf="
+              product.price_sale && product.price_sale < product.price;
+              else noSale
+            "
+          >
+            <div class="product_price-sale text-red-500 font-bold text-base">
+              {{ product.price_sale | number : "1.0-0" }}đ
+            </div>
+            <div class="product_price text-base font-semibold text-gray-500">
+              <del>{{ product.price | number : "1.0-0" }}đ</del>
+            </div>
+            <span class="font-semibold text-green-500 text-base">
+              Giảm
+              {{
+                ((product.price - product.price_sale) / product.price) * 100
+                  | number : "1.0-0"
+              }}%
+            </span>
+          </ng-container>
+          <ng-template #noSale>
+            <div class="product_price-sale text-red-500 font-bold text-base">
+              {{ product.price_sale | number : "1.0-0" }}đ
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

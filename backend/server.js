@@ -35,7 +35,12 @@ sequelize
   });
 
 // 7. Định nghĩa các route chính
+// app.use("/api/price_ranges", require("./src/routes/priceRange.routes"));
 app.use("/api/categories", require("./src/routes/category.routes"));
+app.use("/api/brands", require("./src/routes/brand.routes"));
+app.use("/api/genders", require("./src/routes/gender.routes"));
+app.use("/api/shoe_heights", require("./src/routes/shoeHeight.routes"));
+app.use("/api/sizes", require("./src/routes/size.routes"));
 app.use("/api/products", require("./src/routes/product.routes"));
 app.use("/api/auth", require("./src/routes/auth.routes"));
 app.use("/api/orders", require("./src/routes/order.routes"));
