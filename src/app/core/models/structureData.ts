@@ -1,15 +1,55 @@
 export interface ICategory {
   id: number;
   name: string;
+  checked?: boolean;
+  description?: string;
+  sort_order?: number;
+  status: number;
+}
+export interface IBrand {
+  id: number;
+  name: string;
+  slug: string;
+  checked?: boolean;
   description?: string;
   sort_order?: number;
   status: number;
 }
 
+export interface ISize {
+  id: number;
+  size: number;
+  checked?: boolean;
+  created_at: string;
+  update_at: string;
+}
+export interface IGender {
+  id: number;
+  name: string;
+  slug: string;
+  checked?: boolean;
+}
+
+export interface IShoeHeight {
+  id: number;
+  name: string;
+}
+
+export interface IPrice_ranges {
+  id: number;
+  name: string;
+  min: number;
+  max: number | null;
+  checked?: boolean;
+}
+
 export interface IProduct {
   id: number;
   name: string;
-  category_id: string;
+  category_id: number;
+  brand_id: number;
+  gender_id: number;
+  size_id: number;
   description?: string;
   slug: string;
   image: string;
@@ -38,7 +78,7 @@ export interface IProductVariantSize {
 export interface IProductVariant {
   id: number;
   color_id: number;
-  shoe_height_id: number;
+  shoe_height?: IShoeHeight;
   style_code: string;
   image_url: string;
   status: number;
@@ -81,12 +121,3 @@ export interface IWishlist {
   is_active?: boolean;
 }
 
-export interface IBrand {
-  id?: number;
-  name: string;
-  slug: string;
-  description: string;
-  status: number;
-  created_at: string;
-  update_at: string;
-}

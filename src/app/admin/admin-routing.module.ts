@@ -12,27 +12,15 @@ const routes: Routes = [
       { path: "", component: DashboardComponent, title: "Dashboard" },
       {
         path: "products",
-        loadComponent: () =>
-          import("./pages/products/products.component").then(
-            (m) => m.ProductsComponent
-          ),
-        providers: [provideHttpClient()], // ✅ Dòng quan trọng!
-        title: "Products",
-        /* children: [
-          {
-            path: 'add',
-            loadComponent: () =>
-              import('./pages/product-form/product-form.component').then((m) => m.ProductFormComponent),
-            title: 'Add Product'
-          },
-          {
-            path: 'edit/:id',
-            loadComponent: () =>
-              import('./pages/product-form/product-form.component').then((m) => m.ProductFormComponent),
-            title: 'Edit Product'
-          }
-        ] */
+        loadComponent: () => import("./pages/products/products.component").then(m => m.ProductsComponent),
+        title: "Products"
       },
+      {
+        path: "products/add",
+        loadComponent: () => import("./pages/products/product-form/product-form.component").then(m => m.ProductFormComponent),
+        title: "Add Product"
+      },
+
       {
         path: "categories",
         loadComponent: () =>

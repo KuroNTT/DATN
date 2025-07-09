@@ -9,7 +9,10 @@ const ProductModel = sequelize.define(
     name: { type: DataTypes.STRING },
     category_id: { type: DataTypes.INTEGER },
     brand_id: { type: DataTypes.INTEGER },
-    description: { type: DataTypes.STRING },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     slug: { type: DataTypes.STRING },
     image: { type: DataTypes.STRING },
     price: { type: DataTypes.INTEGER },
@@ -18,8 +21,14 @@ const ProductModel = sequelize.define(
     status: { type: DataTypes.INTEGER },
     hot: { type: DataTypes.INTEGER },
     view: { type: DataTypes.INTEGER, defaultValue: 0 },
-    created_at: { type: DataTypes.DATE },
-    update_at: { type: DataTypes.DATE },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   { timestamps: false, tableName: "products" }
 );

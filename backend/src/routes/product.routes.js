@@ -12,8 +12,8 @@ router.get("/new/:count", productController.getNewProducts);
 router.get("/:slug", productController.getProductBySlug);
 
 // CRUD
-/* router.post('/', auth, productController.createProduct);
-router.put('/:id', auth, productController.updateProduct); */
+ router.post('/',  productController.createProduct);
+/*router.put('/:id', auth, productController.updateProduct); */
 router.delete('/:id', auth, productController.deleteProduct); 
-
+router.patch('/:id/status',auth, productController.updateStatus);
 module.exports = router;

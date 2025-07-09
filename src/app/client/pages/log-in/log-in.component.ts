@@ -78,7 +78,7 @@ export class LogInComponent {
           } else if (data.field === "password") {
             this.shakeField("password", data.message);
           } else {
-            this.thong_bao = data.message; // ⚠️ bạn cần có biến thong_bao trong component + HTML
+            this.thong_bao = data.message; 
           }
           return;
         }

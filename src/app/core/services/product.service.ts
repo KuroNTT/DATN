@@ -17,38 +17,59 @@ export class ProductService {
       throw new Error("Lỗi khi tìm kiếm sản phẩm");
     }
     return await response.json();
+  }private getAuthHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('token'); // hoặc localStorage nếu bạn dùng
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
   getAll(): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(this.apiUrl);
   }
-  getOne(slug: string): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.apiUrl}/${slug}`);
-  }
-  create(product: IProduct): Observable<IProduct> {
-    return this.http.post<IProduct>(this.apiUrl, product);
-  }
-  update(id: number, product: IProduct): Observable<IProduct> {
-    return this.http.put<IProduct>(`${this.apiUrl}/${id}`, product);
+
+  getOne(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(`${this.apiUrl}/${id}`);
   }
 
-    
-  delete(id: number): Observable<any> {
-    const token = sessionStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+  create(product: IProduct): Observable<IProduct> {
+    return this.http.post<IProduct>(this.apiUrl, product, {
+      headers: this.getAuthHeaders()
     });
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {headers});
   }
+
+  update(id: number, product: IProduct): Observable<IProduct> {
+    return this.http.put<IProduct>(`${this.apiUrl}/${id}`, product, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  updateStatus(id: number, status: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/status`, { status }, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   uploadFile(formData: FormData): Observable<{ filename: string }> {
     return this.http.post<{ filename: string }>(
-      'http://localhost:3000/admin/sp/upload',formData
+      'http://localhost:3000/admin/sp/upload',
+      formData,
+      { headers: this.getAuthHeaders() }
     );
   }
+
   getCategoty(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>('http://localhost:3000/api/categories');
   }
-  getBrand(): Observable<IBrand[]>{
-    return this.http.get<IBrand[]>('http://localhost:3000/api/brand')
+
+  getBrand(): Observable<IBrand[]> {
+    return this.http.get<IBrand[]>('http://localhost:3000/api/brand');
   }
+
 }

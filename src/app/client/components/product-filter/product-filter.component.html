@@ -1,0 +1,236 @@
+<div class="lg:col-span-2">
+  <h3 class="text-xl font-bold mb-6">Bộ lọc tìm kiếm</h3>
+
+  <!-- Giới tính -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="toggleGenderFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Giới tính</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isGenderFilterVisible }"
+      ></i>
+    </div>
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isGenderFilterVisible,
+        'max-h-96 opacity-100': isGenderFilterVisible
+      }"
+    >
+      <label class="block">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAllSizes"
+          (change)="onSelectAllGenders()"
+        />
+        Tất cả
+      </label>
+
+      <label class="block" *ngFor="let gender of gender_arr">
+        <input
+          type="checkbox"
+          [(ngModel)]="gender.checked"
+          (change)="onGenderChange()"
+        />
+        {{ gender.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Mức giá -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="togglePriceFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Mức giá</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isPriceFilterVisible }"
+      ></i>
+    </div>
+
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isPriceFilterVisible,
+        'max-h-96 opacity-100': isPriceFilterVisible
+      }"
+    >
+      <label class="block" *ngFor="let price of price_ranges">
+        <input
+          type="checkbox"
+          [(ngModel)]="price.checked"
+          (change)="onPriceChange(price, $event)"
+        />
+        {{ price.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Hãng -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="toggleBrandFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Hãng</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isBrandFilterVisible }"
+      ></i>
+    </div>
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isBrandFilterVisible,
+        'max-h-96 opacity-100': isBrandFilterVisible
+      }"
+    >
+      <label class="block">
+        <input
+          type="checkbox"
+          [checked]="selectAllBrands"
+          (change)="onSelectAllBrands($event)"
+        />
+        Tất cả
+      </label>
+
+      <label class="block" *ngFor="let brand of brand_arr">
+        <input
+          type="checkbox"
+          [checked]="brand.checked"
+          (change)="onBrandChange(brand, $event)"
+        />
+        {{ brand.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Loại -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="toggleCategoryFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Loại</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isCategoryFilterVisible }"
+      ></i>
+    </div>
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isCategoryFilterVisible,
+        'max-h-96 opacity-100': isCategoryFilterVisible
+      }"
+    >
+      <label class="block">
+        <input
+          type="checkbox"
+          [checked]="selectAllCategory"
+          (change)="onSelectAllCategories($event)"
+        />
+        Tất cả
+      </label>
+
+      <label class="block" *ngFor="let category of category_arr">
+        <input
+          class="text-base text-red-400"
+          type="checkbox"
+          [checked]="category.checked"
+          (change)="onCategoryChange(category, $event)"
+        />
+        {{ category.name }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Size -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="toggleSizeFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Size</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isSizeFilterVisible }"
+      ></i>
+    </div>
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isSizeFilterVisible,
+        'max-h-96 opacity-100': isSizeFilterVisible
+      }"
+    >
+      <label class="block">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAllSizes"
+          (change)="onSelectAllSizes()"
+        />
+        Tất cả
+      </label>
+
+      <label class="block" *ngFor="let size of size_arr">
+        <input
+          type="checkbox"
+          [(ngModel)]="size.checked"
+          (change)="onSizeChange()"
+        />
+        {{ size.size }}
+      </label>
+    </div>
+  </div>
+
+  <!-- Cổ giày -->
+  <div
+    class="items-center justify-between cursor-pointer"
+    (click)="toggleShoeHeightFilter()"
+  >
+    <div class="border-t border-gray-200"></div>
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">Cổ giày</h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isShoeHeightFilterVisible }"
+      ></i>
+    </div>
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isShoeHeightFilterVisible,
+        'max-h-96 opacity-100': isShoeHeightFilterVisible
+      }"
+    >
+      <label class="block">
+        <input
+          type="checkbox"
+          [(ngModel)]="selectAllShoeHeight"
+          (change)="onSelectAllShoeHeights()"
+        />
+        Tất cả
+      </label>
+
+      <label class="block" *ngFor="let shoe_height of shoe_height_arr">
+        <input
+          type="checkbox"
+          [(ngModel)]="shoe_height.checked"
+          (change)="onSizeChange()"
+        />
+        {{ shoe_height.name }}
+      </label>
+    </div>
+  </div>
+</div>

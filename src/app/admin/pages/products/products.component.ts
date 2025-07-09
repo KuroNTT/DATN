@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { IProduct, ICategory, IBrand } from '../../../core/models/structureData';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../../core/services/product.service';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPaginationModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -14,7 +14,7 @@ export class ProductsComponent {
   category_arr: ICategory[] = [];
   product_arr: IProduct[] = [];
   brand_arr: IBrand[] = [];
-
+  p:number = 1;
   constructor(private pds: ProductService) { }
 
   ngOnInit() { this.loadProduct() }
@@ -31,5 +31,18 @@ export class ProductsComponent {
       this.pds.delete(id).subscribe(() => this.loadProduct())
     }
   }
+  toggleStatus(pd: IProduct) {
+  const newStatus = pd.status === 1 ? 0 : 1;
+
+  this.pds.updateStatus(pd.id!, newStatus).subscribe({
+    next: () => {
+      pd.status = newStatus; // cập nhật UI
+    },
+    error: err => {
+      console.error('Lỗi khi cập nhật trạng thái:', err);
+    }
+  });
+}
+
 
 }

@@ -1,0 +1,84 @@
+import { Component } from "@angular/core";
+import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
+import { ProductListComponent } from "../product-list/product-list.component";
+import { IProduct } from "../../../core/models/structureData";
+
+import { HttpClient } from "@angular/common/http";
+
+@Component({
+  selector: "app-product",
+  standalone: true,
+  imports: [ProductFilterComponent, ProductListComponent],
+  templateUrl: "./products.component.html",
+  styleUrls: ["./products.component.css"],
+})
+export class ProductsComponent {
+  product_arr: IProduct[] = [];
+  product_arr_all: IProduct[] = [];
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchAllProducts();
+  }
+
+  fetchAllProducts(): void {
+    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
+      next: (data) => {
+        this.product_arr_all = data;
+        this.product_arr = data;
+      },
+      error: (err) => console.error("Lỗi khi lấy tất cả sản phẩm:", err),
+    });
+  }
+
+  onFilterChanged(filter: {
+    categories: number[];
+    brands: number[];
+    sizes: number[];
+    genders: number[];
+    shoeHeights: number[];
+    prices: { min: number; max: number }[];
+  }) {
+    this.product_arr = this.product_arr_all.filter((p) => {
+      const matchPrice =
+        filter.prices.length === 0 ||
+        filter.prices.some((r) => {
+          const min = r.min ?? 0;
+          const max = r.max ?? Infinity;
+          return p.price_sale >= min && p.price_sale < max;
+        });
+
+      const matchCategory =
+        filter.categories.length === 0 ||
+        filter.categories.includes(Number(p.category_id));
+
+      const matchBrand =
+        filter.brands.length === 0 ||
+        filter.brands.includes(Number(p.brand_id));
+
+      const matchSize =
+        filter.sizes.length === 0 || filter.sizes.includes(Number(p.size_id));
+
+      const matchGender =
+        filter.genders.length === 0 ||
+        filter.genders.includes(Number(p.gender_id));
+
+      const matchShoeHeight =
+        filter.shoeHeights.length === 0 ||
+        p.variants?.some((v: any) =>
+          filter.shoeHeights.includes(Number(v.shoe_height_id))
+        );
+
+      return (
+        matchPrice &&
+        matchCategory &&
+        matchBrand &&
+        matchSize &&
+        matchGender &&
+        matchShoeHeight
+      );
+    });
+
+    console.log("Kết quả lọc:", this.product_arr);
+  }
+}

@@ -44,59 +44,63 @@ exports.signUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Tạo user trong DB
+    //  Tạo user trong DB
     const newUser = await UserModel.create({
       name,
       email,
       password: hashedPassword,
-      role: "customer", // ✅ thêm dòng này
-      account_lock: 1, // ban đầu bị khóa (chưa xác thực email)
+      role: "customer",
+      account_lock: 1, // mặc định là bị khóa, chờ xác thực email
       created_at: new Date(),
       update_at: new Date(),
     });
 
-    // ✅ Tạo token xác thực email
-    const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, {
-      expiresIn: "15m",
+    //  Trả lời ngay cho client (tránh chờ mail lâu)
+    res.status(201).json({
+      thong_bao:
+        "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.",
     });
 
-    const verifyLink = `http://localhost:4200/verify-email?token=${encodeURIComponent(
-      token
-    )}`;
+    //  Gửi email xác thực ở chế độ nền (không chờ)
+    (async () => {
+      try {
+        const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, {
+          expiresIn: "15m",
+        });
 
-    // ✅ Gửi email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "tvmkinhdoanhgiay@gmail.com",
-        pass: process.env.APP_PASSWORD, // phải có biến này trong .env
-      },
-    });
+        const verifyLink = `http://localhost:4200/verify-email?token=${encodeURIComponent(token)}`;
 
-    await transporter.sendMail({
-      from: '"TVM Giày" <tvmkinhdoanhgiay@gmail.com>',
-      to: newUser.email,
-      subject: "Xác thực tài khoản của bạn tại TVM Giày",
-      html: `
-    <p>Xin chào ${newUser.name},</p>
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: "tvmkinhdoanhgiay@gmail.com",
+            pass: process.env.APP_PASSWORD,
+          },
+        });
 
-    <p>Bạn vừa đăng ký tài khoản tại <strong>TVM Giày</strong>.</p>
+        await transporter.sendMail({
+          from: '"TVM Giày" <tvmkinhdoanhgiay@gmail.com>',
+          to: newUser.email,
+          subject: "Xác thực tài khoản của bạn tại TVM Giày",
+          html: `
+            <p>Xin chào ${newUser.name},</p>
+            <p>Bạn vừa đăng ký tài khoản tại <strong>TVM Giày</strong>.</p>
+            <p>Để hoàn tất quá trình đăng ký, vui lòng nhấn vào liên kết bên dưới để xác thực địa chỉ email của bạn:</p>
+            <p><a href="${verifyLink}">${verifyLink}</a></p>
+            <p>Nếu bạn không thực hiện đăng ký, vui lòng bỏ qua email này.</p>
+            <p>Trân trọng,<br/>Đội ngũ TVM Giày</p>
+          `,
+        });
 
-    <p>Để hoàn tất quá trình đăng ký, vui lòng nhấn vào liên kết bên dưới để xác thực địa chỉ email của bạn:</p>
+        console.log(` Đã gửi email xác thực tới: ${newUser.email}`);
+      } catch (mailErr) {
+        console.error(" Lỗi khi gửi email xác thực:", mailErr);
+        // Optional: lưu lại log lỗi vào DB hoặc hệ thống theo dõi
+      }
+    })(); // chạy ngay
 
-    <p><a href="${verifyLink}">${verifyLink}</a></p>
-
-    <p>Nếu bạn không thực hiện đăng ký, vui lòng bỏ qua email này.</p>
-
-    <p>Trân trọng,<br/>Đội ngũ TVM Giày</p>
-  `,
-    });
-
-    return res.status(201).json({
-      thong_bao: "Đăng ký thành công. Vui lòng kiểm tra email để xác thực.",
-    });
   } catch (err) {
-    console.error("Lỗi server:", err); // ⚠️ RẤT QUAN TRỌNG
+    console.error(" Lỗi server:", err);
     return res.status(500).json({
       error: true,
       message: "Có lỗi xảy ra. Vui lòng thử lại sau.",
@@ -183,7 +187,6 @@ exports.verifyEmail = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
-    //console.log("Token resolved user:", req.user); // kiểm tra user có tồn tại không
     const user = await UserModel.findByPk(req.user.id, {
       attributes: [
         "id",
@@ -212,7 +215,7 @@ exports.updateProfile = async (req, res) => {
     const userId = req.user.id; // lấy từ middleware giải mã token
 
     // Các field được cho phép cập nhật
-    const { name, phone, sex, address } = req.body;
+    const { name, phone, sex, address, avatar } = req.body;
 
     // Tìm user
     const user = await UserModel.findByPk(userId);
@@ -224,6 +227,7 @@ exports.updateProfile = async (req, res) => {
     user.phone = phone;
     user.sex = sex;
     user.address = address;
+    if (avatar) user.avatar = avatar; 
 
     await user.save();
 
@@ -232,13 +236,14 @@ exports.updateProfile = async (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      avatar: user.avatar,
       phone: user.phone,
       sex: user.sex,
       address: user.address,
       email_verify_at: user.email_verify_at,
     });
   } catch (err) {
-    console.error("❌ Lỗi cập nhật:", err);
+    console.error(" Lỗi cập nhật:", err);
     res.status(500).json({ message: "Lỗi máy chủ khi cập nhật" });
   }
 };
@@ -285,7 +290,6 @@ exports.changePw = async (req, res) => {
   }
   if (!passnew1 || passnew1 !== passnew2)
     return res.json({ thong_bao: "Hai mật khẩu mới không khớp hoặc rỗng" });
-
 
   const isSameAsOld = bcrypt.compareSync(passnew1, pw_db);
   if (isSameAsOld) {
