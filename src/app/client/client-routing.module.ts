@@ -7,7 +7,7 @@ import { CartComponent } from "./pages/cart/cart.component";
 import { BlogListComponent } from "./pages/blog-list/blog-list.component";
 import { BlogDetailComponent } from "./pages/blog-detail/blog-detail.component";
 import { OrderComponent } from "./pages/order/order.component";
-import { ProductComponent } from "./pages/product/product.component";
+import { ProductsComponent } from "./pages/products/products.component";
 import { ProductDetailComponent } from "./pages/product-detail/product-detail.component";
 import { SignUpComponent } from "./pages/sign-up/sign-up.component";
 import { LogInComponent } from "./pages/log-in/log-in.component";
@@ -41,7 +41,7 @@ const routes: Routes = [
         title: "Blog Detail",
       },
       { path: "order", component: OrderComponent, title: "Order" },
-      { path: "product", component: ProductComponent, title: "Product" },
+      { path: "products", component: ProductsComponent, title: "Products" },
       {
         path: "product-detail/:slug",
         component: ProductDetailComponent,

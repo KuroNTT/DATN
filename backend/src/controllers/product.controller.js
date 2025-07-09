@@ -7,28 +7,99 @@ const CategoryModel = require("../models/Category");
 const ColorModel = require("../models/Color");
 const VariantSizeModel = require("../models/VariantSize");
 const SizeModel = require("../models/Size");
+const ShoeHeightModel = require("../models/ShoeHeight");
+const GenderModel = require("../models/Gender");
 
 exports.getAllProducts = async (req, res) => {
   const searchQuery = req.query.q || "";
+  const collarIdsRaw = req.query.collars || "";
+  const collarIds = collarIdsRaw.split(",").map(Number).filter(Boolean);
+  const brandIdsRaw = req.query.brands || "";
+  const brandIds = brandIdsRaw.split(",").map(Number).filter(Boolean);
+  const genderIdsRaw = req.query.genders || "";
+  const genderIds = genderIdsRaw.split(",").map(Number).filter(Boolean);
+  const priceRanges = (req.query.prices || "")
+    .split(",")
+    .map((r) => {
+      const [min, max] = r.split("-").map(Number);
+      return { min, max: isNaN(max) ? null : max };
+    })
+    .filter((r) => !isNaN(r.min));
+
+  const variantInclude = {
+    model: ProductVariantModel,
+    as: "variants",
+    required: collarIds.length > 0,
+    include: [
+      {
+        model: ShoeHeightModel,
+        as: "shoe_height",
+        attributes: ["id", "name"],
+      },
+    ],
+  };
+
+  if (collarIds.length > 0) {
+    variantInclude.where = {
+      shoe_height_id: { [Op.in]: collarIds },
+    };
+  }
+
+  /* ---------- 3. Xây where của Product ---------- */
+  const whereProduct = {
+    status: 1,
+    ...(searchQuery && {
+      name: { [Op.like]: `%${searchQuery}%` },
+    }),
+    ...(brandIds.length && { brand_id: { [Op.in]: brandIds } }),
+    ...(genderIds.length && { gender_id: { [Op.in]: genderIds } }),
+  };
+
+  // ➡️ Bổ sung điều kiện lọc giá
+  if (priceRanges.length) {
+    whereProduct[Op.or] = priceRanges.map((r) =>
+      r.max != null
+        ? { price_sale: { [Op.between]: [r.min, r.max] } }
+        : { price_sale: { [Op.gte]: r.min } }
+    );
+  }
+
   const products = await ProductModel.findAll({
     where: {
       status: 1,
       ...(searchQuery && {
-        name: {
-          [Op.like]: `%${searchQuery}%`,
-        },
+        name: { [Op.like]: `%${searchQuery}%` },
+      }),
+      ...(brandIds.length && {
+        brand_id: { [Op.in]: brandIds },
+      }),
+      ...(genderIds.length && {
+        gender_id: { [Op.in]: genderIds },
+      }),
+      ...(priceRanges.length && {
+        [Op.or]: priceRanges.map((r) =>
+          r.max != null
+            ? { price_sale: { [Op.between]: [r.min, r.max] } }
+            : { price_sale: { [Op.gte]: r.min } }
+        ),
       }),
     },
     order: [["created_at", "ASC"]],
     include: [
-      { model: ProductVariantModel, as: "variants" },
+      variantInclude,
       {
         model: CategoryModel,
         as: "category",
         attributes: ["name"],
       },
+      {
+        model: GenderModel,
+        as: "gender",
+        attributes: ["id", "name"],
+      },
     ],
   });
+
   res.json(products);
 };
 
