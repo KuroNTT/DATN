@@ -16,12 +16,21 @@ exports.signUp = async (req, res) => {
       });
     }
 
-    const existingUser = await UserModel.findOne({ where: { email } });
-    if (existingUser) {
+    const existingEmail = await UserModel.findOne({ where: { email } });
+    if (existingEmail) {
       return res.status(409).json({
         error: true,
         field: "email",
         message: "Email đã tồn tại",
+      });
+    }
+
+    const existingName = await UserModel.findOne({ where: { name } });
+    if (existingName) {
+      return res.status(409).json({
+        error: true,
+        field: "name",
+        message: "Tên đã tồn tại",
       });
     }
 
@@ -64,11 +73,17 @@ exports.signUp = async (req, res) => {
     //  Gửi email xác thực ở chế độ nền (không chờ)
     (async () => {
       try {
-        const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, {
-          expiresIn: "15m",
-        });
+        const token = jwt.sign(
+          { email: newUser.email },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "15m",
+          }
+        );
 
-        const verifyLink = `http://localhost:4200/verify-email?token=${encodeURIComponent(token)}`;
+        const verifyLink = `http://localhost:4200/verify-email?token=${encodeURIComponent(
+          token
+        )}`;
 
         const transporter = nodemailer.createTransport({
           service: "gmail",
@@ -98,7 +113,6 @@ exports.signUp = async (req, res) => {
         // Optional: lưu lại log lỗi vào DB hoặc hệ thống theo dõi
       }
     })(); // chạy ngay
-
   } catch (err) {
     console.error(" Lỗi server:", err);
     return res.status(500).json({
@@ -227,7 +241,7 @@ exports.updateProfile = async (req, res) => {
     user.phone = phone;
     user.sex = sex;
     user.address = address;
-    if (avatar) user.avatar = avatar; 
+    if (avatar) user.avatar = avatar;
 
     await user.save();
 
