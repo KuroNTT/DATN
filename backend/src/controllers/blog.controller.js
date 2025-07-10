@@ -20,7 +20,7 @@ exports.getAllBlogs = async (req, res) => {
           attributes: ["id", "name", "slug"],
         },
       ],
-      attributes: ["id", "title", "thumbnail", "content", "created_at", "category_id"],
+      attributes: ["id", "title", "slug", "thumbnail", "content", "created_at", "category_id"],
     });
 
     res.json(blogs);
@@ -29,12 +29,12 @@ exports.getAllBlogs = async (req, res) => {
   }
 };
 
-// GET /api/blogs/:id
-exports.getBlogById = async (req, res) => {
+// GET /api/blogs/slug/:slug
+exports.getBlogBySlug = async (req, res) => {
   try {
     const blog = await Blog.findOne({
       where: {
-        id: req.params.id,
+        slug: req.params.slug,
         is_published: 1,
         status: 1,
       },
@@ -48,7 +48,7 @@ exports.getBlogById = async (req, res) => {
     });
 
     if (!blog) {
-      return res.status(404).json({ message: "Không tìm thấy bài viết" });
+      return res.status(404).json({ message: "Không tìm thấy bài viết theo slug" });
     }
 
     res.json(blog);
@@ -56,6 +56,7 @@ exports.getBlogById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // GET /api/blogs/category/:slug
 exports.getBlogsByCategorySlug = async (req, res) => {

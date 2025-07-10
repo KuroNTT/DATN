@@ -120,7 +120,6 @@ export class HeaderComponent implements OnInit {
         }
       }
     } else {
-      // Đang chạy ở môi trường không phải trình duyệt
       this.isLoggedIn = false;
       this.username = "Khách hàng";
       this.userrole = "customer";
@@ -143,7 +142,6 @@ export class HeaderComponent implements OnInit {
   goToProfile() {
     window.location.href = "/profile";
   }
-
   
   logout() {
     sessionStorage.clear();

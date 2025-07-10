@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 })
 export class BlogListComponent implements OnInit {
   blogs: any[] = [];
-  category_arr: any[] = []; // ✅ Khai báo mảng danh mục
+  category_arr: any[] = []; 
   private router = inject(Router);
 
   ngOnInit(): void {
     this.fetchAllBlogs();
-  this.fetchCategories();     // ✅ Phải có dòng này!
+  this.fetchCategories();     
   }
 
   fetchAllBlogs(): void {
@@ -29,7 +29,7 @@ export class BlogListComponent implements OnInit {
   }
 
   fetchCategories(): void {
-    fetch('http://localhost:3000/api/blogs/categories/all') // ✅ Đảm bảo backend có route này
+    fetch('http://localhost:3000/api/blogs/categories/all') 
       .then(res => res.json())
       .then(data => {
         this.category_arr = data;
@@ -37,9 +37,10 @@ export class BlogListComponent implements OnInit {
       .catch(err => console.error(err));
   }
 
-  goToBlog(id: number): void {
-    this.router.navigateByUrl(`/blog/${id}`);
-  }
+  goToBlog(slug: string): void {
+  this.router.navigateByUrl(`/blog/${slug}`);
+}
+
 
   getPreviewText(html: string, maxLength: number = 100): string {
     const div = document.createElement('div');
@@ -47,8 +48,7 @@ export class BlogListComponent implements OnInit {
     return div.textContent?.substring(0, maxLength) + '...' || '';
   }
 
- selectedCategorySlug: string = ''; // Theo dõi danh mục đang chọn
-
+ selectedCategorySlug: string = ''; 
 filterByCategorySlug(slug: string): void {
   this.selectedCategorySlug = slug;
 
@@ -61,8 +61,8 @@ filterByCategorySlug(slug: string): void {
 }
 
 selectAllCategories(): void {
-  this.selectedCategorySlug = ''; // Bỏ chọn tất cả
-  this.fetchAllBlogs();           // Gọi lại toàn bộ blog
+  this.selectedCategorySlug = ''; 
+  this.fetchAllBlogs();           
 }
 
 }

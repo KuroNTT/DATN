@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: "cart", component: CartComponent, title: "Cart" },
       { path: "blog", component: BlogListComponent, title: "Blog" },
       {
-        path: "blog/:id",
+        path: "blog/:slug",
         component: BlogDetailComponent,
         title: "Blog Detail",
       },

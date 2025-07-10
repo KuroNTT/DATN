@@ -7,7 +7,7 @@
     <i
       class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
     ></i>
-    <a href="/blog" class="cursor-pointer">
+    <a [routerLink]="['/blog', blog?.slug]" class="cursor-pointer">
       <span class="text-base font-semibold">Bài viết</span>
     </a>
     <i

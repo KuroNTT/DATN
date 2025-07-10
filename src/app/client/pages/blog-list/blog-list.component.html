@@ -92,7 +92,7 @@
           *ngFor="let blog of blogs; let i = index"
           class="md:flex md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
           [ngClass]="{ 'flex-row-reverse': i % 2 !== 0 }"
-          (click)="goToBlog(blog.id)"
+          (click)="goToBlog(blog.slug)"
         >
           <!-- Ảnh -->
           <img
