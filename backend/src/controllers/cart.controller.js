@@ -1,6 +1,7 @@
 const CartModel = require("../models/cart");
 const ProductVariantModel = require("../models/ProductVariant");
 const ProductModel = require("../models/Product");
+const SizeModel = require("../models/Size")
 
 const addToCart = async (req, res) => {
   const { userId, variantId, sizeId, quantity } = req.body;
@@ -81,23 +82,28 @@ const getAllCart = async (req, res) => {
       include: [
         {
           model: ProductVariantModel,
-          as: "variant",
-          attributes: ["id", "image_url"],
+          as: 'variant',
+          attributes: ['id', 'image_url'],
           include: [
             {
               model: ProductModel,
-              as: "product",
-              attributes: ["name", "price", "description", "image"],
+              as: 'product',
+              attributes: ['name', 'price', 'price_sale', 'description', 'image'],
             },
           ],
+        },
+        {
+          model: SizeModel,
+          as: 'size',              
+          attributes: ['id', 'size'], 
         },
       ],
     });
 
-    res.json(cartItems);
+    return res.json(cartItems);
   } catch (err) {
-    console.error("❌ Lỗi khi lấy giỏ hàng:", err);
-    res.status(500).json({ message: "Lỗi server" });
+    console.error('❌ Lỗi khi lấy giỏ hàng:', err);
+    return res.status(500).json({ message: 'Lỗi server' });
   }
 };
 
@@ -130,8 +136,55 @@ const updateCartQuantity = async (req, res) => {
     return res.status(500).json({ error: "Lỗi máy chủ." });
   }
 };
+
+const getAllCartLocalStore = async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    // Lấy danh sách variantIds và sizeIds
+    const variantIds = items.map(item => item.variantId);
+    const sizeIds = items.map(item => item.sizeId);
+
+    // Lấy thông tin các variant và include product
+    const variants = await ProductVariantModel.findAll({
+      where: { id: variantIds },
+      include: [
+        {
+          model: ProductModel,
+          as: 'product',
+          attributes: ['id', 'name', 'price', 'image', 'price_sale']
+        }
+      ]
+    });
+
+    // Lấy thông tin size
+    const sizes = await SizeModel.findAll({
+      where: { id: sizeIds }
+    });
+
+    // Gộp lại dữ liệu theo từng item
+    const response = items.map(item => {
+      const variant = variants.find(v => v.id === item.variantId);
+      const size = sizes.find(s => s.id === item.sizeId);
+      return {
+        variantId: item.variantId,
+        sizeId: item.sizeId,
+        quantity: item.quantity,
+        variant,
+        size
+      };
+    });
+
+    return res.json(response);
+  } catch (error) {
+    console.error('❌ Error in getAllCartLocalStore:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   addToCart,
   getAllCart,
   deleteItemById,
+  getAllCartLocalStore
 };

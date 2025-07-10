@@ -1,6 +1,7 @@
 const sequelize = require('../config/sequelize');
 const { DataTypes } = require('sequelize');
 const ProductVariant = require('./ProductVariant'); // ⬅ KHÔNG được thiếu
+const SizeModel = require('./Size')
 
 const CartModel = sequelize.define('cart_item', {
   id: {
@@ -40,4 +41,8 @@ CartModel.belongsTo(ProductVariant, {
   as: 'variant'
 });
 
+CartModel.belongsTo(SizeModel, {
+  foreignKey: 'size_id',
+  as: 'size', // tên này phải đúng như trong include
+});
 module.exports = CartModel;

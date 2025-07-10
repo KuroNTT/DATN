@@ -7,6 +7,7 @@ import {
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
 import { CartService } from "../../services/cart.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-product-detail",
@@ -136,6 +137,19 @@ export class ProductDetailComponent implements OnInit {
       this.selectedSize.id,
       this.quantity
     );
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Đã thêm vào giỏ hàng!",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
   }
 
   wishlist: IProductVariant[] = [];
