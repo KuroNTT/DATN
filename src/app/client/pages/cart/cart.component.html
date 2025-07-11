@@ -11,18 +11,17 @@
 </div>
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container max-w-7xl">
-    <!-- Cart Layout -->
     <div class="mx-auto my-7">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Cart Items (2/3) -->
         <div class="lg:col-span-2 space-y-6">
           <div
-            *ngFor="let item of cartItems; let isLast = last"
+            *ngFor="let item of cartItems$ | async; let isLast = last"
             class="flex gap-4 pb-4"
             [ngClass]="isLast ? '' : 'border-b'"
           >
             <img
-              [src]="item.image"
+              [src]="item.variant?.image_url"
               alt=""
               class="w-28 h-28 object-cover rounded"
             />
@@ -30,27 +29,28 @@
             <div class="flex-1">
               <div class="flex justify-between">
                 <div>
-                  <h2 class="font-semibold">{{ item.name }}</h2>
-                  <p class="text-sm text-gray-500">{{ item.description }}</p>
-                  <p class="text-sm">Size {{ item.size }}</p>
+                  <h2 class="font-semibold">
+                    {{ item.variant?.product?.name }}
+                  </h2>
+                  <p class="text-sm text-gray-500">
+                    {{
+                      item.variant?.product?.category?.name ||
+                        "Không có danh mục"
+                    }}
+                  </p>
+                  <p class="text-sm">Size {{ item.size?.size }}</p>
                 </div>
-                <p class="font-semibold">{{ item.price | currency : "VND" }}</p>
+                <p class="font-semibold">
+                  {{ item.variant?.product?.price_sale | currency : "VND" }}
+                </p>
               </div>
 
               <div class="flex items-center gap-2 mt-3">
-                <button
-                  mat-icon-button
-                  class="border p-1"
-                  (click)="decrease(item)"
-                >
+                <button mat-icon-button class="border p-1" (click)="decrease()">
                   <mat-icon>remove</mat-icon>
                 </button>
                 <span>{{ item.quantity }}</span>
-                <button
-                  mat-icon-button
-                  class="border p-1"
-                  (click)="increase(item)"
-                >
+                <button mat-icon-button class="border p-1" (click)="increase()">
                   <mat-icon>add</mat-icon>
                 </button>
 
@@ -58,7 +58,7 @@
                 <button
                   mat-icon-button
                   class="border p-1 rounded-full"
-                  (click)="toggleFavorite(item)"
+                  (click)="toggleFavorite()"
                 >
                   <mat-icon>{{
                     item.favorite ? "favorite" : "favorite_border"
@@ -69,7 +69,7 @@
                   mat-icon-button
                   color="warn"
                   class="ml-auto"
-                  (click)="remove(item)"
+                  (click)="remove()"
                 >
                   <mat-icon>delete</mat-icon>
                 </button>
@@ -79,30 +79,53 @@
         </div>
 
         <!-- Cart Summary (1/3) -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h3 class="font-semibold text-lg mb-4">Tạm tính</h3>
-          <div class="flex justify-between text-sm mb-2">
-            <span>Tổng phụ</span>
-            <span>{{ subtotal | currency : "VND" }}</span>
+        <div *ngIf="(cartItems$ | async)?.length > 0">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-semibold text-lg mb-4">Tạm tính</h3>
+            <div class="flex justify-between text-sm mb-2">
+              <span>Tổng phụ</span>
+              <span>{{ subtotal | currency : "VND" }}</span>
+            </div>
+            <div class="flex justify-between text-sm mb-2">
+              <span>Phí vận chuyển</span>
+              <span class="font-semibold">Miễn phí</span>
+            </div>
+            <hr class="my-2" />
+            <div class="flex justify-between font-semibold text-base mb-4">
+              <span>Tổng</span>
+              <span>{{ total | currency : "VND" }}</span>
+            </div>
+            <button
+              mat-flat-button
+              color="primary"
+              class="w-full py-2 bg-black text-white rounded-full"
+            >
+              MUA NGAY
+            </button>
           </div>
-          <div class="flex justify-between text-sm mb-2">
-            <span>Phí vận chuyển</span>
-            <span class="font-semibold">Miễn phí</span>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between font-semibold text-base mb-4">
-            <span>Tổng</span>
-            <span>{{ total | currency : "VND" }}</span>
-          </div>
-          <button
-            mat-flat-button
-            color="primary"
-            class="w-full py-2 bg-black text-white rounded-full"
-          >
-            MUA NGAY
-          </button>
         </div>
       </div>
+    </div>
+    <!-- Nếu giỏ hàng rỗng -->
+    <div
+      *ngIf="(cartItems$ | async)?.length === 0"
+      class="flex flex-col items-center justify-center min-h-[400px] text-gray-600 animate-fade-in scale-100 transition-transform duration-300 ease-in-out"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png"
+        alt="Giỏ hàng rỗng"
+        class="w-32 h-32 mb-4 animate-bounce-cart transition-all duration-300"
+      />
+      <p class="text-xl font-semibold mb-2">Giỏ hàng của bạn đang trống</p>
+      <p class="text-sm text-gray-500 mb-4">
+        Hãy thêm sản phẩm để tiếp tục mua sắm
+      </p>
+      <a
+        routerLink="/"
+        class="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 shadow-md hover:shadow-lg transform hover:scale-105 transition duration-300"
+      >
+        Tiếp tục mua sắm
+      </a>
     </div>
 
     <!-- Gợi ý sản phẩm -->

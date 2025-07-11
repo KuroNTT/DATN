@@ -30,26 +30,27 @@ sequelize
   .then(() => sequelize.sync({ alter: true }))
   .then(() => console.log("📦 DB synced"))
   .catch((err) => {
-    console.error("❌ Database connection failed:", err.message);
+    console.error("❌ Database connection failed:", err);
     process.exit(1);
   });
 
 // 7. Định nghĩa các route chính
-// app.use("/api/price_ranges", require("./src/routes/priceRange.routes"));
-app.use("/api/categories", require("./src/routes/user/category.routes"));
+app.use("/api/auth", require("./src/routes/user/auth.routes"));
+app.use("/api/banners", require("./src/routes/user/banner.routes"));
+app.use("/api/blogs", require("./src/routes/user/blog.routes"));
 app.use("/api/brands", require("./src/routes/user/brand.routes"));
+app.use("/api/categories", require("./src/routes/user/category.routes"));
+app.use("/api/carts", require("./src/routes/user/cart.routes"));
+app.use("/api/colors", require("./src/routes/user/color.routes"));
+app.use("/api/contacts", require("./src/routes/user/contact.routes"));
 app.use("/api/genders", require("./src/routes/user/gender.routes"));
 app.use("/api/shoe_heights", require("./src/routes/user/shoeHeight.routes"));
 app.use("/api/sizes", require("./src/routes/user/size.routes"));
 app.use("/api/products", require("./src/routes/user/product.routes"));
-app.use("/api/auth", require("./src/routes/user/auth.routes"));
 app.use("/api/orders", require("./src/routes/user/order.routes"));
 app.use("/api/sizes", require("./src/routes/user/size.routes"));
-app.use("/api/colors", require("./src/routes/user/color.routes"));
 app.use("/api/wishlist", require("./src/routes/user/wishlist.routes"));
 app.use("/api/user", require("./src/routes/user/auth.routes"));
-app.use("/api/blogs", require("./src/routes/user/blog.routes"));
-app.use("/api/banners", require("./src/routes/user/banner.routes"));
 
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));

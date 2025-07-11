@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, RouterModule } from "@angular/router";
-import { ProductService } from "../../../core/services/product.service";
+import { ProductService } from "../../services/product.service";
 import { IProduct, ICategory } from "../../../core/models/structureData";
 import { CommonModule, NgClass } from "@angular/common";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";

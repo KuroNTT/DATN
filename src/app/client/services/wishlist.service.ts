@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { IWishlist } from "../models/structureData";
+import { IWishlist } from "../../core/models/structureData";
 
 @Injectable({
   providedIn: "root", // Service sẽ được tự động inject toàn app

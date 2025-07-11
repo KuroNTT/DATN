@@ -50,7 +50,8 @@
           <div class="mb-1">
             <input
               type="text"
-              name="name"
+              [(ngModel)]="fullName"
+              name="fullName"
               class="w-full p-2 py-3 mb-2 rounded-md shadow-md border-1 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-left text-sm"
               placeholder="Tên đăng ký"
             />
@@ -60,6 +61,7 @@
           <div class="mb-1">
             <input
               type="email"
+              [(ngModel)]="email"
               name="email"
               class="email-input w-full p-2 py-3 mb-2 rounded-md shadow-md border-1 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-left text-sm"
               placeholder="Email"
@@ -68,7 +70,8 @@
           <!-- Nội dung liên hệ -->
           <div class="mb-4">
             <textarea
-              name="noi_dung"
+              [(ngModel)]="content"
+              name="content"
               rows="5"
               class="w-full p-2 py-3 mb-2 rounded-md shadow-md border-1 border-black focus:border-blue-500 outline-none placeholder-gray-400 text-left text-sm"
               placeholder="Nội dung"
@@ -79,10 +82,22 @@
           <div class="flex justify-end mt-4">
             <button
               type="button"
+              (click)="onClick()"
               class="contact-button w-full px-4 py-3 text-lg rounded-full bg-black text-white shadow-lg lg:w-[40%] cursor-pointer"
             >
               GỬI LIÊN HỆ
             </button>
+          </div>
+          <div
+            *ngIf="loading"
+            class="flex items-center justify-center min-h-[100px]"
+          >
+            <div
+              class="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-blue-500"
+            ></div>
+            <span class="ml-4 text-blue-600 font-medium"
+              >Đang gửi dữ liệu, vui lòng chờ...</span
+            >
           </div>
         </form>
       </div>

@@ -3,63 +3,36 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
+import { CartService } from "../../services/cart.service";
+import { Observable } from "rxjs";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-cart",
-  imports: [MatIconModule, MatButtonModule, CommonModule],
+  imports: [MatIconModule, MatButtonModule, CommonModule, RouterModule],
   templateUrl: "./cart.component.html",
   styleUrl: "./cart.component.css",
 })
 export class CartComponent {
-  cartItems = [
-    {
-      image:
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png",
-      name: "Nike Air Force 1 '07",
-      description: "Sail/Light Orewood Brown/White/Black",
-      size: 40,
-      quantity: 1,
-      price: 2929000,
-      favorite: false,
-    },
-    {
-      image:
-        "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png",
-      name: "Nike Acg Lowcate 'Leap High'",
-      description: "Sail/Light Orewood Brown/White/Black",
-      size: 40,
-      quantity: 1,
-      price: 2690000,
-      favorite: true,
-    },
-  ];
-
-  get subtotal() {
-    return this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  }
-
-  get total() {
-    return this.subtotal; // + shippingFee nếu có
-  }
-  toggleFavorite(item: any) {
-    item.favorite = !item.favorite;
-  }
-  increase(item: any) {
-    item.quantity++;
-  }
-  decrease(item: any) {
-    if (item.quantity > 1) item.quantity--;
-  }
-  remove(item: any) {
-    this.cartItems = this.cartItems.filter((i) => i !== item);
-  }
-
+  constructor(private cartService: CartService) {}
+  items: any[] = [];
+  cartItems$!: Observable<any>;
   product_arr: IProduct[] = [];
+  subtotal: number = 0;
+  total: number = 0;
+  user: any;
 
   ngOnInit(): void {
+    this.items = this.cartService
+      .getLocalCart()
+      .map((e: any) => ({ variantId: e.variantId, sizeId: e.sizeId }));
+    this.onLoad();
+    this.cartItems$.subscribe((data) => {
+      console.log("Cart data:", data);
+    });
+  }
+
+  onLoad() {
     fetch(`http://localhost:3000/api/products/most-view/products`)
       .then((res) => res.json())
       .then((data) => {
@@ -68,5 +41,25 @@ export class CartComponent {
       .catch((error) =>
         console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
       );
+    const payload = {
+      items: this.items,
+    };
+    if (typeof window != "undefined") {
+      this.user = JSON.parse(sessionStorage.getItem("user") as string);
+    }
+    if (this.user) {
+      this.cartItems$ = this.cartService.getServerCart(this.user.id);
+    } else {
+      this.cartItems$ = this.cartService.getAllCartInLocal(payload);
+      this.cartItems$.subscribe((data) => console.log(data));
+    }
   }
+
+  decrease() {}
+
+  increase() {}
+
+  toggleFavorite() {}
+
+  remove() {}
 }

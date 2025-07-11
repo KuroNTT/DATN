@@ -7,6 +7,8 @@ import {
   IProductVariantSize,
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
+import { CartService } from "../../services/cart.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-product-detail",
@@ -16,7 +18,10 @@ import { ActivatedRoute } from "@angular/router";
   styleUrl: "./product-detail.component.css",
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cartService: CartService
+  ) {}
   // Helper chung
   private extractSizes(variant: IProductVariant): IProductVariantSize[] {
     return variant.product_variant_sizes || [];
@@ -129,15 +134,24 @@ export class ProductDetailComponent implements OnInit {
       alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng!");
       return;
     }
-
-    alert(
-      `🛒 Thông tin bạn đã chọn:\n` +
-        `ID: ${this.selectedVariant.id}\n` +
-        `Sản phẩm: ${this.product.name}\n` +
-        `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
-        `Size: ${this.selectedSize.size}\n` +
-        `Số lượng: ${this.quantity}`
+    this.cartService.addToCart(
+      this.selectedVariant.id,
+      this.selectedSize.id,
+      this.quantity
     );
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Đã thêm vào giỏ hàng!",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
   }
 
   wishlist: IProductVariant[] = [];
