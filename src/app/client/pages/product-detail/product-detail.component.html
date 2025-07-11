@@ -111,16 +111,33 @@
                 </div>
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                <button
-                  class="btn-size"
-                  [class.bg-black]="selectedSize?.size === size.size"
-                  [class.text-white]="selectedSize?.size === size.size"
-                  *ngFor="let size of size_arr"
-                  (click)="onSelectSize(size)"
+                <div
+                  *ngFor="let variantSize of size_arr"
+                  class="relative group"
                 >
-                  {{ size.size }}
-                </button>
+                  <button
+                    class="btn-size w-full"
+                    [ngClass]="{
+                      'bg-black text-white':
+                        selectedSize?.id === variantSize.size.id,
+                      'opacity-50 line-through bg-gray-300':
+                        variantSize.stock === 0
+                    }"
+                    (click)="onSelectSize(variantSize)"
+                  >
+                    {{ variantSize.size.size }}
+                  </button>
+
+                  <!-- Tooltip "Hết hàng" -->
+                  <div
+                    *ngIf="variantSize.stock === 0"
+                    class="absolute left-1/2 -translate-x-1/2 -top-7 bg-gray-800 text-white text-xs px-2 py-1 rounded hidden group-hover:block z-10 whitespace-nowrap"
+                  >
+                    Hết hàng
+                  </div>
+                </div>
               </div>
+
               <div class="button mb-4">
                 <button
                   type="button"

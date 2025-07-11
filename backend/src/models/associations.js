@@ -7,9 +7,9 @@ const SizeModel = require("./Size");
 const VariantSizeModel = require("./VariantSize");
 const ShoeHeightModel = require("./ShoeHeight");
 const GenderModel = require("./Gender");
-
 const BlogModel = require("./Blog");
 const BlogCategoryModel = require("./BlogCategory");
+const UserModel = require("./User");
 // chưa chắc
 const BrandModel = require("./Brand");
 
@@ -103,5 +103,15 @@ BlogModel.belongsTo(BlogCategoryModel, {
 
 BlogCategoryModel.hasMany(BlogModel, {
   foreignKey: "category_id",
+  as: "blogs",
+});
+
+BlogModel.belongsTo(UserModel, {
+  foreignKey: "author_id",
+  as: "author",
+});
+
+UserModel.hasMany(BlogModel, {
+  foreignKey: "author_id",
   as: "blogs",
 });

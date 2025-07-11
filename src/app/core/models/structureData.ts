@@ -6,6 +6,24 @@ export interface ICategory {
   sort_order?: number;
   status: number;
 }
+
+export interface IBanner {
+  id: number;
+  image_url: string;
+  title: string;
+  description: string;
+  link: string;
+  active: boolean;
+  start_date: string;
+  end_date: string;
+  product_id: number;
+  category_id: number;
+  created_by: string;
+  position: string;
+  created_at: string;
+  update_at: string;
+}
+
 export interface IBrand {
   id: number;
   name: string;
@@ -16,9 +34,25 @@ export interface IBrand {
   status: number;
 }
 
+export interface IBlog {
+  id: number;
+  title: string;
+  slug?: string;
+  content: string;
+  thumbnail: string;
+  author_id: string;
+  category_id: number;
+  created_at: string;
+  updated_at: string;
+  is_published: number;
+  sort_order: number;
+  status: number;
+}
+
 export interface ISize {
   id: number;
   size: number;
+  stock: number;
   checked?: boolean;
   created_at: string;
   update_at: string;
@@ -85,7 +119,9 @@ export interface IProductVariant {
   updated_at: string;
   images: IProductImage[];
   color?: IColor;
+  color_name?: string;
   size?: ISize;
+  stock: number;
   product_variant_sizes: IProductVariantSize[];
 }
 
@@ -108,6 +144,7 @@ export interface IColor {
   id: number;
   color_name: string;
   original_name: string;
+  hex: string;
   description: string;
 }
 
@@ -118,4 +155,25 @@ export interface IWishlist {
   size: string | number;
   create_at?: string;
   is_active?: boolean;
+}
+
+/* Admin */
+export interface IBlogCreate {
+  title: string;
+  slug?: string;
+  content: string;
+  thumbnail: string;
+  category_id: number;
+  author_id: number;
+}
+
+export interface IBlogCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  sort_order: number;
+  status: number;
+  created_at: string;
+  updated_at: string;
 }

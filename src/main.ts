@@ -11,8 +11,5 @@ register();
 // );
 bootstrapApplication(AppComponent, {
   ...appConfig, // giữ lại cấu hình cũ
-  providers: [
-    ...(appConfig.providers || []), // giữ lại providers cũ nếu có
-    provideHttpClient(withFetch()), // ✅ Thêm fetch vào
-  ],
+  providers: [...(appConfig.providers || []), provideHttpClient(withFetch())],
 }).catch((err) => console.error(err));

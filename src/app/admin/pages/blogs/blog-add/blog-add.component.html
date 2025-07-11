@@ -1,0 +1,58 @@
+<div class="container p-4">
+  <h2 class="text-xl font-semibold mb-4">Thêm bài viết</h2>
+  <form (ngSubmit)="onSubmit()" #blogForm="ngForm" class="space-y-4">
+    <input
+      type="text"
+      [(ngModel)]="formData.title"
+      name="title"
+      required
+      placeholder="Tiêu đề"
+      class="w-full border p-2 rounded"
+    />
+
+    <input
+      type="text"
+      [(ngModel)]="formData.slug"
+      name="slug"
+      placeholder="Slug (tuỳ chọn)"
+      class="w-full border p-2 rounded"
+    />
+
+    <textarea
+      [(ngModel)]="formData.content"
+      name="content"
+      rows="5"
+      required
+      placeholder="Nội dung"
+      class="w-full border p-2 rounded"
+    ></textarea>
+
+    <input
+      type="text"
+      [(ngModel)]="formData.thumbnail"
+      name="thumbnail"
+      placeholder="Link hình thumbnail"
+      class="w-full border p-2 rounded"
+    />
+
+    <select
+      [(ngModel)]="formData.category_id"
+      name="category_id"
+      required
+      class="w-full border p-2 rounded"
+    >
+      <option value="">-- Chọn danh mục --</option>
+      <option *ngFor="let category of blogCategories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+
+    <button
+      type="submit"
+      [disabled]="blogForm.invalid"
+      class="bg-blue-600 text-white px-4 py-2 rounded"
+    >
+      Thêm bài viết
+    </button>
+  </form>
+</div>

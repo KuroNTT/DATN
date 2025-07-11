@@ -1,21 +1,40 @@
-<swiper-container
-  navigation="true"
-  pagination="true"
-  autoplay-delay="5000"
-  autoplay="true"
-  loop="true"
-  class="w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh]"
+<div
+  class="relative w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh] mt-[60px]"
 >
-  <swiper-slide *ngFor="let slide of slides">
-    <div class="relative w-full h-full">
-      <img
-        [src]="slide.image"
-        class="w-full h-full object-fit object-center"
-      />
-      <div
-        class="absolute bottom-5 left-5 text-white text-xl sm:text-2xl md:text-3xl font-bold bg-black/50 px-2 py-1 rounded"
-      >
+  <!-- ✅ Sửa lại: KHÔNG dùng [navigation] hay [pagination] -->
+  <swiper-container
+    #swiperRef
+    navigation="false"
+    pagination="true"
+    autoplay-delay="5000"
+    autoplay="true"
+    loop="true"
+    class="w-full h-full"
+    (swiper)="onSwiperReady($event)"
+  >
+    <swiper-slide *ngFor="let slide of slide_arr">
+      <div class="relative w-full h-full">
+        <img
+          [src]="slide.image_url"
+          class="w-full h-full object-cover object-center"
+        />
       </div>
-    </div>
-  </swiper-slide>
-</swiper-container>
+    </swiper-slide>
+  </swiper-container>
+
+  <!-- Nút điều hướng trái -->
+  <button
+    class="absolute top-1/2 left-4 z-50 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white text-black rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
+    (click)="prevSlide()"
+  >
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+
+  <!-- Nút điều hướng phải -->
+  <button
+    class="absolute top-1/2 right-4 z-50 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white text-black rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
+    (click)="nextSlide()"
+  >
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
