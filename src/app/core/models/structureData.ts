@@ -177,3 +177,20 @@ export interface IBlogCategory {
   created_at: string;
   updated_at: string;
 }
+
+export interface IBanner {
+  id: number;
+  image_url: string;
+  title: string;
+  description: string;
+  link: string;
+  active: boolean;
+  start_date: string;
+  end_date: string;
+  product_id: number;
+  category_id: number;
+  create_by: number;
+  position: string;
+  created_at: string;
+  updated_at: string;
+}

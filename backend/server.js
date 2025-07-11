@@ -36,7 +36,6 @@ sequelize
 
 // 7. Định nghĩa các route chính
 app.use("/api/auth", require("./src/routes/user/auth.routes"));
-app.use("/api/banners", require("./src/routes/user/banner.routes"));
 app.use("/api/blogs", require("./src/routes/user/blog.routes"));
 app.use("/api/brands", require("./src/routes/user/brand.routes"));
 app.use("/api/categories", require("./src/routes/user/category.routes"));
@@ -54,6 +53,7 @@ app.use("/api/user", require("./src/routes/user/auth.routes"));
 
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));
+app.use("/api/admin/banners", require("./src/routes/admin/banner.routes"));
 app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")

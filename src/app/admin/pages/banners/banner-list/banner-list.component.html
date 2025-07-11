@@ -1,1 +1,31 @@
-<p>banner-list works!</p>
+<div class="container mx-auto p-4">
+  <h2 class="text-xl font-bold mb-4">Danh sách Banner</h2>
+
+  <table class="w-full border border-gray-300">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="border px-4 py-2">#</th>
+        <th class="border px-4 py-2">Tiêu đề</th>
+        <th class="border px-4 py-2">Hình ảnh</th>
+        <th class="border px-4 py-2">Vị trí</th>
+        <th class="border px-4 py-2">Liên kết</th>
+        <th class="border px-4 py-2">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let banner of banners; index as i">
+        <td class="border px-4 py-2 text-center">{{ i + 1 }}</td>
+        <td class="border px-4 py-2">{{ banner.title }}</td>
+        <td class="border px-4 py-2">
+          <img [src]="banner.image_url" class="w-24 h-auto" />
+        </td>
+        <td class="border px-4 py-2 text-center">{{ banner.position }}</td>
+        <td class="border px-4 py-2 text-center">{{ banner.link }}</td>
+        <td class="border px-4 py-2 text-center">
+          <button class="text-blue-600 hover:underline mr-2">Sửa</button>
+          <button class="text-red-600 hover:underline">Xoá</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

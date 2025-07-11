@@ -32,14 +32,12 @@ export class HeaderComponent implements OnInit {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     if (scrollTop > this.lastScrollTop && scrollTop > 100) {
-      // Cuộn xuống: ẩn header
       this.hideHeader = true;
     } else {
-      // Cuộn lên: hiện header
       this.hideHeader = false;
     }
 
-    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // tránh âm
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
   }
 
   toggleMenu() {
