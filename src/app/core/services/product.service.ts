@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IProduct, ICategory,  IBrand } from "../models/structureData";
+import { IProduct, ICategory,  IBrand , IGender, IShoeHeight, ISize} from "../models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
@@ -18,7 +18,7 @@ export class ProductService {
     }
     return await response.json();
   }private getAuthHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem('token'); // hoặc localStorage nếu bạn dùng
+    const token = sessionStorage.getItem('token'); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -64,12 +64,20 @@ export class ProductService {
     );
   }
 
-  getCategoty(): Observable<ICategory[]> {
+  getCategory(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>('http://localhost:3000/api/categories');
   }
-
   getBrand(): Observable<IBrand[]> {
     return this.http.get<IBrand[]>('http://localhost:3000/api/brand');
   }
-
+  getSizes():Observable<ISize[]>{
+    return this.http.get<ISize[]>('http://localhost:3000/api/sizes')
+  }
+  getGender(){
+    return this.http.get<IGender[]>('http://localhost:3000/api/genders');
+  }
+  getShoeheights(){
+    return this.http.get<IShoeHeight[]>('http://localhost:3000/api/shoe_heights');
+  }  
+  
 }
