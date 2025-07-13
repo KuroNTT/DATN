@@ -72,7 +72,7 @@ export class CartService {
         });
     } else {
       const cart = this.getLocalCart().filter(
-        (p: any) => p.variantId !== variantId
+        (p: any) => p.variantId !== variantId || p.sizeId !== sizeId
       );
       this.saveLocalCart(cart);
       this.cartItems$.next(cart);
@@ -96,5 +96,30 @@ export class CartService {
     items: { variantId: number; sizeId: number }[];
   }) {
     return this.http.post(this.apiUrl, payload);
+  }
+
+  updateLocalQuantity(variantId: number, sizeId: number, quantity: number) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const updatedCart = cart.map((item: any) => {
+      if (item.variantId === variantId && item.sizeId === sizeId) {
+        return { ...item, quantity };
+      }
+      return item;
+    });
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  }
+
+  updateCartQuantity(
+    userId: number,
+    variantId: number,
+    sizeId: number,
+    quantity: number
+  ) {
+    return this.http.put(`/api/cart/update-quantity`, {
+      userId,
+      variantId,
+      sizeId,
+      quantity,
+    });
   }
 }

@@ -4,7 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
 import { CartService } from "../../services/cart.service";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { RouterModule } from "@angular/router";
 
 @Component({
@@ -17,19 +17,33 @@ export class CartComponent {
   constructor(private cartService: CartService) {}
   items: any[] = [];
   cartItems$!: Observable<any>;
+  cartItemLocal$: BehaviorSubject<any> = new BehaviorSubject([]);
   product_arr: IProduct[] = [];
   subtotal: number = 0;
   total: number = 0;
   user: any;
+  quantity: any;
+
+  private computeTotals(list: any[]) {
+    // list trả về đã include variant.product.price_sale
+    this.subtotal = list.reduce((sum, itm) => {
+      const price = itm.variant?.product?.price_sale ?? 0;
+      return sum + price * itm.quantity;
+    }, 0);
+
+    // nếu có phí ship hoặc voucher hãy cộng / trừ ở đây
+    this.total = this.subtotal; // hiện tại ship = 0
+  }
 
   ngOnInit(): void {
     this.items = this.cartService
       .getLocalCart()
-      .map((e: any) => ({ variantId: e.variantId, sizeId: e.sizeId }));
+      .map((e: any) => ({
+        variantId: e.variantId,
+        sizeId: e.sizeId,
+        quantity: e.quantity,
+      }));
     this.onLoad();
-    this.cartItems$.subscribe((data) => {
-      console.log("Cart data:", data);
-    });
   }
 
   onLoad() {
@@ -49,17 +63,102 @@ export class CartComponent {
     }
     if (this.user) {
       this.cartItems$ = this.cartService.getServerCart(this.user.id);
+      this.cartItems$.subscribe(res=>{this.computeTotals(res)});
+      this.cartItemLocal$.next([]);
     } else {
-      this.cartItems$ = this.cartService.getAllCartInLocal(payload);
-      this.cartItems$.subscribe((data) => console.log(data));
+      this.cartItems$ = of([]);
+      this.cartService.getAllCartInLocal(payload).subscribe((data) => {
+        this.cartItemLocal$.next(data);
+        this.cartItemLocal$.subscribe(res=>{this.computeTotals(res)});
+    });
+  }
+  }
+
+  increase(item: any) {
+    if (this.user) {
+      const newQuantity = item.quantity + 1;
+      this.cartService
+        .updateCartQuantity(
+          this.user.id,
+          item.variantId,
+          item.sizeId,
+          newQuantity
+        )
+        .subscribe({
+          next: () => this.onLoad(),
+          error: (err: any) => console.error("Lỗi khi tăng số lượng:", err),
+        });
+    } else {
+      this.cartService.updateLocalQuantity(
+        item.variant.id,
+        item.size.id,
+        item.quantity + 1
+      );
+      this.refreshLocalCart();
     }
   }
 
-  decrease() {}
+  decrease(item: any) {
+    if (item.quantity <= 1) return; // Không giảm dưới 1
 
-  increase() {}
+    if (this.user) {
+      const newQuantity = item.quantity - 1;
+      this.cartService
+        .updateCartQuantity(
+          this.user.id,
+          item.variantId,
+          item.sizeId,
+          newQuantity
+        )
+        .subscribe({
+          next: () => this.onLoad(),
+          error: (err: any) => console.error("Lỗi khi giảm số lượng:", err),
+        });
+    } else {
+      this.cartService.updateLocalQuantity(
+        item.variantId,
+        item.sizeId,
+        item.quantity - 1
+      );
+      this.refreshLocalCart();
+    }
+  }
 
   toggleFavorite() {}
 
-  remove() {}
+  remove(variantId: number, sizeId: number) {
+    if (this.user) {
+      this.cartService.removeFromCart(this.user.id, variantId, sizeId);
+      this.cartItems$.subscribe(res=>{this.computeTotals(res)});
+      this.onLoad();
+      return;
+    }
+    this.cartService.removeFromCart(0, variantId, sizeId);
+    this.items = this.cartService
+      .getLocalCart()
+      .map((e: any) => ({
+        variantId: e.variantId,
+        sizeId: e.sizeId,
+        quantity: e.quantity,
+      }));
+    this.cartService
+      .getAllCartInLocal({ items: this.items })
+      .subscribe((data) => {
+        this.cartItemLocal$.next(data);
+      });
+    // this.cartItemLocal$.next(this.cartService.getLocalCart());
+  }
+
+  private refreshLocalCart() {
+    this.items = this.cartService.getLocalCart().map((e: any) => ({
+      variantId: e.variantId,
+      sizeId: e.sizeId,
+      quantity: e.quantity,
+    }));
+    this.cartService
+      .getAllCartInLocal({ items: this.items })
+      .subscribe((data) => {
+        this.cartItemLocal$.next(data);
+      });
+  }
 }
