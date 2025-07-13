@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { ProductService } from '../../../../core/services/product.service';
+import { ProductService } from '../../../services/product.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ICategory, IBrand, IGender, IShoeHeight, ISize } from "../../../../core/models/structureData";
