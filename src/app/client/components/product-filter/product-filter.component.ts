@@ -7,14 +7,14 @@ import {
   IBrand,
   ISize,
   IGender,
-  IPrice_ranges,
+  IColor,
   IShoeHeight,
 } from "../../../core/models/structureData";
 
 @Component({
   selector: "app-product-filter",
   standalone: true,
-  imports: [NgClass, NgFor, FormsModule],
+  imports: [NgClass, NgFor, FormsModule, CommonModule],
   templateUrl: "./product-filter.component.html",
   styleUrl: "./product-filter.component.css",
 })
@@ -31,6 +31,7 @@ export class ProductFilterComponent {
   selectAllSizes: boolean = false;
   selectAllGenders: boolean = false;
   selectAllShoeHeight: boolean = false;
+  selectAllColors: boolean = false;
 
   @Output() filterChanged = new EventEmitter<{
     categories: number[];
@@ -38,6 +39,7 @@ export class ProductFilterComponent {
     sizes: number[];
     genders: number[];
     shoeHeights: number[];
+    colors: string[];
     prices: { min: number; max: number }[];
   }>();
 
@@ -75,6 +77,58 @@ export class ProductFilterComponent {
       name: "Trên 5 triệu",
       min: 5000000,
       max: Number.MAX_SAFE_INTEGER,
+      checked: false,
+    },
+  ];
+
+  color_arr: {
+    id: number;
+    color_name: string;
+    keyword: string;
+    hex: string;
+    checked: boolean;
+  }[] = [
+    {
+      id: 1,
+      color_name: "Đen",
+      keyword: "Đen",
+      hex: "#000000",
+      checked: false,
+    },
+    {
+      id: 2,
+      color_name: "Trắng",
+      keyword: "Trắng",
+      hex: "#ffffff",
+      checked: false,
+    },
+    { id: 3, color_name: "Đỏ", keyword: "Đỏ", hex: "#ff0000", checked: false },
+    {
+      id: 4,
+      color_name: "Xám",
+      keyword: "Xám",
+      hex: "#808080",
+      checked: false,
+    },
+    {
+      id: 5,
+      color_name: "Xanh",
+      keyword: "Xanh dương",
+      hex: "#0000ff",
+      checked: false,
+    },
+    {
+      id: 6,
+      color_name: "Vàng",
+      keyword: "Vàng",
+      hex: "#ffff00",
+      checked: false,
+    },
+    {
+      id: 7,
+      color_name: "Xám",
+      keyword: "xám",
+      hex: "#808080",
       checked: false,
     },
   ];
@@ -130,6 +184,7 @@ export class ProductFilterComponent {
         },
       });
   }
+
   emitFilter() {
     const selectedCategories = this.category_arr
       .filter((c) => c.checked)
@@ -149,6 +204,9 @@ export class ProductFilterComponent {
     const selectedPriceRanges = this.price_ranges
       .filter((p) => p.checked)
       .map((p) => ({ min: p.min, max: p.max }));
+    const selectedColors = this.color_arr
+      .filter((color) => color.checked)
+      .map((color) => color.keyword.toLowerCase());
 
     this.filterChanged.emit({
       categories: selectedCategories,
@@ -157,19 +215,9 @@ export class ProductFilterComponent {
       genders: selectedGenders,
       prices: selectedPriceRanges,
       shoeHeights: selectedShoeHeights,
+      colors: selectedColors,
     });
   }
-  // test
-  // onSelectAllPrices(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   this.selectAllPrices = input.checked;
-
-  //   if (this.selectAllPrices) {
-  //     this.price_ranges.forEach((r) => (r.checked = false));
-  //   }
-
-  //   this.emitFilter();
-  // }
 
   onPriceChange(range: any, event: Event): void {
     range.checked = (event.target as HTMLInputElement).checked;
@@ -229,14 +277,14 @@ export class ProductFilterComponent {
   // hàm chọn tất cả hay bỏ size
   onSelectAllGenders(): void {
     if (this.selectAllGenders) {
-      this.gender_arr.forEach((s) => (s.checked = false));
+      this.gender_arr.forEach((g) => (g.checked = false));
     }
     this.emitFilter();
   }
 
   // hàm chọn tất cả hay bỏ giới tính
   onGenderChange(): void {
-    const anyGenderChecked = this.gender_arr.some((s) => s.checked);
+    const anyGenderChecked = this.gender_arr.some((g) => g.checked);
     if (anyGenderChecked) {
       this.selectAllGenders = false;
     }
@@ -258,12 +306,28 @@ export class ProductFilterComponent {
     this.emitFilter();
   }
 
+  onColorChange(color: any): void {
+    const anyColorChecked = this.color_arr.some((c) => c.checked);
+    if (anyColorChecked) {
+      this.selectAllColors = false;
+    }
+    this.emitFilter();
+  }
+
+  onSelectAllColors(): void {
+    if (this.selectAllColors) {
+      this.color_arr.forEach((c) => (c.checked = false));
+    }
+    this.emitFilter();
+  }
+
   isPriceFilterVisible = false;
   isCategoryFilterVisible = false;
   isBrandFilterVisible = false;
   isGenderFilterVisible = false;
   isSizeFilterVisible = false;
   isShoeHeightFilterVisible = false;
+  isColorFilterVisible = false;
 
   togglePriceFilter() {
     this.isPriceFilterVisible = !this.isPriceFilterVisible;
@@ -282,5 +346,49 @@ export class ProductFilterComponent {
   }
   toggleShoeHeightFilter() {
     this.isShoeHeightFilterVisible = !this.isShoeHeightFilterVisible;
+  }
+  toggleColorFilter() {
+    this.isColorFilterVisible = !this.isColorFilterVisible;
+  }
+
+  get selectedCategoryCount(): number {
+    return this.category_arr.filter((c) => c.checked).length;
+  }
+
+  get selectedBrandCount(): number {
+    return this.brand_arr.filter((b) => b.checked).length;
+  }
+
+  get selectedSizeCount(): number {
+    return this.size_arr.filter((s) => s.checked).length;
+  }
+
+  get selectedGenderCount(): number {
+    return this.gender_arr.filter((g) => g.checked).length;
+  }
+
+  get selectedShoeHeightCount(): number {
+    return this.shoe_height_arr.filter((h) => h.checked).length;
+  }
+
+  get selectedPriceCount(): number {
+    return this.price_ranges.filter((p) => p.checked).length;
+  }
+  get selectedColorCount(): number {
+    return this.color_arr.filter((color) => color.checked).length;
+  }
+
+  toggleAllSizes(): void {
+    this.selectAllSizes = !this.selectAllSizes;
+    if (this.selectAllSizes) {
+      this.size_arr.forEach((s) => (s.checked = false));
+    }
+    this.emitFilter();
+  }
+
+  toggleSize(size: ISize & { checked?: boolean }): void {
+    size.checked = !size.checked;
+    this.selectAllSizes = false;
+    this.emitFilter();
   }
 }

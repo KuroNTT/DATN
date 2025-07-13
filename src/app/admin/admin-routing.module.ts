@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.component";
-import { DashboardComponent } from "./pages/dashboard/dashboard.component";
 import { provideHttpClient } from '@angular/common/http';
+import { DashboardComponent } from "./pages/dashboard/dashboard/dashboard.component";
 
 const routes: Routes = [
   {
@@ -12,8 +12,11 @@ const routes: Routes = [
       { path: "", component: DashboardComponent, title: "Dashboard" },
       {
         path: "products",
-        loadComponent: () => import("./pages/products/products.component").then(m => m.ProductsComponent),
-        title: "Products"
+        loadChildren: () =>
+          import("./pages/products/product.routes").then(
+            (m) => m.productRoutes
+          ),
+        title: "Quản lý sản phẩm",
       },
       {
         path: "products/add",
@@ -23,11 +26,31 @@ const routes: Routes = [
 
       {
         path: "categories",
-        loadComponent: () =>
-          import("./pages/categories/categories.component").then(
-            (m) => m.CategoriesComponent
+        loadChildren: () =>
+          import("./pages/categories/category.routes").then(
+            (m) => m.categoryRoutes
           ),
-        title: "Products",
+        title: "Quản lý danh mục",
+      },
+      {
+        path: "blogs",
+        loadChildren: () =>
+          import("./pages/blogs/blog.routes").then((m) => m.blogRoutes),
+        title: "Quản lý bài viết",
+      },
+      {
+        path: "blog-categories",
+        loadChildren: () =>
+          import("./pages/blog-categories/blog-category.routes").then(
+            (m) => m.blogCategoryRoutes
+          ),
+        title: "Quản lý danh mục bài viết",
+      },
+      {
+        path: "banners",
+        loadChildren: () =>
+          import("./pages/banners/banner.routes").then((m) => m.bannerRoutes),
+        title: "Quản lý banner",
       },
     ],
   },

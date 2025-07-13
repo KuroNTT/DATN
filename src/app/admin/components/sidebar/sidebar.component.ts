@@ -11,12 +11,18 @@ import { RouterModule } from "@angular/router";
 })
 export class SidebarComponent {
   menu = [
-    { label: "DASHBOARD", path: "/admin", icon: "fas fa-home" },
-    { label: "ĐƠN HÀNG", path: "/admin/orders", icon: "fas fa-receipt" },
-    { label: "SẢN PHẨM", path: "/admin/products", icon: "fas fa-box" },
-    { label: "DANH MỤC", path: "/admin/categories", icon: "fas fa-list" },
-    { label: "BÀI VIẾT", path: "/admin/posts", icon: "fas fa-newspaper" },
-    { label: "ĐÁNH GIÁ", path: "/admin/reviews", icon: "fas fa-star" },
-    { label: "KHÁCH HÀNG", path: "/admin/users", icon: "fas fa-user" },
+    { label: "Dashboard", path: "/admin", icon: "fas fa-home" },
+    { label: "Đơn hàng", path: "/admin/orders", icon: "fas fa-receipt" },
+    { label: "Sản phẩm", path: "/admin/products", icon: "fas fa-box" },
+    { label: "Danh mục", path: "/admin/categories", icon: "fas fa-list" },
+    { label: "Bài viết", path: "/admin/blogs", icon: "fas fa-newspaper" },
+    {
+      label: "Danh mục bài viết",
+      path: "/admin/blog-categories",
+      icon: "fa-solid fa-rectangle-list",
+    },
+    { label: "Banner", path: "/admin/banners", icon: "fas fa-image" },
+    { label: "Đánh giá", path: "/admin/reviews", icon: "fas fa-star" },
+    { label: "Khách hàng", path: "/admin/users", icon: "fas fa-user" },
   ];
 }

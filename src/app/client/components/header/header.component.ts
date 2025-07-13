@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
+import { HostListener } from "@angular/core";
 
 @Component({
   selector: "app-header",
@@ -22,6 +23,24 @@ export class HeaderComponent implements OnInit {
 
   isSearchBarVisible: boolean = false;
   searchQuery: string = "";
+
+  hideHeader = false;
+  private lastScrollTop = 0;
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > this.lastScrollTop && scrollTop > 100) {
+      // Cuộn xuống: ẩn header
+      this.hideHeader = true;
+    } else {
+      // Cuộn lên: hiện header
+      this.hideHeader = false;
+    }
+
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // tránh âm
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -142,7 +161,11 @@ export class HeaderComponent implements OnInit {
   goToProfile() {
     window.location.href = "/profile";
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> b84826bccefdf2d52142e9e059874d680678f8c2
   logout() {
     sessionStorage.clear();
     window.location.href = "/sign-in";

@@ -8,7 +8,10 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Giới tính</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Giới tính
+        <span *ngIf="selectedGenderCount > 0">({{ selectedGenderCount }})</span>
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isGenderFilterVisible }"
@@ -23,8 +26,9 @@
     >
       <label class="block">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
-          [(ngModel)]="selectAllSizes"
+          [(ngModel)]="selectAllGenders"
           (change)="onSelectAllGenders()"
         />
         Tất cả
@@ -32,6 +36,7 @@
 
       <label class="block" *ngFor="let gender of gender_arr">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [(ngModel)]="gender.checked"
           (change)="onGenderChange()"
@@ -48,7 +53,10 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Mức giá</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Mức giá
+        <span *ngIf="selectedPriceCount > 0">({{ selectedPriceCount }})</span>
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isPriceFilterVisible }"
@@ -64,6 +72,7 @@
     >
       <label class="block" *ngFor="let price of price_ranges">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [(ngModel)]="price.checked"
           (change)="onPriceChange(price, $event)"
@@ -80,7 +89,10 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Hãng</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Hãng
+        <span *ngIf="selectedBrandCount > 0">({{ selectedBrandCount }})</span>
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isBrandFilterVisible }"
@@ -95,6 +107,7 @@
     >
       <label class="block">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [checked]="selectAllBrands"
           (change)="onSelectAllBrands($event)"
@@ -104,6 +117,7 @@
 
       <label class="block" *ngFor="let brand of brand_arr">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [checked]="brand.checked"
           (change)="onBrandChange(brand, $event)"
@@ -120,7 +134,12 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Loại</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Loại
+        <span *ngIf="selectedCategoryCount > 0"
+          >({{ selectedCategoryCount }})</span
+        >
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isCategoryFilterVisible }"
@@ -135,6 +154,7 @@
     >
       <label class="block">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [checked]="selectAllCategory"
           (change)="onSelectAllCategories($event)"
@@ -144,7 +164,7 @@
 
       <label class="block" *ngFor="let category of category_arr">
         <input
-          class="text-base text-red-400"
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [checked]="category.checked"
           (change)="onCategoryChange(category, $event)"
@@ -161,7 +181,10 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Size</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Size
+        <span *ngIf="selectedSizeCount > 0">({{ selectedSizeCount }})</span>
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isSizeFilterVisible }"
@@ -174,23 +197,80 @@
         'max-h-96 opacity-100': isSizeFilterVisible
       }"
     >
-      <label class="block">
-        <input
-          type="checkbox"
-          [(ngModel)]="selectAllSizes"
-          (change)="onSelectAllSizes()"
-        />
-        Tất cả
-      </label>
+      <!-- Tất cả -->
+      <div class="mb-3">
+        <button
+          class="px-3 py-1 rounded-full border text-sm font-medium"
+          [ngClass]="{
+            'bg-black text-white cursor-pointer': selectAllSizes,
+            'bg-white text-black border-gray-300 cursor-pointer':
+              !selectAllSizes
+          }"
+          (click)="toggleAllSizes()"
+        >
+          Tất cả
+        </button>
+      </div>
 
-      <label class="block" *ngFor="let size of size_arr">
-        <input
-          type="checkbox"
-          [(ngModel)]="size.checked"
-          (change)="onSizeChange()"
-        />
-        {{ size.size }}
-      </label>
+      <div class="grid grid-cols-3 gap-2">
+        <button
+          *ngFor="let size of size_arr"
+          class="border rounded text-sm py-1 font-medium"
+          [ngClass]="{
+            'bg-black text-white border-black cursor-pointer': size.checked,
+            'bg-white text-black border-gray-300 hover:border-black cursor-pointer':
+              !size.checked
+          }"
+          (click)="toggleSize(size)"
+        >
+          {{ size.size }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Màu sắc -->
+  <div class="border-t border-gray-200 pt-2">
+    <div class="flex items-center justify-between cursor-pointer">
+      <h2 class="text-lg font-semibold my-4">
+        Màu
+        <span *ngIf="selectedColorCount > 0">({{ selectedColorCount }})</span>
+      </h2>
+      <i
+        class="fas fa-chevron-down transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': isColorFilterVisible }"
+        (click)="toggleColorFilter()"
+      ></i>
+    </div>
+
+    <div
+      class="overflow-hidden transition-all duration-300"
+      [ngClass]="{
+        'max-h-0 opacity-0': !isColorFilterVisible,
+        'max-h-96 opacity-100': isColorFilterVisible
+      }"
+    >
+      <!-- Nút "Tất cả" -->
+      <button
+        class="border px-3 py-1 rounded-full mr-2 mb-2"
+        [ngClass]="{ 'bg-black text-white': selectAllColors }"
+        (click)="onSelectAllColors()"
+      >
+        Tất cả
+      </button>
+
+      <!-- Danh sách màu -->
+      <button
+        *ngFor="let color of color_arr"
+        class="w-6 h-6 rounded-full border border-gray-300 mr-2 mb-2"
+        [ngStyle]="{ 'background-color': color.hex }"
+        [ngClass]="{
+          'ring-2 ring-black': color.checked,
+          'opacity-100 cursor-pointer': !color.checked
+        }"
+        (click)="onColorChange(color)"
+        [title]="color.color_name"
+      ></button>
     </div>
   </div>
 
@@ -201,7 +281,12 @@
   >
     <div class="border-t border-gray-200"></div>
     <div class="flex items-center justify-between cursor-pointer">
-      <h2 class="text-lg font-semibold my-4">Cổ giày</h2>
+      <h2 class="text-lg font-semibold my-4">
+        Cổ giày
+        <span *ngIf="selectedShoeHeightCount > 0"
+          >({{ selectedShoeHeightCount }})</span
+        >
+      </h2>
       <i
         class="fas fa-chevron-down transition-transform duration-300"
         [ngClass]="{ 'rotate-180': isShoeHeightFilterVisible }"
@@ -216,6 +301,7 @@
     >
       <label class="block">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [(ngModel)]="selectAllShoeHeight"
           (change)="onSelectAllShoeHeights()"
@@ -225,6 +311,7 @@
 
       <label class="block" *ngFor="let shoe_height of shoe_height_arr">
         <input
+          class="w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1"
           type="checkbox"
           [(ngModel)]="shoe_height.checked"
           (change)="onSizeChange()"

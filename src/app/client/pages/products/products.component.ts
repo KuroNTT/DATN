@@ -38,6 +38,7 @@ export class ProductsComponent {
     genders: number[];
     shoeHeights: number[];
     prices: { min: number; max: number }[];
+    colors: string[];
   }) {
     this.product_arr = this.product_arr_all.filter((p) => {
       const matchPrice =
@@ -57,7 +58,12 @@ export class ProductsComponent {
         filter.brands.includes(Number(p.brand_id));
 
       const matchSize =
-        filter.sizes.length === 0 || filter.sizes.includes(Number(p.size_id));
+        filter.sizes.length === 0 ||
+        p.variants?.some((variant) =>
+          variant.product_variant_sizes?.some((vsize) =>
+            filter.sizes.includes(vsize.size?.id)
+          )
+        );
 
       const matchGender =
         filter.genders.length === 0 ||
@@ -69,13 +75,26 @@ export class ProductsComponent {
           filter.shoeHeights.includes(Number(v.shoe_height_id))
         );
 
+      const matchColor =
+        filter.colors.length === 0 ||
+        p.variants?.some(
+          (v) =>
+            v.color?.color_name &&
+            filter.colors.some((kw) =>
+              v.color?.color_name.toLowerCase().includes(kw)
+            )
+        );
+
+      console.log(p.variants.map((v) => v.color?.color_name));
+
       return (
         matchPrice &&
         matchCategory &&
         matchBrand &&
         matchSize &&
         matchGender &&
-        matchShoeHeight
+        matchShoeHeight &&
+        matchColor
       );
     });
 

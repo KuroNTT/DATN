@@ -1,4 +1,7 @@
-<div class="header bg-white shadow-md px-4 sm:px-0">
+<div
+  class="header bg-white shadow-md px-4 sm:px-0 fixed top-0 left-0 z-50 transition-transform duration-300"
+  [ngClass]="{ '-translate-y-full': hideHeader, 'translate-y-0': !hideHeader }"
+>
   <div
     class="container max-w-7xl mx-auto py-4 relative flex items-center justify-between"
   >
