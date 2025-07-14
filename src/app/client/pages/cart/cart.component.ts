@@ -31,7 +31,7 @@ export class CartComponent {
       return sum + price * itm.quantity;
     }, 0);
 
-    // nếu có phí ship hoặc voucher hãy cộng / trừ ở đây
+    // nếu có phí ship hoặc voucher cộng / trừ ở đây
     this.total = this.subtotal; // hiện tại ship = 0
   }
 
@@ -80,8 +80,8 @@ export class CartComponent {
       this.cartService
         .updateCartQuantity(
           this.user.id,
-          item.variantId,
-          item.sizeId,
+          item.variant.id,
+          item.size.id,
           newQuantity
         )
         .subscribe({
@@ -99,30 +99,31 @@ export class CartComponent {
   }
 
   decrease(item: any) {
-    if (item.quantity <= 1) return; // Không giảm dưới 1
-
-    if (this.user) {
-      const newQuantity = item.quantity - 1;
-      this.cartService
-        .updateCartQuantity(
-          this.user.id,
-          item.variantId,
-          item.sizeId,
-          newQuantity
-        )
-        .subscribe({
-          next: () => this.onLoad(),
-          error: (err: any) => console.error("Lỗi khi giảm số lượng:", err),
-        });
-    } else {
-      this.cartService.updateLocalQuantity(
-        item.variantId,
-        item.sizeId,
-        item.quantity - 1
-      );
-      this.refreshLocalCart();
-    }
+  if (item.quantity <= 1) {
+    this.remove(
+      item.variantId ?? item.variant?.id,   
+      item.sizeId    ?? item.size?.id    
+    );
+    return; 
   }
+
+  if (this.user) {
+    const newQuantity = item.quantity - 1;
+    this.cartService
+      .updateCartQuantity(this.user.id, item.variant.id, item.size.id, newQuantity)
+      .subscribe({
+        next: () => this.onLoad(),                  
+        error: (err) => console.error('Lỗi giảm SL:', err),
+      });
+  } else {
+    this.cartService.updateLocalQuantity(
+      item.variant?.id ?? item.variantId,
+      item.size?.id    ?? item.sizeId,
+      item.quantity - 1
+    );
+    this.refreshLocalCart();                           
+  }
+}
 
   toggleFavorite() {}
 

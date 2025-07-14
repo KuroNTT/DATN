@@ -19,6 +19,11 @@ const OrderModel = sequelize.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: true,
     },
+    order_code: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      unique: true,
+    },
     status: {
       type: DataTypes.STRING(50),
       allowNull: false,

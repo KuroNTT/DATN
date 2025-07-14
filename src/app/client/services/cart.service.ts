@@ -115,7 +115,7 @@ export class CartService {
     sizeId: number,
     quantity: number
   ) {
-    return this.http.put(`/api/cart/update-quantity`, {
+    return this.http.put(`${this.apiUrl}/update-cart`, {
       userId,
       variantId,
       sizeId,
