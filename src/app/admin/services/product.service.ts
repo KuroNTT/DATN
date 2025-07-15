@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { IProduct, ICategory,  IBrand , IGender, IShoeHeight, ISize} from "../../core/models/structureData";
+import { IProduct, ICategory, IBrand, IGender, IShoeHeight, ISize } from "../../core/models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: "root",
 })
 export class ProductService {
-  private apiUrl = "http://localhost:3000/api/products"; // Thay bằng URL thật nếu có
+  private apiUrl = "http://localhost:3000/api/admin/products"; // Thay bằng URL thật nếu có
 
-  constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem('token'); 
+    const token = sessionStorage.getItem('token');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -22,10 +22,13 @@ export class ProductService {
     return this.http.get<IProduct[]>(this.apiUrl);
   }
 
-  getOne(id: number): Observable<IProduct> {
-    return this.http.get<IProduct>(`${this.apiUrl}/${id}`);
+  getOne(slug: string): Observable<IProduct> {
+    return this.http.get<IProduct>(`${this.apiUrl}/slug/${slug}`);
   }
 
+  updateBySlug(slug: string, data: IProduct): Observable<any> {
+    return this.http.put(`${this.apiUrl}/slug/${slug}`, data);
+  }
   create(product: IProduct): Observable<IProduct> {
     return this.http.post<IProduct>(this.apiUrl, product, {
       headers: this.getAuthHeaders()
@@ -62,16 +65,15 @@ export class ProductService {
     return this.http.get<ICategory[]>('http://localhost:3000/api/categories');
   }
   getBrand(): Observable<IBrand[]> {
-    return this.http.get<IBrand[]>('http://localhost:3000/api/brand');
+    return this.http.get<IBrand[]>('http://localhost:3000/api/brands');
   }
-  getSizes():Observable<ISize[]>{
+  getSizes(): Observable<ISize[]> {
     return this.http.get<ISize[]>('http://localhost:3000/api/sizes')
   }
-  getGender(){
+  getGender() {
     return this.http.get<IGender[]>('http://localhost:3000/api/genders');
   }
-  getShoeheights(){
+  getShoeheights() {
     return this.http.get<IShoeHeight[]>('http://localhost:3000/api/shoe_heights');
-  }  
-  
+  }
 }

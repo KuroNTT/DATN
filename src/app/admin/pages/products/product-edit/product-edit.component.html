@@ -1,1 +1,5 @@
-<p>product-edit works!</p>
+<app-product-form
+  [formData]="product"
+  [isEditMode]="true"
+  (submitForm)="handleUpdate($event)"
+></app-product-form>

@@ -161,11 +161,6 @@ export class HeaderComponent implements OnInit {
   goToProfile() {
     window.location.href = "/profile";
   }
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> b84826bccefdf2d52142e9e059874d680678f8c2
   logout() {
     sessionStorage.clear();
     window.location.href = "/sign-in";

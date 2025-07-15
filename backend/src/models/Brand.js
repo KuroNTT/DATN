@@ -10,6 +10,7 @@ const BrandModel = sequelize.define(
     slug: { type: DataTypes.STRING },
     description: { type: DataTypes.STRING, allowNull: false },
     status: { type: DataTypes.INTEGER },
+    sort_order: { type: DataTypes.INTEGER },
     created_at: { type: DataTypes.DATE },
     update_at: { type: DataTypes.DATE },
   },

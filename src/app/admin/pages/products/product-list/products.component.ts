@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { IProduct, ICategory, IBrand } from '../../../core/models/structureData';
+import { IProduct, ICategory, IBrand } from '../../../../core/models/structureData';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../../core/services/product.service';
+import { ProductService } from '../../../services/product.service';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule],
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  imports: [CommonModule, NgxPaginationModule,RouterLink],
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.css'
 })
-export class ProductsComponent {
+export class ProductListComponent {
   category_arr: ICategory[] = [];
   product_arr: IProduct[] = [];
   brand_arr: IBrand[] = [];

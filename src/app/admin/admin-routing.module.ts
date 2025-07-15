@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: "products/add",
-        loadComponent: () => import("./pages/products/product-form/product-form.component").then(m => m.ProductFormComponent),
+        loadComponent: () => import("./pages/products/components/product-form/product-form.component").then(m => m.ProductFormComponent),
         title: "Add Product"
       },
 

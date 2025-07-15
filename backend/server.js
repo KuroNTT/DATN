@@ -22,7 +22,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
 
 // 6. Kết nối và đồng bộ CSDL
@@ -60,6 +60,7 @@ app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")
 );
+app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {

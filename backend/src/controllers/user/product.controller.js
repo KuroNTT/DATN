@@ -1,16 +1,16 @@
 const { Op } = require("sequelize");
-require("../models/associations");
+require("../../models/associations");
 
-const ProductModel = require("../models/Product");
-const ProductVariantModel = require("../models/ProductVariant");
-const ProductImageModel = require("../models/ProductImage");
-const CategoryModel = require("../models/Category");
-const ColorModel = require("../models/Color");
-const VariantSizeModel = require("../models/VariantSize");
-const SizeModel = require("../models/Size");
-const ShoeHeightModel = require("../models/ShoeHeight");
-const GenderModel = require("../models/Gender");
-const BrandModel = require("../models/Brand");
+const ProductModel = require("../../models/Product");
+const ProductVariantModel = require("../../models/ProductVariant");
+const ProductImageModel = require("../../models/ProductImage");
+const CategoryModel = require("../../models/Category");
+const ColorModel = require("../../models/Color");
+const VariantSizeModel = require("../../models/VariantSize");
+const SizeModel = require("../../models/Size");
+const ShoeHeightModel = require("../../models/ShoeHeight");
+const GenderModel = require("../../models/Gender");
+const BrandModel = require("../../models/Brand");
 exports.getAllProducts = async (req, res) => {
   const searchQuery = req.query.q || "";
   const collarIdsRaw = req.query.collars || "";
