@@ -23,6 +23,8 @@
       <input
         formControlName="price"
         type="number"
+        min="0"
+        step="100000"
         placeholder="Giá"
         class="w-full border rounded-lg px-4 py-2"
       />
@@ -32,6 +34,8 @@
       <input
         formControlName="price_sale"
         type="number"
+        min="0"
+        step="100000"  
         placeholder="Giá KM"
         class="w-full border rounded-lg px-4 py-2"
       />
@@ -135,28 +139,28 @@
       <!-- Dòng 1: Màu - Mã - Tên - Chiều cao -->
       <div class="grid grid-cols-4 gap-4">
         <div>
-          <label class="font-medium">Tên màu (VN)</label>
+          <label class="font-bold">Tên màu (VN)</label>
           <input
             formControlName="color_name"
             class="w-full border rounded-lg px-4 py-2"
           />
         </div>
         <div>
-          <label class="font-medium">Tên màu gốc (EN)</label>
+          <label class="font-bold">Tên màu gốc (EN)</label>
           <input
             formControlName="original_name"
             class="w-full border rounded-lg px-4 py-2"
           />
         </div>
         <div>
-          <label class="font-medium">Mã sản phẩm (style_code)</label>
+          <label class="font-bold">Mã sản phẩm (style_code)</label>
           <input
             formControlName="style_code"
             class="w-full border rounded-lg px-4 py-2"
           />
         </div>
         <div>
-          <label class="font-medium">Chiều cao cổ giày</label>
+          <label class="font-bold">Chiều cao cổ giày</label>
           <select
             formControlName="shoe_height_id"
             class="w-full border rounded-lg px-4 py-2"
@@ -170,14 +174,14 @@
 
       <!-- Dòng 2: Ảnh đại diện + tồn kho chung -->
       <div class="grid grid-cols-4 gap-4 mt-4">
-        <div class="mt-4">
-          <label class="block font-medium mb-2">Ảnh đại diện biến thể</label>
+        <div class="">
+          <label class="block font-bold">Ảnh đại diện biến thể</label>
 
           <input
             type="file"
             accept="image/*"
             (change)="uploadVariantImage($event, i)"
-            class="block w-full border border-gray-300 rounded-md px-3 py-2"
+            class="block w-full border rounded-md px-3 py-2"
           />
 
           <div
@@ -199,7 +203,7 @@
 
         <!-- Tồn kho chung -->
         <div class="col-span-1">
-          <label class="font-medium">Tồn kho chung cho tất cả size</label>
+          <label class="font-bold">Tồn kho chung cho tất cả size</label>
           <input
             type="number"
             min="0"
@@ -211,7 +215,7 @@
 
       <!-- Size và tồn kho -->
       <div class="mt-4">
-        <label class="block font-medium mb-2">Tồn kho theo size</label>
+        <label class="block font-bold mb-2">Tồn kho theo size</label>
         <div formArrayName="sizes" class="grid grid-cols-6 gap-4">
           <div
             *ngFor="let size of getSizes(i).controls; let j = index"
@@ -233,7 +237,7 @@
 
       <!-- Ảnh chi tiết -->
       <div class="mt-4">
-        <label class="block font-medium mb-2"
+        <label class="block font-bold mb-2"
           >Ảnh chi tiết biến thể (tối đa 8 ảnh)</label
         >
         <input
