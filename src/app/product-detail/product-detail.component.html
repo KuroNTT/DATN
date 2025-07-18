@@ -1,4 +1,4 @@
-<div class="breadcrumb flex justify-center py-[12px] px-4 sm:px-0">
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0">
   <div class="container">
     <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
     <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
@@ -79,54 +79,26 @@
                 <p class="text-lg font-semibold">Kích thước</p>
                 <div class="flex items-center gap-2 hover:text-gray-600 transition">
                   <i class="fa-solid fa-ruler-horizontal text-lg"></i>
-                  <!-- <p class="text-lg cursor-pointer">Bảng kích thước</p> -->
-                  <!-- demo -->
-                  <!-- Button mở popup -->
-                  <p class="text-lg cursor-pointer hover:underline" (click)="showSizeChart = true">
-                    Bảng kích thước
-                  </p>
-                  <!-- Popup overlay -->
-                  <div *ngIf="showSizeChart"
-                    class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]"
-                    (click)="showSizeChart = false">
-                    <div
-                      class="relative bg-white rounded-lg shadow-2xl ring-1 ring-white ring-opacity-20 w-full max-w-3xl mx-4 sm:mx-0"
-                      (click)="$event.stopPropagation()">
-                      <img src="/images/img-size.png" alt="" class="w-full h-auto" />
-                    </div>
-                  </div>
-                  <!-- demo -->
+                  <p class="text-lg cursor-pointer">Bảng kích thước</p>
                 </div>
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                <div *ngFor="let variantSize of size_arr" class="relative group">
-                  <button class="btn-size w-full" [ngClass]="{
-                      'bg-black text-white':
-                        selectedSize?.id === variantSize.size.id,
-                      'opacity-50 line-through bg-gray-300':
-                        variantSize.stock === 0
-                    }" (click)="onSelectSize(variantSize)">
-                    {{ variantSize.size.size }}
-                  </button>
-
-                  <!-- Tooltip "Hết hàng" -->
-                  <div *ngIf="variantSize.stock === 0"
-                    class="absolute left-1/2 -translate-x-1/2 -top-7 bg-gray-800 text-white text-xs px-2 py-1 rounded hidden group-hover:block z-10 whitespace-nowrap">
-                    Hết hàng
-                  </div>
-                </div>
+                <button class="btn-size" [class.bg-black]="selectedSize?.size === size.size"
+                  [class.text-white]="selectedSize?.size === size.size" *ngFor="let size of size_arr"
+                  (click)="onSelectSize(size)">
+                  {{ size.size }}
+                </button>
               </div>
-              <div class="button my-[30px] flex gap-4">
+              <div class="button mb-4">
                 <button type="button" (click)="addToCart()"
-                  class="w-1/2 py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition">
+                  class="w-full py-3 rounded-full shadow my-4 text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]">
                   Thêm vào giỏ hàng
                 </button>
                 <button type="button" (click)="addToWishlist()"
-                  class="w-1/2 py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition">
+                  class="w-full py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition-[0.2]">
                   Yêu thích
                 </button>
               </div>
-
             </div>
 
             <div>
@@ -140,7 +112,6 @@
                     <span class="font-semibold">Màu sắc:</span>
                     {{ selectedVariant.color.color_name }}
                   </li>
-
                   <li>
                     <span class="font-semibold">Mã sản phẩm:</span>
                     {{ selectedVariant.style_code }}

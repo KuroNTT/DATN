@@ -166,6 +166,12 @@ export interface IBlogCreate {
   category_id: number;
   author_id: number;
 }
+export interface ICategoryCreate {
+  name: string;
+  description: string;
+  sort_order: number;
+  status: number;
+}
 
 export interface IBlogCategory {
   id: number;

@@ -4,11 +4,8 @@ import {
   IProduct,
   IProductVariant,
   ISize,
-  IProductVariantSize,
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
-import { CartService } from "../../services/cart.service";
-import Swal from "sweetalert2";
 
 @Component({
   selector: "app-product-detail",
@@ -18,15 +15,10 @@ import Swal from "sweetalert2";
   styleUrl: "./product-detail.component.css",
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private cartService: CartService
-  ) {}
-  showSizeChart: boolean = false;
-
+  constructor(private route: ActivatedRoute) {}
   // Helper chung
-  private extractSizes(variant: IProductVariant): IProductVariantSize[] {
-    return variant.product_variant_sizes || [];
+  private extractSizes(variant: IProductVariant): ISize[] {
+    return (variant.product_variant_sizes || []).map((pvs) => pvs.size);
   }
 
   /** ---------------- State hiển thị mô tả dài / ngắn ---------------- */
@@ -42,11 +34,12 @@ export class ProductDetailComponent implements OnInit {
   slug: string = "";
   product: IProduct = {} as IProduct;
   product_variant_arr: IProductVariant[] = [];
-  size_arr: IProductVariantSize[] = [];
+  size_arr: ISize[] = [];
 
   selectedVariant: IProductVariant | null = null;
   selectedSize: ISize | null = null;
-  quantity = 1;
+  quantity = 1; // có thể binding ra input number trong template
+
   /** ---------------- Hình ảnh ---------------- */
   imgList: string[] = [];
   mainImage: string = "";
@@ -114,14 +107,12 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  onSelectSize(variantSize: IProductVariantSize) {
-    if (variantSize.stock === 0) return;
-    this.selectedSize = variantSize.size;
+  onSelectSize(size: ISize) {
+    this.selectedSize = size;
 
     console.log("🟩 Size đã chọn:", {
-      size_id: variantSize.size.id,
-      size: variantSize.size.size,
-      stock: variantSize.stock,
+      size_id: size.id,
+      size: size.size,
       variant_id: this.selectedVariant?.id,
     });
   }
@@ -136,24 +127,15 @@ export class ProductDetailComponent implements OnInit {
       alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng!");
       return;
     }
-    this.cartService.addToCart(
-      this.selectedVariant.id,
-      this.selectedSize.id,
-      this.quantity
+
+    alert(
+      `🛒 Thông tin bạn đã chọn:\n` +
+        `ID: ${this.selectedVariant.id}\n` +
+        `Sản phẩm: ${this.product.name}\n` +
+        `Biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}\n` +
+        `Size: ${this.selectedSize.size}\n` +
+        `Số lượng: ${this.quantity}`
     );
-    Swal.fire({
-      toast: true,
-      position: "top-end",
-      icon: "success",
-      title: "Đã thêm vào giỏ hàng!",
-      showConfirmButton: false,
-      timer: 1500,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener("mouseenter", Swal.stopTimer);
-        toast.addEventListener("mouseleave", Swal.resumeTimer);
-      },
-    });
   }
 
   wishlist: IProductVariant[] = [];

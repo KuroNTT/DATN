@@ -1,1 +1,21 @@
-<p>category-add works!</p>
+<div class="container p-4">
+    <h2 class="text-xl font-semibold mb-4">Thêm danh mục</h2>
+    <form (ngSubmit)="onSubmit()" #categoryForm="ngForm" class="space-y-4">
+        <input type="text" [(ngModel)]="formData.name" name="name" required placeholder="Tên danh mục"
+            class="w-full border p-2 rounded" />
+
+        <textarea [(ngModel)]="formData.description" name="description" rows="5" required placeholder="Nội dung"
+            class="w-full border p-2 rounded"></textarea>
+
+        <input type="number" [(ngModel)]="formData.sort_order" name="sort_order" required placeholder="Thứ tự sắp xếp"
+            class="w-full border p-2 rounded" />
+
+        <select [(ngModel)]="formData.status" name="status" required class="w-full border p-2 rounded">
+            <option [value]="1">Hiển thị</option>
+            <option [value]="0">Ẩn</option>
+        </select>
+        <button type="submit" [disabled]="categoryForm.invalid" class="bg-blue-600 text-white px-4 py-2 rounded">
+            Thêm danh mục
+        </button>
+    </form>
+</div>

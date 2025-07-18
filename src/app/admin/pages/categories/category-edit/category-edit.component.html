@@ -1,1 +1,45 @@
-<p>category-edit works!</p>
+<!-- <h2 class="text-xl font-bold mb-4">Chỉnh sửa bài viết</h2>
+
+<form (ngSubmit)="updateCategory()">
+    <label>Tiêu đề:</label>
+    <input [(ngModel)]="categoryData.name" name="title" class="border p-2 w-full mb-2" />
+    <label>Thứ tự hiển thị:</label>
+    <input [(ngModel)]="categoryData.sort_order" name="title" class="border p-2 w-full mb-2" />
+
+    <select [(ngModel)]=" categoryData.status" name="status" required class="w-full border p-2 rounded">
+        <option [value]="1">Hiển thị</option>
+        <option [value]="0">Ẩn</option>
+    </select>
+    <label>Nội dung:</label>
+    <textarea [(ngModel)]="categoryData.description" name="description"
+        class="border p-2 w-full mb-4 h-[20em]"></textarea>
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+        Cập nhật
+    </button>
+</form> -->
+
+<h2 class="text-xl font-bold mb-4">Chỉnh sửa danh mục</h2>
+
+<form (ngSubmit)="updateCategory()" #categoryForm="ngForm">
+    <label>Tên danh mục:</label>
+    <input [(ngModel)]="categoryData.name" name="name" class="border p-2 w-full mb-2" required
+        placeholder="Nhập tên danh mục" />
+
+    <label>Thứ tự hiển thị:</label>
+    <input type="number" [(ngModel)]="categoryData.sort_order" name="sort_order" class="border p-2 w-full mb-2" required
+        placeholder="VD: 1" />
+
+    <label>Trạng thái:</label>
+    <select [(ngModel)]="categoryData.status" name="status" required class="w-full border p-2 rounded">
+        <option [value]="1">Hiển thị</option>
+        <option [value]="0">Ẩn</option>
+    </select>
+    <label>Nội dung mô tả:</label>
+    <textarea [(ngModel)]="categoryData.description" name="description" class="border p-2 w-full mb-4 h-[10em]"
+        placeholder="Nhập mô tả danh mục"></textarea>
+
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded" [disabled]="categoryForm.invalid">
+        Cập nhật
+    </button>
+</form>

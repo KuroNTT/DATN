@@ -59,6 +59,9 @@ app.use(
   require("./src/routes/admin/blogCategory.routes")
 );
 
+app.use("/api/admin/categories", require("./src/routes/admin/category.routes"));
+
+
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {
   res.send("🚀 Welcome to TVM Shoes API");

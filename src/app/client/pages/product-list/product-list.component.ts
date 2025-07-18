@@ -1,11 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { CommonModule, NgClass, NgFor } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import {
-  IProduct,
-  ICategory,
-  IBrand,
-} from "../../../core/models/structureData";
+import { IProduct } from "../../../core/models/structureData";
 import { RouterModule } from "@angular/router";
 
 @Component({
