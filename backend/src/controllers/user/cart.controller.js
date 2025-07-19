@@ -118,13 +118,14 @@ exports.getAllCart = async (req, res) => {
   }
 };
 
-exports.updateCart = async (req, res) => {
+exports.updateCartQuantity = async (req, res) => {
   const { userId, variantId, sizeId, quantity } = req.body;
-
   if (!userId || !variantId || !sizeId || quantity == null) {
     return res.status(400).json({ error: "Thiếu thông tin cần thiết." });
   }
-
+  if (quantity < 1) {
+    return res.status(400).json({ error: "Số lượng phải >= 1" });
+  }
   try {
     const item = await CartModel.findOne({
       where: {
@@ -138,14 +139,6 @@ exports.updateCart = async (req, res) => {
       return res
         .status(404)
         .json({ error: "Không tìm thấy sản phẩm trong giỏ." });
-    }
-
-    if (quantity <= 0) {
-      await item.destroy();
-      return res.status(200).json({
-        success: true,
-        message: "Sản phẩm đã được xóa khỏi giỏ vì số lượng <= 0.",
-      });
     }
 
     item.quantity = quantity;
@@ -163,9 +156,11 @@ exports.getAllCartLocalStore = async (req, res) => {
   try {
     const { items } = req.body;
 
+    // Lấy danh sách variantIds và sizeIds
     const variantIds = items.map((item) => item.variantId);
     const sizeIds = items.map((item) => item.sizeId);
 
+    // Lấy thông tin các variant và include product
     const variants = await ProductVariantModel.findAll({
       where: { id: variantIds },
       include: [
@@ -184,10 +179,12 @@ exports.getAllCartLocalStore = async (req, res) => {
       ],
     });
 
+    // Lấy thông tin size
     const sizes = await SizeModel.findAll({
       where: { id: sizeIds },
     });
 
+    // Gộp lại dữ liệu theo từng item
     const response = items.map((item) => {
       const variant = variants.find((v) => v.id === item.variantId);
       const size = sizes.find((s) => s.id === item.sizeId);
