@@ -27,37 +27,58 @@ exports.getOrderById = async (req, res) => {
   }
 };
 
+const generateOrderCode = () => {
+  const random = Math.floor(100000 + Math.random() * 900000);
+  const timePart = Date.now().toString().slice(-4);
+  return Number(`${timePart}${random}`); 
+};
+
+
 exports.createPaymentLink = async (req, res) => {
-  let {
-    orderCode,
-    total_price,
-    items,
-    userId,
-    paymentId,
-    voucherId,
-    customer,
-    address,
-    phone,
-    customerNote,
-    adminNote,
-  } = req.body;
-  voucherId = voucherId || null;
-  customerNote = customerNote || "không có ghi chú";
-  adminNote = adminNote || null;
-  let payload = {
-    orderCode: Number(orderCode),
-    amount: Number(total_price),
-    description: `Đơn hàng: ${orderCode}`,
-    items,
-    cancelUrl: `${process.env.DOMAIN}/cancel`,
-    returnUrl: `${process.env.DOMAIN}/success`,
-  };
   try {
-    // if(paymentId==){}
-    OrderModel.create({
-      user_id: userId,
+    let {
       total_price,
-      status: "pending", // ví dụ: pending / paid / canceled
+      items,
+      userId,
+      paymentId,
+      voucherId,
+      customer,
+      address,
+      phone,
+      customerNote,
+      adminNote,
+    } = req.body;
+
+    if (
+      !total_price ||
+      !items ||
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
+      return res.status(400).json({ error: "Thiếu thông tin đơn hàng." });
+    }
+
+    voucherId = voucherId || null;
+    customerNote = customerNote || "Không có ghi chú";
+    adminNote = adminNote || null;
+
+    let orderCode = generateOrderCode();
+    let existingOrder = await OrderModel.findOne({
+      where: { order_code: orderCode },
+    });
+
+    while (existingOrder) {
+      orderCode = generateOrderCode();
+      existingOrder = await OrderModel.findOne({
+        where: { order_code: orderCode },
+      });
+    }
+
+    const newOrder = await OrderModel.create({
+      user_id: userId || null,
+      order_code: orderCode,
+      total_price,
+      status: "pending",
       payment_id: paymentId,
       order_date: new Date(),
       voucher_id: voucherId,
@@ -66,14 +87,67 @@ exports.createPaymentLink = async (req, res) => {
       customer_address: address,
       customer_phone_number: phone,
       customer_note: customerNote,
-      admin_note: null,
+      admin_note: adminNote,
     });
+
+    const payload = {
+      orderCode: orderCode,
+      amount: Number(total_price),
+      description: `đơn hàng ${orderCode}`,
+      items,
+      cancelUrl: `${process.env.DOMAIN}/cancel`,
+      returnUrl: `${process.env.DOMAIN}/success`,
+    };
+
     const paymentLinkResponse = await payOS.createPaymentLink(payload);
-    res.json({ checkoutUrl: paymentLinkResponse.checkoutUrl });
-    return;
+
+    if (!paymentLinkResponse?.checkoutUrl) {
+      return res.status(500).json({
+        error: "Không tạo được link thanh toán từ PayOS.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      orderCode,
+      checkoutUrl: paymentLinkResponse.checkoutUrl,
+    });
   } catch (error) {
-    console.error(error);
-    res.send("Something went error");
-    return;
+    console.error("❌ Lỗi tạo link thanh toán:", error);
+    return res.status(500).json({
+      error: "Lỗi máy chủ. Không tạo được link thanh toán.",
+    });
+  }
+};
+
+exports.callbackPayment = async (req, res) => {
+  try {
+    const { orderCode } = req.params;
+    if (!orderCode || isNaN(orderCode)) {
+      return res.status(400).json({ error: "Mã đơn hàng không hợp lệ." });
+    }
+    const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
+    const paymentStatus = payRes?.status || "NOT_FOUND";
+    const order = await OrderModel.findOne({ where: { order_code: Number(orderCode) } });
+    if (!order) {
+      return res.status(404).json({ error: "Không tìm thấy đơn hàng." });
+    }
+    if (paymentStatus === "PAID") {
+      order.status = "paid";
+    } else if (paymentStatus === "CANCELLED") {
+      order.status = "cancelled";
+    } else {
+      order.status = "pending";
+    }
+    await order.save();
+    return res.status(200).json({
+      success: true,
+      orderCode,
+      paymentStatus,
+      message: "Đã kiểm tra và cập nhật trạng thái thanh toán.",
+    });
+  } catch (error) {
+    console.error("❌ Lỗi khi kiểm tra trạng thái thanh toán:", error);
+    return res.status(500).json({ error: "Lỗi máy chủ." });
   }
 };
