@@ -2,6 +2,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 
 // 2. Cấu hình biến môi trường
 dotenv.config();
@@ -16,9 +17,9 @@ const app = express();
 app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:4200", // hoặc '*'
+    origin: "http://localhost:4200",
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ thêm Authorization
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
@@ -36,6 +37,7 @@ sequelize
 
 // 7. Định nghĩa các route chính
 app.use("/api/auth", require("./src/routes/user/auth.routes"));
+app.use("/api/banners", require("./src/routes/user/banner.routes"));
 app.use("/api/blogs", require("./src/routes/user/blog.routes"));
 app.use("/api/brands", require("./src/routes/user/brand.routes"));
 app.use("/api/categories", require("./src/routes/user/category.routes"));
@@ -58,6 +60,10 @@ app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")
 );
+// Cấu hình nhận form-data, JSON...
+app.use(express.urlencoded({ extended: true }));
+app.use("/images", express.static(path.join(__dirname, "../public/images")));
+app.use("/api/admin/upload", require("./src/routes/admin/upload.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {

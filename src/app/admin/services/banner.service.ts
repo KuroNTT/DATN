@@ -14,4 +14,27 @@ export class BannerService {
   getAll(): Observable<IBanner[]> {
     return this.http.get<IBanner[]>(this.apiUrl);
   }
+
+  getById(id: number): Observable<IBanner> {
+    return this.http.get<IBanner>(`${this.apiUrl}/${id}`);
+  }
+
+  create(data: any): Observable<any> {
+    return this.http.post(this.apiUrl, data);
+  }
+
+  update(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post<{ imageUrl: string }>(
+      "http://localhost:3000/api/admin/upload",
+      formData
+    );
+  }
 }

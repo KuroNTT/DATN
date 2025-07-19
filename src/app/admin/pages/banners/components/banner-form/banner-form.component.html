@@ -1,1 +1,21 @@
-<p>banner-form works!</p>
+<h2 *ngIf="isEdit">Cập nhật Banner</h2>
+<h2 *ngIf="!isEdit">Thêm mới Banner</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group mb-3">
+    <label>Tiêu đề</label>
+    <input class="form-control" formControlName="title" />
+  </div>
+
+  <div class="form-group mb-3">
+    <label>Link hình ảnh</label>
+    <input class="form-control" formControlName="image" />
+  </div>
+
+  <div class="form-group mb-3">
+    <label>Link liên kết</label>
+    <input class="form-control" formControlName="link" />
+  </div>
+
+  <button class="btn btn-success" type="submit">Lưu</button>
+</form>

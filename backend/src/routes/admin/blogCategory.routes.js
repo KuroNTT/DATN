@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const BlogCategoryController = require("../../controllers/admin/blogCategory.controller");
+const blogCategoryController = require("../../controllers/admin/blogCategory.controller");
 
-router.get("/", BlogCategoryController.getAll);
-router.post("/", BlogCategoryController.create);
-router.put("/:id", BlogCategoryController.update);
-router.delete("/:id", BlogCategoryController.remove);
+router.get("/", blogCategoryController.getAll);
+router.get("/:id", blogCategoryController.getById);
+router.post("/", blogCategoryController.create);
+router.put("/:id", blogCategoryController.update);
+router.delete("/:id", blogCategoryController.remove);
 
 module.exports = router;

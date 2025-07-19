@@ -8,7 +8,7 @@ import { IBlogCreate } from "../../core/models/structureData";
   providedIn: "root",
 })
 export class BlogService {
-  private apiUrl = "http://localhost:3000/api/blogs";
+  private apiUrl = "http://localhost:3000/api/admin/blogs";
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<IBlog[]> {
@@ -20,11 +20,11 @@ export class BlogService {
   }
 
   getCategories(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/blogcategories`);
+    return this.http.get(`${this.apiUrl}/blog-categories`);
   }
 
-  createBlog(data: IBlogCreate): Observable<any> {
-    return this.http.post(`${this.apiUrl}/admin/blogs`, data);
+  createBlog(blogPayload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, blogPayload);
   }
 
   update(id: number, blog: IBlog): Observable<IBlog> {
@@ -33,5 +33,12 @@ export class BlogService {
 
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post<{ imageUrl: string }>(
+      "http://localhost:3000/api/admin/upload",
+      formData
+    );
   }
 }

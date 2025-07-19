@@ -1,0 +1,41 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+  <!-- Tên danh mục -->
+  <div>
+    <label for="name" class="block font-medium mb-1">Tên danh mục</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      class="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+
+  <!-- Mô tả -->
+  <div>
+    <label for="description" class="block font-medium mb-1">Mô tả</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      class="w-full border border-gray-300 rounded px-3 py-2"
+    ></textarea>
+  </div>
+
+  <!-- Slug -->
+  <div>
+    <label for="slug" class="block font-medium mb-1">Slug</label>
+    <input
+      id="slug"
+      type="text"
+      formControlName="slug"
+      class="w-full border border-gray-300 rounded px-3 py-2"
+    />
+  </div>
+
+  <!-- Nút submit -->
+  <button
+    type="submit"
+    class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+  >
+    {{ isEditMode ? "Cập nhật danh mục" : "Thêm danh mục" }}
+  </button>
+</form>
