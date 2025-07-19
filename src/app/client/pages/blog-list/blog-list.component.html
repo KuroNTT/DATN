@@ -17,73 +17,46 @@
 <div class="flex justify-center px-4 sm:px-0">
   <div class="w-full max-w-[1280px]">
     <div class="grid grid-cols-1 lg:grid-cols-9 gap-7">
-      <!-- Sidebar lọc danh mục blog 
-      <div class="lg:col-span-2">
-        <h3 class="text-xl font-bold mb-6">Danh mục bài viết</h3>
-        <div class="space-y-2">
-          <label
-            *ngFor="let category of category_arr"
-            (click)="filterByCategorySlug(category.slug)"
-            class="flex items-center space-x-2 cursor-pointer py-1 group select-none"
-          >
-            <input type="checkbox" class="peer hidden" />
-            <div
-              class="w-4 h-4 border-2 border-gray-400 rounded-sm peer-checked:bg-red-600 peer-checked:border-red-600 transition-all duration-200"
-            ></div>
-            <span
-              class="text-sm text-gray-800 peer-checked:text-red-600 group-hover:underline"
-            >
-              {{ category?.name }}
-            </span>
-          </label>
-        </div>
-      </div>
--->
-      <div class="lg:col-span-2">
-        <h3 class="text-xl font-bold mb-6">Danh mục bài viết</h3>
-        <div class="space-y-2">
-          <!-- TẤT CẢ -->
-          <label
-            (click)="selectAllCategories()"
-            class="flex items-center space-x-2 cursor-pointer py-1 group select-none"
-          >
-            <input
-              type="checkbox"
-              class="peer hidden"
-              [checked]="selectedCategorySlug === ''"
-            />
-            <div
-              class="w-4 h-4 border-2 border-gray-400 rounded-sm peer-checked:bg-red-600 peer-checked:border-red-600 transition-all duration-200"
-            ></div>
-            <span
-              class="text-sm text-gray-800 peer-checked:text-red-600 group-hover:underline"
-            >
-              Tất cả bài viết
-            </span>
-          </label>
+      <!-- Sidebar lọc danh mục blog -->
 
-          <!-- CÁC DANH MỤC -->
-          <ng-container *ngIf="category_arr && category_arr.length > 0">
+      <div class="lg:col-span-2">
+        <h3 class="text-xl font-bold mb-6">Bộ lọc bài viết</h3>
+
+        <!-- Danh mục bài viết -->
+        <div class="items-center justify-between cursor-pointer">
+          <div class="border-t border-gray-200"></div>
+          <div
+            class="overflow-hidden transition-all duration-300 max-h-96 opacity-100"
+          >
+            <!-- Tất cả -->
             <label
-              *ngFor="let category of category_arr"
-              (click)="filterByCategorySlug(category.slug)"
-              class="flex items-center space-x-2 cursor-pointer py-1 group select-none"
+              class="block font-semibold text-lg cursor-pointer select-none mb-2"
             >
               <input
                 type="checkbox"
-                class="peer hidden"
-                [checked]="selectedCategorySlug === category.slug"
+                class="my-4 w-4 h-4 accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
+                [checked]="selectedCategorySlug === ''"
+                (change)="selectAllCategories()"
               />
-              <div
-                class="w-4 h-4 border-2 border-gray-400 rounded-sm peer-checked:bg-red-600 peer-checked:border-red-600 transition-all duration-200"
-              ></div>
-              <span
-                class="text-sm text-gray-800 peer-checked:text-red-600 group-hover:underline"
-              >
-                {{ category.name }}
-              </span>
+              Tất cả bài viết
             </label>
-          </ng-container>
+
+            <div class="border-t border-gray-200"></div>
+
+            <label
+              class="block font-semibold text-lg cursor-pointer select-none mb-2"
+              *ngFor="let category of category_arr"
+            >
+              <input
+                type="checkbox"
+                class="my-4 w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
+                [checked]="selectedCategorySlug === category.slug"
+                (change)="filterByCategorySlug(category.slug)"
+              />
+              {{ category.name }}
+              <div class="border-t border-gray-200"></div>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -127,7 +100,7 @@
             </p>
 
             <button
-              class="w-[50%] md:w-[30%] p-2 text-sm md:text-lg rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+              class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
             >
               XEM CHI TIẾT
             </button>

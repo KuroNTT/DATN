@@ -6,9 +6,9 @@
   <div>
     <ul class="flex items-center">
       <!-- Icon user -->
-      <li class="relative">
+      <li class="relative group user-toggle">
         <a
-          (click)="toggleDropdown()"
+          (mouseenter)="showUserDropdown()"
           class="hover:text-blue-600 cursor-pointer"
         >
           <i class="fa-solid fa-user"></i>
@@ -16,8 +16,12 @@
 
         <!-- Dropdown -->
         <ul
-          *ngIf="showDropdown"
-          class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md z-50"
+          [ngClass]="{
+              'block opacity-100 visible translate-y-0': isUserDropdownVisible,
+              'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
+            }"
+            (mouseleave)="hideUserDropdown()"
+            class="hidden group-hover:block lg:absolute lg:top-full lg:right-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown" 
         >
           <!-- Chỉ hiển thị nếu đã đăng nhập -->
           <li>

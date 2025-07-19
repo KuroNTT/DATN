@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   username: string = "";
   userrole: string = "";
   isAdmin: boolean = false;
+  isUserDropdownVisible: boolean = false;
 
   constructor(
     private router: Router,
@@ -47,6 +48,15 @@ export class HeaderComponent implements OnInit {
         }
       }
     }
+  }
+showUserDropdown(): void {
+    this.isUserDropdownVisible = true;
+  }
+  hideUserDropdown(): void {
+    this.isUserDropdownVisible = false;
+  }
+  toggleUserDropdown(): void {
+    this.isUserDropdownVisible = !this.isUserDropdownVisible;
   }
 
   toggleDropdown() {
