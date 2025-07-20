@@ -33,9 +33,9 @@
 }
 
 .just-in h3 {
-  font-size: 80px;
+  font-size: 3.4em;
   text-transform: uppercase;
-  font: var(--podium-cds-typography-320-to-959-display2);
+  font-family: Arial, Helvetica, sans-serif;
   margin: 12px 0;
 }
 
