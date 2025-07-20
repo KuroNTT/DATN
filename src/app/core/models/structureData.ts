@@ -105,6 +105,7 @@ export interface IProduct {
   style_code?: string;
   category?: ICategory;
   isLiked?: boolean;
+  brand?: IBrand;
 }
 
 export interface IProductVariantSize {

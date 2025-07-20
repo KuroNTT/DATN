@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   hideHeader = false;
   private lastScrollTop = 0;
 
+  isUserDropdownVisible: boolean = false;
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -137,16 +138,20 @@ export class HeaderComponent implements OnInit {
         }
       }
     } else {
-      // Đang chạy ở môi trường không phải trình duyệt
       this.isLoggedIn = false;
       this.username = "Khách hàng";
       this.userrole = "customer";
       this.isAdmin = false;
     }
   }
-
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  showUserDropdown(): void {
+    this.isUserDropdownVisible = true;
+  }
+  hideUserDropdown(): void {
+    this.isUserDropdownVisible = false;
+  }
+  toggleUserDropdown(): void {
+    this.isUserDropdownVisible = !this.isUserDropdownVisible;
   }
 
   goToSignup() {
@@ -160,7 +165,6 @@ export class HeaderComponent implements OnInit {
   goToProfile() {
     window.location.href = "/profile";
   }
-
   logout() {
     sessionStorage.clear();
     window.location.href = "/sign-in";

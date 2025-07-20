@@ -1,25 +1,35 @@
-import { Component, PLATFORM_ID, Inject } from "@angular/core";
+import {
+  Component,
+  PLATFORM_ID,
+  Inject,
+  OnInit
+} from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { Router } from "@angular/router";
 
 @Component({
   selector: "app-header",
+  standalone: true,
   imports: [CommonModule],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css",
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  showDropdown = false;
+  isLoggedIn = false;
+  username: string = "";
+  userrole: string = "";
+  isAdmin: boolean = false;
+  isUserDropdownVisible: boolean = false;
+
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
-  // Dang nhap dropdown - tuong van
-  showDropdown = false;
-  isLoggedIn = false;
-  username: string = "";
 
-  userrole: string = "";
-  isAdmin: boolean = false;
+  ngOnInit(): void {
+    this.checkLoginStatus();
+  }
 
   checkLoginStatus() {
     if (isPlatformBrowser(this.platformId)) {
@@ -35,40 +45,34 @@ export class HeaderComponent {
           this.isAdmin = this.userrole === "admin";
         } catch (e) {
           console.error("Lỗi phân tích user từ sessionStorage:", e);
-          this.username = "Khách hàng";
         }
       }
-    } else {
-      // Đang chạy ở môi trường không phải trình duyệt
-      this.isLoggedIn = false;
-      this.username = "Khách hàng";
-      this.userrole = "customer";
-      this.isAdmin = false;
     }
+  }
+showUserDropdown(): void {
+    this.isUserDropdownVisible = true;
+  }
+  hideUserDropdown(): void {
+    this.isUserDropdownVisible = false;
+  }
+  toggleUserDropdown(): void {
+    this.isUserDropdownVisible = !this.isUserDropdownVisible;
   }
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
 
-  goToSignup() {
-    window.location.href = "/sign-up";
-  }
-
-  goToLogin() {
-    window.location.href = "/sign-in";
-  }
-
   goToProfile() {
-    window.location.href = "/profile";
+    this.router.navigate(['/profile']);
   }
 
-  
   logout() {
     sessionStorage.clear();
-    window.location.href = "/sign-in";
+    this.router.navigate(['/sign-in']);
   }
-    goToHome() {
-    window.location.href = "/";
+
+  goToHome() {
+    this.router.navigate(['/']);
   }
 }

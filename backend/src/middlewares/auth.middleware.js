@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
     next();
     
   } catch (err) {
-    console.log("❌ Token lỗi:", err.message);
+    console.log("Token lỗi:", err.message);
     return res.status(401).json({ message: 'Token không hợp lệ' });
   }
 };

@@ -1,7 +1,5 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
-
-//Model mô tả bảng User
 const UserModel = sequelize.define(
   "users",
   {
@@ -12,7 +10,11 @@ const UserModel = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: true, // Trong DB bạn cho phép NULL
+      allowNull: true, 
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(255),

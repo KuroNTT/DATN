@@ -23,6 +23,8 @@ app.use(
   })
 );
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+app.use(express.urlencoded({ extended: true }));
 
 // 6. Kết nối và đồng bộ CSDL
 sequelize

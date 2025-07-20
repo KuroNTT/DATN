@@ -6,6 +6,7 @@ const BlogModel = sequelize.define(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING },
+    slug: { type: DataTypes.STRING},
     content: { type: DataTypes.TEXT },
     slug: { type: DataTypes.STRING },
     thumbnail: { type: DataTypes.STRING },

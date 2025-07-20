@@ -1,5 +1,6 @@
-require("../../models/associations");
 const { Op } = require("sequelize");
+require("../../models/associations");
+
 const ProductModel = require("../../models/Product");
 const ProductVariantModel = require("../../models/ProductVariant");
 const ProductImageModel = require("../../models/ProductImage");
@@ -9,7 +10,7 @@ const VariantSizeModel = require("../../models/VariantSize");
 const SizeModel = require("../../models/Size");
 const ShoeHeightModel = require("../../models/ShoeHeight");
 const GenderModel = require("../../models/Gender");
-
+const BrandModel = require("../../models/Brand");
 exports.getAllProducts = async (req, res) => {
   const searchQuery = req.query.q || "";
   const collarIdsRaw = req.query.collars || "";
@@ -121,7 +122,7 @@ exports.getAllProducts = async (req, res) => {
         ),
       }),
     },
-    order: [["id", "DESC"]],
+    order: [["created_at", "desc"]],
     include: [
       variantInclude,
       {
@@ -133,6 +134,11 @@ exports.getAllProducts = async (req, res) => {
         model: GenderModel,
         as: "gender",
         attributes: ["id", "name"],
+      },
+      {
+        model: BrandModel,
+        as: "brand",
+        attributes: ["name"],
       },
     ],
   });
@@ -168,6 +174,11 @@ exports.getProductBySlug = async (req, res) => {
       {
         model: CategoryModel,
         as: "category",
+        attributes: ["name"],
+      },
+      {
+        model: BrandModel,
+        as: "brand",
         attributes: ["name"],
       },
     ],
@@ -265,3 +276,6 @@ exports.searchProducts = async (req, res) => {
     res.status(500).json({ message: "Lỗi truy vấn database" });
   }
 };
+
+
+
