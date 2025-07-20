@@ -20,6 +20,8 @@ import { ResetPasswordComponent } from "./pages/reset-pw/reset-pw.component";
 import { ForgotPasswordComponent } from "./pages/forgot-pw/forgot-pw.component";
 import { ProductWishlistComponent } from "./pages/product-wishlist/product-wishlist.component";
 import { SearchResultComponent } from "./pages/search-result/search-result.component";
+import { CancelComponent } from "./pages/cancel/cancel.component";
+import { SuccessComponent } from "./pages/success/success.component";
 
 const routes: Routes = [
   {
@@ -104,6 +106,8 @@ const routes: Routes = [
             (m) => m.VerifyEmailComponent
           ),
       },
+      {path: 'cancel', component: CancelComponent, title: 'Hủy thanh toán'},
+      {path: 'success', component: SuccessComponent, title: 'thanh toán thành công'}
     ],
   },
 ];

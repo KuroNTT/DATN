@@ -5,7 +5,7 @@ import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
 import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -14,7 +14,7 @@ import { RouterModule } from "@angular/router";
   styleUrl: "./cart.component.css",
 })
 export class CartComponent {
-  constructor(private cartService: CartService) {}
+  constructor(private cartService: CartService, private router: Router) {}
   items: any[] = [];
   cartItems$!: Observable<any>;
   cartItemLocal$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -100,30 +100,28 @@ export class CartComponent {
 
   decrease(item: any) {
   if (item.quantity <= 1) {
-    this.remove(
-      item.variantId ?? item.variant?.id,   
-      item.sizeId    ?? item.size?.id    
-    );
-    return; 
+    return;
   }
 
+  const newQuantity = item.quantity - 1;
+
   if (this.user) {
-    const newQuantity = item.quantity - 1;
     this.cartService
       .updateCartQuantity(this.user.id, item.variant.id, item.size.id, newQuantity)
       .subscribe({
-        next: () => this.onLoad(),                  
+        next: () => this.onLoad(),
         error: (err) => console.error('Lỗi giảm SL:', err),
       });
   } else {
     this.cartService.updateLocalQuantity(
       item.variant?.id ?? item.variantId,
       item.size?.id    ?? item.sizeId,
-      item.quantity - 1
+      newQuantity
     );
-    this.refreshLocalCart();                           
+    this.refreshLocalCart();
   }
 }
+
 
   toggleFavorite() {}
 
@@ -161,5 +159,9 @@ export class CartComponent {
       .subscribe((data) => {
         this.cartItemLocal$.next(data);
       });
+  }
+
+  onPay(){
+    this.router.navigate(["/order"]);
   }
 }
