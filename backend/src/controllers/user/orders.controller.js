@@ -128,7 +128,6 @@ exports.callbackPayment = async (req, res) => {
   try {
     const { orderCode } = req.params;
     const { cart } = req.body; // 👈 lấy từ FE nếu là khách
-    console.log(cart);
     
     const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
     const paymentStatus = payRes?.status || "NOT_FOUND";
