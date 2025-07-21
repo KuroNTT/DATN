@@ -127,7 +127,7 @@ exports.callbackPayment = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     const { orderCode } = req.params;
-    const { cart } = req.body; // 👈 lấy từ FE nếu là khách
+    const { cart } = req.body; 
     
     const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
     const paymentStatus = payRes?.status || "NOT_FOUND";
@@ -149,23 +149,20 @@ exports.callbackPayment = async (req, res) => {
       let cartItems = [];
 
       if (order.user_id) {
-        // ✅ Trường hợp người dùng đã đăng nhập
         cartItems = await CartModel.findAll({
           where: { user_id: order.user_id },
           transaction,
         });
       } else if (Array.isArray(cart)) {
-        // ✅ Trường hợp chưa đăng nhập: dùng giỏ hàng từ FE
         cartItems = cart.map(i=>({
           variant_id: i.variantId,
           size_id: i.sizeId
-        })); // Không cần findAll
+        }));
       } else {
         await transaction.rollback();
         return res.status(400).json({ error: "Thiếu thông tin giỏ hàng cho người dùng chưa đăng nhập." });
       }
 
-      // ✅ Trừ stock
       for (const item of cartItems) {
         const variant = await VariantSizeModel.findOne({
           where: {
@@ -194,7 +191,6 @@ exports.callbackPayment = async (req, res) => {
         await variant.save({ transaction });
       }
 
-      // ✅ Nếu là user đăng nhập thì xóa giỏ hàng
       if (order.user_id) {
         await CartModel.destroy({
           where: { user_id: order.user_id },

@@ -144,7 +144,7 @@ export class OrderComponent {
     const userId = this.user?.id || null;
     const customer = this.user?.name || this.fullName;
     const payload = {
-      total_price: 2000,
+      total_price: this.total,
       items: this.products,
       userId,
       customer,
