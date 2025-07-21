@@ -1,10 +1,13 @@
 const OrderModel = require("../../models/Order");
+const VariantSizeModel = require("../../models/VariantSize");
+const CartModel = require('../../models/cart');
 const PayOS = require("@payos/node");
 const payOS = new PayOS(
   "94bb561c-3489-4996-8497-3dcc01e85757",
   "abaa67a4-5049-49a1-a670-d0f49fa9893d",
   "eb024c2b666d386954855f9259b23635927a700226aa6d4b00fb5a74c20ffd7c"
 );
+const sequelize = require("../../config/sequelize");
 
 exports.getAllOrder = async (req, res) => {
   try {
@@ -121,25 +124,94 @@ exports.createPaymentLink = async (req, res) => {
 };
 
 exports.callbackPayment = async (req, res) => {
+  const transaction = await sequelize.transaction();
   try {
     const { orderCode } = req.params;
-    if (!orderCode || isNaN(orderCode)) {
-      return res.status(400).json({ error: "Mã đơn hàng không hợp lệ." });
-    }
+    const { cart } = req.body; // 👈 lấy từ FE nếu là khách
+    console.log(cart);
+    
     const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
     const paymentStatus = payRes?.status || "NOT_FOUND";
-    const order = await OrderModel.findOne({ where: { order_code: Number(orderCode) } });
+
+    const order = await OrderModel.findOne({
+      where: { order_code: Number(orderCode) },
+      transaction,
+    });
+
     if (!order) {
+      await transaction.rollback();
       return res.status(404).json({ error: "Không tìm thấy đơn hàng." });
     }
+
     if (paymentStatus === "PAID") {
       order.status = "paid";
+      await order.save({ transaction });
+
+      let cartItems = [];
+
+      if (order.user_id) {
+        // ✅ Trường hợp người dùng đã đăng nhập
+        cartItems = await CartModel.findAll({
+          where: { user_id: order.user_id },
+          transaction,
+        });
+      } else if (Array.isArray(cart)) {
+        // ✅ Trường hợp chưa đăng nhập: dùng giỏ hàng từ FE
+        cartItems = cart.map(i=>({
+          variant_id: i.variantId,
+          size_id: i.sizeId
+        })); // Không cần findAll
+      } else {
+        await transaction.rollback();
+        return res.status(400).json({ error: "Thiếu thông tin giỏ hàng cho người dùng chưa đăng nhập." });
+      }
+
+      // ✅ Trừ stock
+      for (const item of cartItems) {
+        const variant = await VariantSizeModel.findOne({
+          where: {
+            variant_id: item.variant_id,
+            size_id: item.size_id,
+          },
+          transaction,
+        });
+
+        if (!variant) {
+          await transaction.rollback();
+          return res.status(400).json({
+            error: `Không tìm thấy biến thể (variant_id=${item.variant_id}, size_id=${item.size_id}) trong kho.`,
+          });
+        }
+
+        const quantity = item.quantity || 1;
+        if (variant.stock < quantity) {
+          await transaction.rollback();
+          return res.status(400).json({
+            error: `Không đủ hàng (variant_id=${item.variant_id}, size_id=${item.size_id}).`,
+          });
+        }
+
+        variant.stock -= quantity;
+        await variant.save({ transaction });
+      }
+
+      // ✅ Nếu là user đăng nhập thì xóa giỏ hàng
+      if (order.user_id) {
+        await CartModel.destroy({
+          where: { user_id: order.user_id },
+          transaction,
+        });
+      }
+
     } else if (paymentStatus === "CANCELLED") {
       order.status = "cancelled";
+      await order.save({ transaction });
     } else {
       order.status = "pending";
+      await order.save({ transaction });
     }
-    await order.save();
+
+    await transaction.commit();
     return res.status(200).json({
       success: true,
       orderCode,
@@ -148,6 +220,7 @@ exports.callbackPayment = async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Lỗi khi kiểm tra trạng thái thanh toán:", error);
+    await transaction.rollback();
     return res.status(500).json({ error: "Lỗi máy chủ." });
   }
 };

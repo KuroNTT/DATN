@@ -141,10 +141,10 @@ export class OrderComponent {
       return;
     }
     const address = `${this.ward}, ${this.district}, ${this.province}`;
-    const userId = this.user?.name || null;
+    const userId = this.user?.id || null;
     const customer = this.user?.name || this.fullName;
     const payload = {
-      total_price: this.total,
+      total_price: 2000,
       items: this.products,
       userId,
       customer,
