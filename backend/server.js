@@ -62,6 +62,7 @@ app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")
 );
+app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
 // Cấu hình nhận form-data, JSON...
 app.use(express.urlencoded({ extended: true }));
 app.use("/images", express.static(path.join(__dirname, "../public/images")));
