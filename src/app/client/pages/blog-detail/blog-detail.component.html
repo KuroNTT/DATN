@@ -18,15 +18,15 @@
     </a>
   </div>
 </div>
-<div *ngIf="blog" class="w-full max-w-[1280px] mx-auto my-0 pb-4 flex gap-6">
-  <div class="w-[60%]">
+<div *ngIf="blog" class="w-full max-w-[1280px] mx-auto my-0 pb-4">
+  <div class="">
   <!-- Tiêu đề -->
   <h1 class="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
     {{ blog.title }}
   </h1>
 
   <!-- Thông tin meta -->
-  <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+  <div class="flex flex-wrap my-2 items-center gap-3 text-sm text-gray-500">
     <p>
       <i class="fa-regular fa-calendar-alt mr-1"></i>
       {{ blog.created_at | date : "longDate" }}
@@ -39,7 +39,7 @@
   </div>
 
   <!-- Ảnh chính minh họa -->
-  <div class="w-full flex justify-center">
+  <div class="w-full my-2 flex justify-center">
     <img
       [src]="blog.thumbnail"
       alt="{{ blog.title }}"
@@ -63,7 +63,35 @@
     </a>
   </div>
   </div>
-  <!-- <div class="w-[40%] bg-red-500">
-    <h1>Bài viết nổi bật</h1>
-  </div> -->
+  
+ <div class="product-related my-10">
+        <h3 class="text-xl font-bold mb-4">Có thể bạn sẽ thích</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="product" *ngFor="let product of product_arr">
+            <div
+              class="w-full aspect-square mb-4 overflow-hidden relative group"
+            >
+              <a href="/product-detail/{{ product.slug }}">
+                <img
+                  class="product-image w-full h-full object-cover"
+                  src="{{ product.image }}"
+                  alt="{{ product.name }}"
+                />
+              </a>
+            </div>
+
+            <!-- Product info -->
+            <div class="product-name font-bold text-base mb-2">
+              {{ product.name }}
+            </div>
+            <div class="category-name text-sm text-gray-500 mb-2">
+              <span>{{ product.category?.name }}</span>
+            </div>
+            <div class="product_price text-red-500 font-bold text-lg">
+              {{ product.price_sale | number : "1.0-0" }}đ
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
+

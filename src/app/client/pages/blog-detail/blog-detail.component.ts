@@ -12,11 +12,10 @@ export class BlogDetailComponent implements OnInit {
   blog: any = null;
   product_arr: any[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     const slug = this.route.snapshot.paramMap.get('slug');
-console.log('Slug nhận được:', slug); // In ra kiểm tra
 
     if (slug) {
       fetch(`http://localhost:3000/api/blogs/slug/${slug}`)
@@ -32,7 +31,7 @@ console.log('Slug nhận được:', slug); // In ra kiểm tra
   }
 
   getRelatedProducts() {
-    fetch("http://localhost:3000/api/products?limit=4")
+    fetch("http://localhost:3000/api/products/most-view/products")
       .then(res => res.json())
       .then(data => {
         this.product_arr = data;
