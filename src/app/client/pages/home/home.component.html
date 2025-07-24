@@ -2,8 +2,8 @@
 
 <div class="just-in py-8 text-center px-4 sm:px-0">
   <p class="just-in-title text-lg sm:text-xl font-bold">PHONG CÁCH.</p>
-  <h3 class="text-2xl sm:text-3xl font-bold mt-2">Nothing beats the city.</h3>
-  <p class="font-semibold text-base sm:text-lg mt-4">
+  <h3 class="text-2xl sm:text-3xl font-bold mt-2">BỘC PHÁ ĐÔI CHÂN CỦA BẠN</h3>
+  <p class="font-bold text-base sm:text-lg mt-4">
     Được tạo ra để vượt qua bất cứ thành phố nào trên con đường của bạn.
   </p>
   <div class="go-to-shop mt-6">
@@ -137,13 +137,73 @@
   </div>
 </div>
 
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 w-[85%] mx-auto pt-8">
+  <!-- Tiêu đề -->
+  <div class="md:col-span-12">
+    <h3 class="text-2xl font-semibold mb-4">Tin tức mới nhất</h3>
+  </div>
+
+  <!-- Bài viết nổi bật lớn -->
+  <div
+    class="md:col-span-8 bg-white rounded-xl shadow hover:shadow-md p-4 h-[400px] overflow-hidden"
+  >
+    <img
+      [src]="blog_arr[0].thumbnail"
+      alt="{{ blog_arr[0].title }}"
+      class="w-[300px] h-auto object-contain rounded-lg mb-4 mx-auto"
+    />
+
+    <h2 class="text-2xl font-bold mb-3 line-clamp-1">
+      {{ blog_arr[0].title }}
+    </h2>
+    <div
+      [innerHTML]="blog_arr[0].content"
+      class="text-gray-700 line-clamp-2 mb-4"
+    ></div>
+    <a
+      [routerLink]="['/blog', blog_arr[0].slug]"
+      class="text-blue-600 hover:underline text-sm font-medium"
+    >
+      Đọc chi tiết →
+    </a>
+  </div>
+
+  <!-- Danh sách bài viết nhỏ -->
+  <div class="md:col-span-4 flex flex-col gap-4">
+    <div
+      *ngFor="let blog of blog_arr.slice(1, 4)"
+      class="bg-white rounded-lg shadow p-3 hover:shadow-md flex gap-3"
+    >
+      <img
+        [src]="blog.thumbnail"
+        alt="{{ blog.title }}"
+        class="w-30 h-24 object-cover rounded-md"
+      />
+      <div class="flex-1">
+        <h3 class="font-semibold text-base mb-1 line-clamp-2">
+          {{ blog.title }}
+        </h3>
+        <a
+          [routerLink]="['/blog', blog.slug]"
+          class="text-blue-500 text-sm hover:underline"
+        >
+          Xem thêm →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="section_4 flex justify-center px-4 sm:px-0 py-8">
   <div class="container">
     <div
-      class="favour-list flex flex-col md:flex-row justify-between text-center flex-wrap gap-6"
+      class="favour-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-center"
     >
       <!-- Item 1 -->
-      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+      <div
+        class="favour-item w-full max-w-full overflow-hidden break-words bg-white shadow-md rounded-lg p-6"
+      >
         <div class="favour-icon text-4xl text-blue-500 mb-4">
           <i class="fa-solid fa-truck"></i>
         </div>
@@ -152,20 +212,22 @@
             Miễn phí vận chuyển từ 2 đơn trở lên
           </h3>
         </div>
-        <div class="favour-content flex justify-center">
+        <div class="favour-content">
           <p class="text-gray-600">Cộng thêm, gia hạn trả hàng miễn phí.</p>
         </div>
       </div>
 
       <!-- Item 2 -->
-      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+      <div
+        class="favour-item w-full max-w-full overflow-hidden break-words bg-white shadow-md rounded-lg p-6"
+      >
         <div class="favour-icon text-4xl text-green-500 mb-4">
           <i class="fa-solid fa-gift"></i>
         </div>
         <div class="favour-title mb-2">
           <h3 class="text-lg font-semibold">Quà tặng miễn phí</h3>
         </div>
-        <div class="favour-content flex justify-center">
+        <div class="favour-content">
           <p class="text-gray-600">
             Tặng quà miễn phí đối với những đơn hàng từ 1.999.000đ trở lên.
           </p>
@@ -173,14 +235,16 @@
       </div>
 
       <!-- Item 3 -->
-      <div class="favour-item flex-1 bg-white shadow-md rounded-lg p-6">
+      <div
+        class="favour-item w-full max-w-full overflow-hidden break-words bg-white shadow-md rounded-lg p-6"
+      >
         <div class="favour-icon text-4xl text-red-500 mb-4">
           <i class="fa-solid fa-envelope"></i>
         </div>
         <div class="favour-title mb-2">
           <h3 class="text-lg font-semibold">Hỗ trợ 24/7</h3>
         </div>
-        <div class="favour-content flex justify-center">
+        <div class="favour-content">
           <p class="text-gray-600">
             Luôn luôn hỗ trợ, tư vấn khách hàng mọi lúc.
           </p>

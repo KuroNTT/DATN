@@ -8,6 +8,7 @@ const BlogModel = sequelize.define(
     title: { type: DataTypes.STRING },
     slug: { type: DataTypes.STRING},
     content: { type: DataTypes.TEXT },
+    slug: { type: DataTypes.STRING },
     thumbnail: { type: DataTypes.STRING },
     author_id: { type: DataTypes.INTEGER },
     category_id: { type: DataTypes.INTEGER },

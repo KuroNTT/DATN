@@ -1,8 +1,24 @@
 const BlogModel = require("../../models/Blog");
+const UserModel = require("../../models/User");
+const BlogCategoryModel = require("../../models/BlogCategory");
 
 exports.getAllBlogs = async (req, res) => {
   try {
-    const blogs = await BlogModel.findAll({ order: [["created_at", "DESC"]] });
+    const blogs = await BlogModel.findAll({
+      order: [["created_at", "DESC"]],
+      include: [
+        {
+          model: UserModel,
+          as: "author",
+          attributes: ["id", "name"],
+        },
+        {
+          model: BlogCategoryModel,
+          as: "category",
+          attributes: ["id", "name"],
+        },
+      ],
+    });
     res.json(blogs);
   } catch (error) {
     res.status(500).json({ message: "Lỗi khi lấy danh sách bài viết", error });
@@ -11,7 +27,20 @@ exports.getAllBlogs = async (req, res) => {
 
 exports.getBlogById = async (req, res) => {
   try {
-    const blog = await BlogModel.findByPk(req.params.id);
+    const blog = await BlogModel.findByPk(req.params.id, {
+      include: [
+        {
+          model: UserModel,
+          as: "author",
+          attributes: ["id", "name"],
+        },
+        {
+          model: BlogCategoryModel,
+          as: "category",
+          attributes: ["id", "name"],
+        },
+      ],
+    });
     if (!blog)
       return res.status(404).json({ message: "Không tìm thấy bài viết" });
     res.json(blog);
@@ -22,17 +51,22 @@ exports.getBlogById = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
   try {
-    const { title, slug, content, thumbnail } = req.body;
+    const { title, slug, content, thumbnail, author_id, category_id } =
+      req.body;
+
     const newBlog = await BlogModel.create({
       title,
       slug,
       content,
       thumbnail,
+      author_id,
+      category_id,
       created_at: new Date(),
       updated_at: new Date(),
     });
     res.status(201).json(newBlog);
   } catch (error) {
+    console.error("Lỗi khi tạo blog:", error);
     res.status(500).json({ message: "Lỗi khi tạo bài viết", error });
   }
 };
@@ -40,7 +74,8 @@ exports.createBlog = async (req, res) => {
 exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, slug, content, thumbnail } = req.body;
+    const { title, slug, content, thumbnail, author_id, category_id } =
+      req.body;
 
     const blog = await BlogModel.findByPk(id);
     if (!blog)
@@ -51,6 +86,8 @@ exports.updateBlog = async (req, res) => {
       slug,
       content,
       thumbnail,
+      author_id,
+      category_id,
       updated_at: new Date(),
     });
 

@@ -5,7 +5,7 @@ import { ProductService } from '../../../services/product.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterLink } from '@angular/router';
 @Component({
-  selector: 'app-products',
+  selector: "app-products",
   standalone: true,
   imports: [CommonModule, NgxPaginationModule, RouterLink],
   templateUrl: './product-list.component.html',
@@ -18,7 +18,9 @@ export class ProductListComponent {
   p: number = 1;
   constructor(private pds: ProductService) { }
 
-  ngOnInit() { this.loadProduct() }
+  ngOnInit() {
+    this.loadProduct();
+  }
   loadProduct() {
     this.pds.getAll().subscribe(data => {
       this.product_arr = data.sort((a, b) => {
@@ -28,8 +30,8 @@ export class ProductListComponent {
   }
 
   deleteProduct(id: number) {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      this.pds.delete(id).subscribe(() => this.loadProduct())
+    if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+      this.pds.delete(id).subscribe(() => this.loadProduct());
     }
   }
   toggleStatus(pd: IProduct) {

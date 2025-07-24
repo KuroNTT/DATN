@@ -1,55 +1,75 @@
-import { Component, OnInit } from "@angular/core";
-import { BlogService } from "../../../services/blog.service";
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { BlogService } from "../../../services/blog.service";
+import { BlogFormComponent } from "../components/blog-form/blog-form.component";
+import { CommonModule } from "@angular/common";
+import { AuthService } from "../../../services/auth.service";
 import { IBlogCreate } from "../../../../core/models/structureData";
-import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-blog-add",
-  templateUrl: "./blog-add.component.html",
-  styleUrls: ["./blog-add.component.css"],
   standalone: true,
-  imports: [FormsModule],
+  template: `
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow rounded">
+      <h2 class="text-xl font-bold mb-4">Thêm bài viết</h2>
+      <app-blog-form
+        (formSubmit)="onSubmit($event)"
+        [currentAuthorName]="currentUser?.name"
+        [authorId]="currentUser?.id"
+      />
+    </div>
+  `,
+  imports: [CommonModule, BlogFormComponent],
 })
-export class BlogAddComponent implements OnInit {
-  formData = {
-    title: "",
-    slug: "",
-    content: "",
-    thumbnail: "",
-    category_id: "",
-    author_id: 1,
-  };
+export class BlogAddComponent {
+  currentUser: any;
 
-  blogCategories: any[] = [];
-
-  constructor(private blogService: BlogService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.getCategories();
+  constructor(
+    private blogService: BlogService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.currentUser = this.authService.getCurrentUser();
   }
 
-  getCategories() {
-    this.blogService.getCategories().subscribe({
-      next: (data) => {
-        this.blogCategories = data;
-      },
-      error: (err) => console.error(err),
-    });
-  }
+  onSubmit(formData: Partial<any>) {
+    const currentUser = this.authService.getCurrentUser();
 
-  onSubmit() {
-    const payload: IBlogCreate = {
-      ...this.formData,
-      category_id: +this.formData.category_id, // ép kiểu từ string sang number
-    };
+    if (!currentUser?.id) {
+      alert("Không thể xác định người dùng.");
+      return;
+    }
 
-    this.blogService.createBlog(payload).subscribe({
-      next: () => {
-        alert("Thêm bài viết thành công!");
-        this.router.navigate(["/admin/blogs"]);
-      },
-      error: (err) => console.error(err),
-    });
+    const file = formData["thumbnail"];
+
+    if (file instanceof File) {
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+
+      this.blogService.uploadImage(uploadData).subscribe({
+        next: (res) => {
+          const imageUrl = res.imageUrl;
+
+          const blogPayload = {
+            title: formData["title"] || "",
+            slug: formData["slug"] || "",
+            content: formData["content"] || "",
+            author_id: currentUser.id,
+            category_id: formData["category_id"] || "",
+            thumbnail: imageUrl,
+          };
+
+          this.blogService.createBlog(blogPayload).subscribe(() => {
+            alert("Thêm bài viết thành công!");
+            this.router.navigate(["/admin/blogs"]);
+          });
+        },
+        error: () => {
+          alert("Tải ảnh thất bại");
+        },
+      });
+    } else {
+      alert("Vui lòng chọn ảnh thumbnail!");
+    }
   }
 }

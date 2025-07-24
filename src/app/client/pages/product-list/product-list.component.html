@@ -22,7 +22,9 @@
         <div class="category-name text-sm text-gray-500 mb-2">
           <span>{{ product.category?.name }}</span>
         </div>
-        <div class="price flex gap-3 items-center">
+        <div
+          class="price flex flex-wrap sm:flex-nowrap gap-x-2 gap-y-1 items-center"
+        >
           <ng-container
             *ngIf="
               product.price_sale && product.price_sale < product.price;

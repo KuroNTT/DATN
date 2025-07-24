@@ -114,7 +114,7 @@ exports.signUp = async (req, res) => {
       }
     })(); // chạy ngay
   } catch (err) {
-    console.error(" Lỗi server:", err);
+    console.error("Lỗi server:", err); // ⚠️ RẤT QUAN TRỌNG
     return res.status(500).json({
       error: true,
       message: "Có lỗi xảy ra. Vui lòng thử lại sau.",
@@ -154,7 +154,7 @@ exports.signIn = async (req, res) => {
   const PRIVATE_KEY = process.env.JWT_SECRET;
 
   const jwt = require("jsonwebtoken");
-  const payload = { id: user.id, email: user.email }; // Nội dung token
+  const payload = { id: user.id, email: user.email };
   const maxAge = "1h";
 
   const bearToken = jwt.sign(payload, PRIVATE_KEY, {

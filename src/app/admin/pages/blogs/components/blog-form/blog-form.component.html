@@ -1,1 +1,105 @@
-<p>blog-form works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+  <input *ngIf="isEditMode" type="hidden" formControlName="id" />
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Tiêu đề</label>
+    <input
+      type="text"
+      formControlName="title"
+      placeholder="Nhập tiêu đề"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+    />
+    <div
+      *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
+      class="text-sm text-red-500"
+    >
+      Tiêu đề là bắt buộc.
+    </div>
+  </div>
+
+  <!-- Slug -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+    <input
+      type="text"
+      formControlName="slug"
+      placeholder="slug-tu-dong"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+    />
+    <div
+      *ngIf="form.get('slug')?.invalid && form.get('slug')?.touched"
+      class="text-sm text-red-500"
+    >
+      Slug là bắt buộc.
+    </div>
+  </div>
+
+  <!-- Nội dung -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Nội dung</label>
+    <textarea
+      formControlName="content"
+      rows="6"
+      placeholder="Nhập nội dung bài viết"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+    ></textarea>
+  </div>
+
+  <!-- Tác giả -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Tác giả</label>
+    <input
+      type="text"
+      formControlName="author"
+      readonly
+      placeholder="Tên tác giả"
+      class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+    />
+  </div>
+
+  <!-- Danh mục -->
+  <div>
+    <label class="block mb-1 font-medium">Danh mục</label>
+    <select
+      class="border px-2 py-1 rounded w-full"
+      formControlName="category_id"
+    >
+      <option [value]="null">-- Chọn danh mục --</option>
+      <option *ngFor="let cat of categories" [value]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Thumbnail -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1"
+      >Ảnh Thumbnail (URL)</label
+    >
+    <input
+      type="file"
+      (change)="onThumbnailSelected($event)"
+      accept="image/*"
+      placeholder="Nhập URL ảnh đại diện"
+      class="w-full text-center bg-gray-300 text-black font-medium py-2 pl-2 rounded-md shadow hover:bg-gray-400 transition-colors duration-200 cursor-pointer"
+    />
+    <div *ngIf="previewThumbnail" class="mt-2">
+      <img
+        [src]="previewThumbnail"
+        alt="Preview"
+        class="max-h-40 rounded border"
+      />
+    </div>
+  </div>
+
+  <!-- Nút Submit -->
+  <div class="text-right">
+    <button
+      type="submit"
+      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
+      [disabled]="form.invalid"
+    >
+      {{ isEditMode ? "Cập nhật bài viết" : "Thêm bài viết" }}
+    </button>
+  </div>
+</form>

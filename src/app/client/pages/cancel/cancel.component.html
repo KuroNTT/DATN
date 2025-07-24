@@ -1,0 +1,39 @@
+<div class="flex items-center justify-center min-h-screen from-red-100 via-red-200 to-red-300">
+  <div class="bg-white shadow-2xl rounded-2xl p-10 max-w-md w-full text-center animate-fadeIn">
+    <div class="mb-6">
+      <svg
+        class="mx-auto h-20 w-20 text-red-500 animate-bounce"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 48 48"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="4"
+          d="M12 12l24 24m0-24L12 36"
+        />
+      </svg>
+    </div>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Thanh toán bị huỷ</h2>
+    <p class="text-gray-600 mb-6">Rất tiếc! Có vẻ như bạn đã huỷ quá trình thanh toán. Bạn có thể thử lại bất cứ lúc nào.</p>
+    <button
+      onclick="window.location.href='/'"
+      class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+    >
+      Quay lại trang chủ
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+</style>

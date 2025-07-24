@@ -130,3 +130,16 @@ exports.getAllBlogCategories = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getNewestBlog = async (req,res) => {
+  try {
+    const blogs = await Blog.findAll({
+      attributes: ['id', 'title', 'slug', 'thumbnail','content', 'sort_order', 'created_at'],
+      order: [['created_at','DESC']],
+      limit: 4
+    });
+    res.json(blogs);
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+}

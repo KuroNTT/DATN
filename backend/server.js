@@ -2,6 +2,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 
 // 2. Cấu hình biến môi trường
 dotenv.config();
@@ -16,9 +17,9 @@ const app = express();
 app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:4200", // hoặc '*'
+    origin: "http://localhost:4200",
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ thêm Authorization
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
@@ -56,11 +57,16 @@ app.use("/api/user", require("./src/routes/user/auth.routes"));
 
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));
+app.use("/api/admin/banners", require("./src/routes/admin/banner.routes"));
 app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")
 );
 app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
+// Cấu hình nhận form-data, JSON...
+app.use(express.urlencoded({ extended: true }));
+app.use("/images", express.static(path.join(__dirname, "../public/images")));
+app.use("/api/admin/upload", require("./src/routes/admin/upload.routes"));
 
 // 8. Route kiểm tra server (mặc định)
 app.get("/", (req, res) => {

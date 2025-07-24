@@ -1,5 +1,5 @@
 <div
-  class="header bg-white shadow-md px-4 sm:px-0 fixed top-0 left-0 z-50 transition-transform duration-300"
+  class="header bg-white shadow-md px-4 sm:px-0 fixed top-0 left-0 w-full z-[500] transition-transform duration-300"
   [ngClass]="{ '-translate-y-full': hideHeader, 'translate-y-0': !hideHeader }"
 >
   <div
@@ -248,12 +248,41 @@
     </button>
   </div>
 
-  <!-- Overlay (Backdrop) -->
-  <div
-    *ngIf="isMenuOpen"
-    class="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
-    (click)="toggleMenu()"
-  ></div>
+  <!-- Search bar fixed giống Nike, chiếm 50% -->
+  <!-- <div
+    *ngIf="isSearchBarVisible"
+    class="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[90%] sm:w-2/3 lg:w-1/2 bg-white z-[999] shadow-lg border border-gray-200 px-4 py-3 rounded-xl flex items-center"
+  >
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (keydown.enter)="onSearch()"
+      placeholder="Tìm kiếm sản phẩm..."
+      class="flex-1 text-base px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
+      autofocus
+    />
+    <button
+      (click)="onSearch()"
+      class="ml-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+    >
+      Tìm
+    </button>
+    <button
+      (click)="toggleSearchBar()"
+      class="ml-2 text-gray-500 hover:text-black text-xl"
+      title="Đóng"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div> -->
+</div>
+
+<!-- Overlay (Backdrop) -->
+<div
+  *ngIf="isMenuOpen"
+  class="fixed inset-0 bg-black/50 z-[550] transition-opacity duration-300"
+  (click)="toggleMenu()"
+></div>
 
   <!-- Mobile Menu -->
   <div
@@ -509,4 +538,3 @@
       </button>
     </div>
   </div>
-</div>

@@ -31,7 +31,7 @@ export class BannerComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   loadBanners() {
-    fetch(`http://localhost:3000/api/banners`)
+    fetch(`http://localhost:3000/api/admin/banners`)
       .then((res) => res.json())
       .then((data) => {
         this.slide_arr = data as IBanner[];

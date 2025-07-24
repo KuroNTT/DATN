@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
-const sendMailToAdmin = async (req, res) => {
+
+exports.sendMailToAdmin = async (req, res) => {
   const { fullName, email, content } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -26,4 +27,3 @@ const sendMailToAdmin = async (req, res) => {
     console.log(err);
   }
 };
-module.exports = sendMailToAdmin;
