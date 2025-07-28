@@ -96,7 +96,7 @@ exports.createPaymentLink = async (req, res) => {
     const payload = {
       orderCode: orderCode,
       amount: Number(total_price),
-      description: `đơn hàng ${orderCode}`,
+      description: `DON HANG ${orderCode}`,
       items,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
       returnUrl: `${process.env.DOMAIN}/success`,
