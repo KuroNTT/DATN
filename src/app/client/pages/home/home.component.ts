@@ -53,12 +53,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   // Data source (tách data ra cho sạch)
   sports = [
-    { name: "Running", image: "images/nike-running.jpg" },
-    { name: "Football", image: "images/nike-football.jpg" },
-    { name: "Basketball", image: "images/nike-basketball.jpg" },
-    { name: "Training and Gym", image: "images/nike-training-and-gym.jpg" },
-    { name: "Skateboarding", image: "images/nike-skateboard.jpg" },
-    { name: "Golf", image: "images/nike-golf.jpg" },
+    { name: "Giày chạy bộ", image: "images/nike-running.jpg" },
+    { name: "Giày đá banh", image: "images/nike-football.jpg" },
+    { name: "Giày bóng rổ", image: "images/nike-basketball.jpg" },
+    { name: "Giày tập Gym & rèn luyện", image: "images/nike-training-and-gym.jpg" },
+    { name: "Giày chơi skateboarding", image: "images/nike-skateboard.jpg" },
+    { name: "Giày Golf", image: "images/nike-golf.jpg" },
   ];
 
   ngAfterViewInit(): void {}

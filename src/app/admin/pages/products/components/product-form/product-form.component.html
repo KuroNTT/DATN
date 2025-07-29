@@ -1,132 +1,132 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form" class="space-y-6">
   <!-- THÔNG TIN SẢN PHẨM -->
-  <div class="grid grid-cols-4 gap-4">
+  <div class="grid grid-cols-12 gap-6">
+  <!-- 🏷️ Cột trái (7/12) -->
+  <div class="col-span-7 grid grid-cols-2 gap-4">
     <!-- Hàng 1 -->
-    <div>
-      <label class="font-bold">Tên sản phẩm</label>
+    <div class="col-span-2">
+      <label class="block font-semibold text-sm mb-1">Tên sản phẩm</label>
       <input
         formControlName="name"
         placeholder="Tên sản phẩm"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
     <div>
-      <label class="font-bold">Slug</label>
+      <label class="block font-semibold text-sm mb-1">Slug</label>
       <input
         formControlName="slug"
         placeholder="Slug"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
+
+    <!-- Hàng 2 -->
     <div>
-      <label class="font-bold">Giá gốc</label>
+      <label class="block font-semibold text-sm mb-1">Giá gốc</label>
       <input
         formControlName="price"
         type="number"
         min="0"
         step="100000"
         placeholder="Giá"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
     <div>
-      <label class="font-bold">Giá khuyến mãi</label>
+      <label class="block font-semibold text-sm mb-1">Giá khuyến mãi</label>
       <input
         formControlName="price_sale"
         type="number"
         min="0"
-        step="100000"  
+        step="100000"
         placeholder="Giá KM"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
 
-    <!-- Hàng 2 -->
-    <div>
-      <label class="font-bold">Xuất xứ</label>
+    <!-- Hàng 3 -->
+     <div>
+      <label class="block font-semibold text-sm mb-1">Xuất xứ</label>
       <input
         formControlName="origin_country"
         placeholder="Xuất xứ"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
     </div>
     <div>
-      <label class="font-bold">Thương hiệu</label>
+      <label class="block font-semibold text-sm mb-1">Thương hiệu</label>
       <select
         formControlName="brand_id"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       >
         <option *ngFor="let b of brands" [value]="b.id">{{ b.name }}</option>
       </select>
     </div>
+    
     <div>
-      <label class="font-bold">Danh mục</label>
-      <select
-        formControlName="category_id"
-        class="w-full border rounded-lg px-4 py-2"
-      >
-        <option *ngFor="let c of categories" [value]="c.id">
-          {{ c.name }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <label class="font-bold">Giới tính</label>
+      <label class="block font-semibold text-sm mb-1">Giới tính</label>
       <select
         formControlName="gender_id"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       >
         <option *ngFor="let g of genders" [value]="g.id">{{ g.name }}</option>
       </select>
     </div>
 
-    <!-- Hàng 3 -->
+    <!-- Hàng 4 -->
     <div>
-      <label class="font-bold">Trạng thái</label>
+      <label class="block font-semibold text-sm mb-1">Danh mục</label>
+      <select
+        formControlName="category_id"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      >
+        <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <!-- Hàng 5 -->
+    <div>
+      <label class="block font-semibold text-sm mb-1">Trạng thái</label>
       <select
         formControlName="status"
-        class="w-full border rounded-lg px-4 py-2"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       >
         <option [value]="1">Hiển thị</option>
         <option [value]="0">Ẩn</option>
       </select>
     </div>
+  </div>
 
-    <!-- Ảnh đại diện -->
-    <div>
-      <label class="font-bold">Ảnh đại diện (file)</label>
-      <input
-        type="file"
-        (change)="uploadMainImage($event)"
-        class="w-full border rounded-lg px-4 py-2"
+  <!-- 🖼️ Cột giữa (2/12) -->
+  <div class="col-span-2">
+    <label class="block font-semibold text-sm mb-1">Ảnh đại diện (file)</label>
+    <input
+      type="file"
+      (change)="uploadMainImage($event)"
+      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+    />
+    <div class="mt-2 w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden">
+      <img
+        *ngIf="form.get('image')?.value"
+        [src]="form.get('image')?.value"
+        class="w-full h-full object-cover"
       />
-
-      <div class="mt-2">
-        <div
-          class="w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden"
-        >
-          <img
-            *ngIf="form.get('image')?.value"
-            [src]="form.get('image')?.value"
-            class="w-full h-full object-cover"
-          />
-          <span *ngIf="!form.get('image')?.value" class="text-sm text-gray-400">
-            Chưa có ảnh
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mô tả sản phẩm -->
-    <div class="col-span-2">
-      <label class="font-bold">Mô tả sản phẩm</label>
-      <textarea
-        formControlName="description"
-        class="w-full border rounded-lg px-4 py-2 h-40 resize-none"
-        placeholder="Nhập mô tả..."
-      ></textarea>
+      <span *ngIf="!form.get('image')?.value" class="text-sm text-gray-400">Chưa có ảnh</span>
     </div>
   </div>
+
+  <!-- 📄 Cột phải (3/12) -->
+  <div class="col-span-3">
+    <label class="block font-semibold text-sm mb-1">Mô tả sản phẩm</label>
+    <textarea
+      formControlName="description"
+      class="w-full border border-gray-300 rounded-lg px-3 py-2 h-40 resize-none focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      placeholder="Nhập mô tả..."
+    ></textarea>
+  </div>
+</div>
+
   <!-- BIẾN THỂ -->
   <div formArrayName="variants">
     <div

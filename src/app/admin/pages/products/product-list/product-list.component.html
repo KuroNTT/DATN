@@ -60,14 +60,27 @@
               alt="{{ pd.name }}"
               class="w-16 h-16 object-cover rounded mx-auto"
             />
-          </td>
+          </td>          
           <td class="px-4 py-2 border text-center">
-            <i
-              class="fas cursor-pointer transition duration-200 hover:text-gray-500"
-              [class.fa-eye]="pd.status"
-              [class.fa-eye-slash]="!pd.status"
-              (click)="toggleStatus(pd)"
-            ></i>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <!-- Input checkbox để tạo toggle -->
+              <input
+                type="checkbox"
+                class="sr-only peer"
+                [checked]="pd.status === 1"
+                (change)="toggleStatus(pd)"
+              />
+
+              <!-- Thanh trượt -->
+              <div
+                class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300"
+              ></div>
+
+              <!-- Nút tròn -->
+              <div
+                class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5"
+              ></div>
+            </label>
           </td>
 
           <td class="px-4 py-2 border text-center">
