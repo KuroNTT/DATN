@@ -36,13 +36,11 @@ export class CartComponent {
   }
 
   ngOnInit(): void {
-    this.items = this.cartService
-      .getLocalCart()
-      .map((e: any) => ({
-        variantId: e.variantId,
-        sizeId: e.sizeId,
-        quantity: e.quantity,
-      }));
+    this.items = this.cartService.getLocalCart().map((e: any) => ({
+      variantId: e.variantId,
+      sizeId: e.sizeId,
+      quantity: e.quantity,
+    }));
     this.onLoad();
   }
 
@@ -63,15 +61,19 @@ export class CartComponent {
     }
     if (this.user) {
       this.cartItems$ = this.cartService.getServerCart(this.user.id);
-      this.cartItems$.subscribe(res=>{this.computeTotals(res)});
+      this.cartItems$.subscribe((res) => {
+        this.computeTotals(res);
+      });
       this.cartItemLocal$.next([]);
     } else {
       this.cartItems$ = of([]);
       this.cartService.getAllCartInLocal(payload).subscribe((data) => {
         this.cartItemLocal$.next(data);
-        this.cartItemLocal$.subscribe(res=>{this.computeTotals(res)});
-    });
-  }
+        this.cartItemLocal$.subscribe((res) => {
+          this.computeTotals(res);
+        });
+      });
+    }
   }
 
   increase(item: any) {
@@ -99,47 +101,51 @@ export class CartComponent {
   }
 
   decrease(item: any) {
-  if (item.quantity <= 1) {
-    return;
+    if (item.quantity <= 1) {
+      return;
+    }
+
+    const newQuantity = item.quantity - 1;
+
+    if (this.user) {
+      this.cartService
+        .updateCartQuantity(
+          this.user.id,
+          item.variant.id,
+          item.size.id,
+          newQuantity
+        )
+        .subscribe({
+          next: () => this.onLoad(),
+          error: (err) => console.error("Lỗi giảm SL:", err),
+        });
+    } else {
+      this.cartService.updateLocalQuantity(
+        item.variant?.id ?? item.variantId,
+        item.size?.id ?? item.sizeId,
+        newQuantity
+      );
+      this.refreshLocalCart();
+    }
   }
-
-  const newQuantity = item.quantity - 1;
-
-  if (this.user) {
-    this.cartService
-      .updateCartQuantity(this.user.id, item.variant.id, item.size.id, newQuantity)
-      .subscribe({
-        next: () => this.onLoad(),
-        error: (err) => console.error('Lỗi giảm SL:', err),
-      });
-  } else {
-    this.cartService.updateLocalQuantity(
-      item.variant?.id ?? item.variantId,
-      item.size?.id    ?? item.sizeId,
-      newQuantity
-    );
-    this.refreshLocalCart();
-  }
-}
-
 
   toggleFavorite() {}
 
   remove(variantId: number, sizeId: number) {
     if (this.user) {
       this.cartService.removeFromCart(this.user.id, variantId, sizeId);
-      this.cartItems$.subscribe(res=>{this.computeTotals(res)});
+      this.cartItems$.subscribe((res) => {
+        this.computeTotals(res);
+      });
       this.onLoad();
       return;
     }
     this.cartService.removeFromCart(0, variantId, sizeId);
-    this.items = this.cartService
-      .getLocalCart()
-      .map((e: any) => ({
-        variantId: e.variantId,
-        sizeId: e.sizeId,
-        quantity: e.quantity,
-      }));
+    this.items = this.cartService.getLocalCart().map((e: any) => ({
+      variantId: e.variantId,
+      sizeId: e.sizeId,
+      quantity: e.quantity,
+    }));
     this.cartService
       .getAllCartInLocal({ items: this.items })
       .subscribe((data) => {
@@ -161,7 +167,7 @@ export class CartComponent {
       });
   }
 
-  onPay(){
+  onPay() {
     this.router.navigate(["/order"]);
   }
 }

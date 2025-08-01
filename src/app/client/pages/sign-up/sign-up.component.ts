@@ -12,6 +12,7 @@ export class SignUpComponent {
   router = inject(Router);
   user = { name: "", email: "", password: "", re_password: "" };
   thong_bao: string = "";
+  private nameRegex = /^[a-zA-ZÀ-ỹ\s']{3,30}$/;
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   private passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
@@ -45,6 +46,17 @@ export class SignUpComponent {
       this.shakeField("name", "Vui lòng nhập tên");
       return false;
     }
+    const len = name.length;
+    if (len < 3 || len > 30) {
+      const msg = len < 3 ? "Vui lòng nhập tên không quá ngắn" : "Vui lòng nhập tên không quá dài";
+      this.shakeField("name", msg);
+      return false;
+    }
+    if (!this.nameRegex.test(name)) {
+      this.shakeField("name", "Vui lòng nhập tên chỉ được chứa chữ cái và khoảng trắng")
+      return false;
+    }
+    
     if (!email.trim()) {
       this.shakeField("email", "Vui lòng nhập Email");
       return false;

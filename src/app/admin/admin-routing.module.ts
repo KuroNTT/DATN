@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.component";
+import { provideHttpClient } from '@angular/common/http';
 import { DashboardComponent } from "./pages/dashboard/dashboard/dashboard.component";
 
 const routes: Routes = [
@@ -17,6 +18,12 @@ const routes: Routes = [
           ),
         title: "Quản lý sản phẩm",
       },
+      {
+        path: "products/add",
+        loadComponent: () => import("./pages/products/components/product-form/product-form.component").then(m => m.ProductFormComponent),
+        title: "Add Product"
+      },
+
       {
         path: "categories",
         loadChildren: () =>
@@ -59,4 +66,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdminRoutingModule {}
+export class AdminRoutingModule { }

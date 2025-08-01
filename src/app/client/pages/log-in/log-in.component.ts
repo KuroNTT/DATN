@@ -3,15 +3,18 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
+import { AuthService } from "../../../admin/services/auth.service";
+
 @Component({
   selector: "app-log-in",
   imports: [FormsModule, CommonModule],
-  templateUrl: "./log-in.component.html"
+  templateUrl: "./log-in.component.html",
 })
 export class LogInComponent {
+  authService = inject(AuthService);
   router = inject(Router);
-  user = { email: "", password: "" };
 
+  user = { email: "", password: "" };
   thong_bao: string = "";
   thong_bao_email: string = "";
   thong_bao_password: string = "";
@@ -78,20 +81,22 @@ export class LogInComponent {
           } else if (data.field === "password") {
             this.shakeField("password", data.message);
           } else {
-            this.thong_bao = data.message; // ⚠️ bạn cần có biến thong_bao trong component + HTML
+            this.thong_bao = data.message; 
           }
           return;
         }
-
-        let expiresIn = data.expiresIn; //1h
         let user = data.info;
         let token = data.token;
+        let expiresIn = data.expiresIn; //1h
+
+        this.authService.setCurrentUser(user);
+
         sessionStorage.setItem("user", JSON.stringify(user));
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
           window.location.href = "/";
-        }, 2000);
+        }, 1500);
       });
   }
 }

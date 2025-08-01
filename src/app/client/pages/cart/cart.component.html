@@ -26,7 +26,7 @@
                 alt=""
                 class="w-28 h-28 object-cover rounded"
               />
-  
+
               <div class="flex-1">
                 <div class="flex justify-between">
                   <div>
@@ -45,16 +45,24 @@
                     {{ item.variant?.product?.price_sale | currency : "VND" }}
                   </p>
                 </div>
-  
+
                 <div class="flex items-center gap-2 mt-3">
-                  <button mat-icon-button class="border p-1" (click)="decrease(item)">
+                  <button
+                    mat-icon-button
+                    class="border p-1"
+                    (click)="decrease(item)"
+                  >
                     <mat-icon>remove</mat-icon>
                   </button>
                   <span>{{ item.quantity }}</span>
-                  <button mat-icon-button class="border p-1" (click)="increase(item)">
+                  <button
+                    mat-icon-button
+                    class="border p-1"
+                    (click)="increase(item)"
+                  >
                     <mat-icon>add</mat-icon>
                   </button>
-  
+
                   <!-- Nút tim yêu thích -->
                   <button
                     mat-icon-button
@@ -65,7 +73,7 @@
                       item.favorite ? "favorite" : "favorite_border"
                     }}</mat-icon>
                   </button>
-  
+
                   <button
                     mat-icon-button
                     color="warn"
@@ -79,9 +87,13 @@
             </div>
           </ng-container>
           <ng-template #local>
-             <div
-              *ngFor="let item of cartItemLocal$ | async; let isLast = last; let i = index"
-              class="flex gap-4 pb-4" 
+            <div
+              *ngFor="
+                let item of cartItemLocal$ | async;
+                let isLast = last;
+                let i = index
+              "
+              class="flex gap-4 pb-4"
               [ngClass]="isLast ? '' : 'border-b'"
             >
               <img
@@ -89,7 +101,7 @@
                 alt=""
                 class="w-28 h-28 object-cover rounded"
               />
-  
+
               <div class="flex-1">
                 <div class="flex justify-between">
                   <div>
@@ -108,16 +120,24 @@
                     {{ item.variant?.product?.price_sale | currency : "VND" }}
                   </p>
                 </div>
-  
+
                 <div class="flex items-center gap-2 mt-3">
-                  <button mat-icon-button class="border p-1" (click)="decrease(item)">
+                  <button
+                    mat-icon-button
+                    class="border p-1"
+                    (click)="decrease(item)"
+                  >
                     <mat-icon>remove</mat-icon>
                   </button>
                   <span>{{ item.quantity }}</span>
-                  <button mat-icon-button class="border p-1" (click)="increase(item)">
+                  <button
+                    mat-icon-button
+                    class="border p-1"
+                    (click)="increase(item)"
+                  >
                     <mat-icon>add</mat-icon>
                   </button>
-  
+
                   <!-- Nút tim yêu thích -->
                   <button
                     mat-icon-button
@@ -128,7 +148,7 @@
                       item.favorite ? "favorite" : "favorite_border"
                     }}</mat-icon>
                   </button>
-  
+
                   <button
                     mat-icon-button
                     color="warn"
@@ -144,7 +164,12 @@
         </div>
 
         <!-- Cart Summary (1/3) -->
-        <div *ngIf="(cartItems$ | async)?.length > 0 || (cartItemLocal$ | async)?.length > 0">
+        <div
+          *ngIf="
+            (cartItems$ | async)?.length > 0 ||
+            (cartItemLocal$ | async)?.length > 0
+          "
+        >
           <div class="bg-gray-50 p-4 rounded-lg">
             <h3 class="font-semibold text-lg mb-4">Tạm tính</h3>
             <div class="flex justify-between text-sm mb-2">
@@ -174,7 +199,10 @@
     </div>
     <!-- Nếu giỏ hàng rỗng -->
     <div
-      *ngIf="(cartItems$ | async)?.length == 0 && (cartItemLocal$ | async)?.length === 0"
+      *ngIf="
+        (cartItems$ | async)?.length == 0 &&
+        (cartItemLocal$ | async)?.length === 0
+      "
       class="flex flex-col items-center justify-center min-h-[400px] text-gray-600 animate-fade-in scale-100 transition-transform duration-300 ease-in-out"
     >
       <img

@@ -2,10 +2,6 @@ import { CanActivateFn, Router } from "@angular/router";
 import { inject } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
 
-/**
- * Trả về true → cho phép điều hướng.
- * Trả về UrlTree → chặn & điều hướng.
- */
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 

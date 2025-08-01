@@ -21,8 +21,14 @@ const ProductModel = sequelize.define(
     status: { type: DataTypes.INTEGER },
     hot: { type: DataTypes.INTEGER },
     view: { type: DataTypes.INTEGER, defaultValue: 0 },
-    created_at: { type: DataTypes.DATE },
-    update_at: { type: DataTypes.DATE },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   { timestamps: false, tableName: "products" }
 );

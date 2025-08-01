@@ -1,6 +1,6 @@
 const OrderModel = require("../../models/Order");
 const VariantSizeModel = require("../../models/VariantSize");
-const CartModel = require('../../models/cart');
+const CartModel = require("../../models/cart");
 const PayOS = require("@payos/node");
 const payOS = new PayOS(
   "94bb561c-3489-4996-8497-3dcc01e85757",
@@ -33,9 +33,8 @@ exports.getOrderById = async (req, res) => {
 const generateOrderCode = () => {
   const random = Math.floor(100000 + Math.random() * 900000);
   const timePart = Date.now().toString().slice(-4);
-  return Number(`${timePart}${random}`); 
+  return Number(`${timePart}${random}`);
 };
-
 
 exports.createPaymentLink = async (req, res) => {
   try {
@@ -52,12 +51,7 @@ exports.createPaymentLink = async (req, res) => {
       adminNote,
     } = req.body;
 
-    if (
-      !total_price ||
-      !items ||
-      !Array.isArray(items) ||
-      items.length === 0
-    ) {
+    if (!total_price || !items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: "Thiếu thông tin đơn hàng." });
     }
 
@@ -127,8 +121,8 @@ exports.callbackPayment = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     const { orderCode } = req.params;
-    const { cart } = req.body; 
-    
+    const { cart } = req.body;
+
     const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
     const paymentStatus = payRes?.status || "NOT_FOUND";
 
@@ -154,13 +148,15 @@ exports.callbackPayment = async (req, res) => {
           transaction,
         });
       } else if (Array.isArray(cart)) {
-        cartItems = cart.map(i=>({
+        cartItems = cart.map((i) => ({
           variant_id: i.variantId,
-          size_id: i.sizeId
+          size_id: i.sizeId,
         }));
       } else {
         await transaction.rollback();
-        return res.status(400).json({ error: "Thiếu thông tin giỏ hàng cho người dùng chưa đăng nhập." });
+        return res.status(400).json({
+          error: "Thiếu thông tin giỏ hàng cho người dùng chưa đăng nhập.",
+        });
       }
 
       for (const item of cartItems) {
@@ -197,7 +193,6 @@ exports.callbackPayment = async (req, res) => {
           transaction,
         });
       }
-
     } else if (paymentStatus === "CANCELLED") {
       order.status = "cancelled";
       await order.save({ transaction });

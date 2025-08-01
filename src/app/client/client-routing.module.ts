@@ -38,7 +38,7 @@ const routes: Routes = [
       { path: "cart", component: CartComponent, title: "Giỏ hàng" },
       { path: "blog", component: BlogListComponent, title: "Bài viết" },
       {
-        path: "blog/:id",
+        path: "blog/:slug",
         component: BlogDetailComponent,
         title: "Chi tiết bài viết",
       },

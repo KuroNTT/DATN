@@ -40,7 +40,11 @@ export interface IBlog {
   slug?: string;
   content: string;
   thumbnail: string;
-  author_id: string;
+  author_id: number;
+  author?: {
+    id: number;
+    name: string;
+  };
   category_id: number;
   created_at: string;
   updated_at: string;
@@ -101,6 +105,7 @@ export interface IProduct {
   style_code?: string;
   category?: ICategory;
   isLiked?: boolean;
+  brand?: IBrand;
 }
 
 export interface IProductVariantSize {
@@ -165,6 +170,9 @@ export interface IBlogCreate {
   thumbnail: string;
   category_id: number;
   author_id: number;
+  is_published?: number;
+  sort_order?: number;
+  status?: number;
 }
 
 export interface IBlogCategory {
@@ -174,6 +182,23 @@ export interface IBlogCategory {
   description: string;
   sort_order: number;
   status: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IBanner {
+  id: number;
+  image_url: string;
+  title: string;
+  description: string;
+  link: string;
+  active: boolean;
+  start_date: string;
+  end_date: string;
+  product_id: number;
+  category_id: number;
+  create_by: number;
+  position: string;
   created_at: string;
   updated_at: string;
 }

@@ -22,7 +22,7 @@ export class ContactComponent {
       content: this.content,
     };
     this.loading = true;
-    this.http.post("http://localhost:3000/api/contact", payload).subscribe({
+    this.http.post("http://localhost:3000/api/contacts", payload).subscribe({
       next: (res) => {
         this.loading = false;
         Swal.fire({
