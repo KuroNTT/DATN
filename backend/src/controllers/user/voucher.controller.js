@@ -71,3 +71,73 @@ exports.verify = async (req, res) => {
     return res.status(500).json({ status: "error", message: "Lỗi server" });
   }
 };
+
+exports.getAllVouchers = async (req, res) => {
+  try {
+    const vouchers = await VoucherModel.findAll();
+    res.json(vouchers);
+  } catch (error) {
+    console.error("❌ Lỗi khi lấy danh sách voucher:", error);
+    res.status(500).json({ error: "Không thể lấy danh sách voucher" });
+  }
+};
+
+exports.getVoucherById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const voucher = await VoucherModel.findByPk(id);
+
+    if (!voucher) {
+      return res.status(404).json({ error: "Không tìm thấy voucher" });
+    }
+
+    res.json(voucher);
+  } catch (error) {
+    console.error("❌ Lỗi khi lấy voucher:", error);
+    res.status(500).json({ error: "Lỗi máy chủ khi lấy voucher" });
+  }
+};
+
+exports.createVoucher = async (req, res) => {
+  try {
+    const newVoucher = await VoucherModel.create(req.body);
+    res.status(201).json(newVoucher);
+  } catch (error) {
+    console.error("❌ Lỗi khi tạo voucher:", error);
+    res.status(400).json({ error: "Dữ liệu không hợp lệ hoặc thiếu thông tin" });
+  }
+};
+
+exports.updateVoucher = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const voucher = await VoucherModel.findByPk(id);
+
+    if (!voucher) {
+      return res.status(404).json({ error: "Không tìm thấy voucher" });
+    }
+
+    await voucher.update(req.body);
+    res.json(voucher);
+  } catch (error) {
+    console.error("❌ Lỗi khi cập nhật voucher:", error);
+    res.status(400).json({ error: "Cập nhật không thành công" });
+  }
+};
+
+exports.deleteVoucher = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const voucher = await VoucherModel.findByPk(id);
+
+    if (!voucher) {
+      return res.status(404).json({ error: "Không tìm thấy voucher" });
+    }
+
+    await voucher.destroy();
+    res.json({ message: "Đã xoá voucher thành công" });
+  } catch (error) {
+    console.error("❌ Lỗi khi xoá voucher:", error);
+    res.status(500).json({ error: "Xoá không thành công" });
+  }
+};
