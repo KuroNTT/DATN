@@ -13,7 +13,6 @@
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 mt-10 gap-6">
-      <!-- Thumbnail nằm dưới ảnh chính trên mobile -->
       <div class="col-span-1 order-2 lg:order-0">
         <div class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
           <img
@@ -28,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Ảnh chính luôn ở trước trên mobile -->
       <div class="col-span-1 md:col-span-1 lg:col-span-5 order-1 lg:order-1">
         <img
           [src]="mainImage"
@@ -103,7 +101,29 @@
                   class="flex items-center gap-2 hover:text-gray-600 transition"
                 >
                   <i class="fa-solid fa-ruler-horizontal text-lg"></i>
-                  <p class="text-lg cursor-pointer">Bảng kích thước</p>
+                  <p
+                    class="text-lg cursor-pointer"
+                    (click)="showSizeChart = true"
+                  >
+                    Bảng kích thước
+                  </p>
+                  <!-- Popup overlay -->
+                  <div
+                    *ngIf="showSizeChart"
+                    class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[9999]"
+                    (click)="showSizeChart = false"
+                  >
+                    <div
+                      class="relative bg-white rounded-lg shadow-2xl ring-1 ring-white ring-opacity-20 w-full max-w-3xl mx-4 sm:mx-0"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <img
+                        src="/images/img-size.png"
+                        alt=""
+                        class="w-full h-auto"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
@@ -134,11 +154,11 @@
                 </div>
               </div>
 
-              <div class="button mb-4">
+              <div class="button my-4 flex gap-2">
                 <button
                   type="button"
                   (click)="addToCart()"
-                  class="w-full py-3 rounded-full shadow my-4 text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]"
+                  class="w-full py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Thêm vào giỏ hàng
                 </button>

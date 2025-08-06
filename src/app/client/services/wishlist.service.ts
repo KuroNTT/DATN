@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IWishlist } from "../../core/models/structureData";
+import { environment } from "../../../enviroments/environment";
 
 @Injectable({
   providedIn: "root", // Service sẽ được tự động inject toàn app
 })
 export class WishlistService {
-  private apiUrl = "http://localhost:3000/api/wishlist"; // URL tới API backend
+  private apiUrl = `${environment.apiUrl}/wishlist`; // URL tới API backend
 
   constructor(private http: HttpClient) {}
 

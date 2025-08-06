@@ -1,0 +1,81 @@
+<div class="toolbar float-right mb-4">
+  <button mat-raised-button color="primary" (click)="addVoucher()">
+    Thêm voucher
+  </button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let v">{{ v.id }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="code">
+    <th mat-header-cell *matHeaderCellDef>Mã</th>
+    <td mat-cell *matCellDef="let v">{{ v.code }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef>Mô tả</th>
+    <td mat-cell *matCellDef="let v">{{ v.description }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount_type">
+    <th mat-header-cell *matHeaderCellDef>Loại</th>
+    <td mat-cell *matCellDef="let v">{{ v.discount_type }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount_value">
+    <th mat-header-cell *matHeaderCellDef>Giá trị</th>
+    <td mat-cell *matCellDef="let v" class="w-[150px]">{{ v.discount_value | number }} 
+      <span *ngIf="v.discount_type !== 'percent'">VNĐ</span>
+      <span *ngIf="v.discount_type === 'percent'">%</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="min_order_value">
+    <th mat-header-cell *matHeaderCellDef>Tối thiểu</th>
+    <td mat-cell *matCellDef="let v">{{ v.min_order_value | number }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef class="w-[100px]">Số lượng</th>
+    <td mat-cell *matCellDef="let v">{{ v.quantity }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="start_date">
+    <th mat-header-cell *matHeaderCellDef class="w-[150px]">Bắt đầu</th>
+    <td mat-cell *matCellDef="let v" class="w-[150px]">{{ v.start_date }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="end_date">
+    <th mat-header-cell *matHeaderCellDef class="w-[150px]">Kết thúc</th>
+    <td mat-cell *matCellDef="let v" class="w-[150px]">{{ v.end_date }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="is_active">
+    <th mat-header-cell *matHeaderCellDef>Active</th>
+    <td mat-cell *matCellDef="let v">
+      <mat-icon [color]="v.is_active ? 'primary' : 'warn'">
+        {{ v.is_active ? "check_circle" : "cancel" }}
+      </mat-icon>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Hành động</th>
+    <td mat-cell *matCellDef="let v">
+      <div class="flex">
+        <button mat-icon-button color="accent" (click)="editVoucher(v, v.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteVoucher(v.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

@@ -2,12 +2,13 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { IBlogCategory } from "../../core/models/structureData";
+import { environment } from "../../../enviroments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class BlogCategoryService {
-  private api = "http://localhost:3000/api/admin/blog-categories";
+  private api = `${environment.apiUrl}/admin/blog-categories`;
 
   constructor(private http: HttpClient) {}
 

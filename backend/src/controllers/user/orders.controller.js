@@ -1,6 +1,7 @@
 const OrderModel = require("../../models/Order");
 const VariantSizeModel = require("../../models/VariantSize");
 const CartModel = require("../../models/cart");
+const VoucherModel = require('../../models/voucher');
 const PayOS = require("@payos/node");
 const payOS = new PayOS(
   "94bb561c-3489-4996-8497-3dcc01e85757",
@@ -49,13 +50,19 @@ exports.createPaymentLink = async (req, res) => {
       phone,
       customerNote,
       adminNote,
+      voucherCode
     } = req.body;
 
     if (!total_price || !items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: "Thiếu thông tin đơn hàng." });
     }
 
-    voucherId = voucherId || null;
+    if(voucherCode){
+      let voucher = await VoucherModel.findOne({where: {code: voucherCode}});
+      voucherId = voucher.id;
+    }else{
+      voucherId = null;
+    }
     customerNote = customerNote || "Không có ghi chú";
     adminNote = adminNote || null;
 
@@ -90,7 +97,7 @@ exports.createPaymentLink = async (req, res) => {
     const payload = {
       orderCode: orderCode,
       amount: Number(total_price),
-      description: `đơn hàng ${orderCode}`,
+      description: `DON HANG ${orderCode}`,
       items,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
       returnUrl: `${process.env.DOMAIN}/success`,
@@ -193,6 +200,11 @@ exports.callbackPayment = async (req, res) => {
           transaction,
         });
       }
+      if(order.voucher_id){
+        let voucher = await VoucherModel.findByPk(order.voucher_id);
+        voucher.quantity--;
+        voucher.save();
+      };
     } else if (paymentStatus === "CANCELLED") {
       order.status = "cancelled";
       await order.save({ transaction });

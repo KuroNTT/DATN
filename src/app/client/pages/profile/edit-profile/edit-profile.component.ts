@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
+import { environment } from "../../../../../enviroments/environment";
 
 @Component({
-  selector: 'app-edit-profile',
+  selector: "app-edit-profile",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './edit-profile.component.html',
+  templateUrl: "./edit-profile.component.html",
 })
 export class EditProfileComponent implements OnInit {
   form!: FormGroup;
@@ -15,26 +16,26 @@ export class EditProfileComponent implements OnInit {
   originalData: any = {};
   daThayDoi = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      sex: ['', Validators.required],
-      address: ['', [Validators.required, Validators.minLength(10)]],
-      email: [''],
-      avatar: [''],
-      email_verify_at: [''],
+      name: ["", [Validators.required]],
+      phone: ["", [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      sex: ["", Validators.required],
+      address: ["", [Validators.required, Validators.minLength(10)]],
+      email: [""],
+      avatar: [""],
+      email_verify_at: [""],
     });
 
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     if (!token) {
-      alert('Bạn chưa đăng nhập!');
+      alert("Bạn chưa đăng nhập!");
       return;
     }
 
-    fetch('http://localhost:3000/api/user/me', {
+    fetch(`${environment.apiUrl}/user/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(async (res) => {
@@ -51,7 +52,7 @@ export class EditProfileComponent implements OnInit {
       })
       .catch((err) => {
         console.error(err);
-        alert('Không thể tải thông tin người dùng.');
+        alert("Không thể tải thông tin người dùng.");
       });
 
     this.form.valueChanges.subscribe(() => {
@@ -83,18 +84,18 @@ export class EditProfileComponent implements OnInit {
 
     if (this.form.invalid) return;
 
-    const token = sessionStorage.getItem('token');
+    const token = sessionStorage.getItem("token");
     if (!token) {
-      alert('Bạn chưa đăng nhập!');
+      alert("Bạn chưa đăng nhập!");
       return;
     }
 
     const updatedData = this.form.value;
 
-    fetch('http://localhost:3000/api/user/me', {
-      method: 'PUT',
+    fetch(`${environment.apiUrl}/user/me`, {
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(updatedData),
@@ -103,13 +104,16 @@ export class EditProfileComponent implements OnInit {
         const data = await res.json();
         if (!res.ok) throw data;
 
-        alert('Cập nhật thành công!');
-        const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
-        sessionStorage.setItem('user', JSON.stringify({ ...currentUser, ...updatedData }));
+        alert("Cập nhật thành công!");
+        const currentUser = JSON.parse(sessionStorage.getItem("user") || "{}");
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify({ ...currentUser, ...updatedData })
+        );
       })
       .catch((err) => {
         console.error(err);
-        alert('Cập nhật thất bại!');
+        alert("Cập nhật thất bại!");
       });
   }
   avatarPreview: string | null = null;
@@ -121,26 +125,32 @@ export class EditProfileComponent implements OnInit {
     const file = input.files[0];
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'ml_default');
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
 
-    fetch('https://api.cloudinary.com/v1_1/dptdasr63/image/upload', {
-      method: 'POST',
+    fetch("https://api.cloudinary.com/v1_1/dptdasr63/image/upload", {
+      method: "POST",
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
+<<<<<<< HEAD
 
         this.avatarPreview = data.secure_url;
         this.form.patchValue({ avatar: data.secure_url });
 
+=======
+        console.log("✅ Ảnh đã upload lên Cloudinary:", data);
+
+        this.avatarPreview = data.secure_url;
+        this.form.patchValue({ avatar: data.secure_url });
+        console.log("Link ảnh trong form:", this.form.value.avatar);
+>>>>>>> 2d7e6d3fa7c49c899dae03652f505d6fbbe7ab83
       })
 
       .catch((err) => {
-        console.error('Lỗi upload ảnh:', err);
-        alert('Tải ảnh thất bại.');
+        console.error("Lỗi upload ảnh:", err);
+        alert("Tải ảnh thất bại.");
       });
   }
-
-
 }

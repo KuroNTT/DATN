@@ -1,15 +1,23 @@
 import { Injectable } from "@angular/core";
-import { IProduct, ICategory,  IBrand , IGender, IShoeHeight, ISize} from "../../core/models/structureData";
+import {
+  IProduct,
+  ICategory,
+  IBrand,
+  IGender,
+  IShoeHeight,
+  ISize,
+} from "../../core/models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
+import { environment } from "../../../enviroments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  private apiUrl = "http://localhost:3000/api/products"; // Thay bằng URL thật nếu có
+  private apiUrl = `${environment.apiUrl}/products`; // Thay bằng URL thật nếu có
 
-  constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   async searchProducts(query: string): Promise<IProduct[]> {
     const response = await fetch(`${this.apiUrl}?q=${query}`);
@@ -66,19 +74,19 @@ export class ProductService {
   }
 
   getCategory(): Observable<ICategory[]> {
-    return this.http.get<ICategory[]>('http://localhost:3000/api/categories');
+    return this.http.get<ICategory[]>('${environment.apiUrl}/categories');
   }
   getBrand(): Observable<IBrand[]> {
-    return this.http.get<IBrand[]>('http://localhost:3000/api/brand');
+    return this.http.get<IBrand[]>('${environment.apiUrl}/brand');
   }
   getSizes():Observable<ISize[]>{
-    return this.http.get<ISize[]>('http://localhost:3000/api/sizes')
+    return this.http.get<ISize[]>('${environment.apiUrl}/sizes')
   }
   getGender(){
-    return this.http.get<IGender[]>('http://localhost:3000/api/genders');
+    return this.http.get<IGender[]>('${environment.apiUrl}/genders');
   }
   getShoeheights(){
-    return this.http.get<IShoeHeight[]>('http://localhost:3000/api/shoe_heights');
+    return this.http.get<IShoeHeight[]>('${environment.apiUrl}/shoe_heights');
   }  
    */
 }

@@ -39,7 +39,7 @@ export class ProductListComponent {
 
     this.pds.updateStatus(pd.id!, newStatus).subscribe({
       next: () => {
-        pd.status = newStatus; // cập nhật UI
+        pd.status = newStatus;
       },
       error: err => {
         console.error('Lỗi khi cập nhật trạng thái:', err);

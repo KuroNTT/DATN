@@ -108,8 +108,12 @@ const routes: Routes = [
             (m) => m.VerifyEmailComponent
           ),
       },
-      {path: 'cancel', component: CancelComponent, title: 'Hủy thanh toán'},
-      {path: 'success', component: SuccessComponent, title: 'thanh toán thành công'}
+      { path: "cancel", component: CancelComponent, title: "Hủy thanh toán" },
+      {
+        path: "success",
+        component: SuccessComponent,
+        title: "thanh toán thành công",
+      },
     ],
   },
 ];

@@ -6,6 +6,7 @@ import { IProduct } from "../../../core/models/structureData";
 import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { Router, RouterModule } from "@angular/router";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-cart",
@@ -45,7 +46,7 @@ export class CartComponent {
   }
 
   onLoad() {
-    fetch(`http://localhost:3000/api/products/most-view/products`)
+    fetch(`${environment.apiUrl}/products/most-view/products`)
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = data as IProduct[];

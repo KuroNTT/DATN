@@ -3,10 +3,12 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
+import { environment } from "../../../../enviroments/environment";
+
 @Component({
   selector: "app-sign-up",
   imports: [CommonModule, FormsModule],
-  templateUrl: "./sign-up.component.html"
+  templateUrl: "./sign-up.component.html",
 })
 export class SignUpComponent {
   router = inject(Router);
@@ -48,15 +50,21 @@ export class SignUpComponent {
     }
     const len = name.length;
     if (len < 3 || len > 30) {
-      const msg = len < 3 ? "Vui lòng nhập tên không quá ngắn" : "Vui lòng nhập tên không quá dài";
+      const msg =
+        len < 3
+          ? "Vui lòng nhập tên không quá ngắn"
+          : "Vui lòng nhập tên không quá dài";
       this.shakeField("name", msg);
       return false;
     }
     if (!this.nameRegex.test(name)) {
-      this.shakeField("name", "Vui lòng nhập tên chỉ được chứa chữ cái và khoảng trắng")
+      this.shakeField(
+        "name",
+        "Vui lòng nhập tên chỉ được chứa chữ cái và khoảng trắng"
+      );
       return false;
     }
-    
+
     if (!email.trim()) {
       this.shakeField("email", "Vui lòng nhập Email");
       return false;
@@ -120,7 +128,7 @@ export class SignUpComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/auth/sign-up", opt)
+    fetch(`${environment.apiUrl}/auth/sign-up`, opt)
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {

@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { BannerService } from "../../../services/banner.service";
 import { CommonModule } from "@angular/common";
+import { environment } from "../../../../../enviroments/environment";
 
 @Component({
   selector: "app-banner-edit",
@@ -44,7 +45,7 @@ export class BannerEditComponent implements OnInit {
       });
       this.previewUrl = banner.image_url.startsWith("http")
         ? banner.image_url
-        : `http://localhost:3000/${banner.image_url}`;
+        : `${environment.apiUrl}/${banner.image_url}`;
     });
   }
 

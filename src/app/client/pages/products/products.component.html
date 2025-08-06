@@ -29,5 +29,67 @@
         <app-product-list [products]="product_arr"></app-product-list>
       </div>
     </div>
+
+    <!-- Phân trang -->
+    <pagination-template #pg="paginationApi" (pageChange)="p = $event">
+      <div class="flex justify-center items-center mt-6 space-x-2">
+        <!-- Nút Trước -->
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+          [disabled]="pg.isFirstPage()"
+          (click)="pg.previous()"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+
+        <!-- Số trang -->
+        <ng-container *ngFor="let page of pg.pages">
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-full border text-sm transition-all duration-200"
+            [ngClass]="{
+              'bg-black text-white shadow-md': pg.getCurrent() === page.value,
+              'bg-white text-black border-[#c5c5c5] hover:bg-[#f3f3f3]':
+                pg.getCurrent() !== page.value
+            }"
+            (click)="pg.setCurrent(page.value)"
+          >
+            {{ page.label }}
+          </button>
+        </ng-container>
+
+        <!-- Nút Sau -->
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+          [disabled]="pg.isLastPage()"
+          (click)="pg.next()"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+      </div>
+    </pagination-template>
   </div>
 </div>

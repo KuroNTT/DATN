@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-
+import { environment } from "../../../../enviroments/environment";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
@@ -11,6 +11,8 @@ import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { FormsModule, NgForm } from "@angular/forms";
+import { VoucherService } from "../../services/voucher.service";
+import Swal from "sweetalert2";
 
 const matAngular = [
   MatButtonModule,
@@ -26,6 +28,7 @@ const matAngular = [
   styleUrl: "./order.component.css",
 })
 export class OrderComponent {
+  coppyTotal!: number;
   products: any[] = [];
   subtotal!: number;
   total!: number;
@@ -45,12 +48,14 @@ export class OrderComponent {
   phone!: string;
   note!: string;
   paymentMethod!: number;
-
+  discountAmount: number = 0;
+  voucherCode?: string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private cartService: CartService,
-    private http: HttpClient
+    private http: HttpClient,
+    private vocherService: VoucherService
   ) {}
 
   ngOnInit() {
@@ -68,14 +73,12 @@ export class OrderComponent {
   }
 
   private computeTotals(list: any[]) {
-    // list trả về đã include variant.product.price_sale
     this.subtotal = list.reduce((sum, itm) => {
       const price = itm.variant?.product?.price_sale ?? 0;
       return sum + price * itm.quantity;
     }, 0);
-
-    // nếu có phí ship hoặc voucher cộng / trừ ở đây
-    this.total = this.subtotal; // hiện tại ship = 0
+    this.total = this.subtotal;
+    this.coppyTotal = this.total;
   }
 
   onLoad() {
@@ -91,11 +94,11 @@ export class OrderComponent {
         this.computeTotals(res);
       });
       this.cartItemLocal$.next([]);
-      this.cartItems$.subscribe(p=>{
-        this.products = p.map((i: any)=>({
+      this.cartItems$.subscribe((p) => {
+        this.products = p.map((i: any) => ({
           name: i.variant.product.name,
           price: i.variant.product.price_sale,
-          quantity: i.quantity
+          quantity: i.quantity,
         }));
       });
     } else {
@@ -105,13 +108,13 @@ export class OrderComponent {
         this.cartItemLocal$.subscribe((res) => {
           this.computeTotals(res);
         });
-        this.cartItemLocal$.subscribe(p=>{
-        this.products = p.map((i: any)=>({
-          name: i.variant.product.name,
-          price: i.variant.product.price_sale,
-          quantity: i.quantity
-        }));
-      });
+        this.cartItemLocal$.subscribe((p) => {
+          this.products = p.map((i: any) => ({
+            name: i.variant.product.name,
+            price: i.variant.product.price_sale,
+            quantity: i.quantity,
+          }));
+        });
       });
     }
   }
@@ -134,7 +137,7 @@ export class OrderComponent {
 
   onPay(form: NgForm) {
     if (form.form.invalid) {
-      form.form.markAllAsTouched(); 
+      form.form.markAllAsTouched();
       return;
     }
     if (form.value.paymentMethod !== "bank") {
@@ -152,18 +155,53 @@ export class OrderComponent {
       phone: form.value.phone,
       customerNote: form.value.note,
       adminNote: "",
+      voucherCode: this.voucherCode || null,
     };
-    this.http.post('http://localhost:3000/api/orders/create-payment-link', payload).subscribe({
-      next: (res: any)=>{
-        const url = res.checkoutUrl;
-        if(typeof window != 'undefined'){
-          window.open(url, '_self');
-        }
+    if (this.discountAmount > 0) {
+      payload.items.push({
+        name: "Giảm giá",
+        price: -this.discountAmount,
+        quantity: 1,
+      });
+    }
+    this.http
+      .post("http://localhost:3000/api/orders/create-payment-link", payload)
+      .subscribe({
+        next: (res: any) => {
+          const url = res.checkoutUrl;
+          if (typeof window != "undefined") {
+            window.open(url, "_self");
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  applyVoucher(code: string, orderTotal: number) {
+    if (!code) return;
+    this.voucherCode = code;
+    this.vocherService.applyVoucher(code, orderTotal).subscribe({
+      next: (res: any) => {
+        this.discountAmount = res.discountAmount;
+        this.total = this.coppyTotal - res.discountAmount;
+        Swal.fire({
+          icon: "success",
+          title: `Áp dụng mã thành công! <br> <p style="font-size: 19px">Bạn đã được giảm <span style="color: green">${Number(
+            this.discountAmount
+          ).toLocaleString()} VNĐ</span></p>`,
+          showConfirmButton: true,
+          timer: 3000,
+        });
       },
-      error: (err)=>{
-        console.log(err);     
-      }
+      error: (err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Áp mã không thành công.",
+          text: err.error.message,
+        });
+      },
     });
-    
   }
 }
