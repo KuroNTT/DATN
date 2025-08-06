@@ -1,15 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "../../../enviroments/environment";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class OrderService {
-  url = 'http://localhost:3000/api/orders';
+  url = `${environment.apiUrl}/orders`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllOrder(){
+  getAllOrder() {
     return this.http.get(this.url);
   }
 }

@@ -1,1 +1,66 @@
-<p>category-list works!</p>
+<div class="p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">Danh sách bài viết</h2>
+    <a
+      href="admin/categories/add"
+      class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-sm text-gray-700 hover:bg-black hover:text-white transition"
+    >
+      <i class="fa-solid fa-plus mr-2"></i> THÊM MỚI
+    </a>
+  </div>
+
+  <div class="bg-gray-100 p-4 rounded-md shadow">
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-300 text-sm">
+        <thead class="bg-gray-200 text-gray-700">
+          <tr>
+            <th class="px-4 py-2 border">ID</th>
+            <th class="px-4 py-2 border">Tên danh mục</th>
+            <th class="px-4 py-2 border">Trạng thái</th>
+            <th class="px-4 py-2 border">Thứ tự</th>
+            <th class="px-4 py-2 border">Mô tả</th>
+            <th class="px-4 py-2 border">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white" *ngFor="let category of category_arr">
+          <!-- Hàng 1 -->
+          <tr>
+            <td class="px-4 py-2 border text-center">{{ category.id }}</td>
+            <td class="px-4 py-2 border">{{ category.name }}</td>
+            <!-- <td class="px-4 py-2 border text-green-600 font-semibold">Hiển thị</td> -->
+            <td
+              class="px-4 py-2 border font-semibold"
+              [ngClass]="{
+                'text-green-600': category.status === 1,
+                'text-red-600': category.status === 0
+              }"
+            >
+              {{ category.status === 1 ? "Hiển thị" : "Ẩn" }}
+            </td>
+            <td class="px-4 py-2 border text-center">
+              {{ category.sort_order }}
+            </td>
+            <td class="px-4 py-2 border">{{ category.description }}</td>
+            <td class="border text-center px-4 py-2">
+              <div class="flex justify-center gap-2">
+                <button
+                  class="text-white w-10 h-8 bg-blue-500 rounded-md hover:bg-blue-600"
+                  (click)="goToEdit(category.id)"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button
+                  class="text-white w-10 h-8 bg-red-500 rounded-md hover:bg-red-600"
+                  (click)="onDelete(category.id)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<ul></ul>

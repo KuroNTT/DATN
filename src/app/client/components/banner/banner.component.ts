@@ -9,6 +9,7 @@ import { IBanner } from "../../../core/models/structureData";
 import { SwiperContainer } from "swiper/element";
 import type { Swiper } from "swiper";
 import { ElementRef } from "@angular/core";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-banner",
@@ -31,7 +32,7 @@ export class BannerComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   loadBanners() {
-    fetch(`http://localhost:3000/api/admin/banners`)
+    fetch(`${environment.apiUrl}/admin/banners`)
       .then((res) => res.json())
       .then((data) => {
         this.slide_arr = data as IBanner[];

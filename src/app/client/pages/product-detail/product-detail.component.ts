@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { CartService } from "../../services/cart.service";
 import Swal from "sweetalert2";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-product-detail",
@@ -22,21 +23,18 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private cartService: CartService
   ) {}
-  // Helper chung
   private extractSizes(variant: IProductVariant): IProductVariantSize[] {
     return variant.product_variant_sizes || [];
   }
 
-  /** ---------------- State hiển thị mô tả dài / ngắn ---------------- */
   showFullText = false;
   toggleShowText() {
     this.showFullText = !this.showFullText;
   }
 
-  /** ---------------- Dữ liệu sản phẩm liên quan ---------------- */
   product_arr: IProduct[] = [];
+  showSizeChart: boolean = false;
 
-  /** ---------------- Dữ liệu & state sản phẩm hiện tại ---------------- */
   slug: string = "";
   product: IProduct = {} as IProduct;
   product_variant_arr: IProductVariant[] = [];
@@ -45,12 +43,11 @@ export class ProductDetailComponent implements OnInit {
   selectedVariant: IProductVariant | null = null;
   selectedSize: ISize | null = null;
   quantity = 1;
-  /** ---------------- Hình ảnh ---------------- */
   imgList: string[] = [];
   mainImage: string = "";
 
   ngOnInit(): void {
-    fetch(`http://localhost:3000/api/products/most-view/products`)
+    fetch(`${environment.apiUrl}/products/most-view/products`)
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = data as IProduct[];
@@ -59,7 +56,6 @@ export class ProductDetailComponent implements OnInit {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
       );
 
-    // Lắng nghe thay đổi của route param
     this.route.paramMap.subscribe((params) => {
       this.slug = String(params.get("slug"));
       this.loadProductDetail(this.slug);
@@ -67,16 +63,14 @@ export class ProductDetailComponent implements OnInit {
   }
 
   loadProductDetail(slug: string) {
-    fetch(`http://localhost:3000/api/products/${slug}`)
+    fetch(`${environment.apiUrl}/products/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         this.product = data.product as IProduct;
 
-        /* --------- Biến thể & size --------- */
         this.product_variant_arr = this.product.variants;
         this.selectedVariant = this.product_variant_arr[0] ?? null;
 
-        // ✅ Lấy size từ product_variant_sizes
         this.size_arr = this.selectedVariant
           ? this.extractSizes(this.selectedVariant)
           : [];

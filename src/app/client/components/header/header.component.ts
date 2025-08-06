@@ -4,6 +4,7 @@ import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
 import { HostListener } from "@angular/core";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-header",
@@ -38,7 +39,7 @@ export class HeaderComponent implements OnInit {
       this.hideHeader = false;
     }
 
-    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }
 
   toggleMenu() {
@@ -89,7 +90,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getAllCategories(): void {
-    fetch("http://localhost:3000/api/categories").then((res) => {
+    fetch(`${environment.apiUrl}/categories`).then((res) => {
       res
         .json()
         .then((data) => (this.category_arr = data as ICategory[]))
@@ -100,7 +101,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getCategoriesWithoutGender(): void {
-    fetch("http://localhost:3000/api/categories")
+    fetch(`${environment.apiUrl}/categories`)
       .then((res) => res.json())
       .then((data) => {
         this.filtered_categories = (data as ICategory[]).filter(

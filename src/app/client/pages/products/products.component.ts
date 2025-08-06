@@ -2,19 +2,27 @@ import { Component } from "@angular/core";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
 import { ProductListComponent } from "../product-list/product-list.component";
 import { IProduct } from "../../../core/models/structureData";
-
+import { NgxPaginationModule } from "ngx-pagination";
 import { HttpClient } from "@angular/common/http";
+import { CommonModule } from "@angular/common";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-product",
   standalone: true,
-  imports: [ProductFilterComponent, ProductListComponent],
+  imports: [
+    ProductFilterComponent,
+    ProductListComponent,
+    NgxPaginationModule,
+    CommonModule,
+  ],
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
 export class ProductsComponent {
   product_arr: IProduct[] = [];
   product_arr_all: IProduct[] = [];
+  p: number = 1;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -22,7 +30,7 @@ export class ProductsComponent {
   }
 
   fetchAllProducts(): void {
-    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
+    this.http.get<IProduct[]>(`${environment.apiUrl}/products`).subscribe({
       next: (data) => {
         this.product_arr_all = data;
         this.product_arr = data;

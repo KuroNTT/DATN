@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-
+import { environment } from "../../../../enviroments/environment";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
@@ -75,7 +75,7 @@ export class OrderComponent {
     }, 0);
 
     // nếu có phí ship hoặc voucher cộng / trừ ở đây
-    this.total = this.subtotal; // hiện tại ship = 0
+    this.total = this.subtotal;
   }
 
   onLoad() {
@@ -91,11 +91,11 @@ export class OrderComponent {
         this.computeTotals(res);
       });
       this.cartItemLocal$.next([]);
-      this.cartItems$.subscribe(p=>{
-        this.products = p.map((i: any)=>({
+      this.cartItems$.subscribe((p) => {
+        this.products = p.map((i: any) => ({
           name: i.variant.product.name,
           price: i.variant.product.price_sale,
-          quantity: i.quantity
+          quantity: i.quantity,
         }));
       });
     } else {
@@ -105,13 +105,13 @@ export class OrderComponent {
         this.cartItemLocal$.subscribe((res) => {
           this.computeTotals(res);
         });
-        this.cartItemLocal$.subscribe(p=>{
-        this.products = p.map((i: any)=>({
-          name: i.variant.product.name,
-          price: i.variant.product.price_sale,
-          quantity: i.quantity
-        }));
-      });
+        this.cartItemLocal$.subscribe((p) => {
+          this.products = p.map((i: any) => ({
+            name: i.variant.product.name,
+            price: i.variant.product.price_sale,
+            quantity: i.quantity,
+          }));
+        });
       });
     }
   }
@@ -134,7 +134,7 @@ export class OrderComponent {
 
   onPay(form: NgForm) {
     if (form.form.invalid) {
-      form.form.markAllAsTouched(); 
+      form.form.markAllAsTouched();
       return;
     }
     if (form.value.paymentMethod !== "bank") {
@@ -153,17 +153,18 @@ export class OrderComponent {
       customerNote: form.value.note,
       adminNote: "",
     };
-    this.http.post('http://localhost:3000/api/orders/create-payment-link', payload).subscribe({
-      next: (res: any)=>{
-        const url = res.checkoutUrl;
-        if(typeof window != 'undefined'){
-          window.open(url, '_self');
-        }
-      },
-      error: (err)=>{
-        console.log(err);     
-      }
-    });
-    
+    this.http
+      .post(`${environment.apiUrl}/orders/create-payment-link`, payload)
+      .subscribe({
+        next: (res: any) => {
+          const url = res.checkoutUrl;
+          if (typeof window != "undefined") {
+            window.open(url, "_self");
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 }

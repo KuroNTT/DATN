@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-product-wishlist",
@@ -12,7 +13,7 @@ export class ProductWishlistComponent {
   product_arr: IProduct[] = [];
 
   ngOnInit(): void {
-    fetch(`http://localhost:3000/api/products/most-view/products`)
+    fetch(`${environment.apiUrl}/products/most-view/products`)
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = data as IProduct[];

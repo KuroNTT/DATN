@@ -10,6 +10,7 @@ import { FooterComponent } from "../../client/components/footer/footer.component
   template: `
     <app-header></app-header>
     <router-outlet></router-outlet>
+    <app-chatbox></app-chatbox>
     <app-footer></app-footer>
   `,
   templateUrl: "./client-layout.component.html",

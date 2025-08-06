@@ -171,7 +171,8 @@
               'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
             }"
             (mouseleave)="hideUserDropdown()"
-            class="hidden group-hover:block lg:absolute lg:top-full lg:left-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown"          >
+            class="hidden group-hover:block lg:absolute lg:top-full lg:left-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown"
+          >
             <!-- Nếu chưa đăng nhập -->
             <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
               <li>
@@ -284,198 +285,198 @@
   (click)="toggleMenu()"
 ></div>
 
-  <!-- Mobile Menu -->
+<!-- Mobile Menu -->
+<div
+  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-600 transform transition-transform ease-in-out duration-300 overflow-y-auto"
+  [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+>
   <div
-    class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 overflow-y-auto"
-    [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
+    class="mobile-menu-content flex justify-between items-center p-4 border-b"
   >
-    <div
-      class="mobile-menu-content flex justify-between items-center p-4 border-b"
-    >
-      <h3 class="text-lg font-semibold">Menu</h3>
-      <button (click)="toggleMenu()" class="text-2xl">
-        <i class="fa-solid fa-times"></i>
-      </button>
-    </div>
-    <ul class="flex flex-col p-4 space-y-4">
-      <li>
-        <a
-          routerLink="/"
-          (click)="toggleMenu()"
-          class="block text-lg hover:text-blue-600"
-          >Trang chủ</a
-        >
-      </li>
-      <li>
-        <a
-          routerLink="/product"
-          (click)="toggleMenu()"
-          class="block text-lg hover:text-blue-600"
-          >Sản phẩm</a
-        >
-      </li>
-      <li>
-        <div class="flex justify-between items-center">
-          <a routerLink="/shoes" class="block text-lg hover:text-blue-600"
-            >Giày</a
-          >
-          <button (click)="toggleShoesMenu()" class="text-lg">
-            <i
-              class="fa-solid"
-              [ngClass]="isShoesMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"
-            ></i>
-          </button>
-        </div>
-        <div
-          class="pl-4 space-y-2"
-          [ngClass]="isShoesMenuOpen ? 'block' : 'hidden'"
-        >
-          <div class="menu-column">
-            <h4 class="font-semibold mt-2">Nổi bật</h4>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  routerLink="/best-sellers"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Bán chạy nhất</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/new-products"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Sản phẩm mới</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/featured"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Nổi bật nhất</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="menu-column">
-            <h4 class="font-semibold mt-2">Giày</h4>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  routerLink="/shoes/all"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Tất cả</a
-                >
-              </li>
-              <li *ngFor="let category of category_arr">
-                <a
-                  routerLink="/shoes/men"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >{{ category.name }}</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="menu-column">
-            <h4 class="font-semibold mt-2">Xu hướng</h4>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  routerLink="/trends/air-force-1"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Air Force 1</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/trends/air-jordan-1"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Air Jordan 1</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/trends/dunk"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Dunk</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/trends/blazer"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Blazer</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/trends/pegasus"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Pegasus</a
-                >
-              </li>
-              <li>
-                <a
-                  routerLink="/trends/vomero"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >Vomero</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="menu-column">
-            <h4 class="font-semibold mt-2">Mua sắm với các loại thể thao</h4>
-            <ul class="space-y-2">
-              <li *ngFor="let filter_category of filtered_categories">
-                <a
-                  routerLink="/sports/running"
-                  (click)="toggleMenu()"
-                  class="block hover:text-blue-600"
-                  >{{ filter_category.name }}</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li>
-        <a
-          (click)="scrollToSection('about-us')"
-          routerLink="/about"
-          (click)="toggleMenu()"
-          class="block text-lg hover:text-blue-600"
-          >Về chúng tôi</a
-        >
-      </li>
-      <li>
-        <a
-          routerLink="/blog"
-          (click)="toggleMenu()"
-          class="block text-lg hover:text-blue-600"
-          >Bài viết</a
-        >
-      </li>
-      <li>
-        <a
-          routerLink="/contact"
-          (click)="toggleMenu()"
-          class="block text-lg hover:text-blue-600"
-          >Liên hệ</a
-        >
-      </li>
-    </ul>
+    <h3 class="text-lg font-semibold">Menu</h3>
+    <button (click)="toggleMenu()" class="text-2xl">
+      <i class="fa-solid fa-times"></i>
+    </button>
   </div>
-  <!-- Search bar fixed giống Nike, chiếm 50%
+  <ul class="flex flex-col p-4 space-y-4">
+    <li>
+      <a
+        routerLink="/"
+        (click)="toggleMenu()"
+        class="block text-lg hover:text-blue-600"
+        >Trang chủ</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/product"
+        (click)="toggleMenu()"
+        class="block text-lg hover:text-blue-600"
+        >Sản phẩm</a
+      >
+    </li>
+    <li>
+      <div class="flex justify-between items-center">
+        <a routerLink="/shoes" class="block text-lg hover:text-blue-600"
+          >Giày</a
+        >
+        <button (click)="toggleShoesMenu()" class="text-lg">
+          <i
+            class="fa-solid"
+            [ngClass]="isShoesMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"
+          ></i>
+        </button>
+      </div>
+      <div
+        class="pl-4 space-y-2"
+        [ngClass]="isShoesMenuOpen ? 'block' : 'hidden'"
+      >
+        <div class="menu-column">
+          <h4 class="font-semibold mt-2">Nổi bật</h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                routerLink="/best-sellers"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Bán chạy nhất</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/new-products"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Sản phẩm mới</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/featured"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Nổi bật nhất</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="menu-column">
+          <h4 class="font-semibold mt-2">Giày</h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                routerLink="/shoes/all"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Tất cả</a
+              >
+            </li>
+            <li *ngFor="let category of category_arr">
+              <a
+                routerLink="/shoes/men"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >{{ category.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="menu-column">
+          <h4 class="font-semibold mt-2">Xu hướng</h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                routerLink="/trends/air-force-1"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Air Force 1</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/trends/air-jordan-1"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Air Jordan 1</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/trends/dunk"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Dunk</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/trends/blazer"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Blazer</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/trends/pegasus"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Pegasus</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/trends/vomero"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >Vomero</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="menu-column">
+          <h4 class="font-semibold mt-2">Mua sắm với các loại thể thao</h4>
+          <ul class="space-y-2">
+            <li *ngFor="let filter_category of filtered_categories">
+              <a
+                routerLink="/sports/running"
+                (click)="toggleMenu()"
+                class="block hover:text-blue-600"
+                >{{ filter_category.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    <li>
+      <a
+        (click)="scrollToSection('about-us')"
+        routerLink="/about"
+        (click)="toggleMenu()"
+        class="block text-lg hover:text-blue-600"
+        >Về chúng tôi</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/blog"
+        (click)="toggleMenu()"
+        class="block text-lg hover:text-blue-600"
+        >Bài viết</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/contact"
+        (click)="toggleMenu()"
+        class="block text-lg hover:text-blue-600"
+        >Liên hệ</a
+      >
+    </li>
+  </ul>
+</div>
+<!-- Search bar fixed giống Nike, chiếm 50%
   <div
     *ngIf="isSearchBarVisible"
     class="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[90%] sm:w-2/3 lg:w-1/2 bg-white z-[999] shadow-lg border border-gray-200 px-4 py-3 rounded-xl flex items-center"
@@ -502,39 +503,39 @@
       <i class="fa-solid fa-xmark"></i>
     </button>
   </div> -->
-  <!-- SEARCH OVERLAY TRƯỢT XUỐNG + THU LÊN -->
-  <div
-    class="fixed top-0 left-0 w-full h-[72px] bg-white z-[999] shadow transition-all duration-300 ease-in-out flex justify-center items-center transform opacity-0 -translate-y-full pointer-events-none"
-    [ngClass]="{
-      'translate-y-0 opacity-100 pointer-events-auto': isSearchBarVisible,
-      '-translate-y-full opacity-0 pointer-events-none': !isSearchBarVisible
-    }"
-  >
-    <div class="w-[80%] max-w-[1280px] mx-auto flex items-center">
-      <!-- Logo -->
-      <img
-        src="images/logo-black-white.png"
-        alt="Logo"
-        class="h-15 w-auto mr-4 hidden sm:block"
+<!-- SEARCH OVERLAY TRƯỢT XUỐNG + THU LÊN -->
+<div
+  class="fixed top-0 left-0 w-full h-[72px] bg-white z-[999] shadow transition-all duration-300 ease-in-out flex justify-center items-center transform opacity-0 -translate-y-full pointer-events-none"
+  [ngClass]="{
+    'translate-y-0 opacity-100 pointer-events-auto': isSearchBarVisible,
+    '-translate-y-full opacity-0 pointer-events-none': !isSearchBarVisible
+  }"
+>
+  <div class="w-[80%] max-w-[1280px] mx-auto flex items-center">
+    <!-- Logo -->
+    <img
+      src="images/logo-black-white.png"
+      alt="Logo"
+      class="h-15 w-auto mr-4 hidden sm:block"
+    />
+    <!-- Ô tìm kiếm -->
+    <div class="flex items-center flex-1 bg-gray-100 rounded-full px-4 py-2">
+      <i class="fa-solid fa-magnifying-glass text-gray-500 mr-2"></i>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (keydown.enter)="onSearch()"
+        placeholder="Tìm kiếm..."
+        class="bg-transparent outline-none flex-1 text-sm"
+        autofocus
       />
-      <!-- Ô tìm kiếm -->
-      <div class="flex items-center flex-1 bg-gray-100 rounded-full px-4 py-2">
-        <i class="fa-solid fa-magnifying-glass text-gray-500 mr-2"></i>
-        <input
-          type="text"
-          [(ngModel)]="searchQuery"
-          (keydown.enter)="onSearch()"
-          placeholder="Tìm kiếm..."
-          class="bg-transparent outline-none flex-1 text-sm"
-          autofocus
-        />
-      </div>
-      <!-- Cancel -->
-      <button
-        (click)="toggleSearchBar()"
-        class="ml-4 text-sm font-medium text-black hover:underline"
-      >
-        Cancel
-      </button>
     </div>
+    <!-- Cancel -->
+    <button
+      (click)="toggleSearchBar()"
+      class="ml-4 text-sm font-medium text-black hover:underline"
+    >
+      Cancel
+    </button>
   </div>
+</div>

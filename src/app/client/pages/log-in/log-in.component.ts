@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
 import { AuthService } from "../../../admin/services/auth.service";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-log-in",
@@ -71,7 +72,7 @@ export class LogInComponent {
       body: JSON.stringify(this.user),
       headers: { "Content-type": "application/json" },
     };
-    fetch("http://localhost:3000/api/auth/sign-in", opt)
+    fetch(`${environment.apiUrl}/auth/sign-in`, opt)
       .then((res) => res.json())
       .then((data) => {
         console.log("data=", data);
@@ -81,7 +82,7 @@ export class LogInComponent {
           } else if (data.field === "password") {
             this.shakeField("password", data.message);
           } else {
-            this.thong_bao = data.message; 
+            this.thong_bao = data.message;
           }
           return;
         }

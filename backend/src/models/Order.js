@@ -59,6 +59,10 @@ const OrderModel = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    order_code: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   },
   {
     tableName: "orders",

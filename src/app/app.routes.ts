@@ -1,5 +1,4 @@
 import { Routes, provideRouter } from "@angular/router";
-import { CartComponent } from "./client/pages/cart/cart.component";
 import { authGuard } from "./core/guards/auth.guard";
 import { ProductDetailComponent } from "./client/pages/product-detail/product-detail.component";
 import { ProductsComponent } from "./client/pages/products/products.component";

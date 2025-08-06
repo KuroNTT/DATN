@@ -53,13 +53,12 @@ exports.signUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //  Tạo user trong DB
     const newUser = await UserModel.create({
       name,
       email,
       password: hashedPassword,
       role: "customer",
-      account_lock: 1, // mặc định là bị khóa, chờ xác thực email
+      account_lock: 1,
       created_at: new Date(),
       update_at: new Date(),
     });

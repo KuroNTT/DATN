@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IBanner } from "../../core/models/structureData";
 import { Observable } from "rxjs";
+import { environment } from "../../../enviroments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class BannerService {
-  private apiUrl = "http://localhost:3000/api/admin/banners";
+  private apiUrl = `${environment.apiUrl}/admin/banners`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +34,7 @@ export class BannerService {
 
   uploadImage(formData: FormData): Observable<any> {
     return this.http.post<{ imageUrl: string }>(
-      "http://localhost:3000/api/admin/upload",
+      `${environment.apiUrl}/admin/upload`,
       formData
     );
   }

@@ -9,6 +9,7 @@ import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
 import { IProduct } from "../../../core/models/structureData";
 import { Router } from "@angular/router";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-home",
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   loadProducts() {
-    fetch(`http://localhost:3000/api/products`)
+    fetch(`${environment.apiUrl}/products`)
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = (data as IProduct[]).slice(0, 8);
@@ -43,11 +44,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // Data source (tách data ra cho sạch)
   sports = [
-    { name: "Running", image: "images/nike-running.jpg" },
-    { name: "Football", image: "images/nike-football.jpg" },
-    { name: "Basketball", image: "images/nike-basketball.jpg" },
-    { name: "Training and Gym", image: "images/nike-training-and-gym.jpg" },
-    { name: "Skateboarding", image: "images/nike-skateboard.jpg" },
+    { name: "Chạy bộ", image: "images/nike-running.jpg" },
+    { name: "Đá bóng", image: "images/nike-football.jpg" },
+    { name: "Bóng rổ", image: "images/nike-basketball.jpg" },
+    { name: "Tập luyện và Gym", image: "images/nike-training-and-gym.jpg" },
+    { name: "Skateboard", image: "images/nike-skateboard.jpg" },
     { name: "Golf", image: "images/nike-golf.jpg" },
   ];
 

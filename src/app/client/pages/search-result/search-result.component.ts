@@ -5,6 +5,7 @@ import { IProduct, ICategory } from "../../../core/models/structureData";
 import { CommonModule, NgClass } from "@angular/common";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-search-result",
@@ -33,7 +34,7 @@ export class SearchResultComponent implements OnInit {
         this.fetchResults();
       }
     });
-    fetch("http://localhost:3000/api/categories").then((res) => {
+    fetch(`${environment.apiUrl}/categories`).then((res) => {
       res
         .json()
         .then((data) => (this.category_arr = data as ICategory[]))
@@ -46,7 +47,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   fetchAllProducts(): void {
-    this.http.get<IProduct[]>("http://localhost:3000/api/products").subscribe({
+    this.http.get<IProduct[]>(`${environment.apiUrl}/products`).subscribe({
       next: (data) => {
         this.product_arr_all = data;
         this.product_arr = data;
