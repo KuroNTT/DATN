@@ -58,6 +58,12 @@ const routes: Routes = [
           import("./pages/order/order.component").then((m) => m.OrderComponent),
         title: "Quản lý banner",
       },
+      {
+        path: "voucher",
+        loadChildren: () =>
+          import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
+        title: "Quản lý banner",
+      },
     ],
   },
 ];

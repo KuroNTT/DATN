@@ -1,0 +1,121 @@
+<form
+  [formGroup]="voucherForm"
+  (ngSubmit)="onSubmit()"
+  class="w-full max-w-3xl p-6 bg-white rounded-xl shadow space-y-6"
+>
+  <h2 class="text-2xl font-bold text-gray-800">Thêm Voucher</h2>
+
+  <!-- Thông báo lỗi logic -->
+  <div *ngIf="errorMessage" class="text-red-600 text-sm">{{ errorMessage }}</div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Mã voucher <span class="text-red-500">*</span></label>
+      <input
+        formControlName="code"
+        type="text"
+        placeholder="Nhập mã"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+      <div *ngIf="voucherForm.get('code')?.touched && voucherForm.get('code')?.invalid" class="text-red-500 text-sm">
+        Bắt buộc nhập mã
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Loại giảm giá *</label>
+      <select
+        formControlName="discount_type"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      >
+        <option value="percent">Phần trăm</option>
+        <option value="fixed">Cố định</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Giá trị giảm *</label>
+      <input
+        formControlName="discount_value"
+        type="number"
+        step="0.01"
+        placeholder="10 hoặc 50000"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+      <div *ngIf="voucherForm.get('discount_value')?.touched && voucherForm.get('discount_value')?.invalid" class="text-red-500 text-sm">
+        Nhập số > 0
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Giá trị đơn hàng tối thiểu</label>
+      <input
+        formControlName="min_order_value"
+        type="number"
+        step="0.01"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Số lượng *</label>
+      <input
+        formControlName="quantity"
+        type="number"
+        min="1"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Trạng thái</label>
+      <select
+        formControlName="is_active"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      >
+        <option [value]="true">Đang hoạt động</option>
+        <option [value]="false">Vô hiệu hóa</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Ngày bắt đầu *</label>
+      <input
+        formControlName="start_date"
+        type="date"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Ngày kết thúc *</label>
+      <input
+        formControlName="end_date"
+        type="date"
+        class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Mô tả</label>
+    <textarea
+      formControlName="description"
+      rows="3"
+      placeholder="Mô tả thêm nếu cần"
+      class="mt-1 w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300"
+    ></textarea>
+  </div>
+
+  <div class="pt-6 flex justify-end gap-4">
+    <button type="button" (click)="onCancel()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">
+      Huỷ
+    </button>
+    <button
+      type="submit"
+      class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-300"
+    >
+      Cập nhật
+    </button>
+  </div>
+</form>

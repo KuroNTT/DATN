@@ -60,8 +60,8 @@ const OrderModel = sequelize.define(
       allowNull: true,
     },
     order_code: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+      type: DataTypes.BIGINT,
+      allowNull: false,
     },
   },
   {

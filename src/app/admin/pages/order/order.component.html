@@ -6,42 +6,42 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
     
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">ID</th>
         <td mat-cell *matCellDef="let row">{{ row.id }}</td>
       </ng-container>
     
       <ng-container matColumnDef="orderCode">
-        <th mat-header-cell *matHeaderCellDef>Mã đơn hàng</th>
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Mã đơn hàng</th>
         <td mat-cell *matCellDef="let row">{{ row.order_code }}</td>
       </ng-container>
     
       <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Customer</th>
         <td mat-cell *matCellDef="let row">{{ row.customer }}</td>
       </ng-container>
     
       <ng-container matColumnDef="customerAddress">
-        <th mat-header-cell *matHeaderCellDef>Address</th>
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Address</th>
         <td mat-cell *matCellDef="let row">{{ row.customer_address }}</td>
       </ng-container>
     
       <ng-container matColumnDef="customerPhoneNumber">
-        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Phone</th>
         <td mat-cell *matCellDef="let row">{{ row.customer_phone_number }}</td>
       </ng-container>
     
       <ng-container matColumnDef="totalPrice">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Total Price</th>
         <td mat-cell *matCellDef="let row">{{ row.total_price | number:'1.0-0' }}</td>
       </ng-container>
     
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Status</th>
         <td mat-cell *matCellDef="let row">{{ row.status }}</td>
       </ng-container>
     
       <ng-container matColumnDef="orderDate">
-        <th mat-header-cell *matHeaderCellDef>Order Date</th>
+        <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Order Date</th>
         <td mat-cell *matCellDef="let row">{{ row.order_date | date:'short' }}</td>
       </ng-container>
     
