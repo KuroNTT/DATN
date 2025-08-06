@@ -29,7 +29,7 @@
       >
     </p>
     <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
-      <mat-form-field class="w-full rounded">
+      <mat-form-field class="w-full custom-line" appearance="fill">
         <mat-label>Họ và tên</mat-label>
         <input
           matInput
@@ -43,7 +43,6 @@
           >Họ và tên là bắt buộc</mat-error
         >
       </mat-form-field>
-
       <div class="grid grid-cols-2 gap-4">
         <mat-form-field>
           <mat-label>Email</mat-label>

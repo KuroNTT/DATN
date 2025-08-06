@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   hideHeader = false;
   private lastScrollTop = 0;
-
+  
   isUserDropdownVisible: boolean = false;
   @HostListener("window:scroll", [])
   onWindowScroll() {
