@@ -123,4 +123,8 @@ export class CartService {
       quantity,
     });
   }
+
+  getStock(variantId: number, sizeId: number) {
+    return this.http.get(`${environment.apiUrl}/stock?variantId=${variantId}&sizeId=${sizeId}`);
+  }
 }
