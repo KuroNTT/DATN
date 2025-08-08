@@ -11,7 +11,6 @@ exports.getAllBlogs = async (req, res) => {
         status: 1,
       },
       order: [
-        ["sort_order", "ASC"],
         ["created_at", "DESC"],
       ],
       include: [

@@ -5,7 +5,9 @@ import { ProductFormComponent } from '../components/product-form/product-form.co
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-add',
-  templateUrl: './product-add.component.html',
+  template: `<app-product-form 
+  [isEditMode]="false" 
+  (submitForm)="handleSubmit($event)" />`,
   standalone: true,
   imports: [ProductFormComponent]
 })

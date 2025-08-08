@@ -1,9 +1,8 @@
+<h2 class="text-xl font-bold mb-4">{{isEditMode ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}}</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="form" class="space-y-6">
   <!-- THÔNG TIN SẢN PHẨM -->
   <div class="grid grid-cols-12 gap-6">
-  <!-- 🏷️ Cột trái (7/12) -->
   <div class="col-span-7 grid grid-cols-2 gap-4">
-    <!-- Hàng 1 -->
     <div class="col-span-2">
       <label class="block font-semibold text-sm mb-1">Tên sản phẩm</label>
       <input
@@ -21,7 +20,6 @@
       />
     </div>
 
-    <!-- Hàng 2 -->
     <div>
       <label class="block font-semibold text-sm mb-1">Giá gốc</label>
       <input
@@ -45,7 +43,6 @@
       />
     </div>
 
-    <!-- Hàng 3 -->
      <div>
       <label class="block font-semibold text-sm mb-1">Xuất xứ</label>
       <input
@@ -74,7 +71,6 @@
       </select>
     </div>
 
-    <!-- Hàng 4 -->
     <div>
       <label class="block font-semibold text-sm mb-1">Danh mục</label>
       <select
@@ -85,7 +81,6 @@
       </select>
     </div>
 
-    <!-- Hàng 5 -->
     <div>
       <label class="block font-semibold text-sm mb-1">Trạng thái</label>
       <select
@@ -98,7 +93,6 @@
     </div>
   </div>
 
-  <!-- 🖼️ Cột giữa (2/12) -->
   <div class="col-span-2">
     <label class="block font-semibold text-sm mb-1">Ảnh đại diện (file)</label>
     <input
@@ -116,7 +110,6 @@
     </div>
   </div>
 
-  <!-- 📄 Cột phải (3/12) -->
   <div class="col-span-3">
     <label class="block font-semibold text-sm mb-1">Mô tả sản phẩm</label>
     <textarea
@@ -127,7 +120,6 @@
   </div>
 </div>
 
-  <!-- BIẾN THỂ -->
   <div formArrayName="variants">
     <div
       *ngFor="let variant of variants.controls; let i = index"
@@ -136,7 +128,6 @@
     >
       <h4 class="font-bold text-lg mb-2">Biến thể {{ i + 1 }}</h4>
 
-      <!-- Dòng 1: Màu - Mã - Tên - Chiều cao -->
       <div class="grid grid-cols-4 gap-4">
         <div>
           <label class="font-bold">Tên màu (VN)</label>
@@ -172,7 +163,6 @@
         </div>
       </div>
 
-      <!-- Dòng 2: Ảnh đại diện + tồn kho chung -->
       <div class="grid grid-cols-4 gap-4 mt-4">
         <div class="">
           <label class="block font-bold">Ảnh đại diện biến thể</label>
@@ -201,7 +191,6 @@
           </div>
         </div>
 
-        <!-- Tồn kho chung -->
         <div class="col-span-1">
           <label class="font-bold">Tồn kho chung cho tất cả size</label>
           <input
@@ -213,7 +202,6 @@
         </div>
       </div>
 
-      <!-- Size và tồn kho -->
       <div class="mt-4">
         <label class="block font-bold mb-2">Tồn kho theo size</label>
         <div formArrayName="sizes" class="grid grid-cols-6 gap-4">
@@ -235,7 +223,6 @@
         </div>
       </div>
 
-      <!-- Ảnh chi tiết -->
       <div class="mt-4">
         <label class="block font-bold mb-2"
           >Ảnh chi tiết biến thể (tối đa 8 ảnh)</label
@@ -269,7 +256,6 @@
         </div>
       </div>
 
-      <!-- Nút xóa -->
       <button
         type="button"
         (click)="removeVariant(i)"
@@ -280,22 +266,20 @@
     </div>
   </div>
 
-  <div class="flex items-center pt-4 gap-4">
-    <!-- Nút thêm biến thể -->
+  <div class="flex items-center justify-end pt-4 gap-4">
     <button
       type="button"
       (click)="addVariant()"
-      class="w-50 p-3 text-sm md:text-lg rounded-full bg-white text-black shadow-lg transition duration-300 cursor-pointer hover:bg-[#7070724D] border-none"
+      class="w-40 p-2 rounded-full bg-white text-black shadow-lg transition duration-300 cursor-pointer hover:bg-[#7070724D] border-none"
     >
       Thêm biến thể
     </button>
 
-    <!-- Nút lưu sản phẩm -->
     <button
       type="submit"
-      class="w-50 p-3 text-sm md:text-lg rounded-full bg-black text-white shadow-lg transition duration-300 cursor-pointer hover:bg-[#707072]"
+      class="w-40 p-2 rounded-full bg-black text-white shadow-lg transition duration-300 cursor-pointer hover:bg-[#707072]"
     >
-      Lưu sản phẩm
+      {{isEditMode ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}}
     </button>
   </div>
 </form>

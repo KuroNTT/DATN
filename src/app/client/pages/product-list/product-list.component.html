@@ -4,7 +4,13 @@
     class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-6"
   >
     <!-- Product Item -->
-    <div class="product" *ngFor="let product of products">
+    <div
+      class="product"
+      *ngFor="
+        let product of products
+          | paginate : {id: 'product_pagination', itemsPerPage: 12, currentPage: currentPage }
+      "
+    >
       <div class="w-full aspect-square mb-4 overflow-hidden relative group">
         <a [routerLink]="['/product-detail', product.slug]">
           <img
@@ -52,6 +58,6 @@
           </ng-template>
         </div>
       </div>
-    </div>
+    </div> 
   </div>
 </div>

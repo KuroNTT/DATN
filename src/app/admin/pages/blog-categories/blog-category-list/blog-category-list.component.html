@@ -1,48 +1,50 @@
-<div class="container mx-auto p-4">
+<div class="max-w-8xl">
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-xl font-bold">Danh sách danh mục bài viết</h2>
-    <a
-      href="/admin/blog-categories/add"
-      class="p-3 bg-sky-400 cursor-pointer flex items-center gap-3 rounded-md"
+    <button
+      routerLink="/admin/blog-categories/add"
+      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full 
+      text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
     >
-      <i class="fa-solid fa-plus text-white"></i>
-      <button class="cursor-pointer font-bold text-white">
-        Thêm danh mục bài viết
-      </button>
-    </a>
+      <i class="fa-solid fa-plus mr-2"></i>Thêm danh mục bài viết
+    </button>
   </div>
 
-  <table class="w-full border border-gray-300">
-    <thead class="bg-gray-100">
-      <tr>
-        <th class="border px-4 py-2 text-center">ID</th>
-        <th class="border px-4 py-2">Tên danh mục</th>
-        <th class="border px-4 py-2">Mô tả</th>
-        <th class="border px-4 py-2">Slug</th>
-        <th class="border px-4 py-2 text-center">Thao tác</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cat of categories; index as i">
-        <td class="border px-4 py-2 text-center">{{ i + 1 }}</td>
-        <td class="border px-4 py-2">{{ cat.name }}</td>
-        <td class="border px-4 py-2">{{ cat.description }}</td>
-        <td class="border px-4 py-2">{{ cat.slug }}</td>
-        <td class="border px-4 py-2 text-center">
-          <button
-            class="text-white hover:underline mr-3 cursor-pointer w-12 h-8 bg-blue-500 rounded-md"
-            (click)="goToEdit(cat.id)"
-          >
-            <i class="fa-solid fa-pencil"></i>
-          </button>
-          <button
-            class="text-white hover:underline cursor-pointer w-12 h-8 bg-red-500 rounded-md"
-            (click)="onDelete(cat.id)"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-md text-left border border-gray-300">
+      <thead class="bg-gray-200 text-center">
+        <tr>
+          <th class="px-4 py-2 border">ID</th>
+          <th class="px-4 py-2 border">Tên danh mục</th>
+          <th class="px-4 py-2 border">Mô tả</th>
+          <th class="px-4 py-2 border">Slug</th>
+          <th class="px-4 py-2 border">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of categories; index as i" class="hover:bg-gray-50 text-center">
+          <td class="px-4 py-2 border">{{ i + 1 }}</td>
+          <td class="px-4 py-2 border text-left">{{ cat.name }}</td>
+          <td class="px-4 py-2 border text-left">{{ cat.description }}</td>
+          <td class="px-4 py-2 border text-left">{{ cat.slug }}</td>
+          <td class="px-4 py-2 border">
+            <div class="flex justify-center items-center gap-3">
+              <button
+                (click)="goToEdit(cat.id)"
+                class="text-gray-700 hover:text-gray-500"
+              >
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button
+                (click)="onDelete(cat.id)"
+                class="text-red-500 hover:text-red-700"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

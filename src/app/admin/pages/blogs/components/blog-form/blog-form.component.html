@@ -61,7 +61,7 @@
   <div>
     <label class="block mb-1 font-medium">Danh mục</label>
     <select
-      class="border px-2 py-1 rounded w-full"
+      class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:ring focus:ring-blue-300"
       formControlName="category_id"
     >
       <option [value]="null">-- Chọn danh mục --</option>
@@ -96,7 +96,7 @@
   <div class="text-right">
     <button
       type="submit"
-      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
+      class="w-40 p-2 rounded-full bg-black text-white shadow-lg transition duration-300 cursor-pointer hover:bg-[#707072]"
       [disabled]="form.invalid"
     >
       {{ isEditMode ? "Cập nhật bài viết" : "Thêm bài viết" }}

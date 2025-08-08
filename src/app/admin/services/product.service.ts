@@ -26,8 +26,8 @@ export class ProductService {
     });
   }
 
-  getAll(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.apiUrl);
+  getAll(params?: {status?: number}): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.apiUrl, {params});
   }
 
   getOne(slug: string): Observable<IProduct> {

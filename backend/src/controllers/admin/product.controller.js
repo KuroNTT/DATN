@@ -6,9 +6,9 @@ const ColorModel = require("../../models/Color");
 const BrandModel = require("../../models/Brand");
 const CategoryModel = require("../../models/Category");
 const GenderModel = require("../../models/Gender");
-const ShoeHeightModel = require("../../models/ShoeHeight")
-const SizeModel = require("../../models/Size")
-const ProductImageModel = require('../../models/ProductImage');
+const ShoeHeightModel = require("../../models/ShoeHeight");
+const SizeModel = require("../../models/Size");
+const ProductImageModel = require("../../models/ProductImage");
 const ProductVariantModel = require("../../models/ProductVariant");
 const VariantSizeModel = require("../../models/VariantSize");
 exports.getAllProducts = async (req, res) => {
@@ -84,9 +84,10 @@ exports.getAllProducts = async (req, res) => {
       shoe_height_id: { [Op.in]: collarIds },
     };
   }
-
+  const statusParam = req.query.status;
+  const status = statusParam !== undefined ? Number(statusParam) : null;
   const whereProduct = {
-    status: 1,
+    ...(status !== null && !isNaN(status) && { status }),
     ...(searchQuery && {
       name: { [Op.like]: `%${searchQuery}%` },
     }),
@@ -103,25 +104,7 @@ exports.getAllProducts = async (req, res) => {
   }
 
   const products = await ProductModel.findAll({
-    where: {
-      status: 1,
-      ...(searchQuery && {
-        name: { [Op.like]: `%${searchQuery}%` },
-      }),
-      ...(brandIds.length && {
-        brand_id: { [Op.in]: brandIds },
-      }),
-      ...(genderIds.length && {
-        gender_id: { [Op.in]: genderIds },
-      }),
-      ...(priceRanges.length && {
-        [Op.or]: priceRanges.map((r) =>
-          r.max != null
-            ? { price_sale: { [Op.between]: [r.min, r.max] } }
-            : { price_sale: { [Op.gte]: r.min } }
-        ),
-      }),
-    },
+    where: whereProduct,
     order: [["created_at", "desc"]],
     include: [
       variantInclude,
@@ -142,7 +125,6 @@ exports.getAllProducts = async (req, res) => {
       },
     ],
   });
-
   res.json(products);
 };
 exports.getProductById = async (req, res) => {
@@ -153,16 +135,6 @@ exports.getProductById = async (req, res) => {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
 };
-/* exports.deleteProduct = async (req, res) => {
-  try {
-    const sp = await ProductModel.findByPk(req.params.id);
-    if (!sp) return res.status(404).json({ thong_bao: "Không tìm thấy" });
-    await sp.destroy();
-    res.json({ thong_bao: "Đã xóa thành công" });
-  } catch (err) {
-    res.status(500).json({ thong_bao: "Lỗi server", err });
-  }
-}; */
 exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
@@ -171,8 +143,8 @@ exports.deleteProduct = async (req, res) => {
       include: [
         {
           model: ProductVariantModel,
-          as: 'variants',
-          attributes: ['id', 'color_id'],
+          as: "variants",
+          attributes: ["id", "color_id"],
         },
       ],
     });
@@ -181,14 +153,16 @@ exports.deleteProduct = async (req, res) => {
       return res.status(404).json({ thong_bao: "Không tìm thấy sản phẩm" });
     }
 
-    const usedColorIds = [...new Set(product.variants.map(v => v.color_id))];
+    const usedColorIds = [...new Set(product.variants.map((v) => v.color_id))];
 
     // Xoá sản phẩm chính (đã cascade variant, images, sizes nếu cấu hình đúng)
     await product.destroy();
 
     // Sau khi xoá, kiểm tra từng color
     for (const colorId of usedColorIds) {
-      const count = await ProductVariantModel.count({ where: { color_id: colorId } });
+      const count = await ProductVariantModel.count({
+        where: { color_id: colorId },
+      });
       if (count === 0) {
         await ColorModel.destroy({ where: { id: colorId } });
       }
@@ -199,7 +173,6 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
 };
-
 exports.updateStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -315,18 +288,16 @@ exports.createProduct = async (req, res) => {
     }
 
     await t.commit();
-    res
-      .status(201)
-      .json({
-        message: "Thêm sản phẩm và các bảng liên quan thành công",
-        product_id: product.id,
-      });
+    res.status(201).json({
+      message: "Thêm sản phẩm và các bảng liên quan thành công",
+      product_id: product.id,
+    });
   } catch (error) {
     await t.rollback();
     console.error("Lỗi thêm sản phẩm:", error);
     res.status(400).json({ thong_bao: "Thêm thất bại", error: error.message });
   }
-}
+};
 exports.updateProductBySlug = async (req, res) => {
   const t = await sequelize.transaction();
   try {
@@ -405,32 +376,32 @@ exports.updateProductBySlug = async (req, res) => {
 
       let variantData;
 
-        // Nếu có id → cập nhật biến thể
-        if (variant.id) {
-          variantData = await ProductVariantModel.findByPk(variant.id);
-          if (variantData) {
-            await variantData.update(
-              {
-                color_id: color.id,
-                shoe_height_id: variant.shoe_height_id,
-                style_code: variant.style_code,
-                image_url: variant.image_url,
-                updated_at: now,
-              },
-              { transaction: t }
-            );
+      // Nếu có id → cập nhật biến thể
+      if (variant.id) {
+        variantData = await ProductVariantModel.findByPk(variant.id);
+        if (variantData) {
+          await variantData.update(
+            {
+              color_id: color.id,
+              shoe_height_id: variant.shoe_height_id,
+              style_code: variant.style_code,
+              image_url: variant.image_url,
+              updated_at: now,
+            },
+            { transaction: t }
+          );
 
-            // Xoá toàn bộ sizes & images cũ
-            await VariantSizeModel.destroy({
-              where: { variant_id: variantData.id },
-              transaction: t,
-            });
-            await ProductImageModel.destroy({
-              where: { variant_id: variantData.id },
-              transaction: t,
-            });
-          }
-        } else {
+          // Xoá toàn bộ sizes & images cũ
+          await VariantSizeModel.destroy({
+            where: { variant_id: variantData.id },
+            transaction: t,
+          });
+          await ProductImageModel.destroy({
+            where: { variant_id: variantData.id },
+            transaction: t,
+          });
+        }
+      } else {
         // Nếu chưa có → tạo mới
         variantData = await ProductVariantModel.create(
           {
@@ -474,16 +445,16 @@ exports.updateProductBySlug = async (req, res) => {
         );
       }
     }
-const { deletedVariantIds = [] } = req.body;
+    const { deletedVariantIds = [] } = req.body;
 
-// Xoá tất cả các variant liên quan trước khi cập nhật
-if (deletedVariantIds.length > 0) {
-  await ProductVariantModel.destroy({
-    where: {
-      id: deletedVariantIds
+    // Xoá tất cả các variant liên quan trước khi cập nhật
+    if (deletedVariantIds.length > 0) {
+      await ProductVariantModel.destroy({
+        where: {
+          id: deletedVariantIds,
+        },
+      });
     }
-  });
-}
 
     await t.commit();
     res.json({
@@ -506,58 +477,54 @@ exports.getProductBySlug = async (req, res) => {
       include: [
         {
           model: ProductVariantModel,
-          as: 'variants',
+          as: "variants",
           include: [
             {
               model: ColorModel,
-              as: 'color',
+              as: "color",
             },
             {
               model: ProductImageModel,
-              as: 'images',
+              as: "images",
             },
             {
               model: VariantSizeModel,
-              as: 'product_variant_sizes',
+              as: "product_variant_sizes",
               include: [
                 {
                   model: SizeModel,
-                  as: 'size',
+                  as: "size",
                 },
               ],
             },
             {
               model: ShoeHeightModel,
-              as: 'shoe_height',
+              as: "shoe_height",
             },
           ],
         },
         {
           model: BrandModel,
-          as: 'brand',
+          as: "brand",
         },
         {
           model: CategoryModel,
-          as: 'category',
+          as: "category",
         },
         {
           model: GenderModel,
-          as: 'gender',
+          as: "gender",
         },
       ],
     });
 
     if (!product) {
-      console.warn('Không tìm thấy sản phẩm với slug:', slug);
-      return res.status(404).json({ message: 'Không tìm thấy sản phẩm' });
+      console.warn("Không tìm thấy sản phẩm với slug:", slug);
+      return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
     }
     res.json(product);
   } catch (error) {
-    console.error('Lỗi khi lấy sản phẩm theo slug:', error);
-    res.status(500).json({ message: 'Lỗi server', error: error.message });
+    console.error("Lỗi khi lấy sản phẩm theo slug:", error);
+    res.status(500).json({ message: "Lỗi server", error: error.message });
   }
 };
-
-
-
-
