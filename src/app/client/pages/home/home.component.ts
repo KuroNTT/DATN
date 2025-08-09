@@ -11,10 +11,12 @@ import { IProduct } from "../../../core/models/structureData";
 import { Router } from "@angular/router";
 import { environment } from "../../../../enviroments/environment";
 
+import { IBlog } from "../../../core/models/structureData";
+import { RouterLink } from "@angular/router";
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [CommonModule, BannerComponent],
+  imports: [CommonModule, BannerComponent, RouterLink],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
 })
@@ -24,11 +26,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   isLiked: boolean = false;
   product_arr: IProduct[] = [];
-
+  blog_arr:IBlog[]=[];
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.loadProducts();
+    this.loadNewestBlogs();
   }
 
   loadProducts() {
@@ -41,7 +44,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
       );
   }
-
+  loadNewestBlogs(){
+    fetch(`http://localhost:3000/api/blogs/newest`)
+    .then((res) => res.json())
+    .then(data => {
+      this.blog_arr = data;
+    })
+    .catch(err => {
+      console.log('Loi khi fetch blog newest', err);
+      
+    })
+  }
   // Data source (tách data ra cho sạch)
   sports = [
     { name: "Chạy bộ", image: "images/nike-running.jpg" },

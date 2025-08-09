@@ -124,6 +124,7 @@
         </li>
         <li>
           <a
+            href="about-us"
             (click)="scrollToSection('about-us')"
             class="hover:text-blue-600 transition font-bold cursor-pointer"
             >Về chúng tôi</a
@@ -155,7 +156,7 @@
         </li>
 
         <!-- dropdown dang nhap -->
-        <!-- Icon user -->
+        <!-- Icon user 
         <li class="relative group user-toggle">
           <a
             (mouseenter)="showUserDropdown()"
@@ -164,7 +165,6 @@
             <i class="fa-solid fa-user"></i>
           </a>
 
-          <!-- Dropdown -->
           <ul
             [ngClass]="{
               'block opacity-100 visible translate-y-0': isUserDropdownVisible,
@@ -173,7 +173,6 @@
             (mouseleave)="hideUserDropdown()"
             class="hidden group-hover:block lg:absolute lg:top-full lg:left-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown"
           >
-            <!-- Nếu chưa đăng nhập -->
             <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
               <li>
                 <a
@@ -191,7 +190,6 @@
               </li>
             </ng-container>
 
-            <!-- Nếu đã đăng nhập -->
             <ng-template #loggedInBlock>
               <li>
                 <span class="block px-4 py-2 text-gray-500">
@@ -200,7 +198,6 @@
                 </span>
               </li>
 
-              <!-- Mục dành riêng cho admin -->
               <li *ngIf="isAdmin">
                 <a
                   (click)="goToAdminDashboard()"
@@ -209,7 +206,6 @@
                 >
               </li>
 
-              <!-- Chung cho mọi user (cả admin lẫn thường) -->
               <li>
                 <a
                   (click)="goToProfile()"
@@ -223,6 +219,81 @@
                   class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   >Đăng xuất</a
                 >
+              </li>
+            </ng-template>
+          </ul>
+        </li>-->
+        <li
+          class="relative group user-toggle"
+          (mouseenter)="isUserDropdownVisible = true"
+          (mouseleave)="isUserDropdownVisible = false"
+        >
+          <a
+            (click)="toggleUserDropdown()"
+            class="hover:text-blue-600 cursor-pointer"
+          >
+            <i class="fa-solid fa-user"></i>
+          </a>
+
+          <!-- DÙNG [ngClass] để toggle dropdown -->
+          <ul
+            [ngClass]="{
+              'block opacity-100 visible translate-y-0': isUserDropdownVisible,
+              'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
+            }"
+            class="absolute top-full left-[-20px] bg-white shadow-lg w-48 z-10 transition-all duration-300 transform user-dropdown"
+          >
+            <!-- Không động vào *ngIf hiện tại -->
+            <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+              <li>
+                <a
+                  (click)="goToLogin()"
+                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Đăng nhập
+                </a>
+              </li>
+              <li>
+                <a
+                  (click)="goToSignup()"
+                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Đăng ký
+                </a>
+              </li>
+            </ng-container>
+
+            <ng-template #loggedInBlock>
+              <li>
+                <span class="block px-4 py-2 text-gray-500">
+                  Xin chào
+                  <span class="text-blue-500 uppercase">{{ username }}</span>
+                </span>
+              </li>
+
+              <li *ngIf="isAdmin">
+                <a
+                  (click)="goToAdminDashboard()"
+                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Quản trị viên
+                </a>
+              </li>
+              <li>
+                <a
+                  (click)="goToProfile()"
+                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Thông tin cá nhân
+                </a>
+              </li>
+              <li>
+                <a
+                  (click)="logout()"
+                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Đăng xuất
+                </a>
               </li>
             </ng-template>
           </ul>
@@ -248,34 +319,6 @@
       <i class="fa-solid" [ngClass]="isMenuOpen ? 'fa-times' : 'fa-bars'"></i>
     </button>
   </div>
-
-  <!-- Search bar fixed giống Nike, chiếm 50% -->
-  <!-- <div
-    *ngIf="isSearchBarVisible"
-    class="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[90%] sm:w-2/3 lg:w-1/2 bg-white z-[999] shadow-lg border border-gray-200 px-4 py-3 rounded-xl flex items-center"
-  >
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      (keydown.enter)="onSearch()"
-      placeholder="Tìm kiếm sản phẩm..."
-      class="flex-1 text-base px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
-      autofocus
-    />
-    <button
-      (click)="onSearch()"
-      class="ml-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-    >
-      Tìm
-    </button>
-    <button
-      (click)="toggleSearchBar()"
-      class="ml-2 text-gray-500 hover:text-black text-xl"
-      title="Đóng"
-    >
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-  </div> -->
 </div>
 
 <!-- Overlay (Backdrop) -->
@@ -287,7 +330,7 @@
 
 <!-- Mobile Menu -->
 <div
-  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-600 transform transition-transform ease-in-out duration-300 overflow-y-auto"
+  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 overflow-y-auto"
   [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
 >
   <div
@@ -503,6 +546,43 @@
       <i class="fa-solid fa-xmark"></i>
     </button>
   </div> -->
+<!-- SEARCH OVERLAY TRƯỢT XUỐNG + THU LÊN -->
+<div
+  class="fixed top-0 left-0 w-full h-[72px] bg-white z-[999] shadow transition-all duration-300 ease-in-out flex justify-center items-center transform opacity-0 -translate-y-full pointer-events-none"
+  [ngClass]="{
+    'translate-y-0 opacity-100 pointer-events-auto': isSearchBarVisible,
+    '-translate-y-full opacity-0 pointer-events-none': !isSearchBarVisible
+  }"
+>
+  <div class="w-[80%] max-w-[1280px] mx-auto flex items-center">
+    <!-- Logo -->
+    <img
+      src="images/logo-black-white.png"
+      alt="Logo"
+      class="h-15 w-auto mr-4 hidden sm:block"
+    />
+    <!-- Ô tìm kiếm -->
+    <div class="flex items-center flex-1 bg-gray-100 rounded-full px-4 py-2">
+      <i class="fa-solid fa-magnifying-glass text-gray-500 mr-2"></i>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (keydown.enter)="onSearch()"
+        placeholder="Tìm kiếm..."
+        class="bg-transparent outline-none flex-1 text-sm"
+        autofocus
+      />
+    </div>
+    <!-- Cancel -->
+    <button
+      (click)="toggleSearchBar()"
+      class="ml-4 text-sm font-medium text-black hover:underline"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+
 <!-- SEARCH OVERLAY TRƯỢT XUỐNG + THU LÊN -->
 <div
   class="fixed top-0 left-0 w-full h-[72px] bg-white z-[999] shadow transition-all duration-300 ease-in-out flex justify-center items-center transform opacity-0 -translate-y-full pointer-events-none"

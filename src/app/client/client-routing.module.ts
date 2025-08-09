@@ -22,6 +22,7 @@ import { ProductWishlistComponent } from "./pages/product-wishlist/product-wishl
 import { SearchResultComponent } from "./pages/search-result/search-result.component";
 import { CancelComponent } from "./pages/cancel/cancel.component";
 import { SuccessComponent } from "./pages/success/success.component";
+import { AboutUsComponent } from "./pages/about-us/about-us.component";
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
       { path: "contact", component: ContactComponent, title: "Liên hệ" },
       { path: "cart", component: CartComponent, title: "Giỏ hàng" },
       { path: "blog", component: BlogListComponent, title: "Bài viết" },
+      { path: "about-us", component: AboutUsComponent, title: "Về chúng tôi" },
       {
         path: "blog/:slug",
         component: BlogDetailComponent,

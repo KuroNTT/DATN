@@ -23,7 +23,6 @@ export class BannerListComponent implements OnInit {
   loadBanners() {
     this.bannerService.getAll().subscribe({
       next: (data) => {
-        console.log("Data received:", data);
         this.banners = data;
       },
       error: (err) => {

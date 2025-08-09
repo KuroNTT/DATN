@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
     <app-product-form
       *ngIf="product"
       [formData]="product"
+      [isEditMode]="true"
       (submitForm)="updateProduct($event)"
     />
   `,

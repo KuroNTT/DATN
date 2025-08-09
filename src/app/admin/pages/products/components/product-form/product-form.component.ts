@@ -56,7 +56,7 @@ export class ProductFormComponent implements OnInit {
     //Gọi hàm thêm vra
     this.addVariant();
 
-    if (this.formData) {
+    if (this.isEditMode && this.formData) {
       this.form.patchValue(this.formData);
       this.patchVariants(this.formData.variants || []);
       // Gán lại preview ảnh đại diện từ dữ liệu
@@ -276,7 +276,6 @@ export class ProductFormComponent implements OnInit {
   }
   onSubmit() {
     if (this.form.invalid) {
-      console.warn('Form không hợp lệ');
       this.form.markAllAsTouched();
       return;
     }

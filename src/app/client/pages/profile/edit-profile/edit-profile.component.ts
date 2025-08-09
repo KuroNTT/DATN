@@ -134,11 +134,10 @@ export class EditProfileComponent implements OnInit {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("✅ Ảnh đã upload lên Cloudinary:", data);
 
         this.avatarPreview = data.secure_url;
         this.form.patchValue({ avatar: data.secure_url });
-        console.log("Link ảnh trong form:", this.form.value.avatar);
+
       })
 
       .catch((err) => {

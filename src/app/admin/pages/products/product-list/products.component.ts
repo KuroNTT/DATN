@@ -1,36 +1,30 @@
-import { Component } from "@angular/core";
-import {
-  IProduct,
-  ICategory,
-  IBrand,
-} from "../../../../core/models/structureData";
-import { CommonModule } from "@angular/common";
-import { ProductService } from "../../../services/product.service";
-import { NgxPaginationModule } from "ngx-pagination";
-import { RouterLink } from "@angular/router";
+import { Component } from '@angular/core';
+import { IProduct, ICategory, IBrand } from '../../../../core/models/structureData';
+import { CommonModule } from '@angular/common';
+import { ProductService } from '../../../services/product.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: "app-products",
   standalone: true,
   imports: [CommonModule, NgxPaginationModule, RouterLink],
-  templateUrl: "./product-list.component.html",
-  styleUrl: "./product-list.component.css",
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.css'
 })
 export class ProductListComponent {
   category_arr: ICategory[] = [];
   product_arr: IProduct[] = [];
   brand_arr: IBrand[] = [];
   p: number = 1;
-  constructor(private pds: ProductService) {}
+  constructor(private pds: ProductService) { }
 
   ngOnInit() {
     this.loadProduct();
   }
   loadProduct() {
-    this.pds.getAll().subscribe((data) => {
+    this.pds.getAll({ status: 1 }).subscribe(data => {
       this.product_arr = data.sort((a, b) => {
-        return (
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
     });
   }
@@ -40,6 +34,15 @@ export class ProductListComponent {
       this.pds.delete(id).subscribe(() => this.loadProduct());
     }
   }
+  filterByStatus(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+
+    const filter = value !== '' ? { status: Number(value) } : {};
+    this.pds.getAll(filter).subscribe((res) => {
+      this.product_arr = res;
+    });
+  }
   toggleStatus(pd: IProduct) {
     const newStatus = pd.status === 1 ? 0 : 1;
 
@@ -47,9 +50,11 @@ export class ProductListComponent {
       next: () => {
         pd.status = newStatus;
       },
-      error: (err) => {
-        console.error("Lỗi khi cập nhật trạng thái:", err);
-      },
+      error: err => {
+        console.error('Lỗi khi cập nhật trạng thái:', err);
+      }
     });
   }
+
+
 }

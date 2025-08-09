@@ -3,15 +3,16 @@ import { CommonModule } from "@angular/common";
 import { CategoryService } from "../../../services/category.service";
 import { ICategory } from "../../../../core/models/structureData";
 import { Router } from "@angular/router";
-
+import { NgxPaginationModule } from "ngx-pagination";
 @Component({
   selector: "app-category-list",
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPaginationModule],
   templateUrl: "./category-list.component.html",
   styleUrl: "./category-list.component.css",
 })
 export class CategoryListComponent {
   category_arr: ICategory[] = [];
+  p:number = 1;
   constructor(
     private CategoryService: CategoryService,
     private router: Router
