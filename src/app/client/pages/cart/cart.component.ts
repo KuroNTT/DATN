@@ -7,6 +7,7 @@ import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { Router, RouterModule } from "@angular/router";
 import { environment } from "../../../../enviroments/environment";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-cart",
@@ -78,27 +79,49 @@ export class CartComponent {
   }
 
   increase(item: any) {
-    if (this.user) {
+     this.cartService
+    .getStock(item.variant.id, item.size.id)
+    .subscribe((res: any) => {
+      const stock = res.stock;
       const newQuantity = item.quantity + 1;
-      this.cartService
-        .updateCartQuantity(
-          this.user.id,
+
+      if (newQuantity > stock) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Không đủ hàng',
+          text: `Chỉ còn lại ${stock} sản phẩm trong kho.`,
+        });
+        return; // Không tiếp tục
+      }
+
+      if (this.user) {
+        this.cartService
+          .updateCartQuantity(
+            this.user.id,
+            item.variant.id,
+            item.size.id,
+            newQuantity
+          )
+          .subscribe({
+            next: () => this.onLoad(),
+            error: (err: any) => {
+              console.error('Lỗi khi tăng số lượng:', err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: 'Không thể cập nhật giỏ hàng.',
+              });
+            },
+          });
+      } else {
+        this.cartService.updateLocalQuantity(
           item.variant.id,
           item.size.id,
           newQuantity
-        )
-        .subscribe({
-          next: () => this.onLoad(),
-          error: (err: any) => console.error("Lỗi khi tăng số lượng:", err),
-        });
-    } else {
-      this.cartService.updateLocalQuantity(
-        item.variant.id,
-        item.size.id,
-        item.quantity + 1
-      );
-      this.refreshLocalCart();
-    }
+        );
+        this.refreshLocalCart();
+      }
+    });
   }
 
   decrease(item: any) {
