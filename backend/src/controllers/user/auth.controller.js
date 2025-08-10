@@ -170,15 +170,12 @@ exports.signIn = async (req, res) => {
 
 exports.verifyEmail = async (req, res) => {
   const { token } = req.body;
-
   if (!token) {
     return res.status(400).json({ message: "Thiếu token" });
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Token hợp lệ, thông tin:", decoded);
-
     await UserModel.update(
       {
         email_verify_at: new Date(),
@@ -188,7 +185,6 @@ exports.verifyEmail = async (req, res) => {
         where: { email: decoded.email },
       }
     );
-
     res.json({ message: "Xác thực thành công. Tài khoản đã được kích hoạt." });
   } catch (err) {
     console.error("Lỗi xác thực token:", err.message);

@@ -15,7 +15,7 @@ exports.getAllOrder = async (req, res) => {
     const orders = await OrderModel.findAll();
     res.json(orders);
   } catch (error) {
-    console.error("❌ Lỗi khi lấy đơn hàng:", error);
+    console.error("Lỗi khi lấy đơn hàng:", error);
     res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };
@@ -26,7 +26,7 @@ exports.getOrderById = async (req, res) => {
     const orders = await OrderModel.findByPk(orderId);
     res.json(orders);
   } catch (error) {
-    console.error("❌ Lỗi khi lấy đơn hàng:", error);
+    console.error("Lỗi khi lấy đơn hàng:", error);
     res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };

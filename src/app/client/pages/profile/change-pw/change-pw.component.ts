@@ -10,7 +10,6 @@ import { environment } from "../../../../../enviroments/environment";
 })
 export class ChangePwComponent {
   user = { email: "", pass_old: "", passnew1: "", passnew2: "" };
-
   thong_bao = "";
   thong_bao_old = "";
   thong_bao_new = "";

@@ -29,6 +29,7 @@
         <app-product-list
           [products]="product_arr"
           [currentPage]="p"
+          ngSkipHydration
         ></app-product-list>
       </div>
     </div>
@@ -38,7 +39,7 @@
         #pg="paginationApi"
         id="product_pagination"
         (pageChange)="p = $event"
-        ngSkipHydration
+        
       >
         <div class="flex justify-center items-center space-x-2">
           <!-- Nút Trước -->
