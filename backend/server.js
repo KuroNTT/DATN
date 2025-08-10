@@ -56,6 +56,7 @@ app.use("/api/sizes", require("./src/routes/user/size.routes"));
 app.use("/api/wishlist", require("./src/routes/user/wishlist.routes"));
 app.use("/api/user", require("./src/routes/user/auth.routes"));
 app.use("/api/voucher", require('./src/routes/user/voucher.routes'));
+app.use("/api/stock", require('./src/routes/user/stock.routes'));
 
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));
