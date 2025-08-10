@@ -18,6 +18,7 @@ export class CategoryEditComponent implements OnInit {
   categoryData: ICategory = {
     id: 0,
     name: "",
+    slug: "",
     description: "",
     sort_order: 0,
     status: 1,

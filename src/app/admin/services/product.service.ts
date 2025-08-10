@@ -9,7 +9,7 @@ import {
 } from "../../core/models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../../enviroments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -26,8 +26,8 @@ export class ProductService {
     });
   }
 
-  getAll(params?: {status?: number}): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.apiUrl, {params});
+  getAll(params?: { status?: number }): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.apiUrl, { params });
   }
 
   getOne(slug: string): Observable<IProduct> {
@@ -67,7 +67,7 @@ export class ProductService {
 
   uploadFile(formData: FormData): Observable<{ filename: string }> {
     return this.http.post<{ filename: string }>(
-      `http://localhost:3000/admin/sp/upload`,
+      `${environment.apiUrl}/admin/sp/upload`,
       formData,
       { headers: this.getAuthHeaders() }
     );

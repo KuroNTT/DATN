@@ -10,7 +10,7 @@ import {
   IColor,
   IShoeHeight,
 } from "../../../core/models/structureData";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-product-filter",

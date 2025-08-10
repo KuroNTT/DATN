@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ICategory } from "../../core/models/structureData";
 import { ICategoryCreate } from "../../core/models/structureData";
-import { environment } from "../../../enviroments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",

@@ -1,6 +1,7 @@
 export interface ICategory {
   id: number;
   name: string;
+  slug: string;
   checked?: boolean;
   description?: string;
   sort_order?: number;

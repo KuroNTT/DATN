@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
 import { AuthService } from "../../../admin/services/auth.service";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-log-in",

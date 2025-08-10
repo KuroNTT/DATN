@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:ssr": "ng build && ng run DATN:server",
+    "build:ssr": "ng build --configuration production && ng run DATN:server:production",
     "serve:ssr": "node dist/datn/server/main.js",
     "dev:ssr": "ng run datn:serve-ssr"
   },

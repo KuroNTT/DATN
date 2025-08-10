@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { BannerService } from "../../../services/banner.service";
 import { CommonModule } from "@angular/common";
-import { environment } from "../../../../../enviroments/environment";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-banner-edit",

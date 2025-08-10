@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
@@ -165,7 +165,7 @@ export class OrderComponent {
       });
     }
     this.http
-      .post("http://localhost:3000/api/orders/create-payment-link", payload)
+      .post(`${environment.apiUrl}/orders/create-payment-link`, payload)
       .subscribe({
         next: (res: any) => {
           const url = res.checkoutUrl;

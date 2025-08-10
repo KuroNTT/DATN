@@ -15,7 +15,12 @@ export const routes: Routes = [
     title: "Sản phẩm",
   },
   {
-    path: "product-detail",
+    path: "category/:slug",
+    component: ProductsComponent,
+    title: "Sản phẩm theo danh mục",
+  },
+  {
+    path: "product-detail/:slug",
     component: ProductDetailComponent,
     title: "Chi tiết sản phẩm",
   },

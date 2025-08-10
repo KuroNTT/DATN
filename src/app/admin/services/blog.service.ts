@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { IBlog } from "../../core/models/structureData";
 import { IBlogCreate } from "../../core/models/structureData";
-import { environment } from "../../../enviroments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",

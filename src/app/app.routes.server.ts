@@ -1,9 +1,10 @@
 import { RenderMode, ServerRoute } from "@angular/ssr";
 import { Routes } from "@angular/router";
+import { environment } from "../environments/environment";
 
 async function getProductSlugs(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/products");
+    const res = await fetch(`${environment.apiUrl}/products`);
     const products = await res.json();
     return products
       .map((p: any) => p.slug)
@@ -16,7 +17,7 @@ async function getProductSlugs(): Promise<string[]> {
 
 async function getBlogSlugs(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/blogs");
+    const res = await fetch(`${environment.apiUrl}/blogs`);
     const blogs = await res.json();
     return blogs
       .map((b: any) => b.slug)
@@ -29,7 +30,7 @@ async function getBlogSlugs(): Promise<string[]> {
 
 async function getCategoryIds(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/categories");
+    const res = await fetch(`${environment.apiUrl}/categories`);
     const categories = await res.json();
     return categories.map((c: any) => c.id.toString());
   } catch (err) {
@@ -40,7 +41,7 @@ async function getCategoryIds(): Promise<string[]> {
 
 async function getBlogIds(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/blogs");
+    const res = await fetch(`${environment.apiUrl}/blogs`);
     const blogs = await res.json();
     return blogs.map((b: any) => b.id.toString());
   } catch (err) {
@@ -51,7 +52,7 @@ async function getBlogIds(): Promise<string[]> {
 
 async function getBlogCategoryIds(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/blog-categories");
+    const res = await fetch(`${environment.apiUrl}/blog-categories`);
     const blogCategories = await res.json();
     return blogCategories.map((bc: any) => bc.id.toString());
   } catch (err) {
@@ -62,11 +63,24 @@ async function getBlogCategoryIds(): Promise<string[]> {
 
 async function getBannerIds(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/banners");
+    const res = await fetch(`${environment.apiUrl}/banners`);
     const banners = await res.json();
     return banners.map((b: any) => b.id.toString());
   } catch (err) {
     console.error("Lỗi khi fetch banners:", err);
+    return [];
+  }
+}
+
+async function getCategorySlugs(): Promise<string[]> {
+  try {
+    const res = await fetch(`${environment.apiUrl}/categories`);
+    const categories = await res.json();
+    return categories
+      .map((c: any) => c.slug)
+      .filter((slug: string | undefined) => !!slug);
+  } catch (err) {
+    console.error("Lỗi khi fetch category slugs:", err);
     return [];
   }
 }
@@ -126,6 +140,14 @@ export const serverRoutes: ServerRoute[] = [
     getPrerenderParams: async () => {
       const ids = await getBannerIds();
       return ids.map((id) => ({ id }));
+    },
+  },
+  {
+    path: "category/:slug",
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: async () => {
+      const slugs = await getCategorySlugs();
+      return slugs.map((slug) => ({ slug }));
     },
   },
   {

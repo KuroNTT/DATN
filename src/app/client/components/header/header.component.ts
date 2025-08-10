@@ -4,7 +4,7 @@ import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
 import { HostListener } from "@angular/core";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-header",
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   hideHeader = false;
   private lastScrollTop = 0;
-  
+
   isUserDropdownVisible: boolean = false;
   @HostListener("window:scroll", [])
   onWindowScroll() {

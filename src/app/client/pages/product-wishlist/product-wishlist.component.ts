@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-product-wishlist",

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
-import { environment } from "../../../../../enviroments/environment";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-edit-profile",
@@ -134,10 +134,8 @@ export class EditProfileComponent implements OnInit {
     })
       .then((res) => res.json())
       .then((data) => {
-
         this.avatarPreview = data.secure_url;
         this.form.patchValue({ avatar: data.secure_url });
-
       })
 
       .catch((err) => {

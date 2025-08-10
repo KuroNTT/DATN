@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { CartService } from "../../services/cart.service";
 import Swal from "sweetalert2";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-product-detail",
