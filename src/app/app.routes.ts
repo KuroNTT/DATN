@@ -30,6 +30,7 @@ export const routes: Routes = [
     data: { roles: ["admin"] },
     loadChildren: () =>
       import("./admin/admin.module").then((m) => m.AdminModule),
+    renderMode: "client",
   },
 ];
 

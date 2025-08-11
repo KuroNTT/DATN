@@ -102,46 +102,7 @@ export const serverRoutes: ServerRoute[] = [
       return slugs.map((slug) => ({ slug }));
     },
   },
-  {
-    path: "admin/products/edit/:slug",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const slugs = await getProductSlugs();
-      return slugs.map((slug) => ({ slug }));
-    },
-  },
-  {
-    path: "admin/categories/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getCategoryIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/blogs/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBlogIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/blog-categories/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBlogCategoryIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/banners/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBannerIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
+
   {
     path: "category/:slug",
     renderMode: RenderMode.Prerender,
