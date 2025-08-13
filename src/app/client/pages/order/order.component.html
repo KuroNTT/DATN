@@ -208,12 +208,14 @@
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)"
             >
               −
             </button>
             <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)"
             >
               +
             </button>
@@ -240,12 +242,14 @@
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)"
             >
               −
             </button>
             <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)"
             >
               +
             </button>

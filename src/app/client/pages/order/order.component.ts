@@ -99,6 +99,7 @@ export class OrderComponent {
           name: i.variant.product.name,
           price: i.variant.product.price_sale,
           quantity: i.quantity,
+          variantId: i.variant.id,
         }));
       });
     } else {
@@ -113,6 +114,7 @@ export class OrderComponent {
             name: i.variant.product.name,
             price: i.variant.product.price_sale,
             quantity: i.quantity,
+            variantId: i.variant.id,
           }));
         });
       });
@@ -136,6 +138,8 @@ export class OrderComponent {
   }
 
   onPay(form: NgForm) {
+    console.log(this.products);
+
     if (form.form.invalid) {
       form.form.markAllAsTouched();
       return;
@@ -143,8 +147,26 @@ export class OrderComponent {
     if (form.value.paymentMethod !== "bank") {
       return;
     }
+    if (typeof window != "undefined") {
+      if (!sessionStorage.getItem("user")) {
+        Swal.fire({
+          title: "Cảnh báo!",
+          text: "Bạn cần đăng nhập để thực hiện thanh toán.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Đăng nhập",
+          cancelButtonText: "Hủy",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Chuyển đến trang đăng nhập
+            window.location.href = "/sign-in";
+          }
+        });
+        return;
+      }
+    }
     const address = `${this.ward}, ${this.district}, ${this.province}`;
-    const userId = this.user?.id || null;
+    const userId = this.user?.id;
     const customer = this.user?.name || this.fullName;
     const payload = {
       total_price: this.total,
@@ -203,5 +225,95 @@ export class OrderComponent {
         });
       },
     });
+  }
+
+  increase(item: any) {
+    console.log("hi");
+    
+    this.cartService
+      .getStock(item.variant.id, item.size.id)
+      .subscribe((res: any) => {
+        const stock = res.stock;
+        const newQuantity = item.quantity + 1;
+
+        if (newQuantity > stock) {
+          Swal.fire({
+            icon: "warning",
+            title: "Không đủ hàng",
+            text: `Chỉ còn lại ${stock} sản phẩm trong kho.`,
+          });
+          return; // Không tiếp tục
+        }
+
+        if (this.user) {
+          this.cartService
+            .updateCartQuantity(
+              this.user.id,
+              item.variant.id,
+              item.size.id,
+              newQuantity
+            )
+            .subscribe({
+              next: () => this.onLoad(),
+              error: (err: any) => {
+                console.error("Lỗi khi tăng số lượng:", err);
+                Swal.fire({
+                  icon: "error",
+                  title: "Lỗi",
+                  text: "Không thể cập nhật giỏ hàng.",
+                });
+              },
+            });
+        } else {
+          this.cartService.updateLocalQuantity(
+            item.variant.id,
+            item.size.id,
+            newQuantity
+          );
+          this.refreshLocalCart();
+        }
+      });
+  }
+
+  decrease(item: any) {
+    if (item.quantity <= 1) {
+      return;
+    }
+
+    const newQuantity = item.quantity - 1;
+
+    if (this.user) {
+      this.cartService
+        .updateCartQuantity(
+          this.user.id,
+          item.variant.id,
+          item.size.id,
+          newQuantity
+        )
+        .subscribe({
+          next: () => this.onLoad(),
+          error: (err) => console.error("Lỗi giảm SL:", err),
+        });
+    } else {
+      this.cartService.updateLocalQuantity(
+        item.variant?.id ?? item.variantId,
+        item.size?.id ?? item.sizeId,
+        newQuantity
+      );
+      this.refreshLocalCart();
+    }
+  }
+
+  private refreshLocalCart() {
+    this.items = this.cartService.getLocalCart().map((e: any) => ({
+      variantId: e.variantId,
+      sizeId: e.sizeId,
+      quantity: e.quantity,
+    }));
+    this.cartService
+      .getAllCartInLocal({ items: this.items })
+      .subscribe((data) => {
+        this.cartItemLocal$.next(data);
+      });
   }
 }
