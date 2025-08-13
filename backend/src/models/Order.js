@@ -23,9 +23,9 @@ const OrderModel = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: false,
     },
-    payment_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+    payment_method: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
     },
     order_date: {
       type: DataTypes.DATE,

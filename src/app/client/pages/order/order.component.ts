@@ -42,12 +42,14 @@ export class OrderComponent {
   province!: any;
   district!: any;
   ward!: any;
+  private firstLoad = true;
+  originalTotal!: number;
 
   fullName!: string;
   email!: string;
   phone!: string;
   note!: string;
-  paymentMethod!: number;
+  paymentMethod!: string;
   discountAmount: number = 0;
   voucherCode?: string;
   constructor(
@@ -69,7 +71,9 @@ export class OrderComponent {
       sizeId: e.sizeId,
       quantity: e.quantity,
     }));
-    this.onLoad();
+    this.onLoad(()=>{
+      this.originalTotal = this.total;
+    });
   }
 
   private computeTotals(list: any[]) {
@@ -78,10 +82,9 @@ export class OrderComponent {
       return sum + price * itm.quantity;
     }, 0);
     this.total = this.subtotal;
-    this.coppyTotal = this.total;
   }
 
-  onLoad() {
+  onLoad(callBack?: ()=>void) {
     const payload = {
       items: this.items,
     };
@@ -92,6 +95,11 @@ export class OrderComponent {
       this.cartItems$ = this.cartService.getServerCart(this.user.id);
       this.cartItems$.subscribe((res) => {
         this.computeTotals(res);
+        if (this.firstLoad) {
+          this.coppyTotal = this.total;
+          this.firstLoad = false;
+          callBack?.();
+        }
       });
       this.cartItemLocal$.next([]);
       this.cartItems$.subscribe((p) => {
@@ -108,6 +116,11 @@ export class OrderComponent {
         this.cartItemLocal$.next(data);
         this.cartItemLocal$.subscribe((res) => {
           this.computeTotals(res);
+          if (this.firstLoad) {
+            this.coppyTotal = this.total;
+            this.firstLoad = false;
+            callBack?.();
+          }
         });
         this.cartItemLocal$.subscribe((p) => {
           this.products = p.map((i: any) => ({
@@ -138,13 +151,43 @@ export class OrderComponent {
   }
 
   onPay(form: NgForm) {
-    console.log(this.products);
-
     if (form.form.invalid) {
       form.form.markAllAsTouched();
       return;
     }
-    if (form.value.paymentMethod !== "bank") {
+    if (form.value.paymentMethod !== "Chuyển khoản ngân hàng") {
+      const address = `${this.ward}, ${this.district}, ${this.province}`;
+      const userId = this.user?.id;
+      const customer = this.user?.name || this.fullName;
+      const payload = {
+        total_price: this.total,
+        items: this.products,
+        userId,
+        customer,
+        address,
+        payment_method: this.paymentMethod,
+        phone: form.value.phone,
+        customerNote: form.value.note,
+        adminNote: "",
+        voucherCode: this.voucherCode || null,
+      };
+      if (this.discountAmount > 0) {
+        payload.items.push({
+          name: "Giảm giá",
+          price: -this.discountAmount,
+          quantity: 1,
+        });
+      }
+      this.http
+        .post("http://localhost:3000/api/orders/create-order", payload)
+        .subscribe({
+          next: (res: any) => {
+            this.router.navigate(["/success"]);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
       return;
     }
     if (typeof window != "undefined") {
@@ -174,6 +217,7 @@ export class OrderComponent {
       userId,
       customer,
       address,
+      payment_method: this.paymentMethod,
       phone: form.value.phone,
       customerNote: form.value.note,
       adminNote: "",
@@ -207,7 +251,7 @@ export class OrderComponent {
     this.vocherService.applyVoucher(code, orderTotal).subscribe({
       next: (res: any) => {
         this.discountAmount = res.discountAmount;
-        this.total = this.coppyTotal - res.discountAmount;
+        this.total = this.originalTotal - res.discountAmount;
         Swal.fire({
           icon: "success",
           title: `Áp dụng mã thành công! <br> <p style="font-size: 19px">Bạn đã được giảm <span style="color: green">${Number(
@@ -228,8 +272,6 @@ export class OrderComponent {
   }
 
   increase(item: any) {
-    console.log("hi");
-    
     this.cartService
       .getStock(item.variant.id, item.size.id)
       .subscribe((res: any) => {

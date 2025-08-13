@@ -44,7 +44,7 @@ exports.createPaymentLink = async (req, res) => {
       total_price,
       items,
       userId,
-      paymentId,
+      payment_method,
       voucherId,
       customer,
       address,
@@ -86,7 +86,7 @@ exports.createPaymentLink = async (req, res) => {
       order_code: orderCode,
       total_price,
       status: "pending",
-      payment_id: paymentId,
+      payment_method,
       order_date: new Date(),
       voucher_id: voucherId,
       create_at: new Date(),
@@ -99,12 +99,20 @@ exports.createPaymentLink = async (req, res) => {
     console.log(items);
 
     for (const item of items) {
-      await OrderDetailModel.create({
-        order_id: newOrder.id,
-        variant_id: item.variantId,
-        quantity: item.quantity || 1,
-        price: item.price || 0,
-      });
+      if (!item.variantId) {
+        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
+        continue; // bỏ qua item này, không lưu vào order_detail
+      }
+
+      await OrderDetailModel.create(
+        {
+          order_id: newOrder.id,
+          variant_id: item.variantId,
+          quantity: item.quantity || 1,
+          price: item.price || 0,
+        },
+        { transaction }
+      );
     }
 
     const payload = {
@@ -241,5 +249,113 @@ exports.callbackPayment = async (req, res) => {
     console.error("❌ Lỗi khi kiểm tra trạng thái thanh toán:", error);
     await transaction.rollback();
     return res.status(500).json({ error: "Lỗi máy chủ." });
+  }
+};
+
+exports.saveOrder = async (req, res) => {
+  const transaction = await sequelize.transaction();
+  try {
+    const {
+      items,
+      userId,
+      total_price,
+      customer,
+      address,
+      phone,
+      customerNote,
+      adminNote,
+      voucherCode,
+      payment_method,
+    } = req.body;
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Thiếu thông tin sản phẩm trong đơn hàng." });
+    }
+
+    let voucherId = null;
+    if (voucherCode) {
+      const voucher = await VoucherModel.findOne({
+        where: { code: voucherCode },
+        transaction,
+      });
+      if (!voucher) {
+        await transaction.rollback();
+        return res.status(400).json({ error: "Voucher không tồn tại." });
+      }
+      if (voucher.quantity <= 0) {
+        await transaction.rollback();
+        return res.status(400).json({ error: "Voucher đã hết lượt sử dụng." });
+      }
+      voucherId = voucher.id;
+      voucher.quantity--;
+      await voucher.save({ transaction });
+    }
+
+    let orderCode;
+    let existingOrder;
+    do {
+      orderCode = Number(
+        `${Date.now().toString().slice(-4)}${Math.floor(
+          100000 + Math.random() * 900000
+        )}`
+      );
+      existingOrder = await OrderModel.findOne({
+        where: { order_code: orderCode },
+        transaction,
+      });
+    } while (existingOrder);
+
+    const newOrder = await OrderModel.create(
+      {
+        user_id: userId || null,
+        total_price,
+        status: "pending",
+        payment_method,
+        order_date: new Date(),
+        voucher_id: voucherId,
+        create_at: new Date(),
+        customer,
+        customer_address: address,
+        customer_phone_number: phone,
+        customer_note: customerNote || "Không có ghi chú",
+        admin_note: adminNote || null,
+        order_code: orderCode,
+      },
+      { transaction }
+    );
+    console.log(items);
+
+    for (const item of items) {
+      if (!item.variantId) {
+        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
+        continue; // bỏ qua item này, không lưu vào order_detail
+      }
+
+      await OrderDetailModel.create(
+        {
+          order_id: newOrder.id,
+          variant_id: item.variantId,
+          quantity: item.quantity || 1,
+          price: item.price || 0,
+        },
+        { transaction }
+      );
+    }
+
+    if (userId) {
+      await CartModel.destroy({
+        where: { user_id: userId },
+        transaction,
+      });
+    }
+
+    await transaction.commit();
+    return res.status(200).json({ success: true, order: newOrder });
+  } catch (error) {
+    await transaction.rollback();
+    console.error("❌ Lỗi lưu đơn hàng:", error);
+    return res.status(500).json({ error: "Lỗi máy chủ khi lưu đơn hàng." });
   }
 };
