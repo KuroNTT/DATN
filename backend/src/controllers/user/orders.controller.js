@@ -39,6 +39,7 @@ const generateOrderCode = () => {
 };
 
 exports.createPaymentLink = async (req, res) => {
+  const transaction = await sequelize.transaction();
   try {
     let {
       total_price,

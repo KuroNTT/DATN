@@ -29,7 +29,7 @@
       >
     </p>
     <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
-      <mat-form-field class="w-full custom-line" appearance="fill">
+      <mat-form-field class="w-full rounded">
         <mat-label>Họ và tên</mat-label>
         <input
           matInput
@@ -43,6 +43,7 @@
           >Họ và tên là bắt buộc</mat-error
         >
       </mat-form-field>
+
       <div class="grid grid-cols-2 gap-4">
         <mat-form-field>
           <mat-label>Email</mat-label>
@@ -155,11 +156,17 @@
           required
           #paymentRef="ngModel"
         >
-          <mat-radio-button class="flex items-center gap-3" value="Thanh toán khi nhận hàng (COD)">
+          <mat-radio-button
+            class="flex items-center gap-3"
+            value="Thanh toán khi nhận hàng (COD)"
+          >
             <span>Thanh toán khi nhận hàng (COD)</span>
           </mat-radio-button>
 
-          <mat-radio-button class="flex items-center gap-3" value="Chuyển khoản ngân hàng">
+          <mat-radio-button
+            class="flex items-center gap-3"
+            value="Chuyển khoản ngân hàng"
+          >
             <span>Chuyển khoản ngân hàng</span>
           </mat-radio-button>
         </mat-radio-group>
@@ -279,7 +286,9 @@
       </div>
       <div class="flex justify-between">
         <span>Giảm giá:</span>
-        <span *ngIf="discountAmount > 0; else none">{{ discountAmount| number : "1.0-0" }} VNĐ</span>
+        <span *ngIf="discountAmount > 0; else none"
+          >{{ discountAmount | number : "1.0-0" }} VNĐ</span
+        >
       </div>
       <ng-template #none>
         <span>---</span>

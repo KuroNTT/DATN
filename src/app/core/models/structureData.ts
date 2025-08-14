@@ -23,6 +23,7 @@ export interface IBanner {
   position: string;
   created_at: string;
   update_at: string;
+  status: number;
 }
 
 export interface IBrand {

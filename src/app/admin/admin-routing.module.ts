@@ -63,12 +63,12 @@ const routes: Routes = [
       },
       {
         path: "orders",
-        loadComponent: () =>
-          import("./pages/order/order.component").then((m) => m.OrderComponent),
+        loadChildren: () =>
+          import("./pages/order/order.routes").then((m) => m.orderRoutes),
         title: "Quản lý banner",
       },
       {
-        path: "voucher",
+        path: "vouchers",
         loadChildren: () =>
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
         title: "Quản lý voucher",

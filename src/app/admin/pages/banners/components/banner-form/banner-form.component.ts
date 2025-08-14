@@ -35,6 +35,8 @@ export class BannerFormComponent implements OnInit {
       title: ["", Validators.required],
       image: ["", Validators.required],
       link: [""],
+      position: ["", Validators.required],
+      status: ["", Validators.required],
     });
 
     if (this.isEdit) {

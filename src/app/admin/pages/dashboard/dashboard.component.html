@@ -27,10 +27,13 @@
   </div>
 
   <!-- Reviews + New Products -->
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-    <!-- Reviews -->
-    <div class="bg-white p-4 rounded-xl shadow lg:col-span-2">
+  <div class="flex flex-wrap lg:flex-nowrap gap-4">
+    <!-- Đánh giá mới -->
+    <div
+      class="bg-white p-4 rounded-xl shadow lg:w-1/2 overflow-y-auto h-[410px]"
+    >
       <h3 class="text-lg font-semibold mb-4">Đánh Giá Mới ()</h3>
+
       <div
         class="flex gap-3 mb-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0 last:mb-0"
       >
@@ -41,16 +44,14 @@
               <p class="font-medium">Tên khách hàng đánh giá</p>
               <p class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</p>
             </div>
-            <div class="">
+            <div>
               <p class="font-medium">Ngày tháng giờ giấc đánh giá</p>
               <p class="text-sm">Phân loại sản phẩm đánh giá</p>
             </div>
           </div>
           <p class="text-gray-600 text-sm mt-3">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. At, modi
-            eos. Nostrum ea fugit accusamus obcaecati neque velit impedit
-            reiciendis quibusdam necessitatibus molestiae illo quod, recusandae
-            aliquid culpa magni officiis.
+            eos...
           </p>
         </div>
       </div>
@@ -64,16 +65,14 @@
               <p class="font-medium">Tên khách hàng đánh giá</p>
               <p class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</p>
             </div>
-            <div class="">
+            <div>
               <p class="font-medium">Ngày tháng giờ giấc đánh giá</p>
               <p class="text-sm">Phân loại sản phẩm đánh giá</p>
             </div>
           </div>
           <p class="text-gray-600 text-sm mt-3">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. At, modi
-            eos. Nostrum ea fugit accusamus obcaecati neque velit impedit
-            reiciendis quibusdam necessitatibus molestiae illo quod, recusandae
-            aliquid culpa magni officiis.
+            eos...
           </p>
         </div>
       </div>
@@ -87,112 +86,136 @@
               <p class="font-medium">Tên khách hàng đánh giá</p>
               <p class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</p>
             </div>
-            <div class="">
+            <div>
               <p class="font-medium">Ngày tháng giờ giấc đánh giá</p>
               <p class="text-sm">Phân loại sản phẩm đánh giá</p>
             </div>
           </div>
           <p class="text-gray-600 text-sm mt-3">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. At, modi
-            eos. Nostrum ea fugit accusamus obcaecati neque velit impedit
-            reiciendis quibusdam necessitatibus molestiae illo quod, recusandae
-            aliquid culpa magni officiis.
+            eos...
           </p>
         </div>
       </div>
+      <div
+        class="flex gap-3 mb-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0 last:mb-0"
+      >
+        <img [src]="" class="w-10 h-10 rounded-full object-cover" alt="user" />
+        <div>
+          <div class="flex justify-between">
+            <div>
+              <p class="font-medium">Tên khách hàng đánh giá</p>
+              <p class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</p>
+            </div>
+            <div>
+              <p class="font-medium">Ngày tháng giờ giấc đánh giá</p>
+              <p class="text-sm">Phân loại sản phẩm đánh giá</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm mt-3">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. At, modi
+            eos...
+          </p>
+        </div>
+      </div>
+      <!-- Lặp lại các review khác -->
     </div>
 
-    <!-- New Products -->
-    <div class="bg-white p-4 rounded-xl shadow relative">
-      <div class="flex justify-between pb-2">
-        <h3 class="text-lg font-semibold mb-2">Sản Phẩm Mới</h3>
-        <div
-          class="bg-sky-500 w-8 h-8 rounded-full flex items-center justify-center"
-        >
+    <!-- Cột sản phẩm mới + sắp hết -->
+    <div class="flex gap-4 lg:w-1/2">
+      <!-- Sản phẩm mới -->
+      <div class="bg-white p-4 rounded-xl shadow relative flex-1">
+        <div class="flex justify-between pb-2">
+          <h3 class="text-lg font-semibold mb-2">Sản Phẩm Mới</h3>
           <div
-            class="text-md bg-zinc-100 flex justify-center items-center rounded-full w-6 h-6"
+            class="bg-sky-500 w-8 h-8 rounded-full flex items-center justify-center"
           >
-            {{ newProducts.length }}
+            <div
+              class="text-md bg-zinc-100 flex justify-center items-center rounded-full w-6 h-6"
+            >
+              {{ newProducts.length }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="text-center">
-        <img
-          [src]="newProducts[indexes.new].image"
-          class="w-full h-64 rounded object-cover"
-          alt=""
-        />
-        <div class="my-3">
-          <p class="font-semibold text-md">
-            {{ newProducts[indexes.new].name }}
-          </p>
-          <p class="text-md font-semibold">
-            {{ newProducts[indexes.new].price_sale | number : "1.0-0" }}đ
-          </p>
-        </div>
-      </div>
-
-      <!-- Nút điều hướng -->
-      <button
-        class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
-        (click)="changeProduct('new', 'prev')"
-      >
-        ‹
-      </button>
-
-      <button
-        class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
-        (click)="changeProduct('new', 'next')"
-      >
-        ›
-      </button>
-    </div>
-
-    <div class="bg-white p-4 rounded-xl shadow relative">
-      <div class="flex justify-between pb-2">
-        <h3 class="text-lg font-semibold mb-2">Sản Phẩm Sắp Hết</h3>
-        <div
-          class="bg-sky-500 w-8 h-8 rounded-full flex items-center justify-center"
-        >
-          <div
-            class="text-md bg-zinc-100 flex justify-center items-center rounded-full w-6 h-6"
-          >
-            {{ lowStocks.length }}
+        <div class="text-center">
+          <img
+            [src]="newProducts[indexes.new].image"
+            class="w-full h-64 rounded object-cover"
+            alt=""
+          />
+          <div class="my-3">
+            <p class="font-semibold text-md">
+              {{ newProducts[indexes.new].name }}
+            </p>
+            <p class="text-md font-semibold">
+              {{ newProducts[indexes.new].price_sale | number : "1.0-0" }}đ
+            </p>
           </div>
         </div>
+
+        <!-- Nút điều hướng -->
+        <button
+          class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
+          (click)="changeProduct('new', 'prev')"
+        >
+          ‹
+        </button>
+
+        <button
+          class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
+          (click)="changeProduct('new', 'next')"
+        >
+          ›
+        </button>
       </div>
 
-      <div class="text-center">
-        <img
-          [src]="lowStocks[indexes.low].image"
-          class="w-full h-64 rounded object-cover"
-          alt=""
-        />
-        <div class="my-3">
-          <p class="font-semibold text-md">
-            {{ lowStocks[indexes.low].name }}
-          </p>
-          <p class="text-md font-semibold">
-            {{ lowStocks[indexes.low].price_sale | number : "1.0-0" }}đ
-          </p>
+      <!-- Sản phẩm sắp hết -->
+      <div class="bg-white p-4 rounded-xl shadow relative flex-1">
+        <div class="flex justify-between pb-2">
+          <h3 class="text-lg font-semibold mb-2">Sản Phẩm Sắp Hết</h3>
+          <div
+            class="bg-sky-500 w-8 h-8 rounded-full flex items-center justify-center"
+          >
+            <div
+              class="text-md bg-zinc-100 flex justify-center items-center rounded-full w-6 h-6"
+            >
+              {{ lowStocks.length }}
+            </div>
+          </div>
         </div>
+
+        <div class="text-center">
+          <img
+            [src]="lowStocks[indexes.low].image"
+            class="w-full h-64 rounded object-cover"
+            alt=""
+          />
+          <div class="my-3">
+            <p class="font-semibold text-md">
+              {{ lowStocks[indexes.low].name }}
+            </p>
+            <p class="text-md font-semibold">
+              {{ lowStocks[indexes.low].price_sale | number : "1.0-0" }}đ
+            </p>
+          </div>
+        </div>
+
+        <!-- Nút điều hướng -->
+        <button
+          class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
+          (click)="changeProduct('low', 'prev')"
+        >
+          ‹
+        </button>
+
+        <button
+          class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
+          (click)="changeProduct('low', 'next')"
+        >
+          ›
+        </button>
       </div>
-
-      <!-- Nút điều hướng -->
-      <button
-        class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
-        (click)="changeProduct('low', 'prev')"
-      >
-        ‹
-      </button>
-
-      <button
-        class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
-        (click)="changeProduct('low', 'next')"
-      >
-        ›
-      </button>
     </div>
   </div>
 
