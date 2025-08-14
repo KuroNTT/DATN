@@ -55,8 +55,8 @@ app.use("/api/orders", require("./src/routes/user/order.routes"));
 app.use("/api/sizes", require("./src/routes/user/size.routes"));
 app.use("/api/wishlist", require("./src/routes/user/wishlist.routes"));
 app.use("/api/user", require("./src/routes/user/auth.routes"));
-app.use("/api/voucher", require('./src/routes/user/voucher.routes'));
-app.use("/api/stock", require('./src/routes/user/stock.routes'));
+app.use("/api/voucher", require("./src/routes/user/voucher.routes"));
+app.use("/api/stock", require("./src/routes/user/stock.routes"));
 
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));
@@ -66,6 +66,10 @@ app.use(
   require("./src/routes/admin/blogCategory.routes")
 );
 app.use("/api/admin/categories", require("./src/routes/admin/category.routes"));
+app.use(
+  "/api/admin/dashboards",
+  require("./src/routes/admin/dashboard.routes")
+);
 app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
 // Cấu hình nhận form-data, JSON...
 app.use(express.urlencoded({ extended: true }));
