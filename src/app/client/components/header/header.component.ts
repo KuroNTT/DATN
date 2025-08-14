@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
-import { ICategory } from "../../../core/models/structureData";
+import { IBrand, ICategory } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
 import { HostListener } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-
+import { ProductService } from "../../services/product.service";
 @Component({
   selector: "app-header",
   standalone: true,
@@ -16,7 +16,8 @@ import { environment } from "../../../../environments/environment";
 export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private pds: ProductService
   ) {}
 
   isMenuOpen = false;
@@ -72,11 +73,13 @@ export class HeaderComponent implements OnInit {
 
   category_arr: ICategory[] = [];
   filtered_categories: ICategory[] = [];
+  brand_arr: IBrand[] = [];
 
   ngOnInit(): void {
     this.getAllCategories();
     this.getCategoriesWithoutGender();
     this.checkLoginStatus();
+    this.getBrands();
   }
 
   onSearch() {
@@ -99,7 +102,16 @@ export class HeaderComponent implements OnInit {
         );
     });
   }
-
+  getBrands(): void {
+    fetch(`${environment.apiUrl}/brands`).then((res) => {
+      res
+        .json()
+        .then((data) => (this.brand_arr = data as IBrand[]))
+        .catch((error) =>
+          console.log("Có lỗi khi lấy dữ liệu thuong hieu!: ", error)
+        );
+    });
+  }
   getCategoriesWithoutGender(): void {
     fetch(`${environment.apiUrl}/categories`)
       .then((res) => res.json())
@@ -111,6 +123,15 @@ export class HeaderComponent implements OnInit {
       .catch((error) =>
         console.log("Lỗi khi lọc danh mục không có Giày nam/nữ:", error)
       );
+  }
+
+  goToCategory(categoryId: number | null) {
+    if (categoryId) {
+      this.pds.setPreselectedCategory(categoryId);
+    } else {
+      this.pds.clearPreselectedCategory();
+    }
+    this.router.navigate(["/products"]);
   }
 
   // Dang nhap dropdown - tuong van

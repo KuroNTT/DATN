@@ -59,14 +59,20 @@
               <h4 class="font-semibold mb-2">Giày</h4>
               <ul class="space-y-2">
                 <li>
-                  <a routerLink="/product" class="hover:text-blue-600"
-                    >Tất cả</a
+                  <a
+                    (click)="goToCategory(null)"
+                    class="hover:text-blue-600 cursor-pointer"
                   >
+                    Tất cả
+                  </a>
                 </li>
                 <li *ngFor="let category of category_arr">
-                  <a routerLink="/shoes/men" class="hover:text-blue-600">{{
-                    category.name
-                  }}</a>
+                  <a
+                    (click)="goToCategory(category.id)"
+                    class="hover:text-blue-600 cursor-pointer"
+                  >
+                    {{ category.name }}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -76,35 +82,43 @@
               <ul class="space-y-2">
                 <li>
                   <a
-                    routerLink="/trends/air-force-1"
+                    routerLink="product-detail/nike-air-force-1-07"
                     class="hover:text-blue-600"
                     >Air Force 1</a
                   >
                 </li>
                 <li>
                   <a
-                    routerLink="/trends/air-jordan-1"
+                    routerLink="product-detail/air-jordan-1-mid"
                     class="hover:text-blue-600"
                     >Air Jordan 1</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/trends/dunk" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-dunk-low-next-nature"
+                    class="hover:text-blue-600"
                     >Dunk</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/trends/blazer" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-sb-zoom-blazer-low-pro-gt"
+                    class="hover:text-blue-600"
                     >Blazer</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/trends/pegasus" class="hover:text-blue-600"
+                  <a
+                    routerLink="nike-pegasus-plus-faith-kipyegon"
+                    class="hover:text-blue-600"
                     >Pegasus</a
                   >
                 </li>
                 <li>
-                  <a routerLink="/trends/vomero" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-zoom-vomero-5"
+                    class="hover:text-blue-600"
                     >Vomero</a
                   >
                 </li>
@@ -114,9 +128,12 @@
               <h4 class="font-semibold mb-2">Mua sắm với các loại thể thao</h4>
               <ul class="space-y-2">
                 <li *ngFor="let filter_category of filtered_categories">
-                  <a routerLink="/sports/running" class="hover:text-blue-600">{{
-                    filter_category.name
-                  }}</a>
+                  <a
+                    (click)="goToCategory(filter_category.id)"
+                    class="hover:text-blue-600 cursor-pointer"
+                  >
+                    {{ filter_category.name }}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -154,75 +171,6 @@
             <i class="fa-solid fa-magnifying-glass"></i>
           </a>
         </li>
-
-        <!-- dropdown dang nhap -->
-        <!-- Icon user 
-        <li class="relative group user-toggle">
-          <a
-            (mouseenter)="showUserDropdown()"
-            class="hover:text-blue-600 cursor-pointer"
-          >
-            <i class="fa-solid fa-user"></i>
-          </a>
-
-          <ul
-            [ngClass]="{
-              'block opacity-100 visible translate-y-0': isUserDropdownVisible,
-              'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
-            }"
-            (mouseleave)="hideUserDropdown()"
-            class="hidden group-hover:block lg:absolute lg:top-full lg:left-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown"
-          >
-            <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
-              <li>
-                <a
-                  (click)="goToLogin()"
-                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >Đăng nhập</a
-                >
-              </li>
-              <li>
-                <a
-                  (click)="goToSignup()"
-                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >Đăng ký</a
-                >
-              </li>
-            </ng-container>
-
-            <ng-template #loggedInBlock>
-              <li>
-                <span class="block px-4 py-2 text-gray-500">
-                  Xin chào
-                  <span class="text-blue-500 uppercase">{{ username }}</span>
-                </span>
-              </li>
-
-              <li *ngIf="isAdmin">
-                <a
-                  (click)="goToAdminDashboard()"
-                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >Quản trị viên</a
-                >
-              </li>
-
-              <li>
-                <a
-                  (click)="goToProfile()"
-                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >Thông tin cá nhân</a
-                >
-              </li>
-              <li>
-                <a
-                  (click)="logout()"
-                  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  >Đăng xuất</a
-                >
-              </li>
-            </ng-template>
-          </ul>
-        </li>-->
         <li
           class="relative group user-toggle"
           (mouseenter)="isUserDropdownVisible = true"
@@ -330,7 +278,7 @@
 
 <!-- Mobile Menu -->
 <div
-  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 overflow-y-auto"
+  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-[550] transform transition-transform ease-in-out duration-300 overflow-y-auto"
   [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
 >
   <div
