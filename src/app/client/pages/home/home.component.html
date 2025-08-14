@@ -129,6 +129,8 @@
         <div *ngFor="let sport of sports">
           <div
             class="flex-shrink-0 w-[280px] md:w-[160px] lg:w-[440px] relative overflow-hidden"
+                  (click)="goToCategory(sport.id)"
+
           >
             <img
               [src]="sport.image"

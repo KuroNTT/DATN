@@ -12,6 +12,8 @@ const BlogCategoryModel = require("./BlogCategory");
 const UserModel = require("./User");
 // chưa chắc
 const BrandModel = require("./Brand");
+const OrderModel = require("./Order");
+const OrderDetailModel = require("./Order-detail");
 
 // Một sản phẩm thuộc về một thương hiệu
 ProductModel.belongsTo(BrandModel, {
@@ -115,3 +117,26 @@ UserModel.hasMany(BlogModel, {
   foreignKey: "author_id",
   as: "blogs",
 });
+// Một đơn hàng có nhiều chi tiết đơn hàng
+OrderModel.hasMany(OrderDetailModel, {
+  foreignKey: "order_id",
+  as: "order_details",
+});
+
+// Một chi tiết đơn hàng thuộc về một đơn hàng
+OrderDetailModel.belongsTo(OrderModel, {
+  foreignKey: "order_id",
+  as: "order",
+});
+// Một chi tiết đơn hàng thuộc về một biến thể sản phẩm
+OrderDetailModel.belongsTo(ProductVariantModel, {
+  foreignKey: "variant_id",
+  as: "product_variant",  // đặt alias cho dễ dùng
+});
+
+// Một biến thể sản phẩm có nhiều chi tiết đơn hàng (không bắt buộc nhưng tốt để đủ quan hệ 2 chiều)
+ProductVariantModel.hasMany(OrderDetailModel, {
+  foreignKey: "variant_id",
+  as: "order_details",
+});
+

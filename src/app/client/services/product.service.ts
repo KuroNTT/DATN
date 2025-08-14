@@ -16,6 +16,9 @@ import { environment } from "../../../enviroments/environment";
 })
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`; // Thay bằng URL thật nếu có
+  private preselectedCategoryId?: number;
+  private preselectedBrandId: number | null = null;
+
 
   constructor(private http: HttpClient) {}
 
@@ -89,4 +92,17 @@ export class ProductService {
     return this.http.get<IShoeHeight[]>('${environment.apiUrl}/shoe_heights');
   }  
    */
+
+  setPreselectedCategory(id: number) {
+    this.preselectedCategoryId = id;
+  }
+
+  getPreselectedCategory(): number | undefined {
+    return this.preselectedCategoryId;
+  }
+
+  clearPreselectedCategory() {
+    this.preselectedCategoryId = undefined;
+  }
+  
 }

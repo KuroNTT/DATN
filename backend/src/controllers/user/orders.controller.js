@@ -1,7 +1,11 @@
 const OrderModel = require("../../models/Order");
+const OrderDetailModel = require("../../models/Order-detail");
+const ProductVariantModel = require("../../models/ProductVariant");
+const ProductModel = require("../../models/Product");
+const SizeModel = require("../../models/Size");
 const VariantSizeModel = require("../../models/VariantSize");
 const CartModel = require("../../models/cart");
-const VoucherModel = require('../../models/voucher');
+const VoucherModel = require("../../models/voucher");
 const PayOS = require("@payos/node");
 const payOS = new PayOS(
   "94bb561c-3489-4996-8497-3dcc01e85757",
@@ -50,17 +54,19 @@ exports.createPaymentLink = async (req, res) => {
       phone,
       customerNote,
       adminNote,
-      voucherCode
+      voucherCode,
     } = req.body;
 
     if (!total_price || !items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: "Thiếu thông tin đơn hàng." });
     }
 
-    if(voucherCode){
-      let voucher = await VoucherModel.findOne({where: {code: voucherCode}});
+    if (voucherCode) {
+      let voucher = await VoucherModel.findOne({
+        where: { code: voucherCode },
+      });
       voucherId = voucher.id;
-    }else{
+    } else {
       voucherId = null;
     }
     customerNote = customerNote || "Không có ghi chú";
@@ -117,7 +123,7 @@ exports.createPaymentLink = async (req, res) => {
       checkoutUrl: paymentLinkResponse.checkoutUrl,
     });
   } catch (error) {
-    console.error("❌ Lỗi tạo link thanh toán:", error);
+    console.error("Lỗi tạo link thanh toán:", error);
     return res.status(500).json({
       error: "Lỗi máy chủ. Không tạo được link thanh toán.",
     });
@@ -200,11 +206,11 @@ exports.callbackPayment = async (req, res) => {
           transaction,
         });
       }
-      if(order.voucher_id){
+      if (order.voucher_id) {
         let voucher = await VoucherModel.findByPk(order.voucher_id);
         voucher.quantity--;
         voucher.save();
-      };
+      }
     } else if (paymentStatus === "CANCELLED") {
       order.status = "cancelled";
       await order.save({ transaction });
@@ -224,5 +230,55 @@ exports.callbackPayment = async (req, res) => {
     console.error("❌ Lỗi khi kiểm tra trạng thái thanh toán:", error);
     await transaction.rollback();
     return res.status(500).json({ error: "Lỗi máy chủ." });
+  }
+};
+
+//load api don hang cua user
+exports.getOrdersByUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const orders = await OrderModel.findAll({
+      where: { user_id: userId },
+      attributes: ["order_code", "status", "create_at", "total_price", "payment_id"], // chỉ lấy trường cần
+      order: [["create_at", "DESC"]],
+      include: [
+        {
+          model: OrderDetailModel,
+          as: "order_details",
+          attributes: ["quantity", "price"], // số lượng và giá ở chi tiết đơn
+          include: [
+            {
+              model: ProductVariantModel,
+              as: "product_variant",
+              attributes: ["id"], // chỉ lấy ID nếu cần
+              include: [
+                {
+                  model: ProductModel,
+                  as: "product",
+                  attributes: ["name", "price", "price_sale", "image"], // tên + giá gốc + giá giảm
+                },               
+                {
+                  model: VariantSizeModel,
+                  as: "product_variant_sizes",
+                  attributes: [],
+                  include: [
+                    {
+                      model: SizeModel,
+                      as: "size",
+                      attributes: ["size"], // chỉ lấy size
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.log("Lỗi khi load đơn hàng của user: ", error);
+    res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };

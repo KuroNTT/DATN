@@ -41,184 +41,42 @@
     </button>
   </div>
 </div>
-
-<!-- <div class="rounded-md ">
-  <div class="flex items-start space-x-4">
+<div *ngFor="let order of orders" class="rounded-md border p-4 mb-4 bg-white">
+  <div *ngFor="let detail of order.order_details" class="flex items-start gap-3">
     <img
-      src="images/nike_air_force_1_07_v2.avif"
-      class="w-20 h-20 object-cover rounded"
-    />
-
-    <div>
-      <div class="font-medium text-gray-800">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-sm text-gray-500">Phân loại hàng: Size 42</div>
-      <div class="text-sm text-gray-500">x1</div>
-    </div>
-
-    <div class="ml-auto text-right text-sm">
-      <div class="line-through text-gray-400">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
-  </div>
-
-  <div class="flex items-center justify-between mt-4">
-    <div class="text-green-600 text-sm flex items-center gap-1">
-      <i class="fas fa-check-circle"></i> Giao hàng thành công
-    </div>
-    <div class="text-red-600 text-sm font-semibold">HOÀN THÀNH</div>
-  </div>
-</div>
-<hr />
-<div class="rounded-md ">
-  <div class="flex items-start space-x-4">
-    <img
-      src="images/nike_air_force_1_07_v2.avif"
-      class="w-20 h-20 object-cover rounded"
-    />
-
-    <div>
-      <div class="font-medium text-gray-800">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-sm text-gray-500">Phân loại hàng: Size 42</div>
-      <div class="text-sm text-gray-500">x1</div>
-    </div>
-
-    <div class="ml-auto text-right text-sm">
-      <div class="line-through text-gray-400">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
-  </div>
-
-  <div class="flex items-center justify-between mt-4">
-    <div class="text-green-600 text-sm flex items-center gap-1">
-      <i class="fas fa-check-circle"></i> Giao hàng thành công
-    </div>
-    <div class="text-red-600 text-sm font-semibold">HOÀN THÀNH</div>
-  </div>
-</div>
-<hr />
-<div class="rounded-md ">
-  <div class="flex items-start space-x-4">
-    <img
-      src="images/nike_air_force_1_07_v2.avif"
-      class="w-20 h-20 object-cover rounded"
-    />
-
-    <div>
-      <div class="font-medium text-gray-800">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-sm text-gray-500">Phân loại hàng: Size 42</div>
-      <div class="text-sm text-gray-500">x1</div>
-    </div>
-
-    <div class="ml-auto text-right text-sm">
-      <div class="line-through text-gray-400">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
-  </div>
-
-  <div class="flex items-center justify-between mt-4">
-    <div class="text-green-600 text-sm flex items-center gap-1">
-      <i class="fas fa-check-circle"></i> Giao hàng thành công
-    </div>
-    <div class="text-red-600 text-sm font-semibold">HOÀN THÀNH</div>
-  </div>
-</div>
-<hr /> -->
-<div class="rounded-md border p-4 mb-4 bg-white">
-  <div class="flex items-start gap-3">
-    <img
-      src="images/nike_air_force_1_07_v2.avif"
+      [src]="detail.product_variant.product.image"
       class="w-20 h-20 object-cover rounded"
     />
 
     <div class="flex-1">
       <div class="font-medium text-gray-800 text-sm leading-snug">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
+       {{detail.product_variant.product.name}}
       </div>
-      <div class="text-xs text-gray-500 mt-1">Phân loại: Size 42</div>
-      <div class="text-xs text-gray-500">x1</div>
+      <div class="text-xs text-gray-500 mt-1"> {{
+          detail.product_variant.product_variant_sizes
+        }}</div>
+      <div class="text-xs text-gray-500">x{{ detail.quantity }}</div>
     </div>
 
-    <div class="text-right text-sm shrink-0">
-      <div class="line-through text-gray-400 text-xs">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
+    <div class="flex items-center justify-end text-sm shrink-0 gap-2">
+      <div class="line-through text-gray-400 text-xs">{{detail.product_variant.product.price | currency : "VND" }}</div>
+      <span class="text-red-600 font-semibold">{{detail.product_variant.product.price_sale | currency : "VND" }}</span>
     </div>
   </div>
-
-  <!-- Footer trạng thái -->
-  <div class="flex justify-between items-center mt-4 text-sm">
-    <div class="text-green-600 flex items-center gap-1">
-      <i class="fas fa-check-circle"></i>
-      Giao hàng thành công
+  <div class="flex justify-between items-center my-4 text-sm">
+    <div class="text-red-600 font-semibold text-md uppercase">
+      {{ order.status }}
     </div>
-    <div class="text-red-600 font-semibold text-xs">HOÀN THÀNH</div>
+    <div class="text-red-600 font-semibold text-md">
+      Thành tiền: {{ order.total_price | currency : "VND" }}
+    </div>
   </div>
+  <div class="flex justify-end">
+  <button
+    class="w-30 p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
+  >
+    Hủy đơn hàng
+  </button>
 </div>
 
-<div class="rounded-md border p-4 mb-4 bg-white">
-  <!-- Header sản phẩm -->
-  <div class="flex items-start gap-3">
-    <img
-      src="images/nike_air_force_1_07_v2.avif"
-      class="w-20 h-20 object-cover rounded"
-    />
-
-    <div class="flex-1">
-      <div class="font-medium text-gray-800 text-sm leading-snug">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-xs text-gray-500 mt-1">Phân loại: Size 42</div>
-      <div class="text-xs text-gray-500">x1</div>
-    </div>
-
-    <div class="text-right text-sm shrink-0">
-      <div class="line-through text-gray-400 text-xs">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
-  </div>
-
-  <!-- Footer trạng thái -->
-  <div class="flex justify-between items-center mt-4 text-sm">
-    <div class="text-green-600 flex items-center gap-1">
-      <i class="fas fa-check-circle"></i>
-      Giao hàng thành công
-    </div>
-    <div class="text-red-600 font-semibold text-xs">HOÀN THÀNH</div>
-  </div>
-</div>
-<div class="rounded-md border p-4 mb-4 bg-white">
-  <!-- Header sản phẩm -->
-  <div class="flex items-start gap-3">
-    <img
-      src="images/nike_air_force_1_07_v2.avif"
-      class="w-20 h-20 object-cover rounded"
-    />
-
-    <div class="flex-1">
-      <div class="font-medium text-gray-800 text-sm leading-snug">
-        Giày Nike Air Force 1 '07 v2 - Phong cách cổ điển, thoải mái & bền bỉ
-      </div>
-      <div class="text-xs text-gray-500 mt-1">Phân loại: Size 42</div>
-      <div class="text-xs text-gray-500">x1</div>
-    </div>
-
-    <div class="text-right text-sm shrink-0">
-      <div class="line-through text-gray-400 text-xs">2.890.000₫</div>
-      <div class="text-red-600 font-semibold">2.490.000₫</div>
-    </div>
-  </div>
-
-  <!-- Footer trạng thái -->
-  <div class="flex justify-between items-center mt-4 text-sm">
-    <div class="text-green-600 flex items-center gap-1">
-      <i class="fas fa-check-circle"></i>
-      Giao hàng thành công
-    </div>
-    <div class="text-red-600 font-semibold text-xs">HOÀN THÀNH</div>
-  </div>
 </div>

@@ -6,7 +6,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { environment } from "../../../../enviroments/environment";
-
+import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-product",
   standalone: true,
@@ -23,7 +23,7 @@ export class ProductsComponent {
   product_arr: IProduct[] = [];
   product_arr_all: IProduct[] = [];
   p: number = 1;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fetchAllProducts();
