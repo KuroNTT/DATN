@@ -1,29 +1,32 @@
-<div class="breadcrumb flex justify-center py-[12px] px-4 sm:px-0">
-  <div class="container">
-    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
-    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
-    <a class="cursor-pointer"><span class="text-base font-semibold">Sản phẩm</span></a>
-    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
-    <a class="cursor-pointer"><span class="text-base font-semibold">{{ product.name }}</span></a>
+<div
+  class="breadcrumb flex justify-center py-3 mb-6 px-4 sm:px-0 overflow-x-auto whitespace-nowrap text-sm sm:text-base mt-[60px]">
+  <div class="container flex items-center gap-2">
+    <a href="" class="font-semibold">Trang chủ</a>
+    <i class="fa-solid fa-angle-right text-gray-500"></i>
+    <a class="cursor-pointer font-semibold">Sản phẩm</a>
+    <i class="fa-solid fa-angle-right text-gray-500"></i>
+    <a class="cursor-pointer font-semibold">{{ product.name }}</a>
   </div>
 </div>
 
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-12 mt-10 gap-6">
-      <div class="col-span-1">
-        <div class="flex lg:flex-col gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 mt-10 gap-6">
+      <!-- Thumbnail nằm dưới ảnh chính trên mobile -->
+      <div class="col-span-1 order-2 lg:order-0">
+        <div class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
           <img *ngFor="let img of imgList" [src]="img" (click)="onClick(img)"
-            class="w-[full] h-[82px] object-cover cursor-pointer hover:ring-1 hover:ring-gray-500 rounded"
+            class="w-[70px] h-[70px] object-cover cursor-pointer hover:ring-1 hover:ring-gray-500 rounded"
             [class.ring-2]="img === mainImage" [class.ring-blue-500]="img === mainImage" alt="ảnh chi tiết" />
         </div>
       </div>
 
-      <div class="col-span-5">
+      <!-- Ảnh chính luôn ở trước trên mobile -->
+      <div class="col-span-1 md:col-span-1 lg:col-span-5 order-1 lg:order-1">
         <img [src]="mainImage" alt="Ảnh chính" class="w-full h-auto object-cover rounded" />
       </div>
 
-      <div class="col-span-6">
+      <div class="col-span-1 md:col-span-2 lg:col-span-6 order-3">
         <div class="ml-0 lg:ml-4">
           <div class="overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">
             <h3 class="text-2xl font-bold">{{ product.name }}</h3>

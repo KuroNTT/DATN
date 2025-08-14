@@ -5,3 +5,6 @@
 .breadcrumb {
   background-color: #f5f5f5;
 }
+.mat-mdc-select-panel{
+  background-color: black !important;
+}

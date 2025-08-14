@@ -2,8 +2,11 @@ import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink, Router } from "@angular/router";
 import { ICategory } from "../../../core/models/structureData";
+import { IBrand } from "../../../core/models/structureData";
+import { IGender } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
 import { HostListener } from "@angular/core";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-header",
@@ -27,19 +30,18 @@ export class HeaderComponent implements OnInit {
   hideHeader = false;
   private lastScrollTop = 0;
 
+  isUserDropdownVisible: boolean = false;
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     if (scrollTop > this.lastScrollTop && scrollTop > 100) {
-      // Cuộn xuống: ẩn header
       this.hideHeader = true;
     } else {
-      // Cuộn lên: hiện header
       this.hideHeader = false;
     }
 
-    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // tránh âm
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }
 
   toggleMenu() {
@@ -71,10 +73,14 @@ export class HeaderComponent implements OnInit {
   }
 
   category_arr: ICategory[] = [];
+  filtered_cateWithGenther: IGender[] = [];
+  filtered_cateWithBrand: IBrand[] = [];
   filtered_categories: ICategory[] = [];
 
   ngOnInit(): void {
     this.getAllCategories();
+    this.getCategoriesWithGenther();
+    this.getCategoriesWithBrand();
     this.getCategoriesWithoutGender();
     this.checkLoginStatus();
   }
@@ -90,7 +96,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getAllCategories(): void {
-    fetch("http://localhost:3000/api/categories").then((res) => {
+    fetch(`${environment.apiUrl}/categories`).then((res) => {
       res
         .json()
         .then((data) => (this.category_arr = data as ICategory[]))
@@ -100,8 +106,30 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  getCategoriesWithGenther(): void {
+    fetch(`${environment.apiUrl}/genders`)
+      .then((res) => res.json())
+      .then((data: IGender[]) => {
+        this.filtered_cateWithGenther = data.filter(
+          (g) => +g.id === 1 || +g.id === 2
+        );
+      })
+      .catch((err) => console.error("❌ Lỗi khi lọc genders id=1|2:", err));
+  }
+
+  getCategoriesWithBrand(): void {
+    fetch(`${environment.apiUrl}/brands`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.filtered_cateWithBrand = data;
+      })
+      .catch((error) => {
+        console.log("❌ Lỗi khi lọc hãng", error);
+      });
+  }
+
   getCategoriesWithoutGender(): void {
-    fetch("http://localhost:3000/api/categories")
+    fetch(`${environment.apiUrl}/categories`)
       .then((res) => res.json())
       .then((data) => {
         this.filtered_categories = (data as ICategory[]).filter(
@@ -139,16 +167,20 @@ export class HeaderComponent implements OnInit {
         }
       }
     } else {
-      // Đang chạy ở môi trường không phải trình duyệt
       this.isLoggedIn = false;
       this.username = "Khách hàng";
       this.userrole = "customer";
       this.isAdmin = false;
     }
   }
-
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  showUserDropdown(): void {
+    this.isUserDropdownVisible = true;
+  }
+  hideUserDropdown(): void {
+    this.isUserDropdownVisible = false;
+  }
+  toggleUserDropdown(): void {
+    this.isUserDropdownVisible = !this.isUserDropdownVisible;
   }
 
   goToSignup() {
@@ -162,7 +194,6 @@ export class HeaderComponent implements OnInit {
   goToProfile() {
     window.location.href = "/profile";
   }
-
   logout() {
     sessionStorage.clear();
     window.location.href = "/sign-in";

@@ -10,6 +10,7 @@ import {
   IColor,
   IShoeHeight,
 } from "../../../core/models/structureData";
+import { environment } from "../../../../enviroments/environment";
 
 @Component({
   selector: "app-product-filter",
@@ -44,18 +45,25 @@ export class ProductFilterComponent {
   }>();
 
   price_ranges = [
+    // {
+    //   id: 1,
+    //   name: "Trên 1 triệu",
+    //   min: 1000000,
+    //   max: Number.MAX_SAFE_INTEGER,
+    //   checked: false,
+    // },
     {
       id: 1,
-      name: "Trên 1 triệu",
-      min: 1000000,
-      max: Number.MAX_SAFE_INTEGER,
+      name: "Dưới 1 triệu",
+      min: 0,
+      max: 1000000,
       checked: false,
     },
     {
       id: 2,
-      name: "Từ 1tr5 tới 2tr5",
-      min: 1500000,
-      max: 2500000,
+      name: "Từ 1tr tới 2tr",
+      min: 1000000,
+      max: 2000000,
       checked: false,
     },
     {
@@ -124,29 +132,20 @@ export class ProductFilterComponent {
       hex: "#ffff00",
       checked: false,
     },
-    {
-      id: 7,
-      color_name: "Xám",
-      keyword: "xám",
-      hex: "#808080",
-      checked: false,
-    },
   ];
 
   constructor(private http: HttpClient) {}
   ngOnInit(): void {
-    this.http
-      .get<ICategory[]>("http://localhost:3000/api/categories")
-      .subscribe({
-        next: (data) => {
-          this.category_arr = data;
-        },
-        error: (error) => {
-          console.error("Lỗi khi lấy categories:", error);
-        },
-      });
+    this.http.get<ICategory[]>(`${environment.apiUrl}/categories`).subscribe({
+      next: (data) => {
+        this.category_arr = data;
+      },
+      error: (error) => {
+        console.error("Lỗi khi lấy categories:", error);
+      },
+    });
 
-    this.http.get<IBrand[]>("http://localhost:3000/api/brands").subscribe({
+    this.http.get<IBrand[]>(`${environment.apiUrl}/brands`).subscribe({
       next: (data) => {
         this.brand_arr = data;
       },
@@ -155,7 +154,7 @@ export class ProductFilterComponent {
       },
     });
 
-    this.http.get<ISize[]>("http://localhost:3000/api/sizes").subscribe({
+    this.http.get<ISize[]>(`${environment.apiUrl}/sizes`).subscribe({
       next: (data) => {
         this.size_arr = data;
       },
@@ -164,7 +163,7 @@ export class ProductFilterComponent {
       },
     });
 
-    this.http.get<IGender[]>("http://localhost:3000/api/genders").subscribe({
+    this.http.get<IGender[]>(`${environment.apiUrl}/genders`).subscribe({
       next: (data) => {
         this.gender_arr = data;
       },
@@ -174,7 +173,7 @@ export class ProductFilterComponent {
     });
 
     this.http
-      .get<IShoeHeight[]>("http://localhost:3000/api/shoe_heights")
+      .get<IShoeHeight[]>(`${environment.apiUrl}/shoe_heights`)
       .subscribe({
         next: (data) => {
           this.shoe_height_arr = data;
@@ -306,17 +305,32 @@ export class ProductFilterComponent {
     this.emitFilter();
   }
 
+  // onColorChange(color: any): void {
+  //   console.log("Bạn vừa chọn màu:", color.color_name);
+  //   const anyColorChecked = this.color_arr.some((c) => c.checked);
+  //   if (anyColorChecked) {
+  //     this.selectAllColors = false;
+  //   }
+  //   this.emitFilter();
+  // }
+
+  // onSelectAllColors(): void {
+  //   if (this.selectAllColors) {
+  //     this.color_arr.forEach((c) => (c.checked = false));
+  //   }
+  //   this.emitFilter();
+  // }
+  // test
   onColorChange(color: any): void {
-    const anyColorChecked = this.color_arr.some((c) => c.checked);
-    if (anyColorChecked) {
-      this.selectAllColors = false;
-    }
+    color.checked = !color.checked; // <— thêm dòng này
+    this.selectAllColors = false;
     this.emitFilter();
   }
 
   onSelectAllColors(): void {
+    this.selectAllColors = !this.selectAllColors; // <— toggle đúng nghĩa
     if (this.selectAllColors) {
-      this.color_arr.forEach((c) => (c.checked = false));
+      this.color_arr.forEach((c) => (c.checked = false)); // “Tất cả” = không lọc theo màu
     }
     this.emitFilter();
   }

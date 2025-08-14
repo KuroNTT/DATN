@@ -7,31 +7,33 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
+import { FavoriteButtonComponent } from "../../components/favorite-button/favorite-button.component";
 import { IProduct } from "../../../core/models/structureData";
 import { Router } from "@angular/router";
-
+import { AuthService } from "../../services/auth.service";
+import { WishlistService } from "../../services/wishlist.service";
+// demo
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [CommonModule, BannerComponent],
+  imports: [CommonModule, BannerComponent, FavoriteButtonComponent],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent {
   @ViewChild("scrollContainer", { static: true })
   scrollContainer!: ElementRef<HTMLDivElement>;
-
   isLiked: boolean = false;
   product_arr: IProduct[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private wishlistService: WishlistService
+  ) {}
 
-  ngOnInit(): void {
-    this.loadProducts();
-  }
-
-  loadProducts() {
-    fetch(`http://localhost:3000/api/products`)
+  loadProducts(): Promise<void> {
+    return fetch(`http://localhost:3000/api/products`)
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = (data as IProduct[]).slice(0, 8);
@@ -39,6 +41,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .catch((error) =>
         console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
       );
+  }
+  ngOnInit(): void {
+    const user = this.authService.getUser();
+    // 1. Load sản phẩm trước
+    this.loadProducts()
+      .then(() => {
+        // 2. Nếu có user đăng nhập thì gọi API lấy sản phẩm yêu thích
+        if (user) {
+          this.wishlistService.getFavoritesByUser(user.id).subscribe({
+            next: (res) => {
+              const favoritedIds: number[] = res.productIds;
+              // 3. Gán trạng thái isFavorited = true cho từng sản phẩm
+              this.product_arr = this.product_arr.map((product) => ({
+                ...product,
+                isFavorited: favoritedIds.includes(product.id),
+              }));
+            },
+            error: (err) => {
+              console.error("❌ Lỗi khi lấy danh sách yêu thích:", err);
+            },
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("❌ Lỗi khi load sản phẩm:", err);
+      });
   }
 
   // Data source (tách data ra cho sạch)

@@ -28,13 +28,7 @@ export class CategoryListComponent {
     });
   }
 
-  // onDelete(id: number) {
-  //   if (confirm("Bạn có chắc muốn xoá không?")) {
-  //     this.CategoryService.delete(id).subscribe(() => this.loadData());
-  //   }
-  // }
-
-  onDelete(id: number) {
+  delete_category(id: number) {
     if (confirm("Bạn có chắc muốn xoá không?")) {
       this.CategoryService.delete(id).subscribe({
         next: () => {
@@ -52,7 +46,26 @@ export class CategoryListComponent {
     }
   }
 
-  goToEdit(id: number) {
+  edit_category(id: number) {
     this.router.navigate(["/admin/categories/edit", id]);
+  }
+  // test
+  toggleStatus(category: ICategory) {
+    const prevStatus = category.status;
+    const newStatus = prevStatus === 1 ? 0 : 1;
+
+    // Cập nhật ngay trên UI (optimistic)
+    category.status = newStatus;
+
+    this.CategoryService.update(category.id!, {
+      ...category,
+      status: newStatus,
+    }).subscribe({
+      next: () => {},
+      error: (err) => {
+        console.error("Lỗi khi cập nhật trạng thái:", err);
+        category.status = prevStatus; // rollback nếu lỗi
+      },
+    });
   }
 }

@@ -28,57 +28,134 @@
         >Đăng nhập</a
       >
     </p>
-    <form class="space-y-4">
+    <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
       <mat-form-field class="w-full rounded">
         <mat-label>Họ và tên</mat-label>
-        <input matInput placeholder="Nhập họ tên" />
+        <input
+          matInput
+          placeholder="Nhập họ tên"
+          name="fullName"
+          [(ngModel)]="fullName"
+          required
+          #fullNameRef="ngModel"
+        />
+        <mat-error *ngIf="fullNameRef.invalid && fullNameRef.touched"
+          >Họ và tên là bắt buộc</mat-error
+        >
       </mat-form-field>
 
       <div class="grid grid-cols-2 gap-4">
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput type="email" />
+          <input
+            matInput
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            #emailRef="ngModel"
+          />
+          <mat-error *ngIf="emailRef.invalid && emailRef.touched"
+            >Email là bắt buộc</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Điện thoại</mat-label>
-          <input matInput type="tel" />
+          <input
+            matInput
+            type="tel"
+            name="phone"
+            [(ngModel)]="phone"
+            required
+            #phoneRef="ngModel"
+          />
+          <mat-error *ngIf="phoneRef.invalid && phoneRef.touched"
+            >Số điện thoại là bắt buộc</mat-error
+          >
         </mat-form-field>
       </div>
 
       <mat-form-field class="w-full">
-        <mat-label>Địa chỉ</mat-label>
-        <input matInput />
+        <mat-label>Ghi chú</mat-label>
+        <input matInput name="note" [(ngModel)]="note" />
       </mat-form-field>
 
       <div class="grid grid-cols-3 gap-4">
         <mat-form-field>
           <mat-label>Tỉnh / Thành</mat-label>
-          <mat-select>
+          <mat-select
+            panelClass="!max-h-[200px]"
+            [(ngModel)]="province"
+            name="province"
+            required
+            #provinceRef="ngModel"
+          >
             <mat-option value="">Chọn</mat-option>
+            <mat-option
+              [value]="p.name"
+              *ngFor="let p of provinces"
+              (click)="pickProvince(p.id)"
+              >{{ p.name }}</mat-option
+            >
           </mat-select>
+          <mat-error *ngIf="provinceRef.invalid && provinceRef.touched"
+            >Vui lòng chọn tỉnh/thành</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Quận / Huyện</mat-label>
-          <mat-select>
-            <mat-option>Chọn</mat-option>
+          <mat-select
+            panelClass="!max-h-[200px]"
+            [(ngModel)]="district"
+            name="district"
+            required
+            #districtRef="ngModel"
+          >
             <mat-option value="">Chọn</mat-option>
-            <mat-option value="">Chọn</mat-option>
+            <mat-option
+              [value]="d.name"
+              *ngFor="let d of districts"
+              (click)="pickDistrict(d.id)"
+              >{{ d.name }}</mat-option
+            >
           </mat-select>
+          <mat-error *ngIf="districtRef.invalid && districtRef.touched"
+            >Vui lòng chọn quận/huyện</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Phường / Xã</mat-label>
-          <mat-select>
+          <mat-select
+            panelClass="!max-h-[200px]"
+            [(ngModel)]="ward"
+            name="ward"
+            required
+            #wardRef="ngModel"
+          >
             <mat-option value="">Chọn</mat-option>
+            <mat-option [value]="w.name" *ngFor="let w of wards">{{
+              w.name
+            }}</mat-option>
           </mat-select>
+          <mat-error *ngIf="wardRef.invalid && wardRef.touched"
+            >Vui lòng chọn phường/xã</mat-error
+          >
         </mat-form-field>
       </div>
+
       <div class="mt-6">
         <h2 class="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
 
-        <mat-radio-group class="flex flex-col gap-4">
+        <mat-radio-group
+          class="flex flex-col gap-4"
+          name="paymentMethod"
+          [(ngModel)]="paymentMethod"
+          required
+          #paymentRef="ngModel"
+        >
           <mat-radio-button class="flex items-center gap-3" value="cod">
             <span>Thanh toán khi nhận hàng (COD)</span>
           </mat-radio-button>
@@ -87,9 +164,13 @@
             <span>Chuyển khoản ngân hàng</span>
           </mat-radio-button>
         </mat-radio-group>
+        <mat-error *ngIf="paymentRef.invalid && paymentRef.touched"
+          >Vui lòng chọn phương thức thanh toán</mat-error
+        >
       </div>
 
       <button
+        type="submit"
         class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer"
       >
         Thanh toán
@@ -108,24 +189,29 @@
     <h2 class="text-2xl font-bold mb-4">Chi tiết sản phẩm</h2>
     <div class="space-y-4">
       <!-- Sản phẩm -->
-      <div class="flex items-center justify-between">
+      <div
+        class="flex items-center justify-between"
+        *ngFor="let item of cartItemLocal$ | async"
+      >
         <div class="flex items-center gap-4">
           <img
-            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
+            [src]="item.variant?.image_url"
             class="w-14 h-14 object-cover"
             alt="sp"
           />
-          <p class="text-sm">Tên sản phẩm...</p>
+          <p class="text-sm">{{ item.variant?.product?.name }}</p>
         </div>
         <div class="text-right text-sm">
-          <p class="font-medium">2,499,000 VND</p>
+          <p class="font-medium">
+            {{ item.variant?.product?.price_sale | number : "1.0-0" }} VNĐ
+          </p>
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
             >
               −
             </button>
-            <span class="w-6 text-center">x1</span>
+            <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
             >
@@ -134,50 +220,30 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center justify-between">
+
+      <div
+        class="flex items-center justify-between"
+        *ngFor="let item of cartItems$ | async"
+      >
         <div class="flex items-center gap-4">
           <img
-            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
+            [src]="item.variant?.image_url"
             class="w-14 h-14 object-cover"
             alt="sp"
           />
-          <p class="text-sm">Tên sản phẩm...</p>
+          <p class="text-sm">{{ item.variant?.product?.name }}</p>
         </div>
         <div class="text-right text-sm">
-          <p class="font-medium">2,499,000 VND</p>
+          <p class="font-medium">
+            {{ item.variant?.product?.price_sale | number : "1.0-0" }} VNĐ
+          </p>
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
             >
               −
             </button>
-            <span class="w-6 text-center">x1</span>
-            <button
-              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
-            >
-              +
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <img
-            src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2cbc1c62-b1b3-4daf-a221-1bfc00eee268/NIKE+AIR+ZOOM+RIVAL+FLY+4.png"
-            class="w-14 h-14 object-cover"
-            alt="sp"
-          />
-          <p class="text-sm">Tên sản phẩm...</p>
-        </div>
-        <div class="text-right text-sm">
-          <p class="font-medium">2,499,000 VND</p>
-          <div class="flex items-center space-x-2">
-            <button
-              class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
-            >
-              −
-            </button>
-            <span class="w-6 text-center">x1</span>
+            <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
             >
@@ -205,7 +271,7 @@
     <div class="border-t mt-6 pt-4 text-sm space-y-2">
       <div class="flex justify-between">
         <span>Tạm tính:</span>
-        <span>7,497,000 VND</span>
+        <span>{{ subtotal | number : "1.0-0" }} VNĐ</span>
       </div>
       <div class="flex justify-between">
         <span>Phí vận chuyển:</span>
@@ -213,7 +279,7 @@
       </div>
       <div class="flex justify-between border-t pt-2 font-semibold">
         <span>Tổng cộng:</span>
-        <span>7,497,000 VND</span>
+        <span>{{ total | number : "1.0-0" }} VNĐ</span>
       </div>
     </div>
   </div>

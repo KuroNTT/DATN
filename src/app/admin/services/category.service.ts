@@ -22,8 +22,8 @@ export class CategoryService {
     return this.http.get<ICategory>(`${this.apiUrl}/${id}`);
   }
 
-  update(id: number, blog: ICategory): Observable<ICategory> {
-    return this.http.put<ICategory>(`${this.apiUrl}/${id}`, blog);
+  update(id: number, category: ICategory): Observable<ICategory> {
+    return this.http.put<ICategory>(`${this.apiUrl}/${id}`, category);
   }
 
   delete(id: number): Observable<any> {

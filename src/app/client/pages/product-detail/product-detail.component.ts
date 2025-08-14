@@ -5,9 +5,11 @@ import {
   IProductVariant,
   ISize,
   IProductVariantSize,
+  IWishlist,
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
 import { CartService } from "../../services/cart.service";
+import { WishlistService } from "../../services/wishlist.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -20,7 +22,8 @@ import Swal from "sweetalert2";
 export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService
   ) {}
   showSizeChart: boolean = false;
 
@@ -158,17 +161,56 @@ export class ProductDetailComponent implements OnInit {
 
   wishlist: IProductVariant[] = [];
 
+  // addToWishlist() {
+  // if (!this.selectedVariant) {
+  //   alert("⚠️ Vui lòng chọn màu sắc (biến thể) để thêm vào yêu thích!");
+  //   return;
+  // }
+  // alert(
+  //   `❤️ Sản phẩm đã thêm vào danh sách yêu thích:\n` +
+  //     `ID: ${this.selectedVariant.id}\n` +
+  //     `Sản phẩm: ${this.product.name}\n` +
+  //     `Mã biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}`
+  // );
+  // }
+
+  // minh
   addToWishlist() {
     if (!this.selectedVariant) {
-      alert("⚠️ Vui lòng chọn màu sắc (biến thể) để thêm vào yêu thích!");
+      Swal.fire({ icon: "warning", text: "Vui lòng chọn biến thể (màu sắc)!" });
+      return;
+    }
+    if (!this.selectedSize) {
+      Swal.fire({ icon: "warning", text: "Vui lòng chọn size!" });
       return;
     }
 
-    alert(
-      `❤️ Sản phẩm đã thêm vào danh sách yêu thích:\n` +
-        `ID: ${this.selectedVariant.id}\n` +
-        `Sản phẩm: ${this.product.name}\n` +
-        `Mã biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}`
-    );
+    const payload: IWishlist = {
+      variant_id: this.selectedVariant.id,
+      // nếu selectedSize là object {id, size,...} => dùng id; nếu bạn đang để là number thì vẫn OK
+      size: (this.selectedSize as any).id ?? (this.selectedSize as any),
+    };
+
+    this.wishlistService.addToWishlist(payload).subscribe({
+      next: (res) => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: res?.message || "Đã thêm vào danh sách yêu thích",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+      error: (err) => {
+        console.error("addToWishlist error", err);
+        // gợi ý hiển thị lỗi phổ biến
+        const msg =
+          err?.status === 401
+            ? "Bạn cần đăng nhập để thêm vào yêu thích."
+            : err?.error?.message || "Không thể thêm vào danh sách yêu thích";
+        Swal.fire({ icon: "error", text: msg });
+      },
+    });
   }
 }

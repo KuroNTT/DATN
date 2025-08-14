@@ -1,8 +1,9 @@
 <div class="p-6">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold">Danh sách bài viết</h2>
-        <a href="/admin/categories/add">
-            <button class="p-5 bg-amber-200 cursor-pointer">Thêm danh mục mới</button>
+        <a href="/admin/categories/add"
+            class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-sm text-gray-700 hover:bg-black hover:text-white transition">
+            <i class="fa-solid fa-plus mr-2"></i> THÊM MỚI
         </a>
     </div>
 
@@ -24,26 +25,32 @@
                     <tr>
                         <td class="px-4 py-2 border text-center"> {{ category.id }}</td>
                         <td class="px-4 py-2 border"> {{ category.name }}</td>
-                        <!-- <td class="px-4 py-2 border text-green-600 font-semibold">Hiển thị</td> -->
-                        <td class="px-4 py-2 border font-semibold" [ngClass]="{
-                            'text-green-600': category.status === 1,
-                            'text-red-600': category.status === 0
-                          }">
-                            {{ category.status === 1 ? 'Hiển thị' : 'Ẩn' }}
+                        <!-- test -->
+                        <td class="px-4 py-2 border text-center">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" [checked]="category.status === 1"
+                                    (click)="toggleStatus(category)" />
+                                <div
+                                    class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300">
+                                </div>
+                                <div
+                                    class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5">
+                                </div>
+                            </label>
                         </td>
+                        <!-- test -->
                         <td class="px-4 py-2 border text-center"> {{ category.sort_order }}</td>
                         <td class="px-4 py-2 border"> {{ category.description }}</td>
-                        <td class="border text-center px-4 py-2">
-                            <div class="flex justify-center gap-2">
-                                <button class="text-white w-10 h-8 bg-blue-500 rounded-md hover:bg-blue-600"
-                                    (click)="goToEdit(category.id)">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
-                                <button class="text-white w-10 h-8 bg-red-500 rounded-md hover:bg-red-600"
-                                    (click)="onDelete(category.id)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+                        <td class="px-4 py-2 border text-center">
+
+                            <button (click)="edit_category(category.id)"
+                                class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-6">
+                                <i class="fa-solid fa-pencil mr-1"></i>
+                            </button>
+
+                            <button (click)="delete_category(category.id)">
+                                <i class="fa-solid fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

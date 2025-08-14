@@ -7,6 +7,18 @@ exports.getAll = async (req, res) => {
   res.json(categories);
 };
 
+exports.getById = async (req, res) => {
+  try {
+    const category = await BlogCategoryModel.findByPk(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: "Không tìm thấy danh mục" });
+    }
+    res.json(category);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 // Thêm danh mục mới
 exports.create = async (req, res) => {
   try {

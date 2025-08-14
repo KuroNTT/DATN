@@ -20,6 +20,8 @@ import { ResetPasswordComponent } from "./pages/reset-pw/reset-pw.component";
 import { ForgotPasswordComponent } from "./pages/forgot-pw/forgot-pw.component";
 import { ProductWishlistComponent } from "./pages/product-wishlist/product-wishlist.component";
 import { SearchResultComponent } from "./pages/search-result/search-result.component";
+import { CancelComponent } from "./pages/cancel/cancel.component";
+import { SuccessComponent } from "./pages/success/success.component";
 
 const routes: Routes = [
   {
@@ -36,7 +38,7 @@ const routes: Routes = [
       { path: "cart", component: CartComponent, title: "Giỏ hàng" },
       { path: "blog", component: BlogListComponent, title: "Bài viết" },
       {
-        path: "blog/:id",
+        path: "blog/:slug",
         component: BlogDetailComponent,
         title: "Chi tiết bài viết",
       },
@@ -104,6 +106,15 @@ const routes: Routes = [
             (m) => m.VerifyEmailComponent
           ),
       },
+      { path: "cancel", component: CancelComponent, title: "Hủy thanh toán" },
+      {
+        path: "success",
+        component: SuccessComponent,
+        title: "thanh toán thành công",
+      },
+      // test
+      { path: "new-products", component: ProductsComponent },
+      { path: "featured", component: ProductsComponent },
     ],
   },
 ];

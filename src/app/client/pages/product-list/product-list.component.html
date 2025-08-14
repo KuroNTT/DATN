@@ -1,17 +1,15 @@
 <div class="product-related">
   <h3 class="text-xl font-bold">Tất cả sản phẩm</h3>
-  <div
-    class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-6"
-  >
+  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-6">
     <!-- Product Item -->
-    <div class="product" *ngFor="let product of products">
+    <!-- <div class="product" *ngFor="let product of products"> -->
+    <div class="product" *ngFor="let product of paginatedProducts">
       <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+        <!-- yêu thích -->
+        <app-favorite-button [productId]="product.id" [isFavorited]="product.isFavorited"
+          (favoriteToggled)="product.isFavorited = $event"></app-favorite-button>
         <a [routerLink]="['/product-detail', product.slug]">
-          <img
-            class="product-image w-full h-full object-cover"
-            [src]="product.image"
-            alt="{{ product.name }}"
-          />
+          <img class="product-image w-full h-full object-cover" [src]="product.image" alt="{{ product.name }}" />
         </a>
       </div>
       <!-- Product info -->
@@ -22,13 +20,11 @@
         <div class="category-name text-sm text-gray-500 mb-2">
           <span>{{ product.category?.name }}</span>
         </div>
-        <div class="price flex gap-3 items-center">
-          <ng-container
-            *ngIf="
+        <div class="price flex flex-wrap sm:flex-nowrap gap-x-2 gap-y-1 items-center">
+          <ng-container *ngIf="
               product.price_sale && product.price_sale < product.price;
               else noSale
-            "
-          >
+            ">
             <div class="product_price-sale text-red-500 font-bold text-base">
               {{ product.price_sale | number : "1.0-0" }}đ
             </div>
@@ -38,8 +34,8 @@
             <span class="font-semibold text-green-500 text-base">
               Giảm
               {{
-                ((product.price - product.price_sale) / product.price) * 100
-                  | number : "1.0-0"
+              ((product.price - product.price_sale) / product.price) * 100
+              | number : "1.0-0"
               }}%
             </span>
           </ng-container>
@@ -52,4 +48,22 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="flex justify-center items-center gap-2 mt-6">
+  <button class="px-3 py-1 border rounded" [disabled]="currentPage === 1" (click)="prevPage()">
+    <i class="fa-solid fa-angles-left"></i>
+  </button>
+
+  <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+    <button class="px-3 py-1 border rounded" [ngClass]="{ 'bg-black text-white': currentPage === i + 1 }"
+      (click)="goToPage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </ng-container>
+
+  <button class="px-3 py-1 border rounded" [disabled]="currentPage === totalPages" (click)="nextPage()">
+    <i class="fa-solid fa-angles-right"></i>
+  </button>
 </div>

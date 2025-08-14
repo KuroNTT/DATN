@@ -1,12 +1,8 @@
-<div class="breadcrumb flex justify-center py-[12px] mb-[24px] mt-[60px]">
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px] mt-[60px] px-4 sm:px-0">
   <div class="container">
     <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
-    <i
-      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
-    ></i>
-    <a class="cursor-pointer"
-      ><span class="text-base font-semibold">Sản phẩm</span></a
-    >
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
+    <a class="cursor-pointer"><span class="text-base font-semibold">Sản phẩm</span></a>
   </div>
 </div>
 
@@ -16,9 +12,7 @@
       <!-- Lọc -->
       <div class="lg:col-span-2">
         <div class="sticky top-6">
-          <app-product-filter
-            (filterChanged)="onFilterChanged($event)"
-          ></app-product-filter>
+          <app-product-filter (filterChanged)="onFilterChanged($event)"></app-product-filter>
         </div>
       </div>
 
