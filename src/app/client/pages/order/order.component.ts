@@ -90,6 +90,12 @@ export class OrderComponent {
     };
     if (typeof window != "undefined") {
       this.user = JSON.parse(sessionStorage.getItem("user") as string);
+      console.log(this.user);
+      if(this.user){
+        this.fullName = this.user.name;
+        this.phone = this.user.phone;
+        this.email = this.user.email;
+      }
     }
     if (this.user) {
       this.cartItems$ = this.cartService.getServerCart(this.user.id);

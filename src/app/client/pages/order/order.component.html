@@ -22,12 +22,14 @@
   <!-- Thông tin giao hàng -->
   <div>
     <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
-    <p class="mb-4">
-      Bạn đã có tài khoản ?
-      <a href="#" class="text-blue-500 font-medium hover:underline"
-        >Đăng nhập</a
-      >
-    </p>
+    <ng-container *ngIf="!user">
+      <p class="mb-4">
+        Bạn đã có tài khoản ?
+        <a routerLink="/sign-in" class="text-blue-500 font-medium hover:underline"
+          >Đăng nhập</a
+        >
+      </p>
+    </ng-container>
     <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
       <mat-form-field class="w-full rounded">
         <mat-label>Họ và tên</mat-label>
