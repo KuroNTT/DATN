@@ -226,7 +226,7 @@ export class OrderComponent {
     if (this.discountAmount > 0) {
       payload.items.push({
         name: "Giảm giá",
-        price: -this.discountAmount,
+        price: this.discountAmount,
         quantity: 1,
       });
     }
