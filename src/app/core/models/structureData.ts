@@ -22,6 +22,7 @@ export interface IBanner {
   position: string;
   created_at: string;
   update_at: string;
+  status: number;
 }
 
 export interface IBrand {
@@ -209,4 +210,11 @@ export interface IBanner {
   position: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface ICategoryCreate {
+  name: string;
+  description: string;
+  sort_order: number;
+  status: number;
 }

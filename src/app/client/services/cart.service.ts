@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 interface CartDisplayItem {
   name: string;
@@ -15,7 +16,7 @@ interface CartDisplayItem {
 })
 export class CartService {
   private CART_KEY = "cart";
-  private apiUrl = "http://localhost:3000/api/carts";
+  private apiUrl = `${environment.apiUrl}/carts`;
   public cartItems$ = new BehaviorSubject<CartDisplayItem[]>([]);
   constructor(private http: HttpClient) {}
 
@@ -121,5 +122,11 @@ export class CartService {
       sizeId,
       quantity,
     });
+  }
+
+  getStock(variantId: number, sizeId: number) {
+    return this.http.get(
+      `${environment.apiUrl}/stock?variantId=${variantId}&sizeId=${sizeId}`
+    );
   }
 }

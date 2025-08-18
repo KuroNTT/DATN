@@ -9,6 +9,7 @@ import { IBanner } from "../../../core/models/structureData";
 import { SwiperContainer } from "swiper/element";
 import type { Swiper } from "swiper";
 import { ElementRef } from "@angular/core";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-banner",
@@ -31,7 +32,7 @@ export class BannerComponent implements AfterViewInit {
   ngAfterViewInit() {}
 
   loadBanners() {
-    fetch(`http://localhost:3000/api/admin/banners`)
+    fetch(`${environment.apiUrl}/admin/banners`)
       .then((res) => res.json())
       .then((data) => {
         this.slide_arr = data as IBanner[];
@@ -41,12 +42,10 @@ export class BannerComponent implements AfterViewInit {
 
           if (swiperEl?.swiper) {
             this.swiperInstance = swiperEl.swiper;
-            console.log("✅ Swiper instance ready", this.swiperInstance);
 
-            // 👉 Quan trọng: gọi update() để Swiper re-render
             this.swiperInstance.update();
           }
-        }, 0); // Chờ Angular render xong slide *ngFor
+        }, 0);
       })
       .catch((error) =>
         console.error("Có lỗi khi lấy dữ liệu ảnh banner! ", error)
@@ -55,7 +54,6 @@ export class BannerComponent implements AfterViewInit {
 
   onSwiperReady(swiper: any) {
     this.swiperInstance = swiper;
-    console.log("✅ Swiper initialized!", swiper);
   }
 
   nextSlide() {

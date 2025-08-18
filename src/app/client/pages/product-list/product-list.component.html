@@ -2,8 +2,10 @@
   <h3 class="text-xl font-bold">Tất cả sản phẩm</h3>
   <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 my-6">
     <!-- Product Item -->
-    <!-- <div class="product" *ngFor="let product of products"> -->
-    <div class="product" *ngFor="let product of paginatedProducts">
+    <div class="product" *ngFor="
+        let product of products
+          | paginate : {id: 'product_pagination', itemsPerPage: 12, currentPage: currentPage }
+      ">
       <div class="w-full aspect-square mb-4 overflow-hidden relative group">
         <!-- yêu thích -->
         <app-favorite-button [productId]="product.id" [isFavorited]="product.isFavorited"

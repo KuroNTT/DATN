@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-verify-email",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: "./verify-email.component.html"
+  templateUrl: "./verify-email.component.html",
 })
 export class VerifyEmailComponent implements OnInit {
   message: string = "";
@@ -25,7 +26,7 @@ export class VerifyEmailComponent implements OnInit {
     }
 
     // Dùng Fetch API thay vì HttpClient
-    fetch("http://localhost:3000/api/auth/verify-email", {
+    fetch(`${environment.apiUrl}/auth/verify-email`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -15,7 +15,7 @@
             <div *ngFor="let item of cartItems$ | async; let isLast = last" class="flex gap-4 pb-4"
               [ngClass]="isLast ? '' : 'border-b'">
               <img [src]="item.variant?.image_url" alt="" class="w-28 h-28 object-cover rounded" />
-              <p>{{ item.variant?.product?.id }}</p>
+
               <div class="flex-1">
                 <div class="flex justify-between">
                   <div>
@@ -45,16 +45,11 @@
                   </button>
 
                   <!-- Nút tim yêu thích -->
-                  <!-- <button mat-icon-button class="border p-1 rounded-full" (click)="toggleFavorite()">
+                  <button mat-icon-button class="border p-1 rounded-full" (click)="toggleFavorite()">
                     <mat-icon>{{
                       item.favorite ? "favorite" : "favorite_border"
                       }}</mat-icon>
-                  </button> -->
-                  <app-favorite-button [productId]="item.variant?.product?.id" [variantId]="item.variant?.id"
-                    [size]="item.size?.id" [isFavorited]="item.isFavorited"
-                    (favoriteToggled)="item.isFavorited = $event">
-                  </app-favorite-button>
-
+                  </button>
 
                   <button mat-icon-button color="warn" class="ml-auto" (click)="remove(item.variant?.id, item.size.id)">
                     <mat-icon>delete</mat-icon>
@@ -100,15 +95,11 @@
                   </button>
 
                   <!-- Nút tim yêu thích -->
-                  <button mat-icon-button class="border red p-1 rounded-full" (click)="toggleFavorite()">
+                  <button mat-icon-button class="border p-1 rounded-full" (click)="toggleFavorite()">
                     <mat-icon>{{
                       item.favorite ? "favorite" : "favorite_border"
                       }}</mat-icon>
                   </button>
-                  <!-- <app-favorite-button [productId]="item.variant?.product?.id" [variantId]="item.variant?.id"
-                    [size]="item.size?.id" [isFavorited]="item.isFavorited"
-                    (favoriteToggled)="item.isFavorited = $event">
-                  </app-favorite-button> -->
 
                   <button mat-icon-button color="warn" class="ml-auto" (click)="remove(item.variant?.id, item.size.id)">
                     <mat-icon>delete</mat-icon>

@@ -1,61 +1,93 @@
-<div class="p-6">
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Danh sách bài viết</h2>
-        <a href="/admin/categories/add"
-            class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-sm text-gray-700 hover:bg-black hover:text-white transition">
-            <i class="fa-solid fa-plus mr-2"></i> THÊM MỚI
-        </a>
-    </div>
+<div>
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">Danh sách danh mục</h2>
+    <a href="admin/categories/add"
+      class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-md text-gray-700 hover:bg-black hover:text-white transition">
+      <i class="fa-solid fa-plus mr-2"></i> Thêm danh mục
+    </a>
+  </div>
 
-    <div class="bg-gray-100 p-4 rounded-md shadow">
-        <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300 text-sm">
-                <thead class="bg-gray-200 text-gray-700">
-                    <tr>
-                        <th class="px-4 py-2 border">ID</th>
-                        <th class="px-4 py-2 border">Tên danh mục</th>
-                        <th class="px-4 py-2 border">Trạng thái</th>
-                        <th class="px-4 py-2 border">Thứ tự</th>
-                        <th class="px-4 py-2 border">Mô tả</th>
-                        <th class="px-4 py-2 border">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white" *ngFor="let category of category_arr">
-                    <!-- Hàng 1 -->
-                    <tr>
-                        <td class="px-4 py-2 border text-center"> {{ category.id }}</td>
-                        <td class="px-4 py-2 border"> {{ category.name }}</td>
-                        <!-- test -->
-                        <td class="px-4 py-2 border text-center">
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" class="sr-only peer" [checked]="category.status === 1"
-                                    (click)="toggleStatus(category)" />
-                                <div
-                                    class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300">
-                                </div>
-                                <div
-                                    class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5">
-                                </div>
-                            </label>
-                        </td>
-                        <!-- test -->
-                        <td class="px-4 py-2 border text-center"> {{ category.sort_order }}</td>
-                        <td class="px-4 py-2 border"> {{ category.description }}</td>
-                        <td class="px-4 py-2 border text-center">
+  <div class="bg-gray-100 rounded-md">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-md text-left border border-gray-200">
+        <thead class="bg-gray-200 text-center">
+          <tr>
+            <th class="w-16 px-4 py-2 border">ID</th>
+            <th class="w-56 px-4 py-2 border">Tên danh mục</th>
+            <th class="w-32 px-4 py-2 border">Trạng thái</th>
+            <th class="w-24 px-4 py-2 border">Thứ tự</th>
+            <th class="min-w-[300px] px-4 py-2 border">Mô tả</th>
+            <th class="w-32 px-4 py-2 border">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of category_arr | paginate: {itemsPerPage: 5, currentPage: p}"
+            class="hover:bg-gray-50">
+            <td class="px-4 py-2 border text-center">{{ category.id }}</td>
+            <td class="px-4 py-2 border">{{ category.name }}</td>
+            <td class="px-4 py-2 border text-center">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" [checked]="category.status === 1"
+                  (click)="toggleStatus(category)" />
+                <div
+                  class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300">
+                </div>
+                <div
+                  class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5">
+                </div>
+              </label>
+            </td>
+            <td class="px-4 py-2 border text-center">
+              {{ category.sort_order }}
+            </td>
+            <td class="px-4 py-2 border">{{ category.description }}</td>
+            <td class="px-4 py-2 border text-center">
+              <div class="inline-flex items-center justify-center gap-4">
+                <button class="text-gray-700 hover:text-gray-900 cursor-pointer" (click)="goToEdit(category.id)">
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+                <button class="text-red-500 hover:text-red-700 cursor-pointer" (click)="onDelete(category.id)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-template #pg="paginationApi" (pageChange)="p = $event">
+        <div class="flex justify-center items-center mt-6 space-x-2">
+          <!-- Nút Trước -->
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+            [disabled]="pg.isFirstPage()" (click)="pg.previous()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-                            <button (click)="edit_category(category.id)"
-                                class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-6">
-                                <i class="fa-solid fa-pencil mr-1"></i>
-                            </button>
+          <!-- Số trang -->
+          <ng-container *ngFor="let page of pg.pages">
+            <button
+              class="w-9 h-9 flex items-center justify-center rounded-full border text-sm transition-all duration-200"
+              [ngClass]="{
+          'bg-black text-white shadow-md': pg.getCurrent() === page.value,
+          'bg-white text-black border-[#c5c5c5] hover:bg-[#f3f3f3]': pg.getCurrent() !== page.value
+        }" (click)="pg.setCurrent(page.value)">
+              {{ page.label }}
+            </button>
+          </ng-container>
 
-                            <button (click)="delete_category(category.id)">
-                                <i class="fa-solid fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+          <!-- Nút Sau -->
+          <button
+            class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+            [disabled]="pg.isLastPage()" (click)="pg.next()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
+      </pagination-template>
+
     </div>
+  </div>
 </div>
-<ul>

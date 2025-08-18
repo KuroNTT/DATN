@@ -1,32 +1,27 @@
 <div class="">
   <div class="flex items-center justify-between mb-4">
-    <h2 class="text-lg font-semibold mb-1">Sản phẩm</h2>
+    <h2 class="text-xl font-semibold mb-1">Sản phẩm</h2>
 
     <div class="flex items-center space-x-4">
-      <!-- Bộ lọc (nếu có) -->
       <div class="relative">
-        <select
-          class="border border-gray-300 rounded px-3 py-1 text-sm text-gray-700"
-        >
-          <option selected>Lọc sản phẩm</option>
-          <option>Hiện</option>
-          <option>Ẩn</option>
+        <select (change)="filterByStatus($event)"
+          class="w-full border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring focus:ring-blue-300 ">
+          <option selected value="">Tất cả sản phẩm</option>
+          <option value="1">Hiện</option>
+          <option value="0">Ẩn</option>
         </select>
       </div>
 
-      <!-- Nút thêm -->
-      <a
-        href="admin/products/add"
-        class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-sm text-gray-700 hover:bg-black hover:text-white transition"
-      >
-        <i class="fa-solid fa-plus mr-2"></i> THÊM MỚI
+      <a href="admin/products/add"
+        class="flex items-center px-4 py-1.5 border border-[#c5c5c5] rounded-full text-sm text-gray-700 hover:bg-black hover:text-white transition">
+        <i class="fa-solid fa-plus mr-2"></i> Thêm sản phẩm
       </a>
     </div>
   </div>
 
   <div class="overflow-auto">
-    <table class="min-w-full text-sm text-left border border-gray-200">
-      <thead class="bg-gray-100 text-gray-700 text-center">
+    <table class="min-w-full text-md text-left border border-gray-200">
+      <thead class="bg-gray-200 text-center">
         <tr>
           <th class="px-4 py-2 border">ID</th>
           <th class="px-4 py-2 border">Tên sản phẩm</th>
@@ -38,15 +33,12 @@
           <th class="px-4 py-2 border">Thao tác</th>
         </tr>
       </thead>
-      <tbody class="text-gray-800">
+      <tbody>
         <!-- Mỗi dòng sản phẩm -->
-        <tr
-          class="hover:bg-gray-50"
-          *ngFor="
+        <tr class="hover:bg-gray-50" *ngFor="
             let pd of product_arr
               | paginate : { itemsPerPage: 5, currentPage: p }
-          "
-        >
+          ">
           <td class="px-4 py-2 border text-center">{{ pd.id }}</td>
           <td class="px-4 py-2 border">{{ pd.name }}</td>
           <td class="px-4 py-2 border">
@@ -55,33 +47,33 @@
           <td class="px-4 py-2 border">{{ pd.brand?.name }}</td>
           <td class="px-4 py-2 border">{{ pd.category?.name }}</td>
           <td class="px-4 py-2 border">
-            <img
-              [src]="pd.image"
-              alt="{{ pd.name }}"
-              class="w-16 h-16 object-cover rounded mx-auto"
-            />
+            <img [src]="pd.image" alt="{{ pd.name }}" class="w-16 h-16 object-cover rounded mx-auto" />
           </td>
           <td class="px-4 py-2 border text-center">
-            <i
-              class="fas cursor-pointer transition duration-200 hover:text-gray-500"
-              [class.fa-eye]="pd.status"
-              [class.fa-eye-slash]="!pd.status"
-              (click)="toggleStatus(pd)"
-            ></i>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <!-- Input checkbox để tạo toggle -->
+              <input type="checkbox" class="sr-only peer" [checked]="pd.status === 1" (change)="toggleStatus(pd)" />
+
+              <!-- Thanh trượt -->
+              <div
+                class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300">
+              </div>
+
+              <!-- Nút tròn -->
+              <div
+                class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5">
+              </div>
+            </label>
           </td>
 
           <td class="px-4 py-2 border text-center">
-            <a
-              [routerLink]="['/admin/products/edit', pd.slug]"
-              class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-6"
-            >
+            <a [routerLink]="['/admin/products/edit', pd.slug]"
+              class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-6">
               <i class="fa-solid fa-pencil mr-1"></i>
             </a>
 
             <button (click)="deleteProduct(pd.id!)">
-              <i
-                class="fa-solid fa-trash text-red-500 hover:text-red-700 cursor-pointer"
-              ></i>
+              <i class="fa-solid fa-trash text-red-500 hover:text-red-700 cursor-pointer"></i>
             </button>
           </td>
         </tr>
@@ -95,35 +87,20 @@
       <!-- Nút Trước -->
       <button
         class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
-        [disabled]="pg.isFirstPage()"
-        (click)="pg.previous()"
-      >
-        <svg
-          class="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15 19l-7-7 7-7"
-          />
+        [disabled]="pg.isFirstPage()" (click)="pg.previous()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
       <!-- Số trang -->
       <ng-container *ngFor="let page of pg.pages">
-        <button
-          class="w-9 h-9 flex items-center justify-center rounded-full border text-sm transition-all duration-200"
+        <button class="w-9 h-9 flex items-center justify-center rounded-full border text-sm transition-all duration-200"
           [ngClass]="{
             'bg-black text-white shadow-md': pg.getCurrent() === page.value,
             'bg-white text-black border-[#c5c5c5] hover:bg-[#f3f3f3]':
               pg.getCurrent() !== page.value
-          }"
-          (click)="pg.setCurrent(page.value)"
-        >
+          }" (click)="pg.setCurrent(page.value)">
           {{ page.label }}
         </button>
       </ng-container>
@@ -131,21 +108,9 @@
       <!-- Nút Sau -->
       <button
         class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
-        [disabled]="pg.isLastPage()"
-        (click)="pg.next()"
-      >
-        <svg
-          class="w-4 h-4"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 5l7 7-7 7"
-          />
+        [disabled]="pg.isLastPage()" (click)="pg.next()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
     </div>

@@ -2,14 +2,21 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.component";
 import { provideHttpClient } from "@angular/common/http";
-import { DashboardComponent } from "./pages/dashboard/dashboard/dashboard.component";
+// import { DashboardComponent } from "./pages/dashboard/dashboard/dashboard.component";
 
 const routes: Routes = [
   {
     path: "",
     component: AdminLayoutComponent,
     children: [
-      { path: "", component: DashboardComponent, title: "Dashboard" },
+      {
+        path: "",
+        loadChildren: () =>
+          import("./pages/dashboard/dashboard.routes").then(
+            (m) => m.dashboardRoutes
+          ),
+        title: "Thống kê",
+      },
       {
         path: "products",
         loadChildren: () =>
@@ -24,7 +31,7 @@ const routes: Routes = [
           import(
             "./pages/products/components/product-form/product-form.component"
           ).then((m) => m.ProductFormComponent),
-        title: "Add Product",
+        title: "Thêm sản phẩm",
       },
 
       {
@@ -54,6 +61,18 @@ const routes: Routes = [
         loadChildren: () =>
           import("./pages/banners/banner.routes").then((m) => m.bannerRoutes),
         title: "Quản lý banner",
+      },
+      {
+        path: "orders",
+        loadChildren: () =>
+          import("./pages/order/order.routes").then((m) => m.orderRoutes),
+        title: "Quản lý banner",
+      },
+      {
+        path: "vouchers",
+        loadChildren: () =>
+          import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
+        title: "Quản lý voucher",
       },
       {
         path: "reviews",

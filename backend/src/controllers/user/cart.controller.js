@@ -179,7 +179,6 @@ exports.getAllCartLocalStore = async (req, res) => {
       ],
     });
 
-    // Lấy thông tin size
     const sizes = await SizeModel.findAll({
       where: { id: sizeIds },
     });

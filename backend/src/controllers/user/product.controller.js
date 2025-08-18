@@ -354,3 +354,22 @@ exports.searchProducts = async (req, res) => {
     res.status(500).json({ message: "Lỗi truy vấn database" });
   }
 };
+
+exports.getProductsByCategorySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const category = await Category.findOne({ where: { slug } });
+    if (!category) {
+      return res.status(404).json({ message: "Không tìm thấy danh mục" });
+    }
+    const products = await Product.findAll({
+      where: { category_id: category.id },
+      include: [{ model: Category, attributes: ["name", "slug"] }],
+    });
+
+    res.json({ category, products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Lỗi server" });
+  }
+};

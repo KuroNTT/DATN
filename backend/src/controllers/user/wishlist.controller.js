@@ -88,11 +88,7 @@ exports.getFavoritesByUser = async (req, res) => {
 
 exports.removeFromWishlist = async (req, res) => {
     const user_id = req.user.id;
-    console.log(user_id);
-
     const wishlist_id = req.params.wishlist_id;
-    console.log(wishlist_id);
-
     try {
         await WishlistModel.destroy({
             where: {
@@ -100,7 +96,6 @@ exports.removeFromWishlist = async (req, res) => {
                 user_id
             }
         });
-
         res.status(200).json({ message: "Đã xóa khỏi danh sách yêu thích" });
     } catch (err) {
         console.error(err);

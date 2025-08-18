@@ -26,7 +26,7 @@ export class ProductListComponent {
     this.loadProduct();
   }
   loadProduct() {
-    this.pds.getAll().subscribe((data) => {
+    this.pds.getAll({ status: 1 }).subscribe((data) => {
       this.product_arr = data.sort((a, b) => {
         return (
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -40,12 +40,21 @@ export class ProductListComponent {
       this.pds.delete(id).subscribe(() => this.loadProduct());
     }
   }
+  filterByStatus(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+
+    const filter = value !== "" ? { status: Number(value) } : {};
+    this.pds.getAll(filter).subscribe((res) => {
+      this.product_arr = res;
+    });
+  }
   toggleStatus(pd: IProduct) {
     const newStatus = pd.status === 1 ? 0 : 1;
 
     this.pds.updateStatus(pd.id!, newStatus).subscribe({
       next: () => {
-        pd.status = newStatus; // cập nhật UI
+        pd.status = newStatus;
       },
       error: (err) => {
         console.error("Lỗi khi cập nhật trạng thái:", err);

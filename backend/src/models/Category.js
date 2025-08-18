@@ -7,6 +7,7 @@ const CategoryModel = sequelize.define(
   {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
+    slug: { type: DataTypes.TEXT, allowNull: false },
     description: { type: DataTypes.STRING, allowNull: false },
     sort_order: { type: DataTypes.INTEGER, defaultValue: 0 },
     status: { type: DataTypes.INTEGER, defaultValue: 0 },

@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { BannerService } from "../../../services/banner.service";
 import { CommonModule } from "@angular/common";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-banner-edit",
@@ -31,7 +32,9 @@ export class BannerEditComponent implements OnInit {
     this.form = this.fb.group({
       title: ["", Validators.required],
       link: [""],
-      image: [""], // chỉ dùng để validate client
+      image: [""],
+      position: [""],
+      status: [""],
     });
   }
 
@@ -41,10 +44,12 @@ export class BannerEditComponent implements OnInit {
       this.form.patchValue({
         title: banner.title,
         link: banner.link,
+        position: banner.position,
+        status: banner.status,
       });
       this.previewUrl = banner.image_url.startsWith("http")
         ? banner.image_url
-        : `http://localhost:3000/${banner.image_url}`;
+        : `${environment.apiUrl}/${banner.image_url}`;
     });
   }
 
@@ -70,6 +75,8 @@ export class BannerEditComponent implements OnInit {
       const data = {
         title: this.form.value.title,
         link: this.form.value.link,
+        position: this.form.value.position,
+        status: this.form.value.status,
         image: this.previewUrl?.toString().includes("base64")
           ? ""
           : this.previewUrl,

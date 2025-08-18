@@ -3,16 +3,16 @@ import { CommonModule } from "@angular/common";
 import { CategoryService } from "../../../services/category.service";
 import { ICategory } from "../../../../core/models/structureData";
 import { Router } from "@angular/router";
-
+import { NgxPaginationModule } from "ngx-pagination";
 @Component({
-  standalone: true,
   selector: "app-category-list",
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPaginationModule],
   templateUrl: "./category-list.component.html",
   styleUrl: "./category-list.component.css",
 })
 export class CategoryListComponent {
   category_arr: ICategory[] = [];
+  p: number = 1;
   constructor(
     private CategoryService: CategoryService,
     private router: Router
@@ -28,7 +28,7 @@ export class CategoryListComponent {
     });
   }
 
-  delete_category(id: number) {
+  onDelete(id: number) {
     if (confirm("Bạn có chắc muốn xoá không?")) {
       this.CategoryService.delete(id).subscribe({
         next: () => {
@@ -46,17 +46,13 @@ export class CategoryListComponent {
     }
   }
 
-  edit_category(id: number) {
+  goToEdit(id: number) {
     this.router.navigate(["/admin/categories/edit", id]);
   }
-  // test
   toggleStatus(category: ICategory) {
     const prevStatus = category.status;
     const newStatus = prevStatus === 1 ? 0 : 1;
-
-    // Cập nhật ngay trên UI (optimistic)
     category.status = newStatus;
-
     this.CategoryService.update(category.id!, {
       ...category,
       status: newStatus,
@@ -64,7 +60,7 @@ export class CategoryListComponent {
       next: () => {},
       error: (err) => {
         console.error("Lỗi khi cập nhật trạng thái:", err);
-        category.status = prevStatus; // rollback nếu lỗi
+        category.status = prevStatus;
       },
     });
   }

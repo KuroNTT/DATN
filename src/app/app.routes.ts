@@ -1,5 +1,4 @@
 import { Routes, provideRouter } from "@angular/router";
-import { CartComponent } from "./client/pages/cart/cart.component";
 import { authGuard } from "./core/guards/auth.guard";
 import { ProductDetailComponent } from "./client/pages/product-detail/product-detail.component";
 import { ProductsComponent } from "./client/pages/products/products.component";
@@ -16,7 +15,12 @@ export const routes: Routes = [
     title: "Sản phẩm",
   },
   {
-    path: "product-detail",
+    path: "category/:slug",
+    component: ProductsComponent,
+    title: "Sản phẩm theo danh mục",
+  },
+  {
+    path: "product-detail/:slug",
     component: ProductDetailComponent,
     title: "Chi tiết sản phẩm",
   },
@@ -26,6 +30,7 @@ export const routes: Routes = [
     data: { roles: ["admin"] },
     loadChildren: () =>
       import("./admin/admin.module").then((m) => m.AdminModule),
+    renderMode: "client",
   },
 ];
 

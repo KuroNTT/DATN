@@ -3,6 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import Swal from "sweetalert2";
+import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: "app-contact",
   imports: [FormsModule, CommonModule],
@@ -22,7 +24,7 @@ export class ContactComponent {
       content: this.content,
     };
     this.loading = true;
-    this.http.post("http://localhost:3000/api/contacts", payload).subscribe({
+    this.http.post(`${environment.apiUrl}/contacts`, payload).subscribe({
       next: (res) => {
         this.loading = false;
         Swal.fire({

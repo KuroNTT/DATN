@@ -11,7 +11,7 @@ import { CommonModule } from "@angular/common";
   imports: [BlogCategoryFormComponent, CommonModule],
   template: `
     <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
-      <h2 class="text-xl font-bold mb-4">Chỉnh sửa danh mục blog</h2>
+      <h2 class="text-xl font-bold mb-4">Chỉnh sửa danh mục bài viết</h2>
       <app-blog-category-form
         *ngIf="category"
         [initialData]="category"

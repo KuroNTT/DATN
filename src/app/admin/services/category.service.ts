@@ -3,11 +3,13 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ICategory } from "../../core/models/structureData";
 import { ICategoryCreate } from "../../core/models/structureData";
+import { environment } from "../../../environments/environment";
+
 @Injectable({
   providedIn: "root",
 })
 export class CategoryService {
-  private apiUrl = "http://localhost:3000/api/admin/categories";
+  private apiUrl = `${environment.apiUrl}/admin/categories`;
 
   create(data: ICategoryCreate): Observable<any> {
     return this.http.post(this.apiUrl, data);
@@ -22,8 +24,8 @@ export class CategoryService {
     return this.http.get<ICategory>(`${this.apiUrl}/${id}`);
   }
 
-  update(id: number, category: ICategory): Observable<ICategory> {
-    return this.http.put<ICategory>(`${this.apiUrl}/${id}`, category);
+  update(id: number, blog: ICategory): Observable<ICategory> {
+    return this.http.put<ICategory>(`${this.apiUrl}/${id}`, blog);
   }
 
   delete(id: number): Observable<any> {

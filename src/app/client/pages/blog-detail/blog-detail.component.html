@@ -1,69 +1,73 @@
 <!-- Breadcrumb -->
-<div
-  class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0 bg-[#f5f5f5] mt-[60px]"
->
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0 bg-[#f5f5f5] mt-[60px]">
   <div class="w-full max-w-[1280px]">
     <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
-    <i
-      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
-    ></i>
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
     <a [routerLink]="['/blog', blog?.slug]" class="cursor-pointer">
       <span class="text-base font-semibold">Bài viết</span>
     </a>
-    <i
-      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
-    ></i>
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
     <a class="cursor-pointer">
       <span class="text-base font-semibold">Chi tiết bài viết</span>
     </a>
   </div>
 </div>
-<div *ngIf="blog" class="w-full max-w-[1280px] mx-auto my-0 pb-4 flex gap-6">
-  <div class="w-[60%]">
-  <!-- Tiêu đề -->
-  <h1 class="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
-    {{ blog.title }}
-  </h1>
+<div *ngIf="blog" class="w-full max-w-[1280px] mx-auto my-0 pb-4">
+  <div class="">
+    <!-- Tiêu đề -->
+    <h1 class="text-2xl md:text-4xl font-bold text-gray-800 leading-tight">
+      {{ blog.title }}
+    </h1>
 
-  <!-- Thông tin meta -->
-  <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500">
-    <p>
-      <i class="fa-regular fa-calendar-alt mr-1"></i>
-      {{ blog.created_at | date : "longDate" }}
-    </p>
-    <span *ngIf="blog.author_name">| Tác giả: {{ blog.author_name }}</span>
-    <span *ngIf="blog.category?.name"
-      >| Chuyên mục: {{ blog.category.name }}</span
-    >
-    <span *ngIf="blog.view">| Lượt xem: {{ blog.view }}</span>
+    <!-- Thông tin meta -->
+    <div class="flex flex-wrap my-2 items-center gap-3 text-sm text-gray-500">
+      <p>
+        <i class="fa-regular fa-calendar-alt mr-1"></i>
+        {{ blog.created_at | date : "longDate" }}
+      </p>
+      <span *ngIf="blog.author_name">| Tác giả: {{ blog.author_name }}</span>
+      <span *ngIf="blog.category?.name">| Chuyên mục: {{ blog.category.name }}</span>
+      <span *ngIf="blog.view">| Lượt xem: {{ blog.view }}</span>
+    </div>
+
+    <!-- Ảnh chính minh họa -->
+    <div class="w-full my-2 flex justify-center">
+      <img [src]="blog.thumbnail" alt="{{ blog.title }}" class="rounded-lg max-h-[480px] object-cover shadow-md" />
+    </div>
+
+    <!-- Nội dung bài viết -->
+    <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed" [innerHTML]="blog.content"></div>
+
+    <!-- Nút điều hướng -->
+    <div class="pt-10">
+      <a routerLink="/products"
+        class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
+        ← XEM THÊM SẢN PHẨM
+      </a>
+    </div>
   </div>
 
-  <!-- Ảnh chính minh họa -->
-  <div class="w-full flex justify-center">
-    <img
-      [src]="blog.thumbnail"
-      alt="{{ blog.title }}"
-      class="rounded-lg max-h-[480px] object-cover shadow-md"
-    />
-  </div>
+  <div class="product-related my-10">
+    <h3 class="text-xl font-bold mb-4">Có thể bạn sẽ thích</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="product" *ngFor="let product of product_arr">
+        <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+          <a href="/product-detail/{{ product.slug }}">
+            <img class="product-image w-full h-full object-cover" src="{{ product.image }}" alt="{{ product.name }}" />
+          </a>
+        </div>
 
-  <!-- Nội dung bài viết -->
-  <div
-    class="prose prose-lg max-w-none text-gray-800 leading-relaxed"
-    [innerHTML]="blog.content"
-  ></div>
-
-  <!-- Nút điều hướng -->
-  <div class="pt-10">
-    <a
-      routerLink="/products"
-      class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
-    >
-      ← XEM THÊM SẢN PHẨM
-    </a>
+        <!-- Product info -->
+        <div class="product-name font-bold text-base mb-2">
+          {{ product.name }}
+        </div>
+        <div class="category-name text-sm text-gray-500 mb-2">
+          <span>{{ product.category?.name }}</span>
+        </div>
+        <div class="product_price text-red-500 font-bold text-lg">
+          {{ product.price_sale | number : "1.0-0" }}đ
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-  <!-- <div class="w-[40%] bg-red-500">
-    <h1>Bài viết nổi bật</h1>
-  </div> -->
 </div>

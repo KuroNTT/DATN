@@ -9,12 +9,15 @@ import {
 } from "../../core/models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  private apiUrl = "http://localhost:3000/api/products"; // Thay bằng URL thật nếu có
+  private apiUrl = `${environment.apiUrl}/products`; // Thay bằng URL thật nếu có
+  private preselectedCategoryId?: number;
+  private preselectedBrandId: number | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -25,10 +28,10 @@ export class ProductService {
     }
     return await response.json();
   }
-  private getAuthHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem("token");
+  /* private getAuthHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('token'); 
     return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`
     });
   }
 
@@ -42,55 +45,62 @@ export class ProductService {
 
   create(product: IProduct): Observable<IProduct> {
     return this.http.post<IProduct>(this.apiUrl, product, {
-      headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders()
     });
   }
 
   update(id: number, product: IProduct): Observable<IProduct> {
     return this.http.put<IProduct>(`${this.apiUrl}/${id}`, product, {
-      headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders()
     });
   }
 
   delete(id: number): Observable<any> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders(),
+      headers: this.getAuthHeaders()
     });
   }
 
   updateStatus(id: number, status: number): Observable<any> {
-    return this.http.patch(
-      `${this.apiUrl}/${id}/status`,
-      { status },
-      {
-        headers: this.getAuthHeaders(),
-      }
-    );
+    return this.http.patch(`${this.apiUrl}/${id}/status`, { status }, {
+      headers: this.getAuthHeaders()
+    });
   }
 
   uploadFile(formData: FormData): Observable<{ filename: string }> {
     return this.http.post<{ filename: string }>(
-      "http://localhost:3000/admin/sp/upload",
+      'http://localhost:3000/admin/sp/upload',
       formData,
       { headers: this.getAuthHeaders() }
     );
   }
 
   getCategory(): Observable<ICategory[]> {
-    return this.http.get<ICategory[]>("http://localhost:3000/api/categories");
+    return this.http.get<ICategory[]>('${environment.apiUrl}/categories');
   }
   getBrand(): Observable<IBrand[]> {
-    return this.http.get<IBrand[]>("http://localhost:3000/api/brand");
+    return this.http.get<IBrand[]>('${environment.apiUrl}/brand');
   }
-  getSizes(): Observable<ISize[]> {
-    return this.http.get<ISize[]>("http://localhost:3000/api/sizes");
+  getSizes():Observable<ISize[]>{
+    return this.http.get<ISize[]>('${environment.apiUrl}/sizes')
   }
-  getGender() {
-    return this.http.get<IGender[]>("http://localhost:3000/api/genders");
+  getGender(){
+    return this.http.get<IGender[]>('${environment.apiUrl}/genders');
   }
-  getShoeheights() {
-    return this.http.get<IShoeHeight[]>(
-      "http://localhost:3000/api/shoe_heights"
-    );
+  getShoeheights(){
+    return this.http.get<IShoeHeight[]>('${environment.apiUrl}/shoe_heights');
+  }  
+   */
+
+  setPreselectedCategory(id: number) {
+    this.preselectedCategoryId = id;
+  }
+
+  getPreselectedCategory(): number | undefined {
+    return this.preselectedCategoryId;
+  }
+
+  clearPreselectedCategory() {
+    this.preselectedCategoryId = undefined;
   }
 }

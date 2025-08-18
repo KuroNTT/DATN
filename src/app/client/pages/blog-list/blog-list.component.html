@@ -1,12 +1,8 @@
 <!-- Breadcrumb -->
-<div
-  class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0 bg-[#f5f5f5] mt-[60px]"
->
+<div class="breadcrumb flex justify-center py-[12px] mb-[24px] px-4 sm:px-0 bg-[#f5f5f5] mt-[60px]">
   <div class="w-full max-w-[1280px]">
     <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
-    <i
-      class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"
-    ></i>
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
     <a class="cursor-pointer">
       <span class="text-base font-semibold">Bài viết</span>
     </a>
@@ -15,96 +11,70 @@
 
 <!-- Content -->
 <div class="flex justify-center px-4 sm:px-0">
-  <div class="w-full max-w-[1280px]">
-    <div class="grid grid-cols-1 lg:grid-cols-9 gap-7">
-      <!-- Sidebar lọc danh mục blog -->
+  <div class="w-full max-w-[1280px] flex gap-7">
+    <!-- Sidebar lọc danh mục blog -->
+    <div class="w-1/4 lg:w-1/4 h-[calc(100vh-20px)] sticky top-5">
+      <h3 class="text-xl font-bold mb-6">Bộ lọc bài viết</h3>
 
-      <div class="lg:col-span-2">
-        <h3 class="text-xl font-bold mb-6">Bộ lọc bài viết</h3>
+      <!-- Danh mục bài viết -->
+      <div class="items-center justify-between cursor-pointer">
+        <div class="border-t border-gray-200"></div>
+        <div class="overflow-hidden transition-all duration-300 max-h-[80vh] opacity-100">
+          <!-- Tất cả -->
+          <label class="block font-semibold text-lg cursor-pointer select-none mb-2">
+            <input type="checkbox"
+              class="my-4 w-4 h-4 accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
+              [checked]="selectedCategorySlug === ''" (change)="selectAllCategories()" />
+            Tất cả bài viết
+          </label>
 
-        <!-- Danh mục bài viết -->
-        <div class="items-center justify-between cursor-pointer">
           <div class="border-t border-gray-200"></div>
-          <div
-            class="overflow-hidden transition-all duration-300 max-h-96 opacity-100"
-          >
-            <!-- Tất cả -->
-            <label
-              class="block font-semibold text-lg cursor-pointer select-none mb-2"
-            >
-              <input
-                type="checkbox"
-                class="my-4 w-4 h-4 accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
-                [checked]="selectedCategorySlug === ''"
-                (change)="selectAllCategories()"
-              />
-              Tất cả bài viết
-            </label>
 
+          <label class="block font-semibold text-lg cursor-pointer select-none mb-2"
+            *ngFor="let category of category_arr">
+            <input type="checkbox"
+              class="my-4 w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
+              [checked]="selectedCategorySlug === category.slug" (change)="filterByCategorySlug(category.slug)" />
+            {{ category.name }}
             <div class="border-t border-gray-200"></div>
-
-            <label
-              class="block font-semibold text-lg cursor-pointer select-none mb-2"
-              *ngFor="let category of category_arr"
-            >
-              <input
-                type="checkbox"
-                class="my-4 w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
-                [checked]="selectedCategorySlug === category.slug"
-                (change)="filterByCategorySlug(category.slug)"
-              />
-              {{ category.name }}
-              <div class="border-t border-gray-200"></div>
-            </label>
-          </div>
+          </label>
         </div>
       </div>
+    </div>
 
-      <!-- Danh sách blog -->
-      <div class="lg:col-span-7 space-y-6">
-        <div
-          *ngFor="let blog of blogs; let i = index"
-          class="md:flex md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
-          [ngClass]="{ 'flex-row-reverse': i % 2 !== 0 }"
-          (click)="goToBlog(blog.slug)"
-        >
-          <!-- Ảnh -->
-          <img
-            [src]="blog.thumbnail"
-            class="w-full h-auto md:w-1/2 h-[360px] object-cover group-hover:scale-105 transition duration-500 ease-in-out"
-          />
+    <!-- Danh sách blog -->
+    <div class="w-3/4 space-y-6">
+      <div *ngFor="let blog of blogs; let i = index"
+        class="md:flex md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
+        [ngClass]="{ 'flex-row-reverse': i % 2 !== 0 }" (click)="goToBlog(blog.slug)">
+        <!-- Ảnh -->
+        <img [src]="blog.thumbnail"
+          class="w-full h-auto md:w-1/2 h-[360px] object-cover group-hover:scale-105 transition duration-500 ease-in-out" />
 
-          <!-- Nội dung -->
-          <div
-            class="flex flex-col justify-center md:w-1/2 p-6 space-y-4"
-            style="
-              background: linear-gradient(
-                90deg,
-                rgba(196, 196, 196, 1) 20%,
-                rgba(255, 255, 255, 1) 80%
-              );
-            "
-          >
-            <span
-              class="text-sm text-red-600 font-semibold uppercase tracking-wide"
-            >
-              {{ blog.category?.name }}
-            </span>
+        <!-- Nội dung -->
+        <div class="flex flex-col justify-center md:w-1/2 p-6 space-y-4" style="
+            background: linear-gradient(
+              90deg,
+              rgba(196, 196, 196, 1) 20%,
+              rgba(255, 255, 255, 1) 80%
+            );
+          ">
+          <span class="text-sm text-red-600 font-semibold uppercase tracking-wide">
+            {{ blog.category?.name }}
+          </span>
 
-            <h2 class="text-3xl font-bold text-brown-800 uppercase">
-              {{ blog.title }}
-            </h2>
+          <h2 class="text-3xl font-bold text-brown-800 uppercase">
+            {{ blog.title }}
+          </h2>
 
-            <p class="text-sm text-gray-800 leading-relaxed">
-              {{ getPreviewText(blog.content, 120) }}
-            </p>
+          <p class="text-sm text-gray-800 leading-relaxed">
+            {{ getPreviewText(blog.content, 120) }}
+          </p>
 
-            <button
-              class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]"
-            >
-              XEM CHI TIẾT
-            </button>
-          </div>
+          <button
+            class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
+            XEM CHI TIẾT
+          </button>
         </div>
       </div>
     </div>

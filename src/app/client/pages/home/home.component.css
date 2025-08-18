@@ -69,9 +69,8 @@
 .featured_product {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;  
   gap: 12px;
-  flex-wrap: wrap;
-  height: auto;
 }
 
 .featured_image {
@@ -178,11 +177,25 @@
 }
 
 .favour-content p {
-  width: 340px;
   margin: 12px 0;
 }
 
 /* Section 5 */
 .section_5 {
   background-color: #f7f7f7;
+}
+.favour-list {
+  display: flex;
+  flex-wrap: wrap;        /* Cho phép tự động xuống hàng */
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.favour-item {
+  flex: 1 1 300px;        /* Tối thiểu 300px, còn lại tự co giãn */
+  max-width: 100%;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
 }

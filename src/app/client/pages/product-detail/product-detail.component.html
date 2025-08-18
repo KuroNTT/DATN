@@ -12,7 +12,6 @@
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 mt-10 gap-6">
-      <!-- Thumbnail nằm dưới ảnh chính trên mobile -->
       <div class="col-span-1 order-2 lg:order-0">
         <div class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
           <img *ngFor="let img of imgList" [src]="img" (click)="onClick(img)"
@@ -21,7 +20,6 @@
         </div>
       </div>
 
-      <!-- Ảnh chính luôn ở trước trên mobile -->
       <div class="col-span-1 md:col-span-1 lg:col-span-5 order-1 lg:order-1">
         <img [src]="mainImage" alt="Ảnh chính" class="w-full h-auto object-cover rounded" />
       </div>
@@ -82,10 +80,7 @@
                 <p class="text-lg font-semibold">Kích thước</p>
                 <div class="flex items-center gap-2 hover:text-gray-600 transition">
                   <i class="fa-solid fa-ruler-horizontal text-lg"></i>
-                  <!-- <p class="text-lg cursor-pointer">Bảng kích thước</p> -->
-                  <!-- demo -->
-                  <!-- Button mở popup -->
-                  <p class="text-lg cursor-pointer hover:underline" (click)="showSizeChart = true">
+                  <p class="text-lg cursor-pointer" (click)="showSizeChart = true">
                     Bảng kích thước
                   </p>
                   <!-- Popup overlay -->
@@ -98,7 +93,6 @@
                       <img src="/images/img-size.png" alt="" class="w-full h-auto" />
                     </div>
                   </div>
-                  <!-- demo -->
                 </div>
               </div>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
@@ -119,9 +113,10 @@
                   </div>
                 </div>
               </div>
-              <div class="button my-[30px] flex gap-4">
+
+              <div class="button my-4 flex gap-2">
                 <button type="button" (click)="addToCart()"
-                  class="w-1/2 py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition">
+                  class="w-full py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]">
                   Thêm vào giỏ hàng
                 </button>
                 <button type="button" (click)="addToWishlist()"
@@ -165,8 +160,8 @@
       <div class="space-y-6 mt-4">
         <div class="review-detail">
           <div class="name flex gap-4 text-sm text-gray-600">
-            <div class="avatar">
-              <img class="w-10 h-10 rounded-full mr-4 object-cover" src="images/spider-1.jpg" alt="" />
+            <div class="w-10 h-10 md:w-20 md:h-20 lg:w-10 lg:h-10 rounded-full overflow-hidden flex-shrink-0">
+              <img class="w-full h-full object-cover" src="images/spider-1.jpg" alt="" />
             </div>
             <div class="justify-center items-center">
               <span class="font-bold text-base text-black">MinhLe </span>
@@ -206,7 +201,7 @@
 
         <div class="review-detail">
           <div class="name flex gap-4 text-sm text-gray-600">
-            <div class="avatar">
+            <div class="w-10 h-10 md:w-20 md:h-20 lg:w-10 lg:h-10 rounded-full overflow-hidden flex-shrink-0">
               <img class="w-10 h-10 rounded-full mr-4 object-cover" src="images/spider-2.webp" alt="" />
             </div>
             <div class="justify-center items-center">

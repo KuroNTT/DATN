@@ -53,13 +53,12 @@ exports.signUp = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //  Tạo user trong DB
     const newUser = await UserModel.create({
       name,
       email,
       password: hashedPassword,
       role: "customer",
-      account_lock: 1, // mặc định là bị khóa, chờ xác thực email
+      account_lock: 1,
       created_at: new Date(),
       update_at: new Date(),
     });
@@ -209,6 +208,7 @@ exports.getProfile = async (req, res) => {
         "phone",
         "sex",
         "address",
+        "avatar",
         "email_verify_at",
       ],
     });
@@ -219,14 +219,14 @@ exports.getProfile = async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error("Lỗi khi lấy thông tin người dùng:", err); // ✅ log lỗi chi tiết
+    console.error("Lỗi khi lấy thông tin người dùng:", err);
     res.status(500).json({ message: "Lỗi khi lấy thông tin người dùng" });
   }
 };
 
 exports.updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // lấy từ middleware giải mã token
+    const userId = req.user.id;
 
     // Các field được cho phép cập nhật
     const { name, phone, sex, address, avatar } = req.body;

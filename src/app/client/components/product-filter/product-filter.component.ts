@@ -10,8 +10,8 @@ import {
   IColor,
   IShoeHeight,
 } from "../../../core/models/structureData";
-import { environment } from "../../../../enviroments/environment";
-
+import { environment } from "../../../../environments/environment";
+import { ProductService } from "../../services/product.service";
 @Component({
   selector: "app-product-filter",
   standalone: true,
@@ -134,16 +134,18 @@ export class ProductFilterComponent {
     },
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private pds: ProductService) {}
   ngOnInit(): void {
-    this.http.get<ICategory[]>(`${environment.apiUrl}/categories`).subscribe({
-      next: (data) => {
-        this.category_arr = data;
-      },
-      error: (error) => {
-        console.error("Lỗi khi lấy categories:", error);
-      },
-    });
+    this.http
+      .get<ICategory[]>("http://localhost:3000/api/categories")
+      .subscribe({
+        next: (data) => {
+          this.category_arr = data;
+        },
+        error: (error) => {
+          console.error("Lỗi khi lấy categories:", error);
+        },
+      });
 
     this.http.get<IBrand[]>(`${environment.apiUrl}/brands`).subscribe({
       next: (data) => {

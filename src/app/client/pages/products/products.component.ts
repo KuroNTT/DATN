@@ -5,7 +5,7 @@ import { IProduct } from "../../../core/models/structureData";
 import { NgxPaginationModule } from "ngx-pagination";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 import { ActivatedRoute, Router } from "@angular/router";
 @Component({
   selector: "app-product",

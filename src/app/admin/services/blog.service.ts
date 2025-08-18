@@ -3,12 +3,13 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { IBlog } from "../../core/models/structureData";
 import { IBlogCreate } from "../../core/models/structureData";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class BlogService {
-  private apiUrl = "http://localhost:3000/api/admin/blogs";
+  private apiUrl = `${environment.apiUrl}/admin/blogs`;
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<IBlog[]> {
@@ -37,7 +38,7 @@ export class BlogService {
 
   uploadImage(formData: FormData): Observable<any> {
     return this.http.post<{ imageUrl: string }>(
-      "http://localhost:3000/api/admin/upload",
+      `${environment.apiUrl}/admin/upload`,
       formData
     );
   }

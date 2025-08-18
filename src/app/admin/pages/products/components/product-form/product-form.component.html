@@ -1,170 +1,114 @@
+<h2 class="text-xl font-bold mb-4">{{isEditMode ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}}</h2>
 <form (ngSubmit)="onSubmit()" [formGroup]="form" class="space-y-6">
   <!-- THÔNG TIN SẢN PHẨM -->
-  <div class="grid grid-cols-4 gap-4">
-    <!-- Hàng 1 -->
-    <div>
-      <label class="font-bold">Tên sản phẩm</label>
-      <input
-        formControlName="name"
-        placeholder="Tên sản phẩm"
-        class="w-full border rounded-lg px-4 py-2"
-      />
-    </div>
-    <div>
-      <label class="font-bold">Slug</label>
-      <input
-        formControlName="slug"
-        placeholder="Slug"
-        class="w-full border rounded-lg px-4 py-2"
-      />
-    </div>
-    <div>
-      <label class="font-bold">Giá gốc</label>
-      <input
-        formControlName="price"
-        type="number"
-        min="0"
-        step="100000"
-        placeholder="Giá"
-        class="w-full border rounded-lg px-4 py-2"
-      />
-    </div>
-    <div>
-      <label class="font-bold">Giá khuyến mãi</label>
-      <input
-        formControlName="price_sale"
-        type="number"
-        min="0"
-        step="100000"  
-        placeholder="Giá KM"
-        class="w-full border rounded-lg px-4 py-2"
-      />
-    </div>
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-7 grid grid-cols-2 gap-4">
+      <div class="col-span-2">
+        <label class="block font-semibold text-sm mb-1">Tên sản phẩm</label>
+        <input formControlName="name" placeholder="Tên sản phẩm"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Slug</label>
+        <input formControlName="slug" placeholder="Slug"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      </div>
 
-    <!-- Hàng 2 -->
-    <div>
-      <label class="font-bold">Xuất xứ</label>
-      <input
-        formControlName="origin_country"
-        placeholder="Xuất xứ"
-        class="w-full border rounded-lg px-4 py-2"
-      />
-    </div>
-    <div>
-      <label class="font-bold">Thương hiệu</label>
-      <select
-        formControlName="brand_id"
-        class="w-full border rounded-lg px-4 py-2"
-      >
-        <option *ngFor="let b of brands" [value]="b.id">{{ b.name }}</option>
-      </select>
-    </div>
-    <div>
-      <label class="font-bold">Danh mục</label>
-      <select
-        formControlName="category_id"
-        class="w-full border rounded-lg px-4 py-2"
-      >
-        <option *ngFor="let c of categories" [value]="c.id">
-          {{ c.name }}
-        </option>
-      </select>
-    </div>
-    <div>
-      <label class="font-bold">Giới tính</label>
-      <select
-        formControlName="gender_id"
-        class="w-full border rounded-lg px-4 py-2"
-      >
-        <option *ngFor="let g of genders" [value]="g.id">{{ g.name }}</option>
-      </select>
-    </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Giá gốc</label>
+        <input formControlName="price" type="number" min="0" step="100000" placeholder="Giá"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Giá khuyến mãi</label>
+        <input formControlName="price_sale" type="number" min="0" step="100000" placeholder="Giá KM"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      </div>
 
-    <!-- Hàng 3 -->
-    <div>
-      <label class="font-bold">Trạng thái</label>
-      <select
-        formControlName="status"
-        class="w-full border rounded-lg px-4 py-2"
-      >
-        <option [value]="1">Hiển thị</option>
-        <option [value]="0">Ẩn</option>
-      </select>
-    </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Xuất xứ</label>
+        <input formControlName="origin_country" placeholder="Xuất xứ"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Thương hiệu</label>
+        <select formControlName="brand_id"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option *ngFor="let b of brands" [value]="b.id">{{ b.name }}</option>
+        </select>
+      </div>
 
-    <!-- Ảnh đại diện -->
-    <div>
-      <label class="font-bold">Ảnh đại diện (file)</label>
-      <input
-        type="file"
-        (change)="uploadMainImage($event)"
-        class="w-full border rounded-lg px-4 py-2"
-      />
+      <div>
+        <label class="block font-semibold text-sm mb-1">Giới tính</label>
+        <select formControlName="gender_id"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option *ngFor="let g of genders" [value]="g.id">{{ g.name }}</option>
+        </select>
+      </div>
 
-      <div class="mt-2">
-        <div
-          class="w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden"
-        >
-          <img
-            *ngIf="form.get('image')?.value"
-            [src]="form.get('image')?.value"
-            class="w-full h-full object-cover"
-          />
-          <span *ngIf="!form.get('image')?.value" class="text-sm text-gray-400">
-            Chưa có ảnh
-          </span>
-        </div>
+      <div>
+        <label class="block font-semibold text-sm mb-1">Danh mục</label>
+        <select formControlName="category_id"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-semibold text-sm mb-1">Trạng thái</label>
+        <select formControlName="status"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+          <option [value]="1">Hiển thị</option>
+          <option [value]="0">Ẩn</option>
+        </select>
       </div>
     </div>
 
-    <!-- Mô tả sản phẩm -->
     <div class="col-span-2">
-      <label class="font-bold">Mô tả sản phẩm</label>
-      <textarea
-        formControlName="description"
-        class="w-full border rounded-lg px-4 py-2 h-40 resize-none"
-        placeholder="Nhập mô tả..."
-      ></textarea>
+      <label class="block font-semibold text-sm mb-1">Ảnh đại diện (file)</label>
+      <input type="file" (change)="uploadMainImage($event)"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
+      <div class="mt-2 w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden">
+        <img *ngIf="form.get('image')?.value" [src]="form.get('image')?.value" class="w-full h-full object-cover" />
+        <span *ngIf="!form.get('image')?.value" class="text-sm text-gray-400">Chưa có ảnh</span>
+      </div>
     </div>
+
+    <<<<<<< HEAD <div class="w-full h-px bg-black opacity-20 my-6">
   </div>
+
   <!-- BIẾN THỂ -->
+  =======
+  <div class="col-span-3">
+    <label class="block font-semibold text-sm mb-1">Mô tả sản phẩm</label>
+    <textarea formControlName="description"
+      class="w-full border border-gray-300 rounded-lg px-3 py-2 h-40 resize-none focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      placeholder="Nhập mô tả..."></textarea>
+  </div>
+  </div>
+
+  >>>>>>> eb7ce31c3bafb9293729c9be324314923c9c183f
   <div formArrayName="variants">
-    <div
-      *ngFor="let variant of variants.controls; let i = index"
-      [formGroupName]="i"
-      class="border p-4 my-4 rounded-xl bg-gray-50 space-y-4"
-    >
+    <div *ngFor="let variant of variants.controls; let i = index" [formGroupName]="i"
+      class="p-4 my-4 rounded-xl space-y-4">
       <h4 class="font-bold text-lg mb-2">Biến thể {{ i + 1 }}</h4>
 
-      <!-- Dòng 1: Màu - Mã - Tên - Chiều cao -->
       <div class="grid grid-cols-4 gap-4">
         <div>
           <label class="font-bold">Tên màu (VN)</label>
-          <input
-            formControlName="color_name"
-            class="w-full border rounded-lg px-4 py-2"
-          />
+          <input formControlName="color_name" class="w-full border rounded-lg px-4 py-2" />
         </div>
         <div>
           <label class="font-bold">Tên màu gốc (EN)</label>
-          <input
-            formControlName="original_name"
-            class="w-full border rounded-lg px-4 py-2"
-          />
+          <input formControlName="original_name" class="w-full border rounded-lg px-4 py-2" />
         </div>
         <div>
           <label class="font-bold">Mã sản phẩm (style_code)</label>
-          <input
-            formControlName="style_code"
-            class="w-full border rounded-lg px-4 py-2"
-          />
+          <input formControlName="style_code" class="w-full border rounded-lg px-4 py-2" />
         </div>
         <div>
           <label class="font-bold">Chiều cao cổ giày</label>
-          <select
-            formControlName="shoe_height_id"
-            class="w-full border rounded-lg px-4 py-2"
-          >
+          <select formControlName="shoe_height_id" class="w-full border rounded-lg px-4 py-2">
             <option *ngFor="let s of shoeHeights" [value]="s.id">
               {{ s.name }}
             </option>
@@ -172,96 +116,52 @@
         </div>
       </div>
 
-      <!-- Dòng 2: Ảnh đại diện + tồn kho chung -->
       <div class="grid grid-cols-4 gap-4 mt-4">
         <div class="">
           <label class="block font-bold">Ảnh đại diện biến thể</label>
 
-          <input
-            type="file"
-            accept="image/*"
-            (change)="uploadVariantImage($event, i)"
-            class="block w-full border rounded-md px-3 py-2"
-          />
+          <input type="file" accept="image/*" (change)="uploadVariantImage($event, i)"
+            class="block w-full border rounded-md px-3 py-2" />
 
-          <div
-            class="w-28 h-28 mt-2 border rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center"
-          >
-            <img
-              *ngIf="variantImages[i]"
-              [src]="variantImages[i]"
-              class="w-full h-full object-cover"
-            />
-            <span
-              *ngIf="!variantImages[i]"
-              class="text-xs text-gray-400 text-center"
-            >
+          <div class="w-28 h-28 mt-2 border rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+            <img *ngIf="variantImages[i]" [src]="variantImages[i]" class="w-full h-full object-cover" />
+            <span *ngIf="!variantImages[i]" class="text-xs text-gray-400 text-center">
               Chưa có ảnh
             </span>
           </div>
         </div>
 
-        <!-- Tồn kho chung -->
         <div class="col-span-1">
           <label class="font-bold">Tồn kho chung cho tất cả size</label>
-          <input
-            type="number"
-            min="0"
-            class="w-full border rounded-lg px-4 py-2"
-            (input)="applyStockToAllSizes($event, i)"
-          />
+          <input type="number" min="0" class="w-full border rounded-lg px-4 py-2"
+            (input)="applyStockToAllSizes($event, i)" />
         </div>
       </div>
 
-      <!-- Size và tồn kho -->
       <div class="mt-4">
         <label class="block font-bold mb-2">Tồn kho theo size</label>
         <div formArrayName="sizes" class="grid grid-cols-6 gap-4">
-          <div
-            *ngFor="let size of getSizes(i).controls; let j = index"
-            [formGroupName]="j"
-          >
+          <div *ngFor="let size of getSizes(i).controls; let j = index" [formGroupName]="j">
             <label class="block text-sm font-semibold mb-1">
               {{ getSizeNameById(size.get("size_id")?.value) || "Size?" }}
             </label>
-            <input
-              formControlName="stock"
-              type="number"
-              min="0"
-              placeholder="Tồn kho"
-              class="w-full border border-gray-300 rounded-md px-3 py-1"
-            />
+            <input formControlName="stock" type="number" min="0" placeholder="Tồn kho"
+              class="w-full border border-gray-300 rounded-md px-3 py-1" />
           </div>
         </div>
       </div>
 
-      <!-- Ảnh chi tiết -->
       <div class="mt-4">
-        <label class="block font-bold mb-2"
-          >Ảnh chi tiết biến thể (tối đa 8 ảnh)</label
-        >
-        <input
-          type="file"
-          multiple
-          accept="image/*"
-          (change)="handleDetailImagesUpload($event, i)"
-          class="block w-full border border-gray-300 rounded-md px-3 py-2"
-        />
+        <label class="block font-bold mb-2">Ảnh chi tiết biến thể (tối đa 8 ảnh)</label>
+        <input type="file" multiple accept="image/*" (change)="handleDetailImagesUpload($event, i)"
+          class="block w-full border border-gray-300 rounded-md px-3 py-2" />
 
         <div class="grid grid-cols-8 gap-2 mt-2">
           <ng-container *ngFor="let index of [0, 1, 2, 3, 4, 5, 6, 7]">
-            <div
-              class="w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden"
-            >
-              <img
-                *ngIf="previewImages[i]?.[index]"
-                [src]="previewImages[i][index]"
-                class="w-full h-full object-cover"
-              />
-              <span
-                *ngIf="!previewImages[i]?.[index]"
-                class="text-xs text-gray-400 text-center"
-              >
+            <div class="w-28 h-28 rounded-lg border bg-gray-100 flex items-center justify-center overflow-hidden">
+              <img *ngIf="previewImages[i]?.[index]" [src]="previewImages[i][index]"
+                class="w-full h-full object-cover" />
+              <span *ngIf="!previewImages[i]?.[index]" class="text-xs text-gray-400 text-center">
                 Ảnh {{ index + 1 }}
               </span>
             </div>
@@ -269,33 +169,22 @@
         </div>
       </div>
 
-      <!-- Nút xóa -->
-      <button
-        type="button"
-        (click)="removeVariant(i)"
-        class="w-30 p-3 text-sm rounded-full bg-white text-red-600 shadow-lg transition duration-300 cursor-pointer hover:bg-red-100 border-none mt-4"
-      >
+      <button type="button" (click)="removeVariant(i)"
+        class="w-30 p-3 text-sm rounded-full bg-white text-red-600 shadow-lg transition duration-300 cursor-pointer hover:bg-red-100 border-none mt-4">
         Xoá biến thể
       </button>
     </div>
   </div>
 
-  <div class="flex items-center pt-4 gap-4">
-    <!-- Nút thêm biến thể -->
-    <button
-      type="button"
-      (click)="addVariant()"
-      class="w-50 p-3 text-sm md:text-lg rounded-full bg-white text-black shadow-lg transition duration-300 cursor-pointer hover:bg-[#7070724D] border-none"
-    >
+  <div class="flex items-center justify-end pt-4 gap-4">
+    <button type="button" (click)="addVariant()"
+      class="w-40 p-2 rounded-full bg-white text-black shadow-lg transition duration-300 cursor-pointer hover:bg-[#7070724D] border-none">
       Thêm biến thể
     </button>
 
-    <!-- Nút lưu sản phẩm -->
-    <button
-      type="submit"
-      class="w-50 p-3 text-sm md:text-lg rounded-full bg-black text-white shadow-lg transition duration-300 cursor-pointer hover:bg-[#707072]"
-    >
-      Lưu sản phẩm
+    <button type="submit"
+      class="w-40 p-2 rounded-full bg-black text-white shadow-lg transition duration-300 cursor-pointer hover:bg-[#707072]">
+      {{isEditMode ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}}
     </button>
   </div>
 </form>

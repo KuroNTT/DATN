@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
 import { WishlistService } from "../../services/wishlist.service";
-
+import { environment } from "../../../../environments/environment";
 @Component({
   selector: "app-product-wishlist",
   imports: [CommonModule],
@@ -33,6 +33,7 @@ export class ProductWishlistComponent {
   }
   removeFromWishlist(item: any): void {
     const id = item.wishlist_id;
+    console.log(id);
     this.wishlistService.removeFromWishlist(id).subscribe({
       next: () => {
         this.products_wishList = this.products_wishList.filter(
