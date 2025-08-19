@@ -51,7 +51,6 @@ export class BlogListComponent implements OnInit {
   selectedCategorySlug: string = "";
   filterByCategorySlug(slug: string): void {
     this.selectedCategorySlug = slug;
-
     fetch(`${environment.apiUrl}/blogs/category/${slug}`)
       .then((res) => res.json())
       .then((data) => {

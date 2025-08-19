@@ -12,19 +12,22 @@ import { environment } from "../../../../enviroments/environment";
 })
 export class SignUpComponent {
   router = inject(Router);
-  user = { name: "", email: "", password: "", re_password: "" };
+  user = { name: "", email: "", phone: "", password: "", re_password: "" };
   thong_bao: string = "";
   private nameRegex = /^[a-zA-ZÀ-ỹ\s']{3,30}$/;
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  private phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
   private passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
   thong_bao_name: string = "";
   thong_bao_email: string = "";
+  thong_bao_phone: string = "";
   thong_bao_password: string = "";
   thong_bao_re_password: string = "";
 
   invalidName: boolean = false;
   invalidEmail: boolean = false;
+  invalidPhone: boolean = false;
   invalidPassword: boolean = false;
   invalidRepassword: boolean = false;
 
@@ -37,10 +40,11 @@ export class SignUpComponent {
     this.showConfirm = !this.showConfirm;
   }
   isValid(): boolean {
-    const { name, email, password, re_password } = this.user;
+    const { name, email, phone, password, re_password } = this.user;
 
     this.thong_bao_name = "";
     this.thong_bao_email = "";
+    this.thong_bao_phone = "";
     this.thong_bao_password = "";
     this.thong_bao_re_password = "";
     //Name
@@ -64,7 +68,14 @@ export class SignUpComponent {
       );
       return false;
     }
-
+    if (!phone.trim()) {
+      this.shakeField("phone", "Vui lòng nhập số điện thoại");
+      return false;
+    }
+    if (!this.phoneRegex.test(phone)) {
+      this.shakeField("phone", "Số điện thoại không hợp lệ");
+      return false;
+    }
     if (!email.trim()) {
       this.shakeField("email", "Vui lòng nhập Email");
       return false;
@@ -92,7 +103,7 @@ export class SignUpComponent {
   }
 
   shakeField(
-    field: "name" | "email" | "password" | "re_password",
+    field: "name" | "email" | "phone" | "password" | "re_password",
     message: string
   ): void {
     if (field === "name") {
@@ -107,6 +118,12 @@ export class SignUpComponent {
       setTimeout(() => (this.invalidEmail = true), 10);
       setTimeout(() => (this.invalidEmail = false), 400);
     }
+    if (field === "phone") {
+    this.thong_bao_phone = message;
+    this.invalidPhone = false;
+    setTimeout(() => (this.invalidPhone = true), 10);
+    setTimeout(() => (this.invalidPhone = false), 400);
+  }
     if (field === "password") {
       this.thong_bao_password = message;
       this.invalidPassword = false;
@@ -138,6 +155,9 @@ export class SignUpComponent {
           if (data.field === "name") {
             this.shakeField("name", data.message);
           }
+          if (data.field === "phone") {
+            this.shakeField("phone", data.message);
+          }
           if (data.field === "password") {
             this.shakeField("password", data.message);
           }
@@ -145,7 +165,7 @@ export class SignUpComponent {
             this.shakeField("re_password", data.message);
           }
           return;
-        } // ✅ Thông báo yêu cầu kiểm tra email
+        }
         this.thong_bao =
           "Đăng ký thành công. Vui lòng kiểm tra email để xác thực tài khoản.";
       })

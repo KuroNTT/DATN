@@ -33,7 +33,7 @@ export class BlogDetailComponent implements OnInit {
   }
 
   getRelatedProducts() {
-    fetch("http://localhost:3000/api/products/most-view/products")
+    fetch(`${environment.apiUrl}/products/most-view/products`)
       .then(res => res.json())
       .then(data => {
         this.product_arr = data;
