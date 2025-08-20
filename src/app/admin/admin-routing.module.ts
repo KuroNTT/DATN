@@ -62,7 +62,7 @@ const routes: Routes = [
         title: "Quản lý banner",
       },
       {
-        path: "voucher",
+        path: "vouchers",
         loadChildren: () =>
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
         title: "Quản lý banner",

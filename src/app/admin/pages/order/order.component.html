@@ -30,9 +30,9 @@
         <td mat-cell *matCellDef="let row">{{ row.customer_phone_number }}</td>
       </ng-container>
     
-      <ng-container matColumnDef="totalPrice">
+      <ng-container matColumnDef="total_price">
         <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Total Price</th>
-        <td mat-cell *matCellDef="let row">{{ row.total_price | number:'1.0-0' }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.total_price | number:'1.0-0' }} <i class="fa-sharp fa-solid fa-dong-sign"></i></td>
       </ng-container>
     
       <ng-container matColumnDef="status">

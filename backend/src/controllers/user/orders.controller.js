@@ -152,9 +152,10 @@ const generateOrderCode = () => {
 };
 
 exports.createPaymentLink = async (req, res) => {
-  const transaction = await sequelize.transaction();
   try {
     let {
+      total_price,
+      items,
       userId,
       payment_method,
       voucherId,
@@ -174,19 +175,9 @@ exports.createPaymentLink = async (req, res) => {
     if (voucherCode) {
       const voucher = await VoucherModel.findOne({
         where: { code: voucherCode },
-        transaction,
       });
-      if (!voucher) {
-        await transaction.rollback();
-        return res.status(400).json({ error: "Voucher không tồn tại." });
-      }
-      if (voucher.quantity <= 0) {
-        await transaction.rollback();
-        return res.status(400).json({ error: "Voucher đã hết lượt sử dụng." });
-      }
+
       voucherId = voucher.id;
-      voucher.quantity--;
-      await voucher.save({ transaction });
     } else {
       voucherId = null;
     }
@@ -194,49 +185,51 @@ exports.createPaymentLink = async (req, res) => {
     customerNote = customerNote || "Không có ghi chú";
     adminNote = adminNote || null;
 
-    // --- Generate order code ---
-    let orderCode;
-    let existingOrder;
-    do {
+    let orderCode = generateOrderCode();
+    let existingOrder = await OrderModel.findOne({
+      where: { order_code: orderCode },
+    });
+    while (existingOrder) {
       orderCode = generateOrderCode();
       existingOrder = await OrderModel.findOne({
         where: { order_code: orderCode },
-        transaction,
       });
-    } while (existingOrder);
+    }
 
-    // --- Tạo order ---
-    const newOrder = await OrderModel.create(
-      {
-        user_id: userId,
-        order_code: orderCode,
-        total_price: 0, // sẽ update sau khi snapshot giỏ hàng
-        status: "pending",
-        payment_method,
-        order_date: new Date(),
-        voucher_id: voucherId,
-        create_at: new Date(),
-        customer,
-        customer_address: address,
-        customer_phone_number: phone,
-        customer_note: customerNote,
-        admin_note: adminNote,
-      },
-      { transaction }
-    );
+    const newOrder = await OrderModel.create({
+      user_id: userId,
+      order_code: orderCode,
+      total_price: 0,
+      status: "pending",
+      payment_method,
+      order_date: new Date(),
+      voucher_id: voucherId,
+      create_at: new Date(),
+      customer,
+      customer_address: address,
+      customer_phone_number: phone,
+      customer_note: customerNote,
+      admin_note: adminNote,
+    });
+    console.log(items);
 
-    // --- Snapshot giỏ hàng vào order_details ---
-    const { totalPrice, payItems } = await snapshotOrderDetailsFromCart(
-      userId,
-      newOrder.id,
-      transaction
-    );
+    for (const item of items) {
+      if (!item.variantId) {
+        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
+        continue; // bỏ qua item này, không lưu vào order_detail
+      }
 
-    // update lại total_price sau snapshot
-    newOrder.total_price = totalPrice;
-    await newOrder.save({ transaction });
+      await OrderDetailModel.create(
+        {
+          order_id: newOrder.id,
+          variant_id: item.variantId,
+          quantity: item.quantity || 1,
+          price: item.price || 0,
+        },
+        { transaction }
+      );
+    }
 
-    // --- Payload cho PayOS ---
     const payload = {
       orderCode: orderCode,
       amount: Number(totalPrice),

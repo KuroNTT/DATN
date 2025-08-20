@@ -5,7 +5,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -23,7 +23,7 @@ const matAngular = [
 ];
 @Component({
   selector: "app-order",
-  imports: [...matAngular, CommonModule, FormsModule],
+  imports: [...matAngular, CommonModule, FormsModule, RouterModule],
   templateUrl: "./order.component.html",
   styleUrl: "./order.component.css",
 })
@@ -90,6 +90,12 @@ export class OrderComponent {
     };
     if (typeof window != "undefined") {
       this.user = JSON.parse(sessionStorage.getItem("user") as string);
+      console.log(this.user);
+      if(this.user){
+        this.fullName = this.user.name;
+        this.phone = this.user.phone;
+        this.email = this.user.email;
+      }
     }
     if (this.user) {
       this.cartItems$ = this.cartService.getServerCart(this.user.id);
@@ -361,7 +367,7 @@ export class OrderComponent {
     this.cartService
       .getAllCartInLocal({ items: this.items })
       .subscribe((data) => {
-        this.cartItemLocal$.next(data);
+        this.cartItemLocal$.next(data); 
       });
   }
 }
