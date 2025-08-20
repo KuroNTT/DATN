@@ -11,6 +11,7 @@ const SizeModel = require("../../models/Size");
 const ProductImageModel = require("../../models/ProductImage");
 const ProductVariantModel = require("../../models/ProductVariant");
 const VariantSizeModel = require("../../models/VariantSize");
+
 exports.getAllProducts = async (req, res) => {
   const searchQuery = req.query.q || "";
   const collarIdsRaw = req.query.collars || "";
@@ -127,6 +128,7 @@ exports.getAllProducts = async (req, res) => {
   });
   res.json(products);
 };
+
 exports.getProductById = async (req, res) => {
   try {
     const sp = await ProductModel.findByPk(req.params.id);
@@ -137,6 +139,7 @@ exports.getProductById = async (req, res) => {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
 };
+
 exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
@@ -164,6 +167,7 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
 };
+
 exports.updateStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -174,6 +178,7 @@ exports.updateStatus = async (req, res) => {
     res.status(500).json({ error: "Lỗi khi cập nhật trạng thái" });
   }
 };
+
 exports.createProduct = async (req, res) => {
   const t = await sequelize.transaction();
   try {
@@ -284,6 +289,7 @@ exports.createProduct = async (req, res) => {
     res.status(400).json({ thong_bao: "Thêm sản phẩm thất bại", error: error.message });
   }
 };
+
 exports.updateProductBySlug = async (req, res) => {
   const t = await sequelize.transaction();
   try {
@@ -455,6 +461,7 @@ exports.updateProductBySlug = async (req, res) => {
       .json({ message: "Cập nhật thất bại", error: error.message });
   }
 };
+
 exports.getProductBySlug = async (req, res) => {
   const { slug } = req.params;
   try {

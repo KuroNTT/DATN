@@ -33,7 +33,7 @@ export class OrderComponent {
     "customer",
     "customerAddress",
     "customerPhoneNumber",
-    "totalPrice",
+    "total_price",
     "status",
     "orderDate",
   ];
@@ -45,8 +45,7 @@ export class OrderComponent {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.sort);
-      
+      console.log(res);
     });
   }
 

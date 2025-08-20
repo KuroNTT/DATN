@@ -1,38 +1,45 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  AfterViewInit,
-  OnInit,
-} from "@angular/core";
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
-import { IProduct } from "../../../core/models/structureData";
-import { Router } from "@angular/router";
-import { environment } from "../../../../enviroments/environment";
+import { IProduct, IBlog, IVoucher } from "../../../core/models/structureData";
+import { Router, RouterLink } from "@angular/router";
+import { environment } from "../../../../environments/environment";
 import { ProductService } from "../../services/product.service";
-import { IBlog } from "../../../core/models/structureData";
-import { RouterLink } from "@angular/router";
+import { VoucherService } from "../../services/voucher.service";
+
 @Component({
   selector: "app-home",
   standalone: true,
   imports: [CommonModule, BannerComponent, RouterLink],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild("scrollContainer", { static: true })
   scrollContainer!: ElementRef<HTMLDivElement>;
 
+  @ViewChild("swiperRef") swiperRef?: ElementRef;
+  swiperInstance: any = null;
+
   isLiked: boolean = false;
   product_arr: IProduct[] = [];
   blog_arr: IBlog[] = [];
-  constructor(private router: Router, private pds: ProductService) { }
+  vouchers: IVoucher[] = [];
+
+  constructor(
+    private router: Router,
+    private pds: ProductService,
+    private voucherService: VoucherService
+  ) { }
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadNewestBlogs();
+    this.loadVouchers();
   }
+
+  ngAfterViewInit(): void { }
 
   loadProducts() {
     fetch(`${environment.apiUrl}/products`)
@@ -44,17 +51,44 @@ export class HomeComponent implements OnInit, AfterViewInit {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
       );
   }
+
   loadNewestBlogs() {
     fetch(`${environment.apiUrl}/blogs/newest`)
       .then((res) => res.json())
-      .then(data => {
+      .then((data) => {
         this.blog_arr = data;
       })
-      .catch(err => {
-        console.log('Loi khi fetch blog newest', err);
-      })
+      .catch((err) => {
+        console.log("Loi khi fetch blog newest", err);
+      });
   }
-  // Data source (tách data ra cho sạch)
+
+  loadVouchers() {
+    this.voucherService.getUserVouchers().subscribe({
+      next: (data: IVoucher[]) => {
+        this.vouchers = data;
+        setTimeout(() => {
+          const swiperEl = this.swiperRef?.nativeElement as any;
+          if (swiperEl?.swiper) {
+            this.swiperInstance = swiperEl.swiper;
+            this.swiperInstance.update();
+          }
+        }, 0);
+      },
+      error: (err) => {
+        console.error("Lỗi khi load voucher:", err);
+      },
+    });
+  }
+  get latestVouchers() {
+    return this.vouchers.slice(0, 3);
+  }
+
+  onSwiperReady(swiper: any) {
+    this.swiperInstance = swiper;
+  }
+
+  // Các hàm scroll giữ nguyên
   sports = [
     { id: 3, name: "Chạy bộ", image: "images/nike-running.jpg" },
     { id: 4, name: "Đá bóng", image: "images/nike-football.jpg" },
@@ -63,12 +97,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { id: 7, name: "Skateboard", image: "images/nike-skateboard.jpg" },
     { id: 8, name: "Golf", image: "images/nike-golf.jpg" },
   ];
+
   goToCategory(categoryId: number) {
     this.pds.setPreselectedCategory(categoryId);
-    this.router.navigate(['/products']);
+    this.router.navigate(["/products"]);
   }
-
-  ngAfterViewInit(): void { }
 
   scrollRight() {
     const container = this.scrollContainer.nativeElement;
@@ -86,7 +119,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   scrollLeft() {
     const container = this.scrollContainer.nativeElement;
     const scrollAmount = 440 + 12;
-
     if (container.scrollLeft > 0) {
       container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
     } else {

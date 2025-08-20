@@ -9,7 +9,7 @@ import {
 } from "../../core/models/structureData";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { environment } from "../../../enviroments/environment";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -18,7 +18,6 @@ export class ProductService {
   private apiUrl = `${environment.apiUrl}/products`; // Thay bằng URL thật nếu có
   private preselectedCategoryId?: number;
   private preselectedBrandId: number | null = null;
-
 
   constructor(private http: HttpClient) {}
 
@@ -104,5 +103,4 @@ export class ProductService {
   clearPreselectedCategory() {
     this.preselectedCategoryId = undefined;
   }
-  
 }

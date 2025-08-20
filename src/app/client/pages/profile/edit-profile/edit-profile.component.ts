@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
-import { environment } from "../../../../../enviroments/environment";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: "app-edit-profile",
@@ -15,15 +15,16 @@ export class EditProfileComponent implements OnInit {
   emailVerified = false;
   originalData: any = {};
   daThayDoi = false;
+  avatarPreview: string | null = null;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: ["", [Validators.required]],
-      phone: ["", [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      sex: ["", Validators.required],
-      address: ["", [Validators.required, Validators.minLength(10)]],
+      name: [""], // không required
+      phone: ["", [Validators.pattern(/^\d{10}$/)]], // chỉ kiểm tra pattern nếu nhập
+      sex: [""],
+      address: [""],
       email: [""],
       avatar: [""],
       email_verify_at: [""],
@@ -46,6 +47,12 @@ export class EditProfileComponent implements OnInit {
         this.originalData = data;
         this.form.patchValue(data);
         this.emailVerified = !!data.email_verify_at;
+
+        // giữ role trong sessionStorage
+        const currentUser = JSON.parse(sessionStorage.getItem("user") || "{}");
+        const updatedUser = { ...currentUser, ...data, role: currentUser.role };
+        sessionStorage.setItem("user", JSON.stringify(updatedUser));
+
         this.form.markAsPristine();
         this.form.markAsUntouched();
         this.form.updateValueAndValidity();
@@ -79,10 +86,13 @@ export class EditProfileComponent implements OnInit {
   }
 
   capNhat(): void {
-    this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
 
-    if (this.form.invalid) return;
+    // nếu phone nhập nhưng không đúng pattern
+    if (this.form.get("phone")?.value && this.form.get("phone")?.invalid) {
+      alert("Số điện thoại không hợp lệ");
+      return;
+    }
 
     const token = sessionStorage.getItem("token");
     if (!token) {
@@ -106,17 +116,14 @@ export class EditProfileComponent implements OnInit {
 
         alert("Cập nhật thành công!");
         const currentUser = JSON.parse(sessionStorage.getItem("user") || "{}");
-        sessionStorage.setItem(
-          "user",
-          JSON.stringify({ ...currentUser, ...updatedData })
-        );
+        const updatedUser = { ...currentUser, ...data, role: currentUser.role };
+        sessionStorage.setItem("user", JSON.stringify(updatedUser));
       })
       .catch((err) => {
         console.error(err);
         alert("Cập nhật thất bại!");
       });
   }
-  avatarPreview: string | null = null;
 
   onAvatarSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -134,12 +141,9 @@ export class EditProfileComponent implements OnInit {
     })
       .then((res) => res.json())
       .then((data) => {
-
         this.avatarPreview = data.secure_url;
         this.form.patchValue({ avatar: data.secure_url });
-
       })
-
       .catch((err) => {
         console.error("Lỗi upload ảnh:", err);
         alert("Tải ảnh thất bại.");

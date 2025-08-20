@@ -2,9 +2,8 @@
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-xl font-bold">Danh sách danh mục bài viết</h2>
     <button
-      routerLink="/admin/blog-categories/add"
-      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full 
-      text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
+      (click)="goToAdd()"
+      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
     >
       <i class="fa-solid fa-plus mr-2"></i>Thêm danh mục bài viết
     </button>
@@ -22,7 +21,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let cat of categories; index as i" class="hover:bg-gray-50 text-center">
+        <tr
+          *ngFor="let cat of categories; index as i"
+          class="hover:bg-gray-50 text-center"
+        >
           <td class="px-4 py-2 border">{{ i + 1 }}</td>
           <td class="px-4 py-2 border text-left">{{ cat.name }}</td>
           <td class="px-4 py-2 border text-left">{{ cat.description }}</td>

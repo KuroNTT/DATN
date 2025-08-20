@@ -220,6 +220,7 @@ exports.getProfile = async (req, res) => {
         "address",
         "avatar",
         "email_verify_at",
+        'role',
       ],
     });
 
@@ -265,6 +266,7 @@ exports.updateProfile = async (req, res) => {
       sex: user.sex,
       address: user.address,
       email_verify_at: user.email_verify_at,
+      role: user.role,
     });
   } catch (err) {
     console.error(" Lỗi cập nhật:", err);

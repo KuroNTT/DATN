@@ -21,7 +21,7 @@
           >
         </li>
         <li>
-          <a href="/products" class="hover:text-blue-600 transition font-bold"
+          <a routerLink="/products" class="hover:text-blue-600 transition font-bold"
             >Sản phẩm</a
           >
         </li>
@@ -58,24 +58,23 @@
             <div class="menu-column">
               <h4 class="font-semibold mb-2">Giày</h4>
               <ul class="space-y-2">
-  <li>
-    <a 
-      (click)="goToCategory(null)" 
-      class="hover:text-blue-600 cursor-pointer"
-    >
-      Tất cả
-    </a>
-  </li>
-  <li *ngFor="let category of category_arr">
-    <a 
-      (click)="goToCategory(category.id)" 
-      class="hover:text-blue-600 cursor-pointer"
-    >
-      {{ category.name }}
-    </a>
-  </li>
-</ul>
-
+                <li>
+                  <a
+                    (click)="goToCategory(null)"
+                    class="hover:text-blue-600 cursor-pointer"
+                  >
+                    Tất cả
+                  </a>
+                </li>
+                <li *ngFor="let category of category_arr">
+                  <a
+                    (click)="goToCategory(category.id)"
+                    class="hover:text-blue-600 cursor-pointer"
+                  >
+                    {{ category.name }}
+                  </a>
+                </li>
+              </ul>
             </div>
 
             <div class="menu-column">
@@ -96,22 +95,30 @@
                   >
                 </li>
                 <li>
-                  <a routerLink="product-detail/nike-dunk-low-next-nature" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-dunk-low-next-nature"
+                    class="hover:text-blue-600"
                     >Dunk</a
                   >
                 </li>
                 <li>
-                  <a routerLink="product-detail/nike-sb-zoom-blazer-low-pro-gt" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-sb-zoom-blazer-low-pro-gt"
+                    class="hover:text-blue-600"
                     >Blazer</a
                   >
                 </li>
                 <li>
-                  <a routerLink="nike-pegasus-plus-faith-kipyegon" class="hover:text-blue-600"
+                  <a
+                    routerLink="nike-pegasus-plus-faith-kipyegon"
+                    class="hover:text-blue-600"
                     >Pegasus</a
                   >
                 </li>
                 <li>
-                  <a routerLink="product-detail/nike-zoom-vomero-5" class="hover:text-blue-600"
+                  <a
+                    routerLink="product-detail/nike-zoom-vomero-5"
+                    class="hover:text-blue-600"
                     >Vomero</a
                   >
                 </li>
@@ -134,19 +141,18 @@
         </li>
         <li>
           <a
-            href="about-us"
-            (click)="scrollToSection('about-us')"
+            routerLink="/about-us"
             class="hover:text-blue-600 transition font-bold cursor-pointer"
             >Về chúng tôi</a
           >
         </li>
         <li>
-          <a href="/blog" class="hover:text-blue-600 transition font-bold"
+          <a routerLink="/blog" class="hover:text-blue-600 transition font-bold"
             >Bài viết</a
           >
         </li>
         <li>
-          <a href="/contact" class="hover:text-blue-600 transition font-bold"
+          <a routerLink="/contact" class="hover:text-blue-600 transition font-bold"
             >Liên hệ</a
           >
         </li>
@@ -245,7 +251,7 @@
           ></a>
         </li>
         <li>
-          <a href="/cart" class="hover:text-blue-600"
+          <a routerLink="/cart" class="hover:text-blue-600"
             ><i class="fa-solid fa-cart-shopping"></i
           ></a>
         </li>
@@ -271,7 +277,7 @@
 
 <!-- Mobile Menu -->
 <div
-  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 overflow-y-auto"
+  class="mobile-menu lg:hidden fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-lg z-[550] transform transition-transform ease-in-out duration-300 overflow-y-auto"
   [ngClass]="isMenuOpen ? 'translate-x-0' : 'translate-x-full'"
 >
   <div
@@ -435,8 +441,7 @@
     </li>
     <li>
       <a
-        (click)="scrollToSection('about-us')"
-        routerLink="/about"
+        routerLink="/about-us"
         (click)="toggleMenu()"
         class="block text-lg hover:text-blue-600"
         >Về chúng tôi</a
@@ -460,34 +465,6 @@
     </li>
   </ul>
 </div>
-<!-- Search bar fixed giống Nike, chiếm 50%
-  <div
-    *ngIf="isSearchBarVisible"
-    class="fixed top-[72px] left-1/2 transform -translate-x-1/2 w-[90%] sm:w-2/3 lg:w-1/2 bg-white z-[999] shadow-lg border border-gray-200 px-4 py-3 rounded-xl flex items-center"
-  >
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      (keydown.enter)="onSearch()"
-      placeholder="Tìm kiếm sản phẩm..."
-      class="flex-1 text-base px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
-      autofocus
-    />
-    <button
-      (click)="onSearch()"
-      class="ml-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
-    >
-      Tìm
-    </button>
-    <button
-      (click)="toggleSearchBar()"
-      class="ml-2 text-gray-500 hover:text-black text-xl"
-      title="Đóng"
-    >
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-  </div> -->
-<!-- SEARCH OVERLAY TRƯỢT XUỐNG + THU LÊN -->
 <div
   class="fixed top-0 left-0 w-full h-[72px] bg-white z-[999] shadow transition-all duration-300 ease-in-out flex justify-center items-center transform opacity-0 -translate-y-full pointer-events-none"
   [ngClass]="{

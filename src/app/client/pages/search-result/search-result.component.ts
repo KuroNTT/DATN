@@ -5,7 +5,7 @@ import { IProduct, ICategory } from "../../../core/models/structureData";
 import { CommonModule, NgClass } from "@angular/common";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-search-result",
@@ -58,9 +58,11 @@ export class SearchResultComponent implements OnInit {
 
   async fetchResults() {
     try {
-      this.searchResults = await this.productService.searchProducts(
+      const results = await this.productService.searchProducts(
         this.searchQuery
       );
+      this.product_arr_all = results;
+      this.product_arr = [...results];
     } catch (error) {
       console.error("Lỗi khi tìm kiếm:", error);
     }

@@ -1,12 +1,13 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
 import { ProductListComponent } from "../product-list/product-list.component";
 import { IProduct } from "../../../core/models/structureData";
 import { NgxPaginationModule } from "ngx-pagination";
 import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
-import { environment } from "../../../../enviroments/environment";
-import { ActivatedRoute } from "@angular/router";
+import { environment } from "../../../../environments/environment";
+import { ActivatedRoute, Route } from "@angular/router";
+
 @Component({
   selector: "app-product",
   standalone: true,
@@ -19,14 +20,29 @@ import { ActivatedRoute } from "@angular/router";
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+
   product_arr: IProduct[] = [];
   product_arr_all: IProduct[] = [];
   p: number = 1;
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.fetchAllProducts();
+    this.route.queryParams.subscribe((params) => {
+      const categoryId = +params["category"];
+      if (categoryId) {
+        this.onFilterChanged({
+          categories: [categoryId],
+          brands: [],
+          sizes: [],
+          genders: [],
+          shoeHeights: [],
+          prices: [],
+          colors: [],
+        });
+      }
+    });
   }
 
   fetchAllProducts(): void {

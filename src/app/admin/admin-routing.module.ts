@@ -1,15 +1,21 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.component";
-import { provideHttpClient } from '@angular/common/http';
-import { DashboardComponent } from "./pages/dashboard/dashboard/dashboard.component";
+import { provideHttpClient } from "@angular/common/http";
 
 const routes: Routes = [
   {
     path: "",
     component: AdminLayoutComponent,
     children: [
-      { path: "", component: DashboardComponent, title: "Dashboard" },
+      {
+        path: "",
+        loadChildren: () =>
+          import("./pages/dashboard/dashboard.routes").then(
+            (m) => m.dashboardRoutes
+          ),
+        title: "Thống kê",
+      },
       {
         path: "products",
         loadChildren: () =>
@@ -20,8 +26,11 @@ const routes: Routes = [
       },
       {
         path: "products/add",
-        loadComponent: () => import("./pages/products/components/product-form/product-form.component").then(m => m.ProductFormComponent),
-        title: "Add Product"
+        loadComponent: () =>
+          import(
+            "./pages/products/components/product-form/product-form.component"
+          ).then((m) => m.ProductFormComponent),
+        title: "Thêm sản phẩm",
       },
 
       {
@@ -54,15 +63,15 @@ const routes: Routes = [
       },
       {
         path: "orders",
-        loadComponent: () =>
-          import("./pages/order/order.component").then((m) => m.OrderComponent),
+        loadChildren: () =>
+          import("./pages/order/order.routes").then((m) => m.orderRoutes),
         title: "Quản lý banner",
       },
       {
-        path: "voucher",
+        path: "vouchers",
         loadChildren: () =>
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
-        title: "Quản lý banner",
+        title: "Quản lý voucher",
       },
     ],
   },
@@ -72,4 +81,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

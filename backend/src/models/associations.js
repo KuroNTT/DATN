@@ -14,7 +14,8 @@ const UserModel = require("./User");
 const BrandModel = require("./Brand");
 const OrderModel = require("./Order");
 const OrderDetailModel = require("./Order-detail");
-
+const VoucherModel= require("./voucher");
+const VoucherUserModel= require("./vocherUser");
 // Một sản phẩm thuộc về một thương hiệu
 ProductModel.belongsTo(BrandModel, {
   foreignKey: "brand_id",
@@ -138,5 +139,16 @@ OrderDetailModel.belongsTo(ProductVariantModel, {
 ProductVariantModel.hasMany(OrderDetailModel, {
   foreignKey: "variant_id",
   as: "order_details",
+});
+// 1 voucher_user thuộc về 1 voucher
+VoucherUserModel.belongsTo(VoucherModel, {
+  foreignKey: "voucher_id",
+  as: "voucher",
+});
+
+// 1 voucher có thể nhiều voucher_user
+VoucherModel.hasMany(VoucherUserModel, {
+  foreignKey: "voucher_id",
+  as: "voucher_users",
 });
 

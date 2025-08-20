@@ -1,13 +1,12 @@
 import { RenderMode, ServerRoute } from "@angular/ssr";
-import { Routes } from "@angular/router";
+import { environment } from "../environments/environment";
 
+// ===== Fetch helpers =====
 async function getProductSlugs(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/products");
+    const res = await fetch(`${environment.apiUrl}/products`);
     const products = await res.json();
-    return products
-      .map((p: any) => p.slug)
-      .filter((slug: string | undefined) => !!slug);
+    return products.map((p: any) => p.slug).filter(Boolean);
   } catch (err) {
     console.error("Lỗi khi fetch sản phẩm:", err);
     return [];
@@ -16,62 +15,29 @@ async function getProductSlugs(): Promise<string[]> {
 
 async function getBlogSlugs(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/blogs");
+    const res = await fetch(`${environment.apiUrl}/blogs`);
     const blogs = await res.json();
-    return blogs
-      .map((b: any) => b.slug)
-      .filter((slug: string | undefined) => !!slug);
+    return blogs.map((b: any) => b.slug).filter(Boolean);
   } catch (err) {
     console.error("Lỗi khi fetch blog:", err);
     return [];
   }
 }
 
-async function getCategoryIds(): Promise<string[]> {
+async function getCategorySlugs(): Promise<string[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/categories");
+    const res = await fetch(`${environment.apiUrl}/categories`);
     const categories = await res.json();
-    return categories.map((c: any) => c.id.toString());
+    return categories.map((c: any) => c.slug).filter(Boolean);
   } catch (err) {
-    console.error("Lỗi khi fetch categories:", err);
+    console.error("Lỗi khi fetch category slugs:", err);
     return [];
   }
 }
 
-async function getBlogIds(): Promise<string[]> {
-  try {
-    const res = await fetch("http://localhost:3000/api/blogs");
-    const blogs = await res.json();
-    return blogs.map((b: any) => b.id.toString());
-  } catch (err) {
-    console.error("Lỗi khi fetch blog ids:", err);
-    return [];
-  }
-}
-
-async function getBlogCategoryIds(): Promise<string[]> {
-  try {
-    const res = await fetch("http://localhost:3000/api/blog-categories");
-    const blogCategories = await res.json();
-    return blogCategories.map((bc: any) => bc.id.toString());
-  } catch (err) {
-    console.error("Lỗi khi fetch blog categories:", err);
-    return [];
-  }
-}
-
-async function getBannerIds(): Promise<string[]> {
-  try {
-    const res = await fetch("http://localhost:3000/api/banners");
-    const banners = await res.json();
-    return banners.map((b: any) => b.id.toString());
-  } catch (err) {
-    console.error("Lỗi khi fetch banners:", err);
-    return [];
-  }
-}
-
+// ===== Server routes =====
 export const serverRoutes: ServerRoute[] = [
+  // Public SEO pages
   {
     path: "product-detail/:slug",
     renderMode: RenderMode.Prerender,
@@ -89,47 +55,19 @@ export const serverRoutes: ServerRoute[] = [
     },
   },
   {
-    path: "admin/products/edit/:slug",
+    path: "category/:slug",
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => {
-      const slugs = await getProductSlugs();
+      const slugs = await getCategorySlugs();
       return slugs.map((slug) => ({ slug }));
     },
   },
-  {
-    path: "admin/categories/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getCategoryIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/blogs/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBlogIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/blog-categories/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBlogCategoryIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "admin/banners/edit/:id",
-    renderMode: RenderMode.Prerender,
-    getPrerenderParams: async () => {
-      const ids = await getBannerIds();
-      return ids.map((id) => ({ id }));
-    },
-  },
-  {
-    path: "**",
-    renderMode: RenderMode.Prerender,
-  },
+  { path: "search", renderMode: RenderMode.Client },
+  { path: "product", renderMode: RenderMode.Client },
+  // Admin routes → only client render (avoid prerender build-time)
+  { path: "admin", renderMode: RenderMode.Client },
+  { path: "admin/**", renderMode: RenderMode.Client },
+
+  // Catch-all for other public pages
+  { path: "**", renderMode: RenderMode.Prerender },
 ];

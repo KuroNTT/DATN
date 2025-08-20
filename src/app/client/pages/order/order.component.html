@@ -22,14 +22,16 @@
   <!-- Thông tin giao hàng -->
   <div>
     <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
-    <p class="mb-4">
-      Bạn đã có tài khoản ?
-      <a href="#" class="text-blue-500 font-medium hover:underline"
-        >Đăng nhập</a
-      >
-    </p>
+    <ng-container *ngIf="!user">
+      <p class="mb-4">
+        Bạn đã có tài khoản ?
+        <a [routerLink]="'/sign-in'" class="text-blue-500 font-medium hover:underline"
+          >Đăng nhập</a
+        >
+      </p>
+    </ng-container>
     <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
-      <mat-form-field class="w-full custom-line" appearance="fill">
+      <mat-form-field class="w-full rounded">
         <mat-label>Họ và tên</mat-label>
         <input
           matInput
@@ -43,6 +45,7 @@
           >Họ và tên là bắt buộc</mat-error
         >
       </mat-form-field>
+
       <div class="grid grid-cols-2 gap-4">
         <mat-form-field>
           <mat-label>Email</mat-label>
@@ -155,11 +158,17 @@
           required
           #paymentRef="ngModel"
         >
-          <mat-radio-button class="flex items-center gap-3" value="cod">
+          <mat-radio-button
+            class="flex items-center gap-3"
+            value="Thanh toán khi nhận hàng (COD)"
+          >
             <span>Thanh toán khi nhận hàng (COD)</span>
           </mat-radio-button>
 
-          <mat-radio-button class="flex items-center gap-3" value="bank">
+          <mat-radio-button
+            class="flex items-center gap-3"
+            value="Chuyển khoản ngân hàng"
+          >
             <span>Chuyển khoản ngân hàng</span>
           </mat-radio-button>
         </mat-radio-group>
@@ -207,12 +216,14 @@
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)"
             >
               −
             </button>
             <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)"
             >
               +
             </button>
@@ -239,12 +250,14 @@
           <div class="flex items-center space-x-2">
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)"
             >
               −
             </button>
             <span class="w-6 text-center">x{{ item.quantity }}</span>
             <button
               class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)"
             >
               +
             </button>
@@ -261,7 +274,7 @@
       </mat-form-field>
       <button
         class="bg-black text-white px-6 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer h-14"
-        (click)="applyVoucher(voucherCodeInput.value, total)"
+        (click)="applyVoucher(voucherCodeInput.value, originalTotal)"
       >
         Áp dụng
       </button>
@@ -275,7 +288,9 @@
       </div>
       <div class="flex justify-between">
         <span>Giảm giá:</span>
-        <span *ngIf="discountAmount > 0; else none">{{ discountAmount| number : "1.0-0" }} VNĐ</span>
+        <span *ngIf="discountAmount > 0; else none"
+          >{{ discountAmount | number : "1.0-0" }} VNĐ</span
+        >
       </div>
       <ng-template #none>
         <span>---</span>

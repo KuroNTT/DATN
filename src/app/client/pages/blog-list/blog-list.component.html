@@ -16,7 +16,6 @@
 <!-- Content -->
 <div class="flex justify-center px-4 sm:px-0">
   <div class="w-full max-w-[1280px] flex gap-7">
-    
     <!-- Sidebar lọc danh mục blog -->
     <div class="w-1/4 lg:w-1/4 h-[calc(100vh-20px)] sticky top-5">
       <h3 class="text-xl font-bold mb-6">Bộ lọc bài viết</h3>
@@ -24,9 +23,13 @@
       <!-- Danh mục bài viết -->
       <div class="items-center justify-between cursor-pointer">
         <div class="border-t border-gray-200"></div>
-        <div class="overflow-hidden transition-all duration-300 max-h-[80vh] opacity-100">
+        <div
+          class="overflow-hidden transition-all duration-300 max-h-[80vh] opacity-100"
+        >
           <!-- Tất cả -->
-          <label class="block font-semibold text-lg cursor-pointer select-none mb-2">
+          <label
+            class="block font-semibold text-lg cursor-pointer select-none mb-2"
+          >
             <input
               type="checkbox"
               class="my-4 w-4 h-4 accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
@@ -38,8 +41,10 @@
 
           <div class="border-t border-gray-200"></div>
 
-          <label class="block font-semibold text-lg cursor-pointer select-none mb-2"
-                 *ngFor="let category of category_arr">
+          <label
+            class="block font-semibold text-lg cursor-pointer select-none mb-2"
+            *ngFor="let category of category_arr"
+          >
             <input
               type="checkbox"
               class="my-4 w-4 h-4 text-black accent-black border-gray-300 rounded focus:ring-0 focus:outline-none p-1 mr-2"
@@ -70,9 +75,17 @@
         <!-- Nội dung -->
         <div
           class="flex flex-col justify-center md:w-1/2 p-6 space-y-4"
-          style="background: linear-gradient(90deg, rgba(196,196,196,1) 20%, rgba(255,255,255,1) 80%)"
+          style="
+            background: linear-gradient(
+              90deg,
+              rgba(196, 196, 196, 1) 20%,
+              rgba(255, 255, 255, 1) 80%
+            );
+          "
         >
-          <span class="text-sm text-red-600 font-semibold uppercase tracking-wide">
+          <span
+            class="text-sm text-red-600 font-semibold uppercase tracking-wide"
+          >
             {{ blog.category?.name }}
           </span>
 
@@ -92,7 +105,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 

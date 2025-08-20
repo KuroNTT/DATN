@@ -4,7 +4,7 @@ const BannerModel = require("../../models/Banner");
 exports.getAllBanner = async (req, res) => {
   const banners = await BannerModel.findAll({
     where: { active: 1 },
-    order: [["created_at", "ASC"]],
+    order: [["id", "DESC"]],
   });
   res.json(banners);
 };
@@ -18,12 +18,14 @@ exports.getBannerById = async (req, res) => {
 
 exports.createBanner = async (req, res) => {
   try {
-    const { title, image, link } = req.body;
+    const { title, image, link, position, status } = req.body;
 
     const newBanner = await BannerModel.create({
       title,
       image_url: image,
       link,
+      position,
+      status,
     });
 
     res
@@ -37,7 +39,7 @@ exports.createBanner = async (req, res) => {
 exports.updateBanner = async (req, res) => {
   try {
     const id = req.params.id;
-    const { title, link, image } = req.body;
+    const { title, link, image, position, status } = req.body;
 
     const banner = await BannerModel.findByPk(id);
     if (!banner)
@@ -45,6 +47,8 @@ exports.updateBanner = async (req, res) => {
 
     banner.title = title;
     banner.link = link;
+    banner.position = position;
+    banner.status = status;
     if (image) banner.image_url = image;
 
     await banner.save();

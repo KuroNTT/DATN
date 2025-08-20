@@ -3,8 +3,7 @@
     <h2 class="text-xl font-bold">Danh sách banner</h2>
     <button
       (click)="onAdd()"
-      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full 
-      text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
+      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer"
     >
       <i class="fa-solid fa-plus mr-2"></i>Thêm banner
     </button>
@@ -18,14 +17,18 @@
           <th class="px-4 py-2 border">Hình ảnh</th>
           <th class="px-4 py-2 border">Tiêu đề</th>
           <th class="px-4 py-2 border">Vị trí</th>
-          <th class="px-4 py-2 border">Ngày bắt đầu</th>
-          <th class="px-4 py-2 border">Ngày kết thúc</th>
+          <th class="px-4 py-2 border">Trạng thái</th>
+          <!-- <th class="px-4 py-2 border">Ngày bắt đầu</th>
+          <th class="px-4 py-2 border">Ngày kết thúc</th> -->
           <th class="px-4 py-2 border">Thao tác</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let banner of banners; index as i" class="hover:bg-gray-50 text-center">
-          <td class="px-4 py-2 border">{{ i + 1 }}</td>
+        <tr
+          *ngFor="let banner of banners; index as i"
+          class="hover:bg-gray-50 text-center"
+        >
+          <td class="px-4 py-2 border">{{ banner.id }}</td>
           <td class="px-4 py-2 border">
             <img
               [src]="banner.image_url"
@@ -35,8 +38,16 @@
           </td>
           <td class="px-4 py-2 border text-left">{{ banner.title }}</td>
           <td class="px-4 py-2 border">{{ banner.position }}</td>
-          <td class="px-4 py-2 border">{{ banner.start_date | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td class="px-4 py-2 border">{{ banner.end_date | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="px-4 py-2 border">
+            {{ banner.status === 1 ? "Hiện" : "Ẩn" }}
+          </td>
+
+          <!-- <td class="px-4 py-2 border">
+            {{ banner.start_date | date : "dd/MM/yyyy HH:mm" }}
+          </td>
+          <td class="px-4 py-2 border">
+            {{ banner.end_date | date : "dd/MM/yyyy HH:mm" }}
+          </td> -->
           <td class="px-4 py-2 border">
             <div class="flex justify-center items-center gap-3">
               <button

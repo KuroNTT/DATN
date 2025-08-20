@@ -10,7 +10,7 @@ import {
   IColor,
   IShoeHeight,
 } from "../../../core/models/structureData";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 import { ProductService } from "../../services/product.service";
 @Component({
   selector: "app-product-filter",
@@ -140,15 +140,15 @@ export class ProductFilterComponent {
       next: (data) => {
         this.category_arr = data;
         const preId = this.pds.getPreselectedCategory();
-  if (preId) {
-    const found = this.category_arr.find(c => c.id === preId);
-    if (found) {
-      found.checked = true;
-      this.selectAllCategory = false;
-      this.emitFilter();
-      this.pds.clearPreselectedCategory();
-    }
-  }
+        if (preId) {
+          const found = this.category_arr.find((c) => c.id === preId);
+          if (found) {
+            found.checked = true;
+            this.selectAllCategory = false;
+            this.emitFilter();
+            this.pds.clearPreselectedCategory();
+          }
+        }
       },
       error: (error) => {
         console.error("Lỗi khi lấy categories:", error);

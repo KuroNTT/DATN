@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { environment } from "../../../../enviroments/environment";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-blog-detail",
@@ -14,10 +14,10 @@ export class BlogDetailComponent implements OnInit {
   blog: any = null;
   product_arr: any[] = [];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
+    const slug = this.route.snapshot.paramMap.get("slug");
 
     if (slug) {
       fetch(`${environment.apiUrl}/blogs/slug/${slug}`)
@@ -34,8 +34,8 @@ export class BlogDetailComponent implements OnInit {
 
   getRelatedProducts() {
     fetch(`${environment.apiUrl}/products/most-view/products`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         this.product_arr = data;
       });
   }

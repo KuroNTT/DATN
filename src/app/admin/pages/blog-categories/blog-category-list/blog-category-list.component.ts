@@ -36,4 +36,8 @@ export class BlogCategoryListComponent implements OnInit {
   goToEdit(id: number) {
     this.router.navigate(["/admin/blog-categories/edit", id]);
   }
+
+  goToAdd() {
+    this.router.navigate(['/admin/blog-categories/add']);
+  }
 }

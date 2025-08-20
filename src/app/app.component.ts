@@ -7,7 +7,7 @@ import { filter } from "rxjs/operators";
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"], // sửa styleUrl -> styleUrls
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
   title = "Giày Thể Thao TVM";
@@ -16,9 +16,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" }); 
+        if (typeof window !== "undefined") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       });
   }
 }

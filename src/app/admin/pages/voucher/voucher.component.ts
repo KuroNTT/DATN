@@ -11,6 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { VoucherService } from "../../services/voucher.service";
 import Swal from "sweetalert2";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-voucher",
@@ -53,7 +54,7 @@ export class VoucherComponent {
   }
 
   fetchVouchers(): void {
-    this.http.get<Voucher[]>("http://localhost:3000/api/voucher").subscribe({
+    this.http.get<Voucher[]>(`${environment.apiUrl}/voucher`).subscribe({
       next: (data) => {
         this.dataSource.data = data;
       },
