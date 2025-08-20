@@ -46,7 +46,6 @@ export class OrderComponent {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       console.log(this.sort);
-      
     });
   }
 

@@ -19,6 +19,22 @@ const OrderDetailModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    size_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    product_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    variant_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    size_value: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
