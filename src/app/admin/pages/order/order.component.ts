@@ -45,7 +45,7 @@ export class OrderComponent {
       this.dataSource = new MatTableDataSource(res);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(res);
+      console.log(this.sort);
     });
   }
 

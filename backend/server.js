@@ -48,7 +48,6 @@ app.use("/api/colors", require("./src/routes/user/color.routes"));
 app.use("/api/contacts", require("./src/routes/user/contact.routes"));
 app.use("/api/genders", require("./src/routes/user/gender.routes"));
 app.use("/api/shoe_heights", require("./src/routes/user/shoeHeight.routes"));
-app.use("/api/sizes", require("./src/routes/user/size.routes"));
 app.use("/api/products", require("./src/routes/user/product.routes"));
 app.use("/api/orders", require("./src/routes/user/order.routes"));
 app.use("/api/sizes", require("./src/routes/user/size.routes"));
