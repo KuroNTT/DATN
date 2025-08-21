@@ -156,8 +156,6 @@ exports.resendVerify = async (req, res) => {
         .status(400)
         .json({ error: true, message: "Tài khoản này đã xác minh email" });
     }
-
-    // tạo token verify (15 phút)
     const token = jwt.sign(
       { email: user.email, uid: user.id },
       process.env.JWT_SECRET,
