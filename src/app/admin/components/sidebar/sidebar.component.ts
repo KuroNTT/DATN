@@ -23,7 +23,7 @@ export class SidebarComponent {
     },
     { label: "Banner", path: "/admin/banners", icon: "fas fa-image" },
     { label: "Đánh giá", path: "/admin/reviews", icon: "fas fa-star" },
-    { label: "Khách hàng", path: "/admin/users", icon: "fas fa-user" },
+    { label: "Khách hàng", path: "/admin/user", icon: "fas fa-user" },
     { label: "Voucher", path: "/admin/vouchers", icon: "fa-solid fa-ticket" },
   ];
 }

@@ -20,6 +20,10 @@ const UserModel = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    deleted_at: {                 
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
