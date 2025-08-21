@@ -22,12 +22,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isBrowser) {
-      this.router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
   }
 }

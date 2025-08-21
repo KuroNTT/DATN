@@ -7,7 +7,7 @@
         <h1 class="text-3xl font-bold text-center">Đăng ký</h1>
 
         <!-- Tên đăng ký -->
-        <div class="min-h-[95px]">
+        <div class="min-h-[80px]">
           <label class="block mb-1 text-sm text-gray-600">Tên đăng ký</label>
 
           <input
@@ -20,13 +20,13 @@
             }"
             [(ngModel)]="user.name"
           />
-          <p *ngIf="thong_bao_name" class="mt-1 text-red-500 text-sm">
+          <p *ngIf="thong_bao_name" class="text-red-500 text-sm">
             {{ thong_bao_name }}
           </p>
         </div>
 
         <!-- Email -->
-        <div class="min-h-[100px]">
+        <div class="min-h-[85px]">
           <label class="block mb-1 text-sm text-gray-600">Email</label>
           <input
             type="email"
@@ -39,13 +39,30 @@
             }"
           />
 
-          <p *ngIf="thong_bao_email" class="mt-1 text-red-500 text-sm">
+          <p *ngIf="thong_bao_email" class="text-red-500 text-sm">
             {{ thong_bao_email }}
+          </p>
+        </div>
+        <!-- SDT -->
+        <div class="min-h-[85px]">
+          <label class="block mb-1 text-sm text-gray-600">Số điện thoại</label>
+          <input
+            type="tel"
+            [(ngModel)]="user.phone"
+            [ngClass]="{
+              'border-red-500': thong_bao_phone,
+              shake: invalidPhone
+            }"
+            name="phone"
+            class="w-full p-3 rounded-xl border text-sm text-black focus:border-blue-500 outline-none transition-all duration-300"
+          />
+          <p *ngIf="thong_bao_phone" class="text-red-500 text-sm">
+            {{ thong_bao_phone }}
           </p>
         </div>
 
         <!-- Mật khẩu -->
-        <div class="min-h-[100px]">
+        <div class="min-h-[85px]">
           <label class="block mb-1 text-sm text-gray-600">Mật khẩu</label>
           <div class="relative">
             <input
@@ -71,13 +88,13 @@
               ></i>
             </button>
           </div>
-          <p *ngIf="thong_bao_password" class="mt-1 text-red-500 text-sm">
+          <p *ngIf="thong_bao_password" class="text-red-500 text-sm">
             {{ thong_bao_password }}
           </p>
         </div>
 
         <!-- Xác nhận mật khẩu -->
-        <div class="min-h-[100px]">
+        <div class="min-h-[85px]">
           <label class="block mb-1 text-sm text-gray-600"
             >Xác nhận mật khẩu</label
           >
@@ -105,11 +122,11 @@
               ></i>
             </button>
           </div>
-          <p *ngIf="thong_bao_re_password" class="mt-1 text-red-500 text-sm">
+          <p *ngIf="thong_bao_re_password" class="text-red-500 text-sm">
             {{ thong_bao_re_password }}
           </p>
         </div>
-        <p class="text-center text-green-500">{{ thong_bao }}</p>
+        <p class="text-center text-green-500 text-sm">{{ thong_bao }}</p>
         <!-- Nút đăng ký -->
         <div class="flex justify-center">
           <button
@@ -122,7 +139,7 @@
         </div>
 
         <!-- Link đăng nhập -->
-        <div class="text-center mt-4 text-sm text-gray-600">
+        <div class="text-center text-sm text-gray-600">
           Bạn đã có tài khoản?
           <a href="/sign-in" class="text-red-500 hover:underline ml-1"
             >Đăng nhập</a

@@ -211,3 +211,55 @@ export interface ICategoryCreate {
   sort_order: number;
   status: number;
 }
+export interface IOrderDetail {
+  quantity: number;
+  price: number;
+  price_sale?: number;
+  size?: string;
+  product_name?: string;
+  image_url?: string;
+}
+
+export interface IOrder {
+  order_code: string;
+  status: string;
+  create_at: string;
+  total_price: number;
+  order_details?: IOrderDetail[]; // optional
+  // Thông tin chung chỉ load khi bấm Chi tiết
+  customer?: string;
+  customer_address?: string;
+  customer_phone_number?: string;
+  payment_method?: string;
+
+  // Thuộc tính client-side để toggle
+  showDetails?: boolean;
+}
+
+export interface IVoucher {
+  id: number;
+  code: string;
+  description?: string;
+  discount_type: "percent" | "fixed";
+  discount_value: number; 
+  min_order_value?: number;
+  quantity: number;
+  start_date: string;
+  end_date: string; 
+  is_active: boolean;
+}
+
+export interface IVoucherUser {
+  id: number;
+  voucher_id: number;
+  user_id: number;
+  used_at: boolean;
+  status: boolean;
+  voucher: IVoucher;
+  saved_at?: string;
+}
+
+export interface IVoucherResponse {
+  data: IVoucherUser[];
+}
+

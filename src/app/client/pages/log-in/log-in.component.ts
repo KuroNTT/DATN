@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
-import { AuthService } from "../../../admin/services/auth.service";
+import { AuthService } from "../../../core/services/auth.service";
 import { environment } from "../../../../environments/environment";
 
 @Component({
@@ -96,8 +96,13 @@ export class LogInComponent {
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("expiresIn", expiresIn);
         setTimeout(() => {
-          window.location.href = "/";
-        }, 1500);
-      });
+          this.router.navigate(['/']);
+
+        }, 1000);
+      })
+      .catch((err) => {
+      console.error("Login error:", err);
+      this.thong_bao = "Đăng nhập thất bại, vui lòng thử lại!";
+    });
   }
 }

@@ -110,11 +110,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <div class="w-full h-px bg-black opacity-20 my-6"></div>
-
-  <!-- BIẾN THỂ -->
-=======
   <div class="col-span-3">
     <label class="block font-semibold text-sm mb-1">Mô tả sản phẩm</label>
     <textarea
@@ -125,12 +120,11 @@
   </div>
 </div>
 
->>>>>>> eb7ce31c3bafb9293729c9be324314923c9c183f
   <div formArrayName="variants">
     <div
       *ngFor="let variant of variants.controls; let i = index"
       [formGroupName]="i"
-      class="p-4 my-4 rounded-xl space-y-4"
+      class=" p-4 my-4 rounded-xl bg-gray-50 space-y-4"
     >
       <h4 class="font-bold text-lg mb-2">Biến thể {{ i + 1 }}</h4>
 

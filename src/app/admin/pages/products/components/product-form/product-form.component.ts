@@ -106,11 +106,11 @@ export class ProductFormComponent implements OnInit {
       images: this.fb.array([]),
     });
 
-    for (let sizeId = 1; sizeId <= 12; sizeId++) {
-      this.getSizesFromGroup(variantGroup).push(
-        this.fb.group({ size_id: [sizeId], stock: [0] })
-      );
-    }
+    this.sizes.forEach(s => {
+    (variantGroup.get('sizes') as FormArray).push(
+      this.fb.group({ size_id: [s.id], stock: [0, [Validators.min(0)]] })
+    );
+  });
 
     for (let i = 0; i < 8; i++) {
       (variantGroup.get('images') as FormArray).push(this.fb.control(''));

@@ -138,10 +138,8 @@ exports.getOrderById = async (req, res) => {
 
     return res.status(200).json(order);
   } catch (error) {
-    console.error("❌ Lỗi khi lấy đơn hàng theo ID:", error);
-    return res
-      .status(500)
-      .json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
+    console.error("❌ Lỗi khi lấy đơn hàng:", error);
+    res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };
 
@@ -255,11 +253,10 @@ exports.createPaymentLink = async (req, res) => {
       checkoutUrl: paymentLinkResponse.checkoutUrl,
     });
   } catch (error) {
-    await transaction.rollback();
-    console.error("Lỗi tạo link thanh toán:", error);
-    return res
-      .status(500)
-      .json({ error: "Lỗi máy chủ. Không tạo được link thanh toán." });
+    console.error("❌ Lỗi tạo link thanh toán:", error);
+    return res.status(500).json({
+      error: "Lỗi máy chủ. Không tạo được link thanh toán.",
+    });
   }
 };
 
@@ -496,38 +493,5 @@ exports.saveOrder = async (req, res) => {
     await transaction.rollback();
     console.error("❌ Lỗi lưu đơn hàng:", error);
     return res.status(500).json({ error: "Lỗi máy chủ khi lưu đơn hàng." });
-  }
-};
-
-//load api don hang cua user
-exports.getOrdersByUser = async (req, res) => {
-  try {
-    const userId = req.user.id;
-
-    const orders = await OrderModel.findAll({
-      where: { user_id: userId },
-      attributes: ["order_code", "status", "create_at", "total_price"],
-      order: [["create_at", "DESC"]],
-      include: [
-        {
-          model: OrderDetailModel,
-          as: "order_details",
-          attributes: [
-            "product_name", // tên sản phẩm tại thời điểm đặt
-            "variant_name", // màu sắc/biến thể
-            "size_value", // size (ví dụ: 42)
-            "price_at_order", // giá tại thời điểm đặt
-            "quantity", // số lượng
-          ],
-        },
-      ],
-    });
-
-    return res.status(200).json(orders);
-  } catch (error) {
-    console.error("❌ Lỗi khi load đơn hàng của user: ", error);
-    return res
-      .status(500)
-      .json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };

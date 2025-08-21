@@ -29,11 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 // 6. Kết nối và đồng bộ CSDL
 sequelize
   .authenticate()
-  .then(() => console.log("✅ MySQL connected"))
+  .then(() => console.log("MySQL connected"))
   .then(() => sequelize.sync({ alter: true }))
-  .then(() => console.log("📦 DB synced"))
+  .then(() => console.log("DB synced"))
   .catch((err) => {
-    console.error("❌ Database connection failed:", err);
+    console.error("Database connection failed:", err);
     process.exit(1);
   });
 

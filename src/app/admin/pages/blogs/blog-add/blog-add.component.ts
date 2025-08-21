@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { BlogService } from "../../../services/blog.service";
 import { BlogFormComponent } from "../components/blog-form/blog-form.component";
 import { CommonModule } from "@angular/common";
-import { AuthService } from "../../../services/auth.service";
+import { AuthService } from "../../../../core/services/auth.service";
 import { IBlogCreate } from "../../../../core/models/structureData";
 
 @Component({
