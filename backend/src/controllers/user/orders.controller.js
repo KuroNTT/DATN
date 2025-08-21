@@ -4,7 +4,7 @@ const ProductVariantModel = require("../../models/ProductVariant");
 const ProductModel = require("../../models/Product");
 const SizeModel = require("../../models/Size");
 const VariantSizeModel = require("../../models/VariantSize");
-const ProductImageModel  = require("../../models/ProductImage");
+const ProductImageModel = require("../../models/ProductImage");
 const CartModel = require("../../models/cart");
 const VoucherModel = require("../../models/voucher");
 const PayOS = require("@payos/node");
@@ -497,24 +497,26 @@ exports.saveOrder = async (req, res) => {
   }
 };
 exports.getOrdersByUser = async (req, res) => {
+  const userId = req.user?.id || req.query.user_id; 
   try {
     const orders = await OrderModel.findAll({
-     include: [
-    {
-      model: OrderDetailModel,
-      as: "order_details",
+      where: { user_id: userId }, 
+
       include: [
         {
-          model: ProductVariantModel,
-          as: "product_variant",
-          attributes: ["image_url"]
-        }
-      ]
-    }
-  ],
+          model: OrderDetailModel,
+          as: "order_details",
+          include: [
+            {
+              model: ProductVariantModel,
+              as: "product_variant",
+              attributes: ["image_url"],
+            },
+          ],
+        },
+      ],
       order: [["create_at", "DESC"]],
     });
-
     res.json(orders);
   } catch (error) {
     console.error("Lỗi khi lấy danh sách đơn hàng:", error);
