@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 
-//Model mô tả bảng Order
 const OrderDetailModel = sequelize.define(
   "order_details",
   {

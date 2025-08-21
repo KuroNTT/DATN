@@ -4,6 +4,7 @@ const ProductVariantModel = require("../../models/ProductVariant");
 const ProductModel = require("../../models/Product");
 const SizeModel = require("../../models/Size");
 const VariantSizeModel = require("../../models/VariantSize");
+const ProductImageModel  = require("../../models/ProductImage");
 const CartModel = require("../../models/cart");
 const VoucherModel = require("../../models/voucher");
 const PayOS = require("@payos/node");
@@ -491,7 +492,35 @@ exports.saveOrder = async (req, res) => {
     return res.status(200).json({ success: true, order: newOrder });
   } catch (error) {
     await transaction.rollback();
-    console.error("❌ Lỗi lưu đơn hàng:", error);
+    console.error("Lỗi lưu đơn hàng:", error);
     return res.status(500).json({ error: "Lỗi máy chủ khi lưu đơn hàng." });
+  }
+};
+exports.getOrdersByUser = async (req, res) => {
+  try {
+    const orders = await OrderModel.findAll({
+     include: [
+    {
+      model: OrderDetailModel,
+      as: "order_details",
+      include: [
+        {
+          model: ProductVariantModel,
+          as: "product_variant",
+          attributes: ["image_url"]
+        }
+      ]
+    }
+  ],
+      order: [["create_at", "DESC"]],
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi máy chủ khi lấy đơn hàng.",
+    });
   }
 };
