@@ -33,8 +33,18 @@
           <div class="category-name text-sm text-gray-500 mb-2">
             <span>Size: {{item.selected_size}}</span>
           </div>
-          <div class="product_price text-red-500 font-bold text-lg">
+          <div class="product_price text-red-500 font-bold text-lg flex">
             {{ item.price_sale | number : "1.0-0" }}đ
+            <div class="
+            ">
+              <!-- <button type="button" (click)="addToCart()"
+                class="w-full py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]">
+                <i class="fa-solid fa-cart-plus ml-[150px] text-2xl"></i>
+              </button> -->
+              <a href="">
+                <i class="fa-solid fa-check  ml-[150px] text-2xl"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>

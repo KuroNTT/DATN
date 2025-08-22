@@ -13,9 +13,7 @@ const ShoeHeightModel = require("../../models/ShoeHeight");
 const GenderModel = require("../../models/Gender");
 const BrandModel = require("../../models/Brand");
 
-/* ======================================================================
-   Tiện ích lọc màu “nhóm” (không đổi schema, không dùng COLLATE đặc biệt)
-   ====================================================================== */
+//  Tiện ích lọc màu “nhóm” (không đổi schema, không dùng COLLATE đặc biệt)
 const COLOR_GROUPS = {
   trang: ["trang", "trang nga", "trang sang", "trang sua", "trang kem", "off white", "off-white", "ivory", "cream"],
   do: ["do", "do do", "do tuoi", "do dam", "do ruou vang", "burgundy", "maroon", "wine"],
@@ -25,14 +23,14 @@ const COLOR_GROUPS = {
 };
 
 const toSlug = (s) => String(s).toLowerCase().trim().replace(/đ/g, "d").replace(/Đ/g, "D");
-
+// chuyển màu thành slug
 const normalizeColorSlug = (input) => {
   const s = toSlug(input);
   if (s.includes("trang")) return "trang";
   if (s.includes("do")) return "do";
   if (s.includes("den")) return "den";
   if (s.includes("vang")) return "vang";
-  if (/(xam|ghi|silver|grey|gray|vang)/.test(s)) return "xam";
+  if (/(xam|ghi|silver|grey|gray)/.test(s)) return "xam";
   return s; // fallback nếu không khớp nhóm nào
 };
 
@@ -96,9 +94,6 @@ exports.getAllProducts = async (req, res) => {
 
     const sizeIds = String(req.query.sizes || "")
       .split(",").map(Number).filter(Boolean);
-    console.log("[GET /products] sizes raw:", req.query.sizes ?? req.query.size);
-    console.log("[GET /products] sizeIds:", sizeIds);
-    // colors: "trắng,đỏ" (FE gửi keyword TV)
     const colorKeywords = String(req.query.colors || "")
       .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
 
@@ -169,7 +164,6 @@ exports.getAllProducts = async (req, res) => {
       }),
     };
 
-    // ✅ THÊM KHỐI NÀY NGAY SAU productWhere
     if (sizeIds.length) {
       productWhere[Op.and] = productWhere[Op.and] || [];
       productWhere[Op.and].push(
@@ -193,11 +187,6 @@ exports.getAllProducts = async (req, res) => {
       include: [
         variantInclude,
         { model: CategoryModel, as: "category", attributes: ["name"] },
-        // {
-        //   model: VariantSizeModel,
-        //   as: "product_variant_sizes",
-        //   required: sizeIds.length > 0,
-        // },
         { model: GenderModel, as: "gender", attributes: ["id", "name"] },
         { model: BrandModel, as: "brand", attributes: ["name"] },
       ],
@@ -217,9 +206,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-/* ======================================================================
-   2) GET /products/:slug
-   ====================================================================== */
+// 2) GET / products /: slug
 exports.getProductBySlug = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -251,9 +238,7 @@ exports.getProductBySlug = async (req, res) => {
   }
 };
 
-/* ======================================================================
-   3) GET /products/by-category/:id
-   ====================================================================== */
+//  3) GET /products/by-category/:id
 exports.getProductByCategory = async (req, res) => {
   try {
     const products = await ProductModel.findAll({

@@ -1,4 +1,4 @@
-import { Component, Input,SimpleChanges,OnChanges } from "@angular/core";
+import { Component, Input, SimpleChanges, OnChanges } from "@angular/core";
 import { CommonModule, NgClass, NgFor } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
 import { IProduct } from "../../../core/models/structureData";
@@ -10,17 +10,21 @@ import { FavoriteButtonComponent } from "../../components/favorite-button/favori
 @Component({
   selector: "app-product-list",
   standalone: true,
-  imports: [CommonModule, NgFor, RouterModule,NgxPaginationModule,FavoriteButtonComponent],
+  imports: [
+    CommonModule,
+    NgFor,
+    RouterModule,
+    NgxPaginationModule,
+    FavoriteButtonComponent,
+  ],
   templateUrl: "./product-list.component.html",
   styleUrl: "./product-list.component.css",
 })
 export class ProductListComponent implements OnChanges {
   @Input() currentPage: number = 1;
   @Input() products: IProduct[] = [];
-
   paginatedProducts: IProduct[] = [];
   pageSize: number = 6;
-  // currentPage: number = 1;
   totalPages: number = 1;
 
   constructor(

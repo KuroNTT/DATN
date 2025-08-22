@@ -60,9 +60,7 @@
       <!-- Product Item -->
       <div class="product" *ngFor="let product of product_arr">
         <div class="w-full aspect-square mb-4 overflow-hidden relative group">
-          <!-- yêu thích -->
-          <app-favorite-button [productId]="product.id" [isFavorited]="product.isFavorited"
-            (favoriteToggled)="product.isFavorited = $event"></app-favorite-button>
+          <app-favorite-button [isFavorited]="product.isFavorited"></app-favorite-button>
           <a href="/product-detail/{{ product.slug }}">
             <img class="product-image w-full h-full object-cover" src="{{ product.image }}" alt="{{ product.name }}" />
           </a>
