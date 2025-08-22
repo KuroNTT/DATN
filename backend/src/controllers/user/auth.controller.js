@@ -6,9 +6,9 @@ const nodemailer = require("nodemailer");
 
 exports.signUp = async (req, res) => {
   try {
-    const { name, email, password, re_password } = req.body;
+    const { name, email, phone, password, re_password } = req.body;
 
-    if (!name || !email || !password || !re_password) {
+    if (!name || !email || !phone || !password || !re_password) {
       return res.status(400).json({
         error: true,
         field: "form",
@@ -33,7 +33,22 @@ exports.signUp = async (req, res) => {
         message: "Tên đã tồn tại",
       });
     }
-
+    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+    if (!phoneRegex.test(phone)) {
+      return res.status(400).json({
+        error: true,
+        field: "phone",
+        message: "Số điện thoại không hợp lệ",
+      });
+    }
+    const existingPhone = await UserModel.findOne({ where: { phone } });
+    if (existingPhone) {
+      return res.status(409).json({
+        error: true,
+        field: "phone",
+        message: "Số điện thoại đã tồn tại",
+      });
+    }
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
@@ -56,6 +71,7 @@ exports.signUp = async (req, res) => {
     const newUser = await UserModel.create({
       name,
       email,
+      phone,
       password: hashedPassword,
       role: "customer",
       account_lock: 1,
@@ -106,14 +122,12 @@ exports.signUp = async (req, res) => {
           `,
         });
 
-        console.log(` Đã gửi email xác thực tới: ${newUser.email}`);
       } catch (mailErr) {
         console.error(" Lỗi khi gửi email xác thực:", mailErr);
-        // Optional: lưu lại log lỗi vào DB hoặc hệ thống theo dõi
       }
-    })(); // chạy ngay
+    })();
   } catch (err) {
-    console.error("Lỗi server:", err); // ⚠️ RẤT QUAN TRỌNG
+    console.error("Lỗi server:", err);
     return res.status(500).json({
       error: true,
       message: "Có lỗi xảy ra. Vui lòng thử lại sau.",
@@ -164,21 +178,18 @@ exports.signIn = async (req, res) => {
   res.status(200).json({
     token: bearToken,
     expiresIn: maxAge,
-    info: { id: user.id, name: user.name, email: user.email, role: user.role },
+    info: { id: user.id, name: user.name, phone: user.phone, email: user.email, role: user.role },
   });
 };
 
 exports.verifyEmail = async (req, res) => {
   const { token } = req.body;
-
   if (!token) {
     return res.status(400).json({ message: "Thiếu token" });
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Token hợp lệ, thông tin:", decoded);
-
     await UserModel.update(
       {
         email_verify_at: new Date(),
@@ -188,7 +199,6 @@ exports.verifyEmail = async (req, res) => {
         where: { email: decoded.email },
       }
     );
-
     res.json({ message: "Xác thực thành công. Tài khoản đã được kích hoạt." });
   } catch (err) {
     console.error("Lỗi xác thực token:", err.message);
@@ -210,6 +220,7 @@ exports.getProfile = async (req, res) => {
         "address",
         "avatar",
         "email_verify_at",
+        'role',
       ],
     });
 
@@ -219,7 +230,7 @@ exports.getProfile = async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error("Lỗi khi lấy thông tin người dùng:", err); 
+    console.error("Lỗi khi lấy thông tin người dùng:", err);
     res.status(500).json({ message: "Lỗi khi lấy thông tin người dùng" });
   }
 };
@@ -255,6 +266,7 @@ exports.updateProfile = async (req, res) => {
       sex: user.sex,
       address: user.address,
       email_verify_at: user.email_verify_at,
+      role: user.role,
     });
   } catch (err) {
     console.error(" Lỗi cập nhật:", err);

@@ -10,10 +10,10 @@ const UserModel = sequelize.define(
     },
     name: {
       type: DataTypes.STRING(255),
-      allowNull: true, 
+      allowNull: true,
     },
     avatar: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     email: {

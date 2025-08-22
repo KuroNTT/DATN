@@ -21,23 +21,21 @@ export class CategoryListComponent {
   ngOnInit() {
     this.loadData();
   }
-
   loadData() {
     this.CategoryService.getAll().subscribe((data) => {
       this.category_arr = data;
     });
   }
-
   onDelete(id: number) {
     if (confirm("Bạn có chắc muốn xoá không?")) {
       this.CategoryService.delete(id).subscribe({
         next: () => {
           alert("Đã xoá danh mục thành công!");
-          this.loadData(); // Refresh danh sách
+          this.loadData(); 
         },
         error: (err) => {
           if (err.status === 400) {
-            alert(err.error.message); // Thông báo lý do không xoá được
+            alert(err.error.message); 
           } else {
             console.error("Lỗi xoá danh mục:", err);
           }

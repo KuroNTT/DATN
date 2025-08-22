@@ -5,7 +5,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatRadioModule } from "@angular/material/radio";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { CartService } from "../../services/cart.service";
 import { BehaviorSubject, Observable, of } from "rxjs";
@@ -23,7 +23,7 @@ const matAngular = [
 ];
 @Component({
   selector: "app-order",
-  imports: [...matAngular, CommonModule, FormsModule],
+  imports: [...matAngular, CommonModule, FormsModule, RouterModule],
   templateUrl: "./order.component.html",
   styleUrl: "./order.component.css",
 })
@@ -71,7 +71,7 @@ export class OrderComponent {
       sizeId: e.sizeId,
       quantity: e.quantity,
     }));
-    this.onLoad(()=>{
+    this.onLoad(() => {
       this.originalTotal = this.total;
     });
   }
@@ -84,7 +84,7 @@ export class OrderComponent {
     this.total = this.subtotal;
   }
 
-  onLoad(callBack?: ()=>void) {
+  onLoad(callBack?: () => void) {
     const payload = {
       items: this.items,
     };
@@ -110,10 +110,13 @@ export class OrderComponent {
       this.cartItemLocal$.next([]);
       this.cartItems$.subscribe((p) => {
         this.products = p.map((i: any) => ({
+          product_name: i.variant.product.name,
+          variant_name: i.variant.name ?? i.variant.product.name,
+          price: i.variant.product.price_sale ?? i.variant.product.price,
           name: i.variant.product.name,
-          price: i.variant.product.price_sale,
           quantity: i.quantity,
           variantId: i.variant.id,
+          sizeId: i.size.id,
         }));
       });
     } else {
@@ -130,10 +133,13 @@ export class OrderComponent {
         });
         this.cartItemLocal$.subscribe((p) => {
           this.products = p.map((i: any) => ({
+            product_name: i.variant.product.name,
+            variant_name: i.variant.name ?? i.variant.product.name,
+            price: i.variant.product.price_sale ?? i.variant.product.price,
             name: i.variant.product.name,
-            price: i.variant.product.price_sale,
             quantity: i.quantity,
             variantId: i.variant.id,
+            sizeId: i.size.id,
           }));
         });
       });
@@ -185,7 +191,7 @@ export class OrderComponent {
         });
       }
       this.http
-        .post("http://localhost:3000/api/orders/create-order", payload)
+        .post(`${environment.apiUrl}/orders/create-order`, payload)
         .subscribe({
           next: (res: any) => {
             this.router.navigate(["/success"]);
@@ -361,7 +367,7 @@ export class OrderComponent {
     this.cartService
       .getAllCartInLocal({ items: this.items })
       .subscribe((data) => {
-        this.cartItemLocal$.next(data);
+        this.cartItemLocal$.next(data); 
       });
   }
 }

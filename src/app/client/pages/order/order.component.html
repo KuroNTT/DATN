@@ -25,7 +25,7 @@
     <ng-container *ngIf="!user">
       <p class="mb-4">
         Bạn đã có tài khoản ?
-        <a routerLink="/sign-in" class="text-blue-500 font-medium hover:underline"
+        <a [routerLink]="'/sign-in'" class="text-blue-500 font-medium hover:underline"
           >Đăng nhập</a
         >
       </p>

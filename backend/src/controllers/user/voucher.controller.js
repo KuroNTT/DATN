@@ -1,5 +1,5 @@
 const VoucherModel = require("../../models/voucher");
-
+const VoucherUserModel = require("../../models/vocherUser")
 exports.verify = async (req, res) => {
   const { code, orderTotal } = req.body;
 
@@ -139,5 +139,56 @@ exports.deleteVoucher = async (req, res) => {
   } catch (error) {
     console.error("❌ Lỗi khi xoá voucher:", error);
     res.status(500).json({ error: "Xoá không thành công" });
+  }
+};
+// Lưu voucher cho user
+exports.saveVoucher = async (req, res) => {
+  try {
+    const user_id = req.user.id;      
+    const { voucher_id } = req.body;  
+
+    if (!voucher_id) {
+      return res.status(400).json({ error: "Chưa truyền voucher_id" });
+    }
+
+    const voucher = await VoucherModel.findByPk(voucher_id);
+    if (!voucher) {
+      return res.status(404).json({ error: "Voucher không tồn tại" });
+    }
+
+    const [record, created] = await VoucherUserModel.findOrCreate({
+      where: { user_id, voucher_id },
+      defaults: { used_at: false, status: true }
+    });
+
+    if (!created) {
+      return res.status(400).json({ message: "Voucher đã lưu trước đó" });
+    }
+
+    res.json({ message: "Đã lưu voucher thành công" });
+  } catch (error) {
+    console.error("Lỗi khi lưu voucher:", error);
+    res.status(500).json({ error: "Lưu voucher không thành công" });
+  }
+};
+exports.getUserVouchers = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+
+    const vouchers = await VoucherUserModel.findAll({
+      where: { user_id },
+      include: [
+        {
+          model: VoucherModel,
+          attributes: ['id', 'code', 'discount_value', 'end_date']
+        }
+      ],
+      order: [['saved_at', 'DESC']]
+    });
+
+    res.json({ data: vouchers });
+  } catch (err) {
+    console.error('Lỗi load voucher:', err);
+    res.status(500).json({ error: 'Load voucher không thành công' });
   }
 };
