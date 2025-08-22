@@ -357,3 +357,35 @@ exports.saveOrder = async (req, res) => {
     return res.status(500).json({ error: "Lỗi máy chủ khi lưu đơn hàng." });
   }
 };
+
+exports.changeOrderStatus = async (req, res) => {
+  try {
+    const { status, customerNote, orderId } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    const order = await OrderModel.findByPk(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    order.status = status;
+
+    if (customerNote !== undefined) {
+      order.customer_note = customerNote;
+    }
+
+    await order.save();
+
+    return res.status(200).json({
+      message: "Order updated successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Error updating order:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
