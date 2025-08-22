@@ -216,7 +216,7 @@ exports.createPaymentLink = async (req, res) => {
         console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
         continue; // bỏ qua item này, không lưu vào order_detail
       }
-
+      let size = await SizeModel.findByPk(item.sizeId);
       await OrderDetailModel.create(
         {
           order_id: newOrder.id,
@@ -225,7 +225,8 @@ exports.createPaymentLink = async (req, res) => {
           price: item.price || 0,
           product_name: item.product_name,
           size_id: item.sizeId,
-          variant_name: item.variant_name
+          variant_name: item.variant_name,
+          size_value: size.size
         }
       );
     }
