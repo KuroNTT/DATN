@@ -224,7 +224,7 @@ exports.createPaymentLink = async (req, res) => {
           quantity: item.quantity || 1,
           price: item.price || 0,
           product_name: item.product_name,
-          sizeId: item.sizeId,
+          size_id: item.sizeId,
           variant_name: item.variant_name
         }
       );
