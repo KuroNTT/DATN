@@ -197,7 +197,7 @@ exports.createPaymentLink = async (req, res) => {
     const newOrder = await OrderModel.create({
       user_id: userId,
       order_code: orderCode,
-      total_price: 0,
+      total_price,
       status: "pending",
       payment_method,
       order_date: new Date(),
@@ -210,7 +210,7 @@ exports.createPaymentLink = async (req, res) => {
       admin_note: adminNote,
     });
     console.log(items);
-
+    
     for (const item of items) {
       if (!item.variantId) {
         console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
@@ -223,16 +223,21 @@ exports.createPaymentLink = async (req, res) => {
           variant_id: item.variantId,
           quantity: item.quantity || 1,
           price: item.price || 0,
-        },
-        { transaction }
+          product_name: item.product_name,
+          sizeId: item.sizeId,
+          variant_name: item.variant_name
+        }
       );
     }
 
+    
+    items = items.map(e=>({name: e.name, price: e.price, quantity: e.quantity}));
+
     const payload = {
       orderCode: orderCode,
-      amount: Number(totalPrice),
+      amount: Number(total_price),
       description: `DON HANG ${orderCode}`,
-      items: payItems,
+      items,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
       returnUrl: `${process.env.DOMAIN}/success`,
     };
@@ -240,13 +245,10 @@ exports.createPaymentLink = async (req, res) => {
     const paymentLinkResponse = await payOS.createPaymentLink(payload);
 
     if (!paymentLinkResponse?.checkoutUrl) {
-      await transaction.rollback();
       return res
         .status(500)
         .json({ error: "Không tạo được link thanh toán từ PayOS." });
     }
-
-    await transaction.commit();
     return res.status(200).json({
       success: true,
       orderCode,

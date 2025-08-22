@@ -32,7 +32,7 @@ const CartModel = sequelize.define('cart_item', {
   }
 }, {
   tableName: 'cart_items',
-  timestamps: true
+  timestamps: false
 });
 
 // ✅ Khai báo liên kết tại đây
