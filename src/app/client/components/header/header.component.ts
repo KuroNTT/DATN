@@ -226,14 +226,13 @@
 
 import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
-import { RouterLink, Router } from "@angular/router";
-import { ICategory } from "../../../core/models/structureData";
-import { IBrand } from "../../../core/models/structureData";
-import { IGender } from "../../../core/models/structureData";
+import { RouterLink, Router, NavigationEnd } from "@angular/router";
+import { IBrand, ICategory, IGender } from "../../../core/models/structureData";
 import { FormsModule } from "@angular/forms";
 import { HostListener } from "@angular/core";
 import { environment } from "../../../../environments/environment";
-
+import { ProductService } from "../../services/product.service";
+import { filter } from "rxjs/operators";
 @Component({
   selector: "app-header",
   standalone: true,
@@ -244,8 +243,15 @@ import { environment } from "../../../../environments/environment";
 export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private pds: ProductService
+  ) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.checkLoginStatus();
+      });
+  }
 
   isMenuOpen = false;
   isShoesMenuOpen = false;
@@ -285,17 +291,6 @@ export class HeaderComponent implements OnInit {
 
   toggleSearchBar() {
     this.isSearchBarVisible = !this.isSearchBarVisible;
-  }
-
-  scrollToSection(id: string) {
-    if (this.router.url === "/") {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      this.router.navigate(["/"], { fragment: id });
-    }
   }
 
   category_arr: ICategory[] = [];
@@ -375,7 +370,7 @@ export class HeaderComponent implements OnInit {
   userrole: string = "";
   isAdmin: boolean = false;
 
-  checkLoginStatus() {
+  /*  checkLoginStatus() {
     if (isPlatformBrowser(this.platformId)) {
       const token = sessionStorage.getItem("token");
       const user = sessionStorage.getItem("user");
@@ -398,7 +393,45 @@ export class HeaderComponent implements OnInit {
       this.userrole = "customer";
       this.isAdmin = false;
     }
+  } */
+
+  checkLoginStatus() {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = sessionStorage.getItem("token");
+      const userJson = sessionStorage.getItem("user");
+
+      this.isLoggedIn = !!token && !!userJson;
+
+      if (userJson) {
+        try {
+          const parsedUser = JSON.parse(userJson);
+
+          // Nếu chưa có role, giả lập mặc định "customer"
+          this.userrole = parsedUser.role || "customer";
+          this.isAdmin = this.userrole === "admin";
+
+          this.username = parsedUser.name || parsedUser.email || "Khách hàng";
+        } catch (e) {
+          console.error("Lỗi phân tích user từ sessionStorage:", e);
+          this.username = "Khách hàng";
+          this.userrole = "customer";
+          this.isAdmin = false;
+        }
+      } else {
+        // Không có user trong sessionStorage
+        this.username = "Khách hàng";
+        this.userrole = "customer";
+        this.isAdmin = false;
+      }
+    } else {
+      // Không phải trình duyệt
+      this.isLoggedIn = false;
+      this.username = "Khách hàng";
+      this.userrole = "customer";
+      this.isAdmin = false;
+    }
   }
+
   showUserDropdown(): void {
     this.isUserDropdownVisible = true;
   }
@@ -410,22 +443,24 @@ export class HeaderComponent implements OnInit {
   }
 
   goToSignup() {
-    window.location.href = "/sign-up";
+    this.router.navigate(["/sign-up"]);
   }
 
   goToLogin() {
-    window.location.href = "/sign-in";
+    this.router.navigate(["/sign-in"]);
   }
 
   goToProfile() {
-    window.location.href = "/profile";
+    this.router.navigate(["/profile"]);
   }
+
   logout() {
     sessionStorage.clear();
-    window.location.href = "/sign-in";
+    this.checkLoginStatus();
+    this.router.navigate(["/sign-in"]);
   }
 
   goToAdminDashboard() {
-    window.location.href = "/admin";
+    this.router.navigate(["/admin"]);
   }
 }

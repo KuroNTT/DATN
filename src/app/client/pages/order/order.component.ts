@@ -33,7 +33,7 @@ export class OrderComponent {
     "customer",
     "customerAddress",
     "customerPhoneNumber",
-    "totalPrice",
+    "total_price",
     "status",
     "orderDate",
   ];

@@ -1,3 +1,22 @@
+<div class="w-full mt-[60px] bg-gray-100 px-6 py-4 overflow-hidden">
+  <div class="flex gap-10 text-sm md:text-md text-gray-700 animate-marquee">
+    <div *ngFor="let v of latestVouchers.concat(latestVouchers)" class="flex items-center gap-2">
+      <span class="font-semibold text-blue-600">{{ v.code }}</span>
+      <span class="mx-2 text-gray-400">•</span>
+      <span class="font-bold text-red-500">
+        <ng-container *ngIf="v.discount_type === 'percent'">
+          -{{ v.discount_value }}%
+        </ng-container>
+        <ng-container *ngIf="v.discount_type === 'fixed'">
+          -{{ v.discount_value | currency : "VND" }}
+        </ng-container>
+      </span>
+      <span class="mx-2 text-gray-400">•</span>
+      <span class="text-gray-600">{{ v.description }}</span>
+    </div>
+  </div>
+</div>
+
 <app-banner></app-banner>
 
 <div class="just-in py-8 text-center px-4 sm:px-0">

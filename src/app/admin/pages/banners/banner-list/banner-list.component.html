@@ -1,56 +1,24 @@
-<div class="max-w-8xl">
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold">Danh sách banner</h2>
-    <button (click)="onAdd()"
-      class="flex items-center px-4 py-1.5 border border-gray-300 rounded-full text-md text-gray-700 hover:bg-black hover:text-white transition cursor-pointer">
-      <i class="fa-solid fa-plus mr-2"></i>Thêm banner
-    </button>
-  </div>
+<div class="relative w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh]">
+  <swiper-container #swiperRef navigation="false" pagination="true" autoplay-delay="5000" autoplay="true" loop="true"
+    class="w-full h-full" (swiper)="onSwiperReady($event)">
+    <swiper-slide *ngFor="let slide of slide_arr">
+      <div class="relative w-full h-full">
+        <img [src]="slide.image_url" class="w-full h-full object-cover object-center" />
+      </div>
+    </swiper-slide>
+  </swiper-container>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-full text-md text-left border border-gray-300">
-      <thead class="bg-gray-200 text-center">
-        <tr>
-          <th class="px-4 py-2 border">ID</th>
-          <th class="px-4 py-2 border">Hình ảnh</th>
-          <th class="px-4 py-2 border">Tiêu đề</th>
-          <th class="px-4 py-2 border">Vị trí</th>
-          <th class="px-4 py-2 border">Trạng thái</th>
-          <!-- <th class="px-4 py-2 border">Ngày bắt đầu</th>
-          <th class="px-4 py-2 border">Ngày kết thúc</th> -->
-          <th class="px-4 py-2 border">Thao tác</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let banner of banners; index as i" class="hover:bg-gray-50 text-center">
-          <td class="px-4 py-2 border">{{ banner.id }}</td>
-          <td class="px-4 py-2 border">
-            <img [src]="banner.image_url" alt="{{ banner.title }}" class="w-40 h-auto object-cover mx-auto rounded" />
-          </td>
-          <td class="px-4 py-2 border text-left">{{ banner.title }}</td>
-          <td class="px-4 py-2 border">{{ banner.position }}</td>
-          <td class="px-4 py-2 border">
-            {{ banner.status === 1 ? "Hiện" : "Ẩn" }}
-          </td>
+  <!-- Nút điều hướng trái -->
+  <button
+    class="absolute top-1/2 left-4 z-50 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white text-black rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
+    (click)="prevSlide()">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
 
-          <!-- <td class="px-4 py-2 border">
-            {{ banner.start_date | date : "dd/MM/yyyy HH:mm" }}
-          </td>
-          <td class="px-4 py-2 border">
-            {{ banner.end_date | date : "dd/MM/yyyy HH:mm" }}
-          </td> -->
-          <td class="px-4 py-2 border">
-            <div class="flex justify-center items-center gap-3">
-              <button (click)="onEdit(banner.id)" class="text-gray-700 hover:text-gray-500">
-                <i class="fa-solid fa-pencil"></i>
-              </button>
-              <button (click)="onDelete(banner.id)" class="text-red-500 hover:text-red-700">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Nút điều hướng phải -->
+  <button
+    class="absolute top-1/2 right-4 z-50 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white text-black rounded-full shadow-md hover:bg-gray-100 transition cursor-pointer"
+    (click)="nextSlide()">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
 </div>

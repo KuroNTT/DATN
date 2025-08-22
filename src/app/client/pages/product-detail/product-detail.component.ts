@@ -119,7 +119,7 @@ export class ProductDetailComponent implements OnInit {
     }
     Swal.fire({
       toast: true,
-      position: "top-end",
+      position: "bottom-end",
       icon: "success",
       title: "Đã thêm vào giỏ hàng!",
       showConfirmButton: false,

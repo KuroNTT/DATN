@@ -27,7 +27,7 @@ export class CategoryAddComponent {
     const payload: ICategoryCreate = {
       name: this.formData.name,
       description: this.formData.description,
-      sort_order: +this.formData.sort_order, // ép kiểu nếu là số
+      sort_order: +this.formData.sort_order,
       status: this.formData.status,
     };
 

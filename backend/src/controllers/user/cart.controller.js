@@ -77,6 +77,7 @@ exports.getAllCart = async (req, res) => {
   try {
     const cartItems = await CartModel.findAll({
       where: { user_id: req.params.userId },
+      attributes: ["variant_id", "size_id", "quantity"],
       include: [
         {
           model: ProductVariantModel,

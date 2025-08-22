@@ -1,56 +1,67 @@
-import { Component, OnInit } from "@angular/core";
-import { BannerService } from "../../../services/banner.service";
-import { IBanner } from "../../../../core/models/structureData";
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
+import { IBanner } from "../../../../core/models/structureData";
+import { SwiperContainer } from "swiper/element";
+import type { Swiper } from "swiper";
+import { ElementRef } from "@angular/core";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
-  selector: "app-banner-list",
-  templateUrl: "./banner-list.component.html",
-  styleUrls: ["./banner-list.component.css"],
+  selector: "app-banner",
   standalone: true,
   imports: [CommonModule],
+  templateUrl: "./banner-list.component.html",
+  styleUrls: ["./banner-list.component.css"],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class BannerListComponent implements OnInit {
-  banners: IBanner[] = [];
+export class BannerListComponent implements AfterViewInit {
+  @ViewChild("swiperRef") swiperRef?: ElementRef;
 
-  constructor(private bannerService: BannerService, private router: Router) {}
+  slide_arr: IBanner[] = [];
+  swiperInstance: any = null;
 
   ngOnInit(): void {
     this.loadBanners();
   }
 
+  ngAfterViewInit() {}
+
   loadBanners() {
-    this.bannerService.getAll().subscribe({
-      next: (data) => {
-        this.banners = data;
-      },
-      error: (err) => {
-        console.error("Error loading banners:", err);
-      },
-    });
+    fetch(`${environment.apiUrl}/admin/banners`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.slide_arr = data as IBanner[];
+
+        setTimeout(() => {
+          const swiperEl = this.swiperRef?.nativeElement as any;
+
+          if (swiperEl?.swiper) {
+            this.swiperInstance = swiperEl.swiper;
+
+            this.swiperInstance.update();
+          }
+        }, 0);
+      })
+      .catch((error) =>
+        console.error("Có lỗi khi lấy dữ liệu ảnh banner! ", error)
+      );
   }
 
-  onEdit(id: number) {
-    this.router.navigate(["/admin/banners/edit", id]);
+  onSwiperReady(swiper: any) {
+    this.swiperInstance = swiper;
   }
 
-  onDelete(id: number) {
-    const confirmDelete = confirm("Bạn có chắc muốn xóa banner này?");
-    if (confirmDelete) {
-      this.bannerService.delete(id).subscribe({
-        next: () => {
-          alert("Xóa banner thành công!");
-          this.banners = this.banners.filter((banner) => banner.id !== id);
-        },
-        error: () => {
-          alert("Xóa banner thất bại!");
-        },
-      });
-    }
+  nextSlide() {
+    console.log("Swiper instance:", this.swiperInstance);
+    this.swiperInstance?.slideNext();
   }
 
-  onAdd() {
-    this.router.navigate(["/admin/banners/add"]);
+  prevSlide() {
+    this.swiperInstance?.slidePrev();
   }
 }

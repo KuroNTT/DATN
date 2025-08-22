@@ -1,6 +1,6 @@
-<div class="relative w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh] mt-[60px]">
-  <swiper-container #swiperRef pagination autoplay [attr.autoplay-delay]="5000" loop class="w-full h-full"
-    (swiper)="onSwiperReady($event)">
+<div class="relative w-full h-[30vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh]">
+  <swiper-container #swiperRef navigation="false" pagination="true" autoplay-delay="5000" autoplay="true" loop="true"
+    class="w-full h-full" (swiper)="onSwiperReady($event)">
     <swiper-slide *ngFor="let slide of slide_arr">
       <div class="relative w-full h-full">
         <img [src]="slide.image_url" class="w-full h-full object-cover object-center" />

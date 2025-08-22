@@ -23,6 +23,8 @@ import { SearchResultComponent } from "./pages/search-result/search-result.compo
 import { CancelComponent } from "./pages/cancel/cancel.component";
 import { SuccessComponent } from "./pages/success/success.component";
 import { AboutUsComponent } from "./pages/about-us/about-us.component";
+import { VoucherComponent } from "./pages/profile/voucher/voucher.component";
+import { FavoriteComponent } from "./pages/profile/favorite/favorite.component";
 
 const routes: Routes = [
   {
@@ -78,6 +80,7 @@ const routes: Routes = [
         path: "profile",
         component: ProfileComponent,
         canActivate: [authGuard],
+        canActivateChild: [authGuard], 
         data: { roles: ["customer", "admin"] },
         children: [
           { path: "", redirectTo: "purchase", pathMatch: "full" },
@@ -98,6 +101,18 @@ const routes: Routes = [
             component: ChangePwComponent,
             title: "Thay đổi mật khẩu",
             data: { breadcrumb: "Thay đổi mật khẩu" },
+          },
+          {
+            path: "voucher",
+            component: VoucherComponent,
+            title: "Mã giảm giá",
+            data: { breadcrumb: "Mã giảm giá" },
+          },
+          {
+            path: "favorite",
+            component: FavoriteComponent,
+            title: "Sản phẩm yêu thích",
+            data: { breadcrumb: "Sản phẩm yêu thích" },
           },
         ],
       },

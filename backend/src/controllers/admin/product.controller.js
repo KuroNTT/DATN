@@ -132,7 +132,9 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   try {
     const sp = await ProductModel.findByPk(req.params.id);
-    sp ? res.json(sp) : res.status(404).json({ thong_bao: "Không tìm thấy" });
+    sp
+      ? res.json(sp)
+      : res.status(404).json({ thong_bao: "Không tìm thấy sản phẩm" });
   } catch (err) {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
@@ -157,21 +159,10 @@ exports.deleteProduct = async (req, res) => {
     }
 
     const usedColorIds = [...new Set(product.variants.map((v) => v.color_id))];
-
-    // Xoá sản phẩm chính (đã cascade variant, images, sizes nếu cấu hình đúng)
     await product.destroy();
+    await ColorModel.destroy({ where: { id: usedColorIds } });
 
-    // Sau khi xoá, kiểm tra từng color
-    for (const colorId of usedColorIds) {
-      const count = await ProductVariantModel.count({
-        where: { color_id: colorId },
-      });
-      if (count === 0) {
-        await ColorModel.destroy({ where: { id: colorId } });
-      }
-    }
-
-    res.json({ thong_bao: "Đã xóa sản phẩm và các màu không còn sử dụng" });
+    res.json({ thong_bao: "Đã xóa sản phẩm và màu liên quan" });
   } catch (err) {
     res.status(500).json({ thong_bao: "Lỗi server", err });
   }
@@ -209,10 +200,8 @@ exports.createProduct = async (req, res) => {
     } = req.body;
 
     const now = new Date().toISOString();
-    const fallbackImage =
-      variants?.[0]?.image_url || variants?.[0]?.image?.[0] || null;
 
-    // 1. Tạo sản phẩm chính
+    // Tạo sản phẩm chính
     const product = await ProductModel.create(
       {
         brand_id,
@@ -221,7 +210,7 @@ exports.createProduct = async (req, res) => {
         gender_id,
         description,
         slug,
-        image: image || fallbackImage,
+        image: image,
         price,
         price_sale,
         origin_country,
@@ -234,9 +223,9 @@ exports.createProduct = async (req, res) => {
       { transaction: t }
     );
 
-    // 2. Tạo từng biến thể
+    // Tạo từng biến thể
     for (const variant of variants) {
-      // 2.1 Tạo màu
+      // Tạo màu
       const color = await ColorModel.create(
         {
           color_name: variant.color_name,
@@ -246,17 +235,14 @@ exports.createProduct = async (req, res) => {
         { transaction: t }
       );
 
-      // 2.2 Lấy ảnh chính từ variant.images (nếu có)
-      const image_url = variant.image_url || variant.images?.[0] || null;
-
-      // 2.3 Tạo biến thể
+      // Tạo biến thể
       const variantData = await ProductVariantModel.create(
         {
           product_id: product.id,
           color_id: color.id,
           shoe_height_id: variant.shoe_height_id,
           style_code: variant.style_code,
-          image_url,
+          image_url:variant.image_url,
           status: 1,
           created_at: now,
           updated_at: now,
@@ -264,7 +250,7 @@ exports.createProduct = async (req, res) => {
         { transaction: t }
       );
 
-      // 2.4 Tạo size tồn kho
+      // Tạo size tồn kho
       for (const size of variant.sizes) {
         await VariantSizeModel.create(
           {
@@ -278,7 +264,7 @@ exports.createProduct = async (req, res) => {
         );
       }
 
-      // 2.5 Tạo ảnh phụ
+      // Tạo ảnh phụ
       for (const image_url of variant.images) {
         await ProductImageModel.create(
           {
@@ -300,7 +286,7 @@ exports.createProduct = async (req, res) => {
   } catch (error) {
     await t.rollback();
     console.error("Lỗi thêm sản phẩm:", error);
-    res.status(400).json({ thong_bao: "Thêm thất bại", error: error.message });
+    res.status(400).json({ thong_bao: "Thêm sản phẩm thất bại", error: error.message });
   }
 };
 

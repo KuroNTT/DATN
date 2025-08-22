@@ -129,4 +129,11 @@ export class CartService {
       `${environment.apiUrl}/stock?variantId=${variantId}&sizeId=${sizeId}`
     );
   }
+
+  createPaymentLink(payload: any) {
+    return this.http.post(
+      `${environment.apiUrl}/orders/create-payment`,
+      payload
+    );
+  }
 }

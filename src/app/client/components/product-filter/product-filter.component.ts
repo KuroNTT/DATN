@@ -149,7 +149,7 @@ export class ProductFilterComponent {
 
     this.http.get<IBrand[]>(`${environment.apiUrl}/brands`).subscribe({
       next: (data) => {
-        this.brand_arr = data;
+        this.brand_arr = data;        
       },
       error: (error) => {
         console.error("Lỗi khi lấy brands:", error);
