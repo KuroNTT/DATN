@@ -53,19 +53,20 @@ export class ProductFormComponent implements OnInit {
       const slug = this.slugify(name);
       this.form.get('slug')?.setValue(slug, { emitEvent: false });
     });
-    //Gọi hàm thêm vra
-    this.addVariant();
-
-    if (this.isEditMode && this.formData) {
-      this.form.patchValue(this.formData);
-      this.patchVariants(this.formData.variants || []);
-      // Gán lại preview ảnh đại diện từ dữ liệu
-      this.variantImages = this.formData.variants.map(v => v.image_url);
-    }
+    // Lấy danh sách size, sau đó mới xử lý variants
+    this.productService.getSizes().subscribe((res: any) => {
+      this.sizes = res;
+      if (this.isEditMode && this.formData) {
+        this.form.patchValue(this.formData);
+        this.patchVariants(this.formData.variants || []);
+        this.variantImages = this.formData.variants.map(v => v.image_url);
+      } else {
+        this.addVariant();
+      }
+    });
     //Load dữ liệu bảng khác lên form
     this.productService.getBrand().subscribe(res => this.brands = res);
     this.productService.getCategory().subscribe(res => this.categories = res);
-    this.productService.getSizes().subscribe(res => this.sizes = res);
     this.productService.getGender().subscribe(res => this.genders = res);
     this.productService.getShoeheights().subscribe(res => this.shoeHeights = res);
   }
@@ -82,10 +83,11 @@ export class ProductFormComponent implements OnInit {
     return this.variants.at(variantIndex).get('images') as FormArray;
   }
 
-  getSizeNameById(id: number): string {
+  getSizeNameById(id: any): string {
     const size = this.sizes.find(s => s.id === id);
-    return size ? `Size ${size.size}` : 'Size ?';
+    return size ? `Size ${size.size}` : 'Size ?'
   }
+
   getSizesFromGroup(variantGroup: FormGroup): FormArray {
     return variantGroup.get('sizes') as FormArray;
   }
@@ -107,10 +109,10 @@ export class ProductFormComponent implements OnInit {
     });
 
     this.sizes.forEach(s => {
-    (variantGroup.get('sizes') as FormArray).push(
-      this.fb.group({ size_id: [s.id], stock: [0, [Validators.min(0)]] })
-    );
-  });
+      (variantGroup.get('sizes') as FormArray).push(
+        this.fb.group({ size_id: [s.id], stock: [0, [Validators.min(0)]] })
+      );
+    });
 
     for (let i = 0; i < 8; i++) {
       (variantGroup.get('images') as FormArray).push(this.fb.control(''));

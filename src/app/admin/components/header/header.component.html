@@ -4,7 +4,7 @@
   <!-- Logo hoặc Tên Trang -->
   <div class="text-xl font-semibold text-gray-800">Admin Panel</div>
   <div>
-    <ul class="flex items-center">
+    <ul class="flex items-center gap-4">
       <!-- Icon user -->
       <li class="relative group user-toggle">
         <a
@@ -15,14 +15,18 @@
         </a>
 
         <!-- Dropdown -->
-        <ul
-          [ngClass]="{
-              'block opacity-100 visible translate-y-0': isUserDropdownVisible,
-              'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
-            }"
-            (mouseleave)="hideUserDropdown()"
-            class="hidden group-hover:block lg:absolute lg:top-full lg:right-[-20px] lg:bg-white lg:shadow-lg lg:w-48 z-10 transition-all duration-300 transform user-dropdown" 
-        >
+   <ul
+    [ngClass]="{
+      'block opacity-100 visible translate-y-0': isUserDropdownVisible,
+      'opacity-0 invisible translate-y-[-20px]': !isUserDropdownVisible
+    }"
+    (mouseleave)="hideUserDropdown()"
+    class="absolute top-full 
+           right-[-10px] md:left-auto
+           bg-white shadow-lg w-48 z-10 
+           transition-all duration-300 transform user-dropdown"
+  >
+
           <!-- Chỉ hiển thị nếu đã đăng nhập -->
           <li>
             <span class="block px-4 py-2 text-gray-500">
@@ -57,6 +61,14 @@
           </li>
         </ul>
       </li>
+      <li class="lg:hidden">
+      <button
+        class="p-2 text-xl rounded-md cursor-pointer"
+        (click)="onToggleSidebar()"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </li>
     </ul>
   </div>
 </header>

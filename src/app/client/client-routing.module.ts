@@ -24,7 +24,6 @@ import { CancelComponent } from "./pages/cancel/cancel.component";
 import { SuccessComponent } from "./pages/success/success.component";
 import { AboutUsComponent } from "./pages/about-us/about-us.component";
 import { VoucherComponent } from "./pages/profile/voucher/voucher.component";
-import { FavoriteComponent } from "./pages/profile/favorite/favorite.component";
 
 const routes: Routes = [
   {
@@ -107,13 +106,7 @@ const routes: Routes = [
             component: VoucherComponent,
             title: "Mã giảm giá",
             data: { breadcrumb: "Mã giảm giá" },
-          },
-          {
-            path: "favorite",
-            component: FavoriteComponent,
-            title: "Sản phẩm yêu thích",
-            data: { breadcrumb: "Sản phẩm yêu thích" },
-          },
+          },          
         ],
       },
       {

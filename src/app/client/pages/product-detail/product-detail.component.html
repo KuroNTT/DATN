@@ -12,7 +12,7 @@
 
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 mt-10 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
       <div class="col-span-1 order-2 lg:order-0">
         <div class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
           <img
@@ -38,11 +38,11 @@
       <div class="col-span-1 md:col-span-2 lg:col-span-6 order-3">
         <div class="ml-0 lg:ml-4">
           <div class="overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">
-            <h3 class="text-2xl font-bold">{{ product.name }}</h3>
+            <h3 class="text-xl font-bold">{{ product.name }}</h3>
             <p class="font-semibold text-gray-600">
               {{ product.category?.name }}
             </p>
-            <div class="flex flex-wrap items-center text-2xl my-5 gap-6">
+            <div class="flex flex-wrap items-center text-xl my-2 gap-6">
               <ng-container
                 *ngIf="
                   product.price_sale && product.price_sale < product.price;
@@ -96,13 +96,13 @@
 
             <div class="my-2">
               <div class="flex justify-between my-2 text-sm">
-                <p class="text-lg font-semibold">Kích thước</p>
+                <p class="text-md font-semibold">Kích thước</p>
                 <div
                   class="flex items-center gap-2 hover:text-gray-600 transition"
                 >
                   <i class="fa-solid fa-ruler-horizontal text-lg"></i>
                   <p
-                    class="text-lg cursor-pointer"
+                    class="text-md cursor-pointer"
                     (click)="showSizeChart = true"
                   >
                     Bảng kích thước
@@ -125,14 +125,14 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+              </div>             
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                 <div
                   *ngFor="let variantSize of size_arr"
-                  class="relative group"
+                  class="relative group flex justify-center"
                 >
                   <button
-                    class="btn-size w-full"
+                    class="btn-size w-full min-w-[56px] sm:min-w-0"
                     [ngClass]="{
                       'bg-black text-white':
                         selectedSize?.id === variantSize.size.id,
@@ -143,8 +143,6 @@
                   >
                     {{ variantSize.size.size }}
                   </button>
-
-                  <!-- Tooltip "Hết hàng" -->
                   <div
                     *ngIf="variantSize.stock === 0"
                     class="absolute left-1/2 -translate-x-1/2 -top-7 bg-gray-800 text-white text-xs px-2 py-1 rounded hidden group-hover:block z-10 whitespace-nowrap"
@@ -158,14 +156,14 @@
                 <button
                   type="button"
                   (click)="addToCart()"
-                  class="w-full py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]"
+                  class="w-full text-xs py-3 rounded-full shadow text-white bg-black hover:bg-[#707072] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Thêm vào giỏ hàng
                 </button>
                 <button
                   type="button"
                   (click)="addToWishlist()"
-                  class="w-full py-3 rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition-[0.2]"
+                  class="w-full text-xs rounded-full shadow text-black bg-white hover:bg-[#f3f3f3] cursor-pointer font-semibold transition-[0.2]"
                 >
                   Yêu thích
                 </button>
@@ -174,7 +172,7 @@
 
             <div>
               <h3 class="text-xl font-bold my-2">Thông tin sản phẩm</h3>
-              <p class="text-base">{{ product.description }}</p>
+              <p class="text-base text-justify">{{ product.description }}</p>
 
               <div
                 class="infor-detail mt-2"

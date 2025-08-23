@@ -70,6 +70,7 @@ app.use(
   require("./src/routes/admin/dashboard.routes")
 );
 app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
+app.use("/api/admin/user", require("./src/routes/admin/user.routes"));
 app.use("/api/admin/orders", require("./src/routes/admin/order.routes"));
 // Cấu hình nhận form-data, JSON...
 app.use(express.urlencoded({ extended: true }));
