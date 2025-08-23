@@ -6,7 +6,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogRef } from "@angular/material/dialog";
-
+import { MatDialogModule } from "@angular/material/dialog";
 @Component({
   selector: "app-cancel-order",
   standalone: true,
@@ -16,6 +16,7 @@ import { MatDialogRef } from "@angular/material/dialog";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
     CommonModule,
   ],
   templateUrl: "./cancel-order.component.html",
