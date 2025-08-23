@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from "../../../../../environments/environment";
 import { IOrder, IOrderDetail } from '../../../../core/models/structureData';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelOrderComponent } from '../cancel-order/cancel-order.component';
+import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-purchase',
   imports: [CommonModule],
@@ -9,6 +13,9 @@ import { IOrder, IOrderDetail } from '../../../../core/models/structureData';
   styleUrls: ['./purchase.component.css'],
 })
 export class PurchaseComponent implements OnInit {
+
+  constructor(private dialog: MatDialog, private http: HttpClient){}
+
   orders: IOrder[] = [];
   filteredOrders: IOrder[] = [];
   selectedTab = 'all';
@@ -75,5 +82,35 @@ export class PurchaseComponent implements OnInit {
     } else {
       this.toggleOrderDetails(order);
     }
+  }
+
+  cancelOrder(orderId: number) {
+    const dialogRef = this.dialog.open(CancelOrderComponent, {
+      width: "480px",
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((reason: string) => {
+      if (reason) {
+        if (reason) {
+          let payload = {
+            status: "cancelled",
+            customerNote: reason,
+            orderId,
+          };
+          this.http
+            .patch(`${environment.apiUrl}/orders/change-status`, payload)
+            .subscribe((res) => {
+              Swal.fire({
+                icon: "success",
+                title: "Đã hủy đơn",
+                text: "Đơn hàng đã được hủy thành công!",
+                confirmButtonText: "OK",
+              });
+              this.fetchOrders();
+            });
+        }
+      }
+    });
   }
 }

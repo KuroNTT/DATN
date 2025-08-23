@@ -234,10 +234,10 @@ exports.createPaymentLink = async (req, res) => {
 
     
     items = items.map(e=>({name: e.name, price: e.price, quantity: e.quantity}));
-
+    
     const payload = {
       orderCode: orderCode,
-      amount: Number(total_price),
+      amount: Math.floor(total_price),
       description: `DON HANG ${orderCode}`,
       items,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
