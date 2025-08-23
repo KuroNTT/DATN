@@ -2,11 +2,12 @@ import {
   Component,
   PLATFORM_ID,
   Inject,
-  OnInit
+  OnInit,
+  EventEmitter, 
+  Output
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { Router } from "@angular/router";
-
 @Component({
   selector: "app-header",
   standalone: true,
@@ -15,6 +16,7 @@ import { Router } from "@angular/router";
   styleUrl: "./header.component.css",
 })
 export class HeaderComponent implements OnInit {
+  @Output() toggleSidebar = new EventEmitter<void>();
   showDropdown = false;
   isLoggedIn = false;
   username: string = "";
@@ -29,6 +31,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkLoginStatus();
+  }
+onToggleSidebar() {
+    this.toggleSidebar.emit();
   }
 
   checkLoginStatus() {

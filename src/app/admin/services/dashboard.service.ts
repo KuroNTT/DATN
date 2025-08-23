@@ -21,4 +21,7 @@ export class DashboardService {
   getLowStock(): Observable<any> {
     return this.http.get(`${this.apiUrl}/low-stock`);
   }
+  getStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats`);
+  }
 }

@@ -1,4 +1,4 @@
-<div class="w-full mt-[60px] bg-gray-100 px-6 py-4 overflow-hidden">
+<div class="w-full mt-[60px] bg-gray-100 px-3 py-2 md:px-6 md:py-4 overflow-hidden">
   <div class="flex gap-10 text-sm md:text-md text-gray-700 animate-marquee">
     <div *ngFor="let v of latestVouchers.concat(latestVouchers)" class="flex items-center gap-2">
       <span class="font-semibold text-blue-600">{{ v.code }}</span>
@@ -30,8 +30,9 @@
   <div class="go-to-shop mt-6">
     <button
       class="bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 transition"
+      routerLink="/products"
     >
-      Shop
+      Mua ngay
     </button>
   </div>
 </div>
@@ -54,7 +55,7 @@
           </a>
           <p class="title font-bold text-xl">Lebron XXII 'Crown Jewel'</p>
           <button class="button">
-            <a href="/product-detail/lebron-xxii">Shop</a>
+            <a href="/product-detail/lebron-xxii">Mua ngay</a>
           </button>
         </div>
 
@@ -69,7 +70,7 @@
           </a>
           <p class="title font-bold text-xl">Thời Gian Giải Trí Phải Có</p>
           <button class="button">
-            <a href="/product-detail/ja-2-ep">Shop</a>
+            <a href="/product-detail/ja-2-ep">Mua ngay</a>
           </button>
         </div>
 
@@ -84,7 +85,7 @@
           </a>
           <p class="title font-bold text-xl">Nike Air Max Dn8</p>
           <button class="button">
-            <a href="/product-detail/nike-air-max-dn8">Shop</a>
+            <a href="/product-detail/nike-air-max-dn8">Mua ngay</a>
           </button>
         </div>
       </div>
@@ -94,7 +95,7 @@
 
 <div class="section_1 flex justify-center py-8 px-4 sm:px-0">
   <div class="container">
-    <h3 class="text-3xl font-semibold mb-4">Sản Phẩm Mới Nhất</h3>
+    <h3 class="text-2xl font-semibold mb-4">Sản Phẩm Mới Nhất</h3>
     <div
       class="section_1_product grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
     >

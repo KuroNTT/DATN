@@ -26,4 +26,9 @@ export class SidebarComponent {
     { label: "Khách hàng", path: "/admin/user", icon: "fas fa-user" },
     { label: "Voucher", path: "/admin/vouchers", icon: "fa-solid fa-ticket" },
   ];
+  isOpen = false;
+
+  toggleSidebar() {
+    this.isOpen = !this.isOpen;
+  }
 }

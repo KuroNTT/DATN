@@ -10,16 +10,16 @@
   </div>
 
   <div class="overflow-x-auto">
-    <table class="min-w-full text-md text-left border border-gray-300">
+    <table
+      class="min-w-full block w-full text-md text-left border border-gray-300"
+    >
       <thead class="bg-gray-200 text-center">
         <tr>
           <th class="px-4 py-2 border">ID</th>
-          <th class="px-4 py-2 border">Hình ảnh</th>
+          <th class="px-4 py-2 border w-48">Hình ảnh</th>
           <th class="px-4 py-2 border">Tiêu đề</th>
-          <th class="px-4 py-2 border">Vị trí</th>
-          <th class="px-4 py-2 border">Trạng thái</th>
-          <!-- <th class="px-4 py-2 border">Ngày bắt đầu</th>
-          <th class="px-4 py-2 border">Ngày kết thúc</th> -->
+          <th class="px-4 py-2 border hidden md:table-cell">Vị trí</th>
+          <th class="px-4 py-2 border hidden md:table-cell">Trạng thái</th>
           <th class="px-4 py-2 border">Thao tác</th>
         </tr>
       </thead>
@@ -33,12 +33,14 @@
             <img
               [src]="banner.image_url"
               alt="{{ banner.title }}"
-              class="w-40 h-auto object-cover mx-auto rounded"
+              class="w-24 sm:w-32 md:w-40 h-auto object-cover mx-auto rounded"
             />
           </td>
           <td class="px-4 py-2 border text-left">{{ banner.title }}</td>
-          <td class="px-4 py-2 border">{{ banner.position }}</td>
-          <td class="px-4 py-2 border">
+          <td class="px-4 py-2 border hidden md:table-cell">
+            {{ banner.position }}
+          </td>
+          <td class="px-4 py-2 border hidden md:table-cell">
             {{ banner.status === 1 ? "Hiện" : "Ẩn" }}
           </td>
 

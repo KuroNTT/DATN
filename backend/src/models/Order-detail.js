@@ -44,7 +44,7 @@ const OrderDetailModel = sequelize.define(
     },
   },
   {
-    tableName: "order_details", // tên bảng trong DB
+    tableName: "order_details", 
     timestamps: false,
   }
 );

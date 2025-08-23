@@ -1,11 +1,11 @@
 <div class="">
   <div class="flex items-center justify-between mb-4">
-  <h2 class="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
+    <h2 class="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
     <div class="flex items-center space-x-4">
       <div class="relative">
         <select
-        (change)="filterByStatus($event)"
-          class="w-full border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring focus:ring-blue-300 "
+          (change)="filterByStatus($event)"
+          class="w-full border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring focus:ring-blue-300"
         >
           <option selected value="">Tất cả sản phẩm</option>
           <option value="1">Hiện</option>
@@ -23,7 +23,9 @@
   </div>
 
   <div class="overflow-auto">
-    <table class="min-w-full text-md text-left border border-gray-200">
+    <!-- <table
+      class="min-w-[800px] w-full text-xs lg:text-md text-left border border-gray-200"
+    >
       <thead class="bg-gray-200 text-center">
         <tr>
           <th class="px-4 py-2 border">ID</th>
@@ -37,7 +39,6 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Mỗi dòng sản phẩm -->
         <tr
           class="hover:bg-gray-50"
           *ngFor="
@@ -58,10 +59,9 @@
               alt="{{ pd.name }}"
               class="w-16 h-16 object-cover rounded mx-auto"
             />
-          </td>          
+          </td>
           <td class="px-4 py-2 border text-center">
             <label class="relative inline-flex items-center cursor-pointer">
-              <!-- Input checkbox để tạo toggle -->
               <input
                 type="checkbox"
                 class="sr-only peer"
@@ -69,12 +69,10 @@
                 (change)="toggleStatus(pd)"
               />
 
-              <!-- Thanh trượt -->
               <div
                 class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-500 transition-all duration-300"
               ></div>
 
-              <!-- Nút tròn -->
               <div
                 class="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-5"
               ></div>
@@ -84,7 +82,7 @@
           <td class="px-4 py-2 border text-center">
             <a
               [routerLink]="['/admin/products/edit', pd.slug]"
-              class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-6"
+              class="inline-flex items-center text-gray-700 hover:text-gray-500 md:mr-3 lg:mr-6"
             >
               <i class="fa-solid fa-pencil mr-1"></i>
             </a>
@@ -97,7 +95,103 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+  <div class="overflow-x-auto">
+  <table
+    class="min-w-[600px] w-full text-xs sm:text-sm md:text-md text-left border border-gray-200"
+  >
+    <thead class="bg-gray-200 text-center">
+      <tr>
+        <th class="px-2 py-2 border hidden md:table-cell">ID</th>
+        <th class="px-2 py-2 border">Tên sản phẩm</th>
+        <th class="px-2 py-2 border">Giá</th>
+        <th class="px-2 py-2 border hidden lg:table-cell">Thương hiệu</th>
+        <th class="px-2 py-2 border hidden lg:table-cell">Danh mục</th>
+        <th class="px-2 py-2 border">Hình</th>
+        <th class="px-2 py-2 border hidden sm:table-cell">Trạng thái</th>
+        <th class="px-2 py-2 border">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="hover:bg-gray-50"
+        *ngFor="
+          let pd of product_arr
+            | paginate : { itemsPerPage: 5, currentPage: p }
+        "
+      >
+        <!-- ID: ẩn trên mobile, hiện từ md -->
+        <td class="px-2 py-2 border text-center hidden md:table-cell">
+          {{ pd.id }}
+        </td>
+
+        <!-- Tên -->
+        <td class="px-2 py-2 border truncate max-w-[120px]">
+          {{ pd.name }}
+        </td>
+
+        <!-- Giá -->
+        <td class="px-2 py-2 border whitespace-nowrap">
+          {{ pd.price_sale | number : "1.0-0" }}đ
+        </td>
+
+        <!-- Thương hiệu: ẩn đến lg -->
+        <td class="px-2 py-2 border hidden lg:table-cell">
+          {{ pd.brand?.name }}
+        </td>
+
+        <!-- Danh mục: ẩn đến lg -->
+        <td class="px-2 py-2 border hidden lg:table-cell">
+          {{ pd.category?.name }}
+        </td>
+
+        <!-- Hình -->
+        <td class="px-2 py-2 border">
+          <img
+            [src]="pd.image"
+            alt="{{ pd.name }}"
+            class="w-12 h-12 md:w-16 md:h-16 object-cover rounded mx-auto"
+          />
+        </td>
+
+        <!-- Trạng thái: ẩn trên xs, hiện từ sm -->
+        <td class="px-2 py-2 border text-center hidden sm:table-cell">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              class="sr-only peer"
+              [checked]="pd.status === 1"
+              (change)="toggleStatus(pd)"
+            />
+            <div
+              class="w-9 h-5 bg-gray-300 rounded-full peer peer-checked:bg-green-500 transition-all duration-300"
+            ></div>
+            <div
+              class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-4"
+            ></div>
+          </label>
+        </td>
+
+        <!-- Thao tác -->
+        <td class="px-2 py-2 border text-center whitespace-nowrap">
+          <a
+            [routerLink]="['/admin/products/edit', pd.slug]"
+            class="inline-flex items-center text-gray-700 hover:text-gray-500 mr-2 md:mr-3 lg:mr-6"
+          >
+            <i class="fa-solid fa-pencil mr-1"></i>
+          </a>
+
+          <button (click)="deleteProduct(pd.id!)">
+            <i
+              class="fa-solid fa-trash text-red-500 hover:text-red-700 cursor-pointer"
+            ></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
   </div>
 
   <!-- Phân trang -->

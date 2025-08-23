@@ -14,7 +14,12 @@ export class DashboardComponent implements OnInit {
   blogs: IBlog[] = [];
   newProducts: IProduct[] = [];
   lowStocks: any[] = [];
-
+  stats: any = {
+    totalRevenue: 0,
+    totalOrders: 0,
+    newOrders: 0,
+    newCustomers: 0
+  };
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
@@ -27,6 +32,10 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getLowStock().subscribe((data) => {
       this.lowStocks = data;
     });
+    this.dashboardService.getStats().subscribe({
+    next: (res) => this.stats = res,
+    error: (err) => console.error('Lỗi lấy thống kê:', err)
+  });
   }
 
   indexes = {

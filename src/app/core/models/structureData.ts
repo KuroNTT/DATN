@@ -46,6 +46,7 @@ export interface IBlog {
   author?: {
     id: number;
     name: string;
+    avatar?: string;
   };
   category_id: number;
   created_at: string;

@@ -1,35 +1,46 @@
-<div class="p-4 space-y-6">
+<div class="space-y-6">
   <!-- Stats -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Tổng doanh thu -->
     <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
       <p class="text-gray-500 text-sm">Tổng doanh thu</p>
-      <p class="text-gray-400 text-xs">Trong tuần vừa qua</p>
-      <p class="text-green-600 text-2xl font-bold mt-2"></p>
+      <p class="text-gray-400 text-xs">Trong tháng này</p>
+      <p class="text-green-600 text-2xl font-semibold mt-2">
+        {{ stats.totalRevenue | number }} đ
+      </p>
     </div>
 
+    <!-- Tổng đơn hàng -->
     <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
       <p class="text-gray-500 text-sm">Tổng đơn hàng</p>
-      <p class="text-gray-400 text-xs">Trong tuần vừa qua</p>
-      <p class="text-blue-600 text-2xl font-bold mt-2"></p>
+      <p class="text-gray-400 text-xs">Trong tháng này</p>
+      <p class="text-2xl font-semibold mt-2">
+        {{ stats.totalOrders }}
+      </p>
     </div>
 
+    <!-- Đơn hàng mới -->
     <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
       <p class="text-gray-500 text-sm">Đơn hàng mới</p>
-      <p class="text-gray-400 text-xs">Trong tuần vừa qua</p>
-      <p class="text-orange-500 text-2xl font-bold mt-2"></p>
+      <p class="text-gray-400 text-xs">Trong tháng này</p>
+      <p class="text-2xl font-semibold mt-2">
+        {{ stats.newOrders }}
+      </p>
     </div>
 
+    <!-- Khách hàng mới -->
     <div class="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
       <p class="text-gray-500 text-sm">Khách hàng mới</p>
-      <p class="text-gray-400 text-xs">Trong tháng vừa qua</p>
-      <p class="text-purple-600 text-2xl font-bold mt-2"></p>
+      <p class="text-gray-400 text-xs">Trong tháng này</p>
+      <p class="text-2xl font-semibold mt-2">
+        {{ stats.newCustomers }}
+      </p>
     </div>
   </div>
 
   <!-- Reviews + New Products -->
   <div class="flex flex-wrap lg:flex-nowrap gap-4">
-    <!-- Đánh giá mới -->
-    <div
+    <!-- <div
       class="bg-white p-4 rounded-xl shadow lg:w-1/2 overflow-y-auto h-[410px]"
     >
       <h3 class="text-lg font-semibold mb-4">Đánh Giá Mới ()</h3>
@@ -118,11 +129,46 @@
           </p>
         </div>
       </div>
-      <!-- Lặp lại các review khác -->
+    </div> -->
+    <div
+      class="bg-white p-4 rounded-xl shadow lg:w-1/2 overflow-y-auto h-[410px]"
+    >
+      <h3 class="text-lg font-semibold mb-4">Đánh Giá Mới ()</h3>
+
+      <div
+        class="flex flex-col sm:flex-row gap-3 mb-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0 last:mb-0"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            [src]=""
+            class="w-10 h-10 rounded-full object-cover"
+            alt="user"
+          />
+          <div>
+            <p class="font-medium">Tên khách hàng</p>
+            <p class="text-yellow-500 text-sm">⭐⭐⭐⭐⭐</p>
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <div
+            class="flex flex-col sm:flex-row justify-between text-sm text-gray-500"
+          >
+            <span>20/08/2025 14:30</span>
+            <span
+              >Mã SP:
+              <span class="font-medium text-gray-700">AJ1-RED-42</span></span
+            >
+          </div>
+          <p class="text-gray-600 text-sm mt-2">
+            Giày mang êm, form chuẩn, giao hàng nhanh 👍
+          </p>
+        </div>
+      </div>
     </div>
 
     <!-- Cột sản phẩm mới + sắp hết -->
-    <div class="flex gap-4 lg:w-1/2">
+    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-1/2">
       <!-- Sản phẩm mới -->
       <div class="bg-white p-4 rounded-xl shadow relative flex-1">
         <div class="flex justify-between pb-2">
@@ -220,27 +266,28 @@
   </div>
 
   <!-- Blogs -->
-  <div class="bg-white p-4 rounded-xl shadow">
+  <div class="bg-white p-4 rounded-xl shadow overflow-y-auto h-[410px]">
     <h3 class="text-lg font-semibold mb-4">
       Bài viết mới ({{ blogs.length }})
     </h3>
-
     <div class="space-y-6">
-      <div *ngFor="let b of blogs" class="flex items-start gap-4">
-        <!-- Avatar -->
-        <img
-          [src]=""
-          alt="{{ b.author?.name }}"
-          class="w-10 h-10 rounded-full object-cover"
-        />
-
-        <!-- Nội dung chính -->
-        <div class="flex-1 min-w-0">
-          <div class="flex justify-between items-start">
-            <p class="font-medium">{{ b.author?.name }}</p>
-            <span class="text-xs text-gray-500 whitespace-nowrap">
-              {{ b.created_at | date : "dd/MM/yyyy HH:mm" }}
-            </span>
+      <div
+        *ngFor="let b of blogs"
+        class="flex flex-col sm:flex-row bg-white rounded-xl p-4 shadow hover:shadow-md transition"
+      >
+        <div class="flex-1 min-w-0 mt-3 sm:mt-0 sm:mr-4">
+          <div class="flex items-center gap-3 mb-2">
+            <img
+              [src]="b.author?.avatar"
+              [alt]="b.author?.name"
+              class="w-8 h-8 rounded-full object-cover"
+            />
+            <div class="flex flex-col">
+              <p class="font-medium leading-none">{{ b.author?.name }}</p>
+              <span class="text-xs text-gray-500">
+                {{ b.created_at | date : "dd/MM/yyyy HH:mm" }}
+              </span>
+            </div>
           </div>
           <p class="font-bold mt-1 line-clamp-2">
             {{ b.title }}
@@ -248,16 +295,17 @@
           <p class="text-sm text-gray-600 line-clamp-2 mt-1">
             {{ b.content }}
           </p>
-          <a href="#" class="text-sm text-blue-600 hover:underline">
+          <a
+            href="#"
+            class="text-sm text-blue-600 hover:underline mt-2 inline-block"
+          >
             Xem thêm
           </a>
         </div>
-
-        <!-- Thumbnail -->
         <img
           [src]="b.thumbnail"
           alt="{{ b.title }}"
-          class="w-20 h-20 rounded-lg object-cover"
+          class="w-full h-30 rounded-lg object-cover sm:w-32 sm:h-32 sm:order-2"
         />
       </div>
     </div>
