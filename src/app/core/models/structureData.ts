@@ -212,29 +212,32 @@ export interface ICategoryCreate {
   status: number;
 }
 export interface IOrderDetail {
+  id: number;
+  order_id: number;
+  variant_id: number;
   quantity: number;
   price: number;
-  price_sale?: number;
-  size?: string;
-  product_name?: string;
-  image_url?: string;
-}
+  size_id: number;
+  product_name: string;
+  variant_name: string;
+  size_value: string;
+ product_variant?: {
+    image_url?: string;
+  };}
 
 export interface IOrder {
+  id: number;
   order_code: string;
   status: string;
-  create_at: string;
   total_price: number;
-  order_details?: IOrderDetail[]; // optional
-  // Thông tin chung chỉ load khi bấm Chi tiết
+  order_details: IOrderDetail[];
   customer?: string;
   customer_address?: string;
   customer_phone_number?: string;
   payment_method?: string;
-
-  // Thuộc tính client-side để toggle
   showDetails?: boolean;
 }
+
 
 export interface IVoucher {
   id: number;

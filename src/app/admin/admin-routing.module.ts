@@ -3,7 +3,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.component";
 import { provideHttpClient } from "@angular/common/http";
 import { DashboardComponent } from "./pages/dashboard/dashboard.component";
-
 const routes: Routes = [
   {
     path: "",
@@ -26,7 +25,6 @@ const routes: Routes = [
           ).then((m) => m.ProductFormComponent),
         title: "Add Product",
       },
-
       {
         path: "categories",
         loadChildren: () =>
@@ -67,6 +65,13 @@ const routes: Routes = [
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
         title: "Quản lý banner",
       },
+      {
+        path: "user",
+        loadComponent: () =>
+          import("./pages/users/users.component").then((m) => m.UsersComponent),
+        title: "Quản lý khách hàng",
+      },
+
     ],
   },
 ];
