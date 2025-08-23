@@ -1,12 +1,9 @@
 const OrderModel = require("../../models/Order");
-const OrderDetailModel = require("../../models/Order-detail");
-const ProductVariantModel = require("../../models/ProductVariant");
-const ProductModel = require("../../models/Product");
-const SizeModel = require("../../models/Size");
 const VariantSizeModel = require("../../models/VariantSize");
 const CartModel = require("../../models/cart");
 const VoucherModel = require("../../models/voucher");
 const PayOS = require("@payos/node");
+const OrderDetailModel = require("../../models/Order-detail");
 const payOS = new PayOS(
   "94bb561c-3489-4996-8497-3dcc01e85757",
   "abaa67a4-5049-49a1-a670-d0f49fa9893d",
@@ -14,86 +11,12 @@ const payOS = new PayOS(
 );
 const sequelize = require("../../config/sequelize");
 
-async function snapshotOrderDetailsFromCart(userId, orderId, transaction) {
-  const cartItems = await CartModel.findAll({
-    where: { user_id: userId },
-    transaction,
-  });
-
-  if (!cartItems.length) {
-    throw new Error("Giỏ hàng trống.");
-  }
-
-  let totalPrice = 0;
-  const payItems = [];
-
-  for (const ci of cartItems) {
-    if (!ci.variant_id || !ci.size_id) {
-      throw new Error(`Giỏ hàng thiếu variant_id/size_id (row id=${ci.id})`);
-    }
-
-    const variant = await ProductVariantModel.findByPk(ci.variant_id, {
-      include: [
-        { model: ProductModel, as: "product" },
-        {
-          model: VariantSizeModel,
-          as: "product_variant_sizes",
-          include: [{ model: SizeModel, as: "size" }],
-        },
-      ],
-      transaction,
-    });
-
-    if (!variant) throw new Error(`Không tìm thấy variant #${ci.variant_id}`);
-    const product = variant.product;
-    const sizeObj = variant.product_variant_sizes?.find(
-      (s) => s.size.id === ci.size_id
-    );
-    if (!sizeObj) {
-      throw new Error(
-        `Không tìm thấy size_id=${ci.size_id} thuộc variant_id=${ci.variant_id}`
-      );
-    }
-
-    const unitPrice =
-      product.price_sale != null
-        ? Number(product.price_sale)
-        : Number(product.price);
-    const qty = Number(ci.quantity) || 1;
-
-    totalPrice += unitPrice * qty;
-
-    await OrderDetailModel.create(
-      {
-        order_id: orderId,
-        variant_id: ci.variant_id,
-        size_id: ci.size_id,
-        product_name: product.name,
-        variant_name: variant.color_name ?? null,
-        size_value: sizeObj.size.size,
-        price: unitPrice,
-        quantity: qty,
-      },
-      { transaction }
-    );
-
-    // Dùng cho PayOS items
-    payItems.push({
-      name: `${product.name} - Size ${sizeObj.size.size}`,
-      quantity: qty,
-      price: unitPrice, // đơn giá
-    });
-  }
-
-  return { totalPrice, payItems };
-}
-
 exports.getAllOrder = async (req, res) => {
   try {
     const orders = await OrderModel.findAll();
     res.json(orders);
   } catch (error) {
-    console.error("Lỗi khi lấy đơn hàng:", error);
+    console.error("❌ Lỗi khi lấy đơn hàng:", error);
     res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
   }
 };
@@ -101,42 +24,8 @@ exports.getAllOrder = async (req, res) => {
 exports.getOrderById = async (req, res) => {
   try {
     const orderId = req.params.id;
-
-    const order = await OrderModel.findByPk(orderId, {
-      attributes: [
-        "id",
-        "order_code",
-        "status",
-        "create_at",
-        "total_price",
-        "payment_method",
-        "customer",
-        "customer_address",
-        "customer_phone_number",
-        "customer_note",
-        "admin_note",
-        "order_date",
-      ],
-      include: [
-        {
-          model: OrderDetailModel,
-          as: "order_details",
-          attributes: [
-            "product_name",
-            "variant_name",
-            "size_value",
-            "price_at_order",
-            "quantity",
-          ],
-        },
-      ],
-    });
-
-    if (!order) {
-      return res.status(404).json({ error: "Không tìm thấy đơn hàng" });
-    }
-
-    return res.status(200).json(order);
+    const orders = await OrderModel.findByPk(orderId);
+    res.json(orders);
   } catch (error) {
     console.error("❌ Lỗi khi lấy đơn hàng:", error);
     res.status(500).json({ error: "Đã xảy ra lỗi khi truy xuất đơn hàng" });
@@ -149,12 +38,121 @@ const generateOrderCode = () => {
   return Number(`${timePart}${random}`);
 };
 
+// exports.createPaymentLink = async (req, res) => {
+//   try {
+//     let {
+//       total_price,
+//       items,
+//       userId,
+//       payment_method,
+//       voucherId,
+//       customer,
+//       address,
+//       phone,
+//       customerNote,
+//       adminNote,
+//       voucherCode,
+//     } = req.body;
+
+//     if (!total_price || !items || !Array.isArray(items) || items.length === 0) {
+//       return res.status(400).json({ error: "Thiếu thông tin đơn hàng." });
+//     }
+
+//     if (voucherCode) {
+//       let voucher = await VoucherModel.findOne({
+//         where: { code: voucherCode },
+//       });
+//       voucherId = voucher.id;
+//     } else {
+//       voucherId = null;
+//     }
+//     customerNote = customerNote || "Không có ghi chú";
+//     adminNote = adminNote || null;
+
+//     let orderCode = generateOrderCode();
+//     let existingOrder = await OrderModel.findOne({
+//       where: { order_code: orderCode },
+//     });
+
+//     while (existingOrder) {
+//       orderCode = generateOrderCode();
+//       existingOrder = await OrderModel.findOne({
+//         where: { order_code: orderCode },
+//       });
+//     }
+
+//     const newOrder = await OrderModel.create({
+//       user_id: userId || null,
+//       order_code: orderCode,
+//       total_price,
+//       status: "pending",
+//       payment_method,
+//       order_date: new Date(),
+//       voucher_id: voucherId,
+//       create_at: new Date(),
+//       customer,
+//       customer_address: address,
+//       customer_phone_number: phone,
+//       customer_note: customerNote,
+//       admin_note: adminNote,
+//     });
+//     console.log(items);
+
+//     for (const item of items) {
+//       if (!item.variantId) {
+//         console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
+//         continue; // bỏ qua item này, không lưu vào order_detail
+//       }
+
+//       await OrderDetailModel.create({
+//         order_id: newOrder.id,
+//         variant_id: item.variantId,
+//         quantity: item.quantity || 1,
+//         size_id: item.sizeId,
+//         size_value: item.size_value,
+//         product_name: item.product_name,
+//         variant_name: item.variant_name,
+//         price: item.price || 0,
+//       });
+//     }
+//     const payload = {
+//       orderCode: orderCode,
+//       amount: Number(total_price),
+//       description: `DON HANG ${orderCode}`,
+//       items: items.map((e) => ({
+//         name: e.product_name || e.variant_name || "Sản phẩm",
+//         quantity: e.quantity,
+//         price: e.price,
+//       })),
+//       cancelUrl: `${process.env.DOMAIN}/cancel`,
+//       returnUrl: `${process.env.DOMAIN}/success`,
+//     };
+
+//     const paymentLinkResponse = await payOS.createPaymentLink(payload);
+
+//     if (!paymentLinkResponse?.checkoutUrl) {
+//       return res.status(500).json({
+//         error: "Không tạo được link thanh toán từ PayOS.",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       orderCode,
+//       checkoutUrl: paymentLinkResponse.checkoutUrl,
+//     });
+//   } catch (error) {
+//     console.error("❌ Lỗi tạo link thanh toán:", error);
+//     return res.status(500).json({
+//       error: "Lỗi máy chủ. Không tạo được link thanh toán.",
+//     });
+//   }
+// };
+
 exports.createPaymentLink = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     let {
-      total_price,
-      items,
       userId,
       payment_method,
       voucherId,
@@ -174,9 +172,19 @@ exports.createPaymentLink = async (req, res) => {
     if (voucherCode) {
       const voucher = await VoucherModel.findOne({
         where: { code: voucherCode },
+        transaction,
       });
-
+      if (!voucher) {
+        await transaction.rollback();
+        return res.status(400).json({ error: "Voucher không tồn tại." });
+      }
+      if (voucher.quantity <= 0) {
+        await transaction.rollback();
+        return res.status(400).json({ error: "Voucher đã hết lượt sử dụng." });
+      }
       voucherId = voucher.id;
+      voucher.quantity--;
+      await voucher.save({ transaction });
     } else {
       voucherId = null;
     }
@@ -184,60 +192,52 @@ exports.createPaymentLink = async (req, res) => {
     customerNote = customerNote || "Không có ghi chú";
     adminNote = adminNote || null;
 
-    let orderCode = generateOrderCode();
-    let existingOrder = await OrderModel.findOne({
-      where: { order_code: orderCode },
-    });
-    while (existingOrder) {
+    // --- Generate order code ---
+    let orderCode;
+    let existingOrder;
+    do {
       orderCode = generateOrderCode();
       existingOrder = await OrderModel.findOne({
         where: { order_code: orderCode },
+        transaction,
       });
-    }
+    } while (existingOrder);
 
-    const newOrder = await OrderModel.create({
-      user_id: userId,
-      order_code: orderCode,
-      total_price: 0,
-      status: "pending",
-      payment_method,
-      order_date: new Date(),
-      voucher_id: voucherId,
-      create_at: new Date(),
-      customer,
-      customer_address: address,
-      customer_phone_number: phone,
-      customer_note: customerNote,
-      admin_note: adminNote,
-    });
-    console.log(items);
+    // --- Tạo order ---
+    const newOrder = await OrderModel.create(
+      {
+        user_id: userId,
+        order_code: orderCode,
+        total_price: 0, // sẽ update sau khi snapshot giỏ hàng
+        status: "pending",
+        payment_method,
+        order_date: new Date(),
+        voucher_id: voucherId,
+        create_at: new Date(),
+        customer,
+        customer_address: address,
+        customer_phone_number: phone,
+        customer_note: customerNote,
+        admin_note: adminNote,
+      },
+      { transaction }
+    );
 
-    for (const item of items) {
-      if (!item.variantId) {
-        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
-        continue;
-      }
+    // --- Snapshot giỏ hàng vào order_details ---
+    const { totalPrice, payItems } = await snapshotOrderDetailsFromCart(
+      userId,
+      newOrder.id,
+      transaction
+    );
 
-      await OrderDetailModel.create(
-        {
-          order_id: newOrder.id,
-          variant_id: item.variantId,
-          quantity: item.quantity || 1,
-          price: item.price || 0,
-        },
-        { transaction }
-      );
-    }
+    // update lại total_price sau snapshot
+    newOrder.total_price = totalPrice;
+    await newOrder.save({ transaction });
 
-    const payItems = items.map((item) => ({
-      name: item.name || `Sản phẩm ${item.variantId}`,
-      quantity: item.quantity || 1,
-      price: item.price || 0,
-    }));
-
+    // --- Payload cho PayOS ---
     const payload = {
       orderCode: orderCode,
-      amount: Number(total_price),
+      amount: Number(totalPrice),
       description: `DON HANG ${orderCode}`,
       items: payItems,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
@@ -260,10 +260,11 @@ exports.createPaymentLink = async (req, res) => {
       checkoutUrl: paymentLinkResponse.checkoutUrl,
     });
   } catch (error) {
-    console.error("❌ Lỗi tạo link thanh toán:", error);
-    return res.status(500).json({
-      error: "Lỗi máy chủ. Không tạo được link thanh toán.",
-    });
+    await transaction.rollback();
+    console.error("Lỗi tạo link thanh toán:", error);
+    return res
+      .status(500)
+      .json({ error: "Lỗi máy chủ. Không tạo được link thanh toán." });
   }
 };
 
@@ -271,18 +272,13 @@ exports.callbackPayment = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     const { orderCode } = req.params;
+    const { cart } = req.body;
 
     const payRes = await payOS.getPaymentLinkInformation(Number(orderCode));
     const paymentStatus = payRes?.status || "NOT_FOUND";
 
     const order = await OrderModel.findOne({
       where: { order_code: Number(orderCode) },
-      include: [
-        {
-          model: OrderDetailModel,
-          as: "order_details",
-        },
-      ],
       transaction,
     });
 
@@ -295,51 +291,63 @@ exports.callbackPayment = async (req, res) => {
       order.status = "paid";
       await order.save({ transaction });
 
-      // --- Trừ stock dựa vào order_details ---
-      for (const detail of order.order_details) {
-        const variantSize = await VariantSizeModel.findOne({
+      let cartItems = [];
+
+      if (order.user_id) {
+        cartItems = await CartModel.findAll({
+          where: { user_id: order.user_id },
+          transaction,
+        });
+      } else if (Array.isArray(cart)) {
+        cartItems = cart.map((i) => ({
+          variant_id: i.variantId,
+          size_id: i.sizeId,
+        }));
+      } else {
+        await transaction.rollback();
+        return res.status(400).json({
+          error: "Thiếu thông tin giỏ hàng cho người dùng chưa đăng nhập.",
+        });
+      }
+
+      for (const item of cartItems) {
+        const variant = await VariantSizeModel.findOne({
           where: {
-            variant_id: detail.variant_id,
-            size_id: detail.size_id,
+            variant_id: item.variant_id,
+            size_id: item.size_id,
           },
           transaction,
         });
 
-        if (!variantSize) {
+        if (!variant) {
           await transaction.rollback();
           return res.status(400).json({
-            error: `Không tìm thấy biến thể (variant_id=${detail.variant_id}, size_id=${detail.size_id}) trong kho.`,
+            error: `Không tìm thấy biến thể (variant_id=${item.variant_id}, size_id=${item.size_id}) trong kho.`,
           });
         }
 
-        if (variantSize.stock < detail.quantity) {
+        const quantity = item.quantity || 1;
+        if (variant.stock < quantity) {
           await transaction.rollback();
           return res.status(400).json({
-            error: `Không đủ hàng (variant_id=${detail.variant_id}, size_id=${detail.size_id}).`,
+            error: `Không đủ hàng (variant_id=${item.variant_id}, size_id=${item.size_id}).`,
           });
         }
 
-        variantSize.stock -= detail.quantity;
-        await variantSize.save({ transaction });
+        variant.stock -= quantity;
+        await variant.save({ transaction });
       }
 
-      // --- Xoá giỏ hàng của user sau khi thanh toán ---
       if (order.user_id) {
         await CartModel.destroy({
           where: { user_id: order.user_id },
           transaction,
         });
       }
-
-      // --- Trừ voucher nếu có ---
       if (order.voucher_id) {
-        const voucher = await VoucherModel.findByPk(order.voucher_id, {
-          transaction,
-        });
-        if (voucher) {
-          voucher.quantity--;
-          await voucher.save({ transaction });
-        }
+        let voucher = await VoucherModel.findByPk(order.voucher_id);
+        voucher.quantity--;
+        voucher.save();
       }
     } else if (paymentStatus === "CANCELLED") {
       order.status = "cancelled";
@@ -385,7 +393,6 @@ exports.saveOrder = async (req, res) => {
         .json({ error: "Thiếu thông tin sản phẩm trong đơn hàng." });
     }
 
-    // --- Xử lý voucher ---
     let voucherId = null;
     if (voucherCode) {
       const voucher = await VoucherModel.findOne({
@@ -405,7 +412,6 @@ exports.saveOrder = async (req, res) => {
       await voucher.save({ transaction });
     }
 
-    // --- Sinh order_code unique ---
     let orderCode;
     let existingOrder;
     do {
@@ -420,7 +426,6 @@ exports.saveOrder = async (req, res) => {
       });
     } while (existingOrder);
 
-    // --- Tạo Order ---
     const newOrder = await OrderModel.create(
       {
         user_id: userId || null,
@@ -439,54 +444,25 @@ exports.saveOrder = async (req, res) => {
       },
       { transaction }
     );
+    console.log(items);
 
-    // --- Snapshot chi tiết sản phẩm ---
     for (const item of items) {
-      if (!item.variantId || !item.sizeId) {
-        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId hoặc sizeId:", item);
-        continue;
+      if (!item.variantId) {
+        console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
+        continue; // bỏ qua item này, không lưu vào order_detail
       }
-
-      const variant = await ProductVariantModel.findByPk(item.variantId, {
-        include: [
-          { model: ProductModel, as: "product" },
-          {
-            model: VariantSizeModel,
-            as: "product_variant_sizes",
-            include: [{ model: SizeModel, as: "size" }],
-          },
-        ],
-        transaction,
-      });
-
-      if (!variant) throw new Error("Không tìm thấy variant");
-
-      const product = variant.product;
-      const sizeObj = variant.product_variant_sizes.find(
-        (s) => s.size.id === item.sizeId
-      );
-      if (!sizeObj) throw new Error("Không tìm thấy size cho variant này");
-
-      const price = product.price_sale ?? product.price;
 
       await OrderDetailModel.create(
         {
           order_id: newOrder.id,
-          variant_id: variant.id,
-          size_id: item.sizeId,
-          product_name: product.name,
-          variant_name: variant.color_name ?? null,
-          size_value: sizeObj.size.size,
-          price: item.price ?? 0,
-          product_name: item.product_name ?? "Sản phẩm",
-          variant_name: item.variant_name ?? "Default Variant",
+          variant_id: item.variantId,
           quantity: item.quantity || 1,
+          price: item.price || 0,
         },
         { transaction }
       );
     }
 
-    // --- Dọn giỏ hàng ---
     if (userId) {
       await CartModel.destroy({
         where: { user_id: userId },

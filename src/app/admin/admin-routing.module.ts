@@ -56,16 +56,22 @@ const routes: Routes = [
         title: "Quản lý banner",
       },
       {
+        path: "brands",
+        loadChildren: () =>
+          import("./pages/brands/brand.routes").then((m) => m.brandRoutes),
+        title: "Quản lý thương hiệu",
+      },
+      {
         path: "orders",
-        loadComponent: () =>
-          import("./pages/order/order.component").then((m) => m.OrderComponent),
-        title: "Quản lý banner",
+        loadChildren: () =>
+          import("./pages/order/order.routes").then((m) => m.orderRoutes),
+        title: "Quản lý đơn hàng",
       },
       {
         path: "vouchers",
         loadChildren: () =>
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
-        title: "Quản lý banner",
+        title: "Quản lý mã giảm giá",
       },
     ],
   },

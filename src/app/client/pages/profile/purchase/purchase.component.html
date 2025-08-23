@@ -1,7 +1,7 @@
-<h2 class="text-xl font-semibold mb-4">Đơn Mua</h2>
-
 <div class="w-full overflow-x-auto scrollbar-hide scroll-smooth mb-4">
-  <div class="flex gap-2 px-2 py-2">
+  <div
+    class="flex justify-between gap-2 px-1 max-w-[290px] sm:max-w-[520px] md:max-w-[700px] lg:max-w-none lg:w-full"
+  >
     <button
       *ngFor="let tab of tabs"
       (click)="selectTab(tab.value)"
@@ -16,63 +16,119 @@
   </div>
 </div>
 
-<div *ngFor="let order of filteredOrders" class="rounded-md border p-4 mb-4 bg-white shadow-sm">
-
-  <!-- Header đơn -->
-  <div class="flex justify-between items-center mb-2">
-    <div class="font-semibold text-gray-800">Mã đơn: {{ order.order_code }}</div>
-    <div class="text-red-600 font-semibold uppercase">{{ order.status }}</div>
+<div
+  *ngFor="let order of filteredOrders"
+  class="rounded-xl border p-3 sm:p-4 mb-4 bg-white shadow-sm transition hover:shadow-md"
+>
+  <div
+    class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2"
+  >
+    <div class="font-semibold text-gray-800 text-sm sm:text-base">
+      Mã đơn: {{ order.order_code }}
+    </div>
+    <div
+      class="font-semibold text-xs sm:text-sm mt-1 sm:mt-0"
+      [ngClass]="{
+        'text-yellow-600': order.status === 'pending',
+        'text-blue-600': order.status === 'confirmed',
+        'text-green-600': order.status === 'completed',
+        'text-gray-500': order.status === 'cancelled'
+      }"
+    >
+      Tình trạng đơn hàng:
+      <span>
+        {{
+          order.status === "pending"
+            ? "Chờ xác nhận"
+            : order.status === "confirmed"
+            ? "Đã xác nhận"
+            : order.status === "completed"
+            ? "Hoàn thành"
+            : "Đã hủy"
+        }}
+      </span>
+    </div>
   </div>
 
-  <!-- Danh sách sản phẩm luôn hiển thị -->
-  <div *ngFor="let detail of order.order_details ?? []" class="flex items-start gap-3 mb-2">
-    <img [src]="detail.image_url" class="w-20 h-20 object-cover rounded" />
+  <div
+    *ngFor="let detail of order.order_details"
+    class="flex flex-col sm:flex-row sm:items-start gap-3 mb-3"
+  >
+    <img
+      [src]="detail.product_variant?.image_url"
+      class="w-full sm:w-20 h-44 sm:h-24 object-cover rounded-lg"
+    />
     <div class="flex-1">
-      <div class="font-medium text-gray-800 text-sm">{{ detail.product_name }}</div>
-      <div class="text-xs text-gray-500 mt-1">Size: {{ detail.size }}</div>
-      <div class="text-xs text-gray-500">x{{ detail.quantity }}</div>
+      <div class="flex justify-between items-center">
+        <div
+          class="font-medium text-gray-800 text-sm sm:text-base leading-snug"
+        >
+          {{ detail.product_name }}
+        </div>
+        <div
+          class="text-sm sm:text-base font-semibold text-red-600 shrink-0 ml-2"
+        >
+          {{ detail.price | currency : "VND" }}
+        </div>
+      </div>
+
+      <div class="text-xs sm:text-sm text-gray-500 mt-1">
+        Size: {{ detail.size_value }}
+      </div>
+      <div class="text-xs sm:text-sm text-gray-500">
+        Số lượng: x{{ detail.quantity }}
+      </div>
     </div>
-    <div class="flex items-center justify-end text-sm shrink-0 gap-2">
-      <div class="line-through text-gray-400 text-xs">{{ detail.price | currency:'VND' }}</div>
-      <span class="text-red-600 font-semibold">{{ detail.price_sale | currency:'VND' }}</span>
+  </div>
+
+  <div
+    class="flex justify-end items-center mt-2 text-sm sm:text-base font-semibold text-red-600"
+  >
+    Thành tiền: {{ order.total_price | currency : "VND" }}
+  </div>
+
+  <div
+    *ngIf="order.showDetails"
+    class="border-t mt-3 pt-3 text-xs sm:text-sm text-gray-700 space-y-1"
+  >
+    <div>
+      <span class="font-semibold">Người nhận:</span> {{ order.customer }}
+    </div>
+    <div>
+      <span class="font-semibold">Địa chỉ:</span> {{ order.customer_address }}
+    </div>
+    <div>
+      <span class="font-semibold">Số điện thoại:</span>
+      {{ order.customer_phone_number }}
+    </div>
+    <div>
+      <span class="font-semibold">Phương thức thanh toán:</span>
+      {{ order.payment_method }}
     </div>
   </div>
 
-  <!-- Thông tin tổng tiền -->
-  <div class="flex justify-end items-center mt-2 text-sm font-semibold text-red-600">
-    Thành tiền: {{ order.total_price | currency:'VND' }}
-  </div>
-
-  <!-- Thông tin chung chỉ hiển thị khi bấm Chi tiết -->
-  <div *ngIf="order.showDetails" class="border-t mt-3 pt-3 text-sm text-gray-700 space-y-1">
-    <div><span class="font-semibold">Người nhận:</span> {{ order.customer }}</div>
-    <div><span class="font-semibold">Địa chỉ:</span> {{ order.customer_address }}</div>
-    <div><span class="font-semibold">Số điện thoại:</span> {{ order.customer_phone_number }}</div>
-    <div><span class="font-semibold">Phương thức thanh toán:</span> {{ order.payment_method }}</div>
-  </div>
-
-  <!-- Nút hành động -->
-  <div class="flex justify-end mt-3 gap-2">
+  <div class="flex flex-col sm:flex-row justify-end mt-4 gap-2">
     <button
-      class="w-32 p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 hover:bg-[#707072]"
-      (click)="toggleOrderDetails(order)">
-      Chi tiết
+      class="w-full sm:w-auto min-w-[120px] px-4 py-2 text-sm sm:text-base rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 hover:bg-[#707072]"
+      (click)="toggleOrderDetails(order)"
+    >
+      {{ order.showDetails ? "Ẩn chi tiết" : "Chi tiết" }}
     </button>
+
     <button
       *ngIf="order.status === 'pending'"
-      class="w-32 p-2 text-sm rounded-full bg-red-600 text-white shadow-lg font-semibold transition duration-300 hover:bg-red-700"
-      (click)="handleOrderAction(order)">
+      class="w-full sm:w-auto min-w-[120px] px-4 py-2 text-sm sm:text-base rounded-full bg-red-600 text-white shadow-lg font-semibold transition duration-300 hover:bg-red-700"
+      (click)="handleOrderAction(order)"
+    >
       Hủy đơn
     </button>
+
     <button
       *ngIf="order.status === 'completed'"
-      class="w-32 p-2 text-sm rounded-full bg-green-600 text-white shadow-lg font-semibold transition duration-300 hover:bg-green-700"
-      (click)="handleOrderAction(order)">
+      class="w-full sm:w-auto min-w-[120px] px-4 py-2 text-sm sm:text-base rounded-full bg-green-600 text-white shadow-lg font-semibold transition duration-300 hover:bg-green-700"
+      (click)="handleOrderAction(order)"
+    >
       Đánh giá
     </button>
   </div>
 </div>
-
-
-
-

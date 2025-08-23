@@ -5,9 +5,11 @@ import {
   IProductVariant,
   ISize,
   IProductVariantSize,
+  IWishlist,
 } from "../../../core/models/structureData";
 import { ActivatedRoute } from "@angular/router";
 import { CartService } from "../../services/cart.service";
+import { WishlistService } from "../../services/wishlist.service";
 import Swal from "sweetalert2";
 import { environment } from "../../../../environments/environment";
 
@@ -21,8 +23,12 @@ import { environment } from "../../../../environments/environment";
 export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private wishlistService: WishlistService
   ) {}
+  showSizeChart: boolean = false;
+
+  // Helper chung
   private extractSizes(variant: IProductVariant): IProductVariantSize[] {
     return variant.product_variant_sizes || [];
   }
@@ -33,7 +39,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   product_arr: IProduct[] = [];
-  showSizeChart: boolean = false;
+  // showSizeChart: boolean = false;
 
   slug: string = "";
   product: IProduct = {} as IProduct;
@@ -98,24 +104,11 @@ export class ProductDetailComponent implements OnInit {
 
     this.imgList = variant.images?.map((img) => img.image_url) || [];
     this.mainImage = this.imgList[0] || "";
-
-    console.log("🟦 Biến thể đã chọn:", {
-      id: variant.id,
-      style_code: variant.style_code,
-      color: variant.color?.color_name,
-    });
   }
 
   onSelectSize(variantSize: IProductVariantSize) {
     if (variantSize.stock === 0) return;
     this.selectedSize = variantSize.size;
-
-    console.log("🟩 Size đã chọn:", {
-      size_id: variantSize.size.id,
-      size: variantSize.size.size,
-      stock: variantSize.stock,
-      variant_id: this.selectedVariant?.id,
-    });
   }
 
   addToCart() {
@@ -135,7 +128,7 @@ export class ProductDetailComponent implements OnInit {
     );
     Swal.fire({
       toast: true,
-      position: "bottom-end",
+      position: "top-end",
       icon: "success",
       title: "Đã thêm vào giỏ hàng!",
       showConfirmButton: false,
@@ -152,15 +145,38 @@ export class ProductDetailComponent implements OnInit {
 
   addToWishlist() {
     if (!this.selectedVariant) {
-      alert("⚠️ Vui lòng chọn màu sắc (biến thể) để thêm vào yêu thích!");
+      Swal.fire({ icon: "warning", text: "Vui lòng chọn biến thể (màu sắc)!" });
+      return;
+    }
+    if (!this.selectedSize) {
+      Swal.fire({ icon: "warning", text: "Vui lòng chọn size!" });
       return;
     }
 
-    alert(
-      `❤️ Sản phẩm đã thêm vào danh sách yêu thích:\n` +
-        `ID: ${this.selectedVariant.id}\n` +
-        `Sản phẩm: ${this.product.name}\n` +
-        `Mã biến thể: ${this.selectedVariant.style_code} - ${this.selectedVariant.color?.color_name}`
-    );
+    const payload: IWishlist = {
+      variant_id: this.selectedVariant.id,
+      size: (this.selectedSize as any).id ?? (this.selectedSize as any),
+    };
+
+    this.wishlistService.addToWishlist(payload).subscribe({
+      next: (res) => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: res?.message || "Đã thêm vào danh sách yêu thích",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+      error: (err) => {
+        console.error("addToWishlist error", err);
+        const msg =
+          err?.status === 401
+            ? "Bạn cần đăng nhập để thêm vào yêu thích."
+            : err?.error?.message || "Không thể thêm vào danh sách yêu thích";
+        Swal.fire({ icon: "error", text: msg });
+      },
+    });
   }
 }

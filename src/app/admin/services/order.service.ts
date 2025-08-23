@@ -1,16 +1,30 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
+import { IOrder } from "../../core/models/structureData";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class OrderService {
-  url = `${environment.apiUrl}/orders`;
+  private apiUrl = `${environment.apiUrl}/admin/orders`;
 
   constructor(private http: HttpClient) {}
 
-  getAllOrder() {
-    return this.http.get(this.url);
+  getAllOrder(): Observable<IOrder[]> {
+    return this.http.get<IOrder[]>(this.apiUrl);
+  }
+
+  getOrderById(id: number): Observable<IOrder> {
+    return this.http.get<IOrder>(`${this.apiUrl}/${id}`);
+  }
+
+  updateStatus(id: number, status: string): Observable<IOrder> {
+    return this.http.put<IOrder>(`${this.apiUrl}/${id}/status`, { status });
+  }
+
+  updateAdminNote(id: number, adminNote: string): Observable<IOrder> {
+    return this.http.put<IOrder>(`${this.apiUrl}/${id}/note`, { adminNote });
   }
 }

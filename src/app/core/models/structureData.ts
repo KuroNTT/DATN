@@ -212,27 +212,36 @@ export interface ICategoryCreate {
   status: number;
 }
 export interface IOrderDetail {
+  id: number;
+  order_id: number;
+  variant_id: number;
+  size_id: number;
+  size_value: number;
   quantity: number;
   price: number;
-  price_sale?: number;
-  size?: string;
   product_name?: string;
-  image_url?: string;
+  variant_name?: string;
+  product_variant?: {
+    image_url?: string;
+  };
 }
 
 export interface IOrder {
-  order_code: string;
-  status: string;
-  create_at: string;
+  id: number;
+  user_id: number;
   total_price: number;
-  order_details?: IOrderDetail[]; // optional
-  // Thông tin chung chỉ load khi bấm Chi tiết
+  status: string;
+  order_date: string;
+  voucher_id: number;
+  create_at: string;
   customer?: string;
   customer_address?: string;
   customer_phone_number?: string;
+  customer_note: string;
+  admin_note: string;
+  order_code: string;
+  order_details?: IOrderDetail[];
   payment_method?: string;
-
-  // Thuộc tính client-side để toggle
   showDetails?: boolean;
 }
 
@@ -241,11 +250,11 @@ export interface IVoucher {
   code: string;
   description?: string;
   discount_type: "percent" | "fixed";
-  discount_value: number; 
+  discount_value: number;
   min_order_value?: number;
   quantity: number;
   start_date: string;
-  end_date: string; 
+  end_date: string;
   is_active: boolean;
 }
 
@@ -262,4 +271,3 @@ export interface IVoucherUser {
 export interface IVoucherResponse {
   data: IVoucherUser[];
 }
-

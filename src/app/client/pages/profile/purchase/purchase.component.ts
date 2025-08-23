@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { environment } from "../../../../../environments/environment";
-import { IOrder, IOrderDetail } from '../../../../core/models/structureData';
+import { IOrder, IOrderDetail } from "../../../../core/models/structureData";
 /* export class PurchaseComponent implements OnInit {
 
   tabs = [
@@ -96,10 +96,10 @@ import { IOrder, IOrderDetail } from '../../../../core/models/structureData';
   }
 } */
 @Component({
-  selector: 'app-purchase',
+  selector: "app-purchase",
   imports: [CommonModule],
-  templateUrl: './purchase.component.html',
-  styleUrls: ['./purchase.component.css'],
+  templateUrl: "./purchase.component.html",
+  styleUrls: ["./purchase.component.css"],
 })
 /* export class PurchaseComponent implements OnInit {
   tabs = [
@@ -216,29 +216,35 @@ async toggleOrderDetails(order: IOrder) {
 export class PurchaseComponent implements OnInit {
   orders: IOrder[] = [];
   filteredOrders: IOrder[] = [];
-  selectedTab = 'all';
+  selectedTab = "all";
   tabs = [
-    { label: 'Tất cả đơn mua', value: 'all' },
-    { label: 'Chờ xác nhận', value: 'pending' },
-    { label: 'Đã xác nhận', value: 'confirmed' },
-    { label: 'Vận chuyển', value: 'shipping' },
-    { label: 'Hoàn thành', value: 'completed' },
-    { label: 'Đã hủy', value: 'cancelled' }
+    { label: "Tất cả đơn mua", value: "all" },
+    { label: "Chờ xác nhận", value: "pending" },
+    { label: "Đã xác nhận", value: "confirmed" },
+    { label: "Vận chuyển", value: "shipping" },
+    { label: "Hoàn thành", value: "completed" },
+    { label: "Đã hủy", value: "cancelled" },
   ];
 
   ngOnInit() {
-    const token = sessionStorage.getItem('token');
-    if (!token) { alert("Bạn chưa đăng nhập!"); return; }
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
 
     fetch(`${environment.apiUrl}/orders/my`, {
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data: IOrder[]) => {
-        this.orders = data.map(o => ({ ...o, showDetails: false })); // thêm showDetails mặc định false
+        this.orders = data.map((o) => ({ ...o, showDetails: false }));
         this.applyFilter();
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }
 
   selectTab(tab: string) {
@@ -247,10 +253,12 @@ export class PurchaseComponent implements OnInit {
   }
 
   applyFilter() {
-    if (this.selectedTab === 'all') {
+    if (this.selectedTab === "all") {
       this.filteredOrders = this.orders;
     } else {
-      this.filteredOrders = this.orders.filter(o => o.status === this.selectedTab);
+      this.filteredOrders = this.orders.filter(
+        (o) => o.status === this.selectedTab
+      );
     }
   }
 
@@ -258,12 +266,19 @@ export class PurchaseComponent implements OnInit {
   async toggleOrderDetails(order: IOrder) {
     order.showDetails = !order.showDetails;
 
-    if (order.showDetails && !order.customer) { // chưa load thông tin chung
-      const token = sessionStorage.getItem('token');
+    if (order.showDetails && !order.customer) {
+      // chưa load thông tin chung
+      const token = sessionStorage.getItem("token");
       try {
-        const res = await fetch(`${environment.apiUrl}/orders/${order.order_code}`, {
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          `${environment.apiUrl}/orders/${order.order_code}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!res.ok) throw new Error(`Error ${res.status}`);
         const data: Partial<IOrder> = await res.json();
 
@@ -273,28 +288,30 @@ export class PurchaseComponent implements OnInit {
         order.customer_phone_number = data.customer_phone_number;
         order.payment_method = data.payment_method;
       } catch (err) {
-        console.error('Load chi tiết đơn hàng thất bại', err);
+        console.error("Load chi tiết đơn hàng thất bại", err);
       }
     }
   }
 
   getActionButton(order: IOrder): { label: string } {
     switch (order.status) {
-      case 'pending': return { label: 'Hủy đơn' };
-      case 'completed': return { label: 'Đánh giá' };
-      default: return { label: 'Chi tiết' };
+      case "pending":
+        return { label: "Hủy đơn" };
+      case "completed":
+        return { label: "Đánh giá" };
+      default:
+        return { label: "Chi tiết" };
     }
   }
 
   handleOrderAction(order: IOrder) {
     const action = this.getActionButton(order).label;
-    if (action === 'Hủy đơn') {
-      console.log('Hủy đơn:', order.order_code);
-    } else if (action === 'Đánh giá') {
-      console.log('Đánh giá đơn:', order.order_code);
-    } else if (action === 'Chi tiết') {
+    if (action === "Hủy đơn") {
+      console.log("Hủy đơn:", order.order_code);
+    } else if (action === "Đánh giá") {
+      console.log("Đánh giá đơn:", order.order_code);
+    } else if (action === "Chi tiết") {
       this.toggleOrderDetails(order);
     }
   }
 }
-

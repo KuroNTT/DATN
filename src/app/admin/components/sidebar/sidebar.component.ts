@@ -15,6 +15,7 @@ export class SidebarComponent {
     { label: "Đơn hàng", path: "/admin/orders", icon: "fas fa-receipt" },
     { label: "Sản phẩm", path: "/admin/products", icon: "fas fa-box" },
     { label: "Danh mục", path: "/admin/categories", icon: "fas fa-list" },
+    { label: "Thương hiệu", path: "/admin/brands", icon: "fas fa-copyright" },
     { label: "Bài viết", path: "/admin/blogs", icon: "fas fa-newspaper" },
     {
       label: "Danh mục bài viết",

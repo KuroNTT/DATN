@@ -2,7 +2,6 @@ const Blog = require("../../models/Blog");
 const BlogCategoryModel = require("../../models/BlogCategory");
 const UserModel = require("../../models/User");
 
-// GET /api/blogs
 exports.getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.findAll({
@@ -10,9 +9,7 @@ exports.getAllBlogs = async (req, res) => {
         is_published: 1,
         status: 1,
       },
-      order: [
-        ["created_at", "DESC"],
-      ],
+      order: [["created_at", "DESC"]],
       include: [
         {
           model: BlogCategoryModel,
@@ -34,7 +31,15 @@ exports.getAllBlogs = async (req, res) => {
         "category_id",
         "author_id",
       ],
-      attributes: ["id", "title", "slug", "thumbnail", "content", "created_at", "category_id"],
+      attributes: [
+        "id",
+        "title",
+        "slug",
+        "thumbnail",
+        "content",
+        "created_at",
+        "category_id",
+      ],
     });
 
     res.json(blogs);
@@ -67,7 +72,9 @@ exports.getBlogBySlug = async (req, res) => {
     });
 
     if (!blog) {
-      return res.status(404).json({ message: "Không tìm thấy bài viết theo slug" });
+      return res
+        .status(404)
+        .json({ message: "Không tìm thấy bài viết theo slug" });
     }
 
     res.json(blog);
@@ -75,7 +82,6 @@ exports.getBlogBySlug = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // GET /api/blogs/category/:slug
 exports.getBlogsByCategorySlug = async (req, res) => {
@@ -130,15 +136,23 @@ exports.getAllBlogCategories = async (req, res) => {
   }
 };
 
-exports.getNewestBlog = async (req,res) => {
+exports.getNewestBlog = async (req, res) => {
   try {
     const blogs = await Blog.findAll({
-      attributes: ['id', 'title', 'slug', 'thumbnail','content', 'sort_order', 'created_at'],
-      order: [['created_at','DESC']],
-      limit: 4
+      attributes: [
+        "id",
+        "title",
+        "slug",
+        "thumbnail",
+        "content",
+        "sort_order",
+        "created_at",
+      ],
+      order: [["created_at", "DESC"]],
+      limit: 4,
     });
     res.json(blogs);
   } catch (error) {
-    res.status(500).json({message: error.message});
+    res.status(500).json({ message: error.message });
   }
-}
+};
