@@ -108,6 +108,8 @@ export interface IProduct {
   category?: ICategory;
   isLiked?: boolean;
   brand?: IBrand;
+  isFavorited?: boolean;
+  gender?: IGender;
 }
 
 export interface IProductVariantSize {

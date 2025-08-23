@@ -1,4 +1,11 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnInit, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { BannerComponent } from "../../components/banner/banner.component";
 import { IProduct, IBlog, IVoucher } from "../../../core/models/structureData";
@@ -6,11 +13,14 @@ import { Router, RouterLink } from "@angular/router";
 import { environment } from "../../../../environments/environment";
 import { ProductService } from "../../services/product.service";
 import { VoucherService } from "../../services/voucher.service";
+import { AuthService } from "../../../core/services/auth.service";
+import { WishlistService } from "../../services/wishlist.service";
+import { FavoriteButtonComponent } from "../../components/favorite-button/favorite-button.component";
 
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [CommonModule, BannerComponent, RouterLink],
+  imports: [CommonModule, BannerComponent, RouterLink, FavoriteButtonComponent],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -31,7 +41,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private pds: ProductService,
     private voucherService: VoucherService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -39,7 +49,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.loadVouchers();
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   loadProducts() {
     fetch(`${environment.apiUrl}/products`)
@@ -93,7 +103,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     { id: 3, name: "Chạy bộ", image: "images/nike-running.jpg" },
     { id: 4, name: "Đá bóng", image: "images/nike-football.jpg" },
     { id: 5, name: "Bóng rổ", image: "images/nike-basketball.jpg" },
-    { id: 6, name: "Tập luyện và Gym", image: "images/nike-training-and-gym.jpg" },
+    {
+      id: 6,
+      name: "Tập luyện và Gym",
+      image: "images/nike-training-and-gym.jpg",
+    },
     { id: 7, name: "Skateboard", image: "images/nike-skateboard.jpg" },
     { id: 8, name: "Golf", image: "images/nike-golf.jpg" },
   ];

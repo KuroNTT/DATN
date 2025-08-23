@@ -6,7 +6,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { HttpClient } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { environment } from "../../../../environments/environment";
-import { ActivatedRoute, Route } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-product",
@@ -21,11 +21,16 @@ import { ActivatedRoute, Route } from "@angular/router";
   styleUrls: ["./products.component.css"],
 })
 export class ProductsComponent implements OnInit {
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   product_arr: IProduct[] = [];
   product_arr_all: IProduct[] = [];
   p: number = 1;
+  loading = false;
 
   ngOnInit(): void {
     this.fetchAllProducts();

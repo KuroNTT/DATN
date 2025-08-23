@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { IProduct } from "../../../core/models/structureData";
 import { WishlistService } from "../../services/wishlist.service";
 import { environment } from "../../../../environments/environment";
+
 @Component({
   selector: "app-product-wishlist",
   imports: [CommonModule],
@@ -13,6 +14,7 @@ export class ProductWishlistComponent {
   product_arr: IProduct[] = [];
   products_wishList: any[] = [];
   constructor(private wishlistService: WishlistService) {}
+
   ngOnInit(): void {
     this.wishlistService.getWishlist().subscribe({
       next: (res) => {
@@ -31,6 +33,7 @@ export class ProductWishlistComponent {
         console.error("Có lỗi khi lấy dữ liệu sản phẩm nhiều lượt xem: ", error)
       );
   }
+
   removeFromWishlist(item: any): void {
     const id = item.wishlist_id;
     console.log(id);

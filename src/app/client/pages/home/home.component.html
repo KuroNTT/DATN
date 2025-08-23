@@ -1,6 +1,9 @@
 <div class="w-full mt-[60px] bg-gray-100 px-6 py-4 overflow-hidden">
   <div class="flex gap-10 text-sm md:text-md text-gray-700 animate-marquee">
-    <div *ngFor="let v of latestVouchers.concat(latestVouchers)" class="flex items-center gap-2">
+    <div
+      *ngFor="let v of latestVouchers.concat(latestVouchers)"
+      class="flex items-center gap-2"
+    >
       <span class="font-semibold text-blue-600">{{ v.code }}</span>
       <span class="mx-2 text-gray-400">•</span>
       <span class="font-bold text-red-500">
@@ -41,9 +44,7 @@
     <div class="featured">
       <h3 class="text-3xl font-semibold mb-4">Đặc Sắc</h3>
 
-      <!-- GIỮ FLEX, THÊM flex-wrap -->
       <div class="featured_product flex flex-wrap gap-4 justify-between">
-        <!-- SP1 -->
         <div class="featured_image w-full sm:w-[48%] md:w-[32%]">
           <a href="/product-detail/lebron-xxii">
             <img
@@ -101,6 +102,9 @@
       <!-- Product Item -->
       <div class="product" *ngFor="let product of product_arr">
         <div class="w-full aspect-square mb-4 overflow-hidden relative group">
+          <app-favorite-button
+            [isFavorited]="product.isFavorited"
+          ></app-favorite-button>
           <a href="/product-detail/{{ product.slug }}">
             <img
               class="product-image w-full h-full object-cover"
