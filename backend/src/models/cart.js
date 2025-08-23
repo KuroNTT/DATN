@@ -32,20 +32,10 @@ const CartModel = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
   },
   {
     tableName: "cart_items",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

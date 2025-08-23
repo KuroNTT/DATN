@@ -6,7 +6,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { CancelOrderComponent } from "../cancel-order/cancel-order.component";
 import { HttpClient } from "@angular/common/http";
 import Swal from "sweetalert2";
-
 @Component({
   selector: "app-purchase",
   imports: [CommonModule],

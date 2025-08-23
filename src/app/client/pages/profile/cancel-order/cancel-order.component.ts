@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-
+import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
@@ -16,6 +16,7 @@ import { MatDialogRef } from "@angular/material/dialog";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    CommonModule,
   ],
   templateUrl: "./cancel-order.component.html",
   styleUrls: ["./cancel-order.component.css"],

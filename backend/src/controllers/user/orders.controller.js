@@ -501,37 +501,6 @@ exports.saveOrder = async (req, res) => {
   }
 };
 
-exports.getOrdersByUser = async (req, res) => {
-  const userId = req.user?.id || req.query.user_id;
-  try {
-    const orders = await OrderModel.findAll({
-      where: { user_id: userId },
-
-      include: [
-        {
-          model: OrderDetailModel,
-          as: "order_details",
-          include: [
-            {
-              model: ProductVariantModel,
-              as: "product_variant",
-              attributes: ["image_url"],
-            },
-          ],
-        },
-      ],
-      order: [["create_at", "DESC"]],
-    });
-    res.json(orders);
-  } catch (error) {
-    console.error("Lỗi khi lấy danh sách đơn hàng:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Lỗi máy chủ khi lấy đơn hàng.",
-    });
-  }
-};
-
 exports.changeOrderStatus = async (req, res) => {
   try {
     const { status, customerNote, orderId } = req.body;
@@ -561,5 +530,35 @@ exports.changeOrderStatus = async (req, res) => {
   } catch (error) {
     console.error("Error updating order:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+exports.getOrdersByUser = async (req, res) => {
+  const userId = req.user?.id || req.query.user_id;
+  try {
+    const orders = await OrderModel.findAll({
+      where: { user_id: userId },
+
+      include: [
+        {
+          model: OrderDetailModel,
+          as: "order_details",
+          include: [
+            {
+              model: ProductVariantModel,
+              as: "product_variant",
+              attributes: ["image_url"],
+            },
+          ],
+        },
+      ],
+      order: [["create_at", "DESC"]],
+    });
+    res.json(orders);
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi máy chủ khi lấy đơn hàng.",
+    });
   }
 };
