@@ -11,7 +11,6 @@
                         <th class="w-56 px-4 py-2 border">Tên sản phẩm</th>
                         <th class="w-24 px-4 py-2 border">Ảnh</th>
                         <th class="w-24 px-4 py-2 border">Giá</th>
-                        <th class="w-24 px-4 py-2 border">Màu</th>
                         <th class="w-24 px-4 py-2 border">Size</th>
                         <th class="w-32 px-4 py-2 border">Thao tác</th>
                     </tr>
@@ -19,16 +18,16 @@
                 <tbody>
                     <tr
                         *ngFor="let product of wishlists | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                        <td class="px-4 py-2 border">{{ product.product_name }}</td>
+                        <td class="px-4 py-2 border">{{ product.variant.product.name }}</td>
                         <td class="px-4 py-2 border text-center">
-                            <img [src]="product.image_url" alt="{{ product.product_name }}"
+                            <img [src]="product.variant.product.image" alt="{{ product.product_name }}"
                                 class="w-16 h-16 object-cover" />
                         </td>
-                        <td class="px-4 py-2 border text-center"> {{ product.price_sale |
+                        <td class="px-4 py-2 border text-center"> {{ product.variant.product.price_sale |
                             currency:'VND':'symbol':'1.0-0' }}</td>
-                        <td class="px-4 py-2 border text-center">{{ product.style_code }}</td>
                         <td class="px-4 py-2 border text-center">
-                            {{ product.sizes }}
+                            {{ product.size_detail.size
+                            }}
                             <!-- {{ product.sizes.join(', ') }} -->
                         </td>
                         <td class="px-4 py-2 border text-center">

@@ -2,16 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const WishlistModel = require("../../models/Wishlist");
-
+const wishListController = require("../../controllers/admin/productWishList.controller")
 // Lấy tất cả wishlist
-router.get("/", async (req, res) => {
-    try {
-        const wishlist = await WishlistModel.findAll();
-        res.json(wishlist);
-    } catch (error) {
-        console.error("Error fetching wishlist:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
+router.get("/", wishListController.getAllWishlists);
 
 module.exports = router;

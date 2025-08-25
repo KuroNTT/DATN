@@ -179,3 +179,7 @@ UserModel.hasMany(WishlistModel, {
   foreignKey: "user_id",
   as: "wishlists",
 });
+
+// 
+WishlistModel.belongsTo(SizeModel, { foreignKey: "size", as: "size_detail" });
+SizeModel.hasMany(WishlistModel, { foreignKey: "size", as: "wishlists_by_size" });

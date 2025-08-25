@@ -24,12 +24,11 @@ export class ProductWishListComponent implements OnInit {
   loadAllWishlists() {
     this.wishlistService.getAllWishlists().subscribe({
       next: (res) => {
-        this.wishlists = Array.isArray(res) ? res : [];
+        this.wishlists = res;
         console.log("Ds yêu thích:", this.wishlists);
       },
       error: (err) => {
         console.error("Lỗi khi tải wishlist:", err);
-        this.wishlists = [];
       },
     });
   }
