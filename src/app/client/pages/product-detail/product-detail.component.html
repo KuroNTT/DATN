@@ -11,7 +11,7 @@
 
 <div class="flex justify-center px-4 sm:px-0">
   <div class="container">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 mt-10 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
       <div class="col-span-1 order-2 lg:order-0">
         <div class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
           <img *ngFor="let img of imgList" [src]="img" (click)="onClick(img)"
@@ -27,7 +27,7 @@
       <div class="col-span-1 md:col-span-2 lg:col-span-6 order-3">
         <div class="ml-0 lg:ml-4">
           <div class="overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">
-            <h3 class="text-2xl font-bold">{{ product.name }}</h3>
+            <h3 class="text-xl font-bold">{{ product.name }}</h3>
             <p class="font-semibold text-gray-600">
               {{ product.category?.name }}
             </p>
@@ -129,7 +129,7 @@
 
             <div>
               <h3 class="text-xl font-bold my-2">Thông tin sản phẩm</h3>
-              <p class="text-base">{{ product.description }}</p>
+              <p class="text-base text-justify">{{ product.description }}</p>
 
               <div class="infor-detail mt-2" *ngIf="selectedVariant && selectedVariant.color">
                 <h3 class="text-xl font-bold my-2">Thông tin chi tiết</h3>

@@ -15,6 +15,7 @@ export class SidebarComponent {
     { label: "Đơn hàng", path: "/admin/orders", icon: "fas fa-receipt" },
     { label: "Sản phẩm", path: "/admin/products", icon: "fas fa-box" },
     { label: "Danh mục", path: "/admin/categories", icon: "fas fa-list" },
+    { label: "Thương hiệu", path: "/admin/brands", icon: "fas fa-copyright" },
     { label: "Bài viết", path: "/admin/blogs", icon: "fas fa-newspaper" },
     {
       label: "Danh mục bài viết",
@@ -23,7 +24,7 @@ export class SidebarComponent {
     },
     { label: "Banner", path: "/admin/banners", icon: "fas fa-image" },
     { label: "Đánh giá", path: "/admin/reviews", icon: "fas fa-star" },
-    { label: "Khách hàng", path: "/admin/users", icon: "fas fa-user" },
+    { label: "Khách hàng", path: "/admin/user", icon: "fas fa-user" },
     { label: "Voucher", path: "/admin/vouchers", icon: "fa-solid fa-ticket" },
     {
       label: "Sản phẩm yêu thích",
@@ -31,4 +32,9 @@ export class SidebarComponent {
       icon: "fa-solid fa-heart",
     },
   ];
+  isOpen = false;
+
+  toggleSidebar() {
+    this.isOpen = !this.isOpen;
+  }
 }

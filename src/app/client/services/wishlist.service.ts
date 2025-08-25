@@ -21,11 +21,10 @@ export class WishlistService {
     });
   }
 
-  getFavoritesByUser(userId: number): Observable<{ productIds: number[] }> {
-    return this.http.get<{ productIds: number[] }>(
-      `${this.apiUrl}/by-user/${userId}`,
-      { headers: this.getAuthHeaders() }
-    );
+  getFavoritesByUser(): Observable<{ productIds: number[] }> {
+    return this.http.get<{ productIds: number[] }>(`${this.apiUrl}/by-user`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   addToWishlist(data: IWishlist): Observable<any> {
@@ -50,8 +49,6 @@ export class WishlistService {
     size: number;
     user_id: number;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/toggle`, data, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.post(`${this.apiUrl}/toggle`, data);
   }
 }

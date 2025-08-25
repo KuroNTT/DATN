@@ -1,0 +1,189 @@
+<div class="flex items-center justify-between mb-4">
+  <h2 class="text-xl font-bold">Quản lý người dùng</h2>
+  <div class="flex items-center space-x-4">
+    <div class="relative">
+      <select
+        [(ngModel)]="statusFilter"
+        (change)="applyFilters()"
+        class="w-full border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring focus:ring-blue-300"
+      >
+        <option value="">Tất cả trạng thái</option>
+        <option value="active">Hoạt động</option>
+        <option value="locked">Đã khóa</option>
+        <option value="verified">Đã xác thực</option>
+        <option value="unverified">Chưa xác thực</option>
+        <option value="deleted">Đã xóa</option>
+      </select>
+    </div>
+    <div class="relative">
+      <select
+        [(ngModel)]="roleFilter"
+        (change)="applyFilters()"
+        class="w-full border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring focus:ring-blue-300"
+      >
+        <option value="">Tất cả vai trò</option>
+        <option value="admin">Admin</option>
+        <option value="customer">Customer</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="bg-gray-100 rounded-md">
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-md text-left border border-gray-200">
+      <thead class="bg-gray-200 text-center">
+        <tr>
+          <th class="w-16 px-4 py-2 border">ID</th>
+          <th class="w-40 border">Tên</th>
+          <th class="w-48 px-4 py-2 border">Email</th>
+          <th class="w-32 border">Vai trò</th>
+          <th class="w-40 border">Ngày tạo</th>
+          <th class="w-40 px-4 py-2 border">Trạng thái</th>
+          <th class="w-48 px-4 py-2 border">Xác thực</th>
+          <th class="w-48 px-4 py-2 border">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of filteredUsers  | paginate : { itemsPerPage: 10, currentPage: p }" class="hover:bg-gray-50">
+          <td class="px-4 py-2 border text-center">{{ u.id }}</td>
+          <td class="border text-center">{{ u.name }}</td>
+          <td class="px-4 py-2 border">{{ u.email }}</td>
+          <td class="border text-center">
+            <span class="ml-1">{{ u.role }}</span>
+          </td>
+          <td class="border text-center text-gray-700">
+            {{ u.created_at | date : "dd/MM/yyyy" }}
+          </td>
+          <td
+            class="px-4 py-2 border text-center font-semibold border-black"
+            [ngClass]="{
+              'text-green-600': !u.account_lock,
+              'text-red-600': u.account_lock
+            }"
+          >
+            {{ u.account_lock ? "Đã khóa" : "Hoạt động" }}
+          </td>
+          <td class="px-4 py-2 border text-center">
+            <span
+              [ngClass]="
+                u.email_verify_at
+                  ? 'text-green-600 font-medium'
+                  : 'text-red-600 font-medium'
+              "
+            >
+              {{ u.email_verify_at ? "Đã xác thực" : "Chưa xác thực" }}
+            </span>
+            <div *ngIf="u.email_verify_at" class="text-gray-500 text-xs">
+              {{ u.email_verify_at | date : "dd/MM/yyyy" }}
+            </div>
+          </td>
+          <td class="px-4 py-2 border text-center">
+            <div class="inline-flex items-center justify-center gap-3">
+              <button
+                (click)="
+                  changeRole(u.id, u.role === 'admin' ? 'customer' : 'admin')
+                "
+                class="text-blue-500 hover:text-blue-700 cursor-pointer"
+                [title]="
+                  'Chuyển ' + (u.role === 'admin' ? 'Customer' : 'Admin')
+                "
+              >
+                <i
+                  [ngClass]="
+                    u.role === 'admin' ? 'fas fa-user' : 'fas fa-user-gear'
+                  "
+                ></i>
+              </button>
+              <button
+                (click)="resendVerify(u)"
+                [disabled]="u.verifySent || u.email_verify_at"
+                class="text-green-500 cursor-pointer hover:text-green-700 disabled:text-gray-400 disabled:cursor-not-allowed"
+                title="Gửi lại Verify"
+              >
+                <i class="fas fa-envelope"></i>
+              </button>
+              <button
+                (click)="toggleLock(u.id)"
+                class="text-yellow-500 hover:text-yellow-700 cursor-pointer"
+                [title]="u.account_lock ? 'Mở khóa' : 'Khóa'"
+              >
+                <i
+                  [ngClass]="
+                    u.account_lock ? 'fas fa-lock-open' : 'fas fa-lock'
+                  "
+                ></i>
+              </button>
+              <button
+                (click)="deleteUser(u.id)"
+                [disabled]="u.deleted_at"
+                [ngClass]="
+                  u.deleted_at
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-red-500 hover:text-red-700 cursor-pointer'
+                "
+                title="Xóa"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  <pagination-template #pg="paginationApi" (pageChange)="p = $event">
+    <div class="flex justify-center items-center mt-6 space-x-2">
+      <button
+        class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+        [disabled]="pg.isFirstPage()"
+        (click)="pg.previous()"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+      <ng-container *ngFor="let page of pg.pages">
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full border text-sm transition-all duration-200"
+          [ngClass]="{
+            'bg-black text-white shadow-md': pg.getCurrent() === page.value,
+            'bg-white text-black border-[#c5c5c5] hover:bg-[#f3f3f3]':
+              pg.getCurrent() !== page.value
+          }"
+          (click)="pg.setCurrent(page.value)"
+        >
+          {{ page.label }}
+        </button>
+      </ng-container>
+      <button
+        class="w-9 h-9 flex items-center justify-center rounded-full border border-[#c5c5c5] bg-white text-black hover:bg-black hover:text-white transition-shadow duration-200 shadow-sm hover:shadow-md"
+        [disabled]="pg.isLastPage()"
+        (click)="pg.next()"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+    </div>
+  </pagination-template>

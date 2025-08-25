@@ -11,9 +11,9 @@
 
 <!-- Content -->
 <div class="flex justify-center px-4 sm:px-0">
-  <div class="w-full max-w-[1280px] flex gap-7">
+  <div class="w-full max-w-[1280px] flex flex-col md:flex-row gap-7">
     <!-- Sidebar lọc danh mục blog -->
-    <div class="w-1/4 lg:w-1/4 h-[calc(100vh-20px)] sticky top-5">
+    <div class="w-full md:w-1/4 h-auto md:h-[calc(100vh-20px)] md:sticky md:top-5 mb-6 md:mb-0">
       <h3 class="text-xl font-bold mb-6">Bộ lọc bài viết</h3>
 
       <!-- Danh mục bài viết -->
@@ -43,16 +43,16 @@
     </div>
 
     <!-- Danh sách blog -->
-    <div class="w-3/4 space-y-6">
+    <div class="w-full md:w-3/4 space-y-6">
       <div *ngFor="let blog of blogs; let i = index"
-        class="md:flex md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
-        [ngClass]="{ 'flex-row-reverse': i % 2 !== 0 }" (click)="goToBlog(blog.slug)">
+        class="flex flex-col md:flex-row md:h-[360px] overflow-hidden rounded mb-4 shadow-lg group cursor-pointer"
+        [ngClass]="{ 'md:flex-row-reverse': i % 2 !== 0 }" (click)="goToBlog(blog.slug)">
         <!-- Ảnh -->
         <img [src]="blog.thumbnail"
-          class="w-full h-auto md:w-1/2 h-[360px] object-cover group-hover:scale-105 transition duration-500 ease-in-out" />
+          class="w-full h-[220px] md:w-1/2 md:h-[360px] object-cover group-hover:scale-105 transition duration-500 ease-in-out" />
 
         <!-- Nội dung -->
-        <div class="flex flex-col justify-center md:w-1/2 p-6 space-y-4" style="
+        <div class="flex flex-col justify-center md:w-1/2 p-4 sm:p-6 space-y-4" style="
             background: linear-gradient(
               90deg,
               rgba(196, 196, 196, 1) 20%,
@@ -63,7 +63,7 @@
             {{ blog.category?.name }}
           </span>
 
-          <h2 class="text-3xl font-bold text-brown-800 uppercase">
+          <h2 class="text-xl md:text-3xl font-bold text-brown-800 uppercase">
             {{ blog.title }}
           </h2>
 
@@ -72,7 +72,7 @@
           </p>
 
           <button
-            class="w-[50%] md:w-[30%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
+            class="w-full md:w-[40%] p-2 text-sm rounded-full bg-black text-white shadow-lg font-semibold transition duration-300 cursor-pointer hover:bg-[#707072]">
             XEM CHI TIẾT
           </button>
         </div>

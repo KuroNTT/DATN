@@ -50,19 +50,3 @@
     </div>
   </div>
 </div>
-<div class="flex justify-center items-center gap-2 mt-6">
-  <button class="px-3 py-1 border rounded" [disabled]="currentPage === 1" (click)="prevPage()">
-    <i class="fa-solid fa-angles-left"></i>
-  </button>
-
-  <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
-    <button class="px-3 py-1 border rounded" [ngClass]="{ 'bg-black text-white': currentPage === i + 1 }"
-      (click)="goToPage(i + 1)">
-      {{ i + 1 }}
-    </button>
-  </ng-container>
-
-  <button class="px-3 py-1 border rounded" [disabled]="currentPage === totalPages" (click)="nextPage()">
-    <i class="fa-solid fa-angles-right"></i>
-  </button>
-</div>

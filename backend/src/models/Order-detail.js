@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/sequelize");
 
-//Model mô tả bảng Order
 const OrderDetailModel = sequelize.define(
   "order_details",
   {
@@ -45,7 +44,7 @@ const OrderDetailModel = sequelize.define(
     },
   },
   {
-    tableName: "order_details", // tên bảng trong DB
+    tableName: "order_details", 
     timestamps: false,
   }
 );

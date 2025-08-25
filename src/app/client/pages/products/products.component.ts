@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ProductFilterComponent } from "../../components/product-filter/product-filter.component";
 import { ProductListComponent } from "../product-list/product-list.component";
 import { IProduct } from "../../../core/models/structureData";
@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { environment } from "../../../../environments/environment";
 import { ActivatedRoute, Router } from "@angular/router";
+
 @Component({
   selector: "app-product",
   standalone: true,
@@ -19,16 +20,16 @@ import { ActivatedRoute, Router } from "@angular/router";
   templateUrl: "./products.component.html",
   styleUrls: ["./products.component.css"],
 })
-export class ProductsComponent {
-  product_arr: IProduct[] = [];
-  p: number = 1;
-  loading = false;
-
+export class ProductsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router
   ) {}
+
+  product_arr: IProduct[] = [];
+  p: number = 1;
+  loading = false;
 
   ngOnInit(): void {
     const url = this.router.url;

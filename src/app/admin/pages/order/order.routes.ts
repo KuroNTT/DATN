@@ -1,10 +1,18 @@
 import { Routes } from "@angular/router";
-import { OrderComponent } from "./order.component";
+import { OrderListComponent } from "./order-list/order-list.component";
 
 export const orderRoutes: Routes = [
   {
     path: "",
-    component: OrderComponent,
-    title: "Tổng quan",
+    component: OrderListComponent,
+    title: "Danh sách đơn hàng",
+  },
+  {
+    path: ":id",
+    loadComponent: () =>
+      import("./order-detail/order-detail.component").then(
+        (m) => m.OrderDetailComponent
+      ),
+    title: "Chi tiết đơn hàng",
   },
 ];

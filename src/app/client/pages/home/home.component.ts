@@ -39,7 +39,8 @@ export class HomeComponent {
   constructor(
     private router: Router,
     private pds: ProductService,
-    private voucherService: VoucherService
+    private voucherService: VoucherService,
+    private wishlistService: WishlistService
   ) {}
 
   ngOnInit(): void {
@@ -55,33 +56,12 @@ export class HomeComponent {
       .then((res) => res.json())
       .then((data) => {
         this.product_arr = (data as IProduct[]).slice(0, 8);
+        this.loadWishlist();
       })
       .catch((error) =>
         console.error("Có lỗi khi lấy dữ liệu sản phẩm! ", error)
       );
   }
-  // Minh - yêu thích
-  // ngOnInit(): void {
-  //   const user = this.authService.getUser();
-  //   // 1. Load sản phẩm trước
-  //   this.loadProducts()
-  //     .then(() => {
-  //       // 2. Nếu có user đăng nhập thì gọi API lấy sản phẩm yêu thích
-  //       if (user) {
-  //         this.wishlistService.getFavoritesByUser(user.id).subscribe({
-  //           next: (res) => {
-  //             const favoritedIds: number[] = res.productIds;
-  //             // 3. Gán trạng thái isFavorited = true cho từng sản phẩm
-  //             this.product_arr = this.product_arr.map((product) => ({
-  //               ...product,
-  //               isFavorited: favoritedIds.includes(product.id),
-  //             }));
-  //           },
-  //           error: (err) => {
-  //             console.error("❌ Lỗi khi lấy danh sách yêu thích:", err);
-  //           },
-  //         });
-  //       }
 
   loadNewestBlogs() {
     fetch(`${environment.apiUrl}/blogs/newest`)
@@ -108,6 +88,22 @@ export class HomeComponent {
       },
       error: (err) => {
         console.error("Lỗi khi load voucher:", err);
+      },
+    });
+  }
+  loadWishlist(): void {
+    this.wishlistService.getFavoritesByUser().subscribe({
+      next: (res) => {
+        const wishlistIds = res.productIds;
+
+        // ✅ Đánh dấu sản phẩm đã yêu thích
+        this.product_arr = this.product_arr.map((product) => ({
+          ...product,
+          isFavorited: wishlistIds.includes(product.id),
+        }));
+      },
+      error: (err) => {
+        console.error("Lỗi khi lấy wishlist:", err);
       },
     });
   }

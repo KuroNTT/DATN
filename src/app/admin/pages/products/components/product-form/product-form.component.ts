@@ -108,6 +108,7 @@ export class ProductFormComponent implements OnInit {
     const size = this.sizes.find((s) => s.id === id);
     return size ? `Size ${size.size}` : "Size ?";
   }
+
   getSizesFromGroup(variantGroup: FormGroup): FormArray {
     return variantGroup.get("sizes") as FormArray;
   }

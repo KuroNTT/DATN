@@ -1,4 +1,4 @@
-<aside class="sidebar flex h-full">
+<!-- <aside class="sidebar flex h-full">
   <div class="logo text-center">TVM Admin</div>
 
   <nav class="menu">
@@ -13,3 +13,42 @@
     </a>
   </nav>
 </aside>
+ -->
+<!-- Overlay -->
+<div
+  class="fixed inset-0 bg-opacity-10 lg:hidden"
+  *ngIf="isOpen"
+  (click)="toggleSidebar()"
+></div>
+
+<!-- Sidebar: mobile sẽ trượt từ bên phải -->
+<aside
+  class="sidebar fixed top-0 bg-black/50 right-0 h-full z-50 transform transition-transform duration-300 lg:static lg:translate-x-0"
+  [class.translate-x-full]="!isOpen"
+>
+  <div class="flex justify-between mb-6">
+    <div class="logo font-bold text-lg">TVM Admin</div>
+    <!-- nút X chỉ hiện ở mobile -->
+    <button
+    class="lg:hidden text-gray-600 text-xl cursor-pointer hover:text-black flex items-center justify-center"
+      (click)="toggleSidebar()"
+    >
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+  </div>
+
+
+  <nav class="menu">
+    <a
+      *ngFor="let item of menu"
+      [routerLink]="item.path"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="toggleSidebar()"
+    >
+      <i [class]="item.icon"></i>
+      <span>{{ item.label }}</span>
+    </a>
+  </nav>
+</aside>
+

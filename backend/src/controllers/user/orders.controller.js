@@ -4,6 +4,7 @@ const ProductVariantModel = require("../../models/ProductVariant");
 const ProductModel = require("../../models/Product");
 const SizeModel = require("../../models/Size");
 const VariantSizeModel = require("../../models/VariantSize");
+const ProductImageModel = require("../../models/ProductImage");
 const CartModel = require("../../models/cart");
 const VoucherModel = require("../../models/voucher");
 const PayOS = require("@payos/node");
@@ -210,33 +211,34 @@ exports.createPaymentLink = async (req, res) => {
       admin_note: adminNote,
     });
     console.log(items);
-    
+
     for (const item of items) {
       if (!item.variantId) {
         console.warn("⚠️ Bỏ qua sản phẩm thiếu variantId:", item);
         continue; // bỏ qua item này, không lưu vào order_detail
       }
       let size = await SizeModel.findByPk(item.sizeId);
-      await OrderDetailModel.create(
-        {
-          order_id: newOrder.id,
-          variant_id: item.variantId,
-          quantity: item.quantity || 1,
-          price: item.price || 0,
-          product_name: item.product_name,
-          size_id: item.sizeId,
-          variant_name: item.variant_name,
-          size_value: size.size
-        }
-      );
+      await OrderDetailModel.create({
+        order_id: newOrder.id,
+        variant_id: item.variantId,
+        quantity: item.quantity || 1,
+        price: item.price || 0,
+        product_name: item.product_name,
+        size_id: item.sizeId,
+        variant_name: item.variant_name,
+        size_value: size.size,
+      });
     }
 
-    
-    items = items.map(e=>({name: e.name, price: e.price, quantity: e.quantity}));
+    items = items.map((e) => ({
+      name: e.name,
+      price: e.price,
+      quantity: e.quantity,
+    }));
 
     const payload = {
       orderCode: orderCode,
-      amount: Number(total_price),
+      amount: Math.floor(total_price),
       description: `DON HANG ${orderCode}`,
       items,
       cancelUrl: `${process.env.DOMAIN}/cancel`,
@@ -494,7 +496,69 @@ exports.saveOrder = async (req, res) => {
     return res.status(200).json({ success: true, order: newOrder });
   } catch (error) {
     await transaction.rollback();
-    console.error("❌ Lỗi lưu đơn hàng:", error);
+    console.error("Lỗi lưu đơn hàng:", error);
     return res.status(500).json({ error: "Lỗi máy chủ khi lưu đơn hàng." });
+  }
+};
+
+exports.changeOrderStatus = async (req, res) => {
+  try {
+    const { status, customerNote, orderId } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    const order = await OrderModel.findByPk(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    order.status = status;
+
+    if (customerNote !== undefined) {
+      order.customer_note = customerNote;
+    }
+
+    await order.save();
+
+    return res.status(200).json({
+      message: "Order updated successfully",
+      order,
+    });
+  } catch (error) {
+    console.error("Error updating order:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+exports.getOrdersByUser = async (req, res) => {
+  const userId = req.user?.id || req.query.user_id;
+  try {
+    const orders = await OrderModel.findAll({
+      where: { user_id: userId },
+
+      include: [
+        {
+          model: OrderDetailModel,
+          as: "order_details",
+          include: [
+            {
+              model: ProductVariantModel,
+              as: "product_variant",
+              attributes: ["image_url"],
+            },
+          ],
+        },
+      ],
+      order: [["create_at", "DESC"]],
+    });
+    res.json(orders);
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Lỗi máy chủ khi lấy đơn hàng.",
+    });
   }
 };

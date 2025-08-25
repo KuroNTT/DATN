@@ -1,0 +1,45 @@
+<div class="w-full mx-auto">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title class="text-lg font-semibold"
+        >Xác nhận hủy</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <form #f="ngForm" (ngSubmit)="submit(f)" class="flex flex-col gap-4 mt-4">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Lý do hủy</mat-label>
+          <textarea
+            matInput
+            name="reason"
+            [(ngModel)]="reason"
+            required
+            #reasonCtrl="ngModel"
+            rows="3"
+            placeholder="Nhập lý do hủy..."
+          ></textarea>
+          <mat-hint align="end">{{ reason.length || 0 }}/500</mat-hint>
+          <mat-error *ngIf="reasonCtrl.invalid && reasonCtrl.touched">
+            Vui lòng nhập lý do hủy
+          </mat-error>
+        </mat-form-field>
+
+        <div class="flex justify-end gap-2">
+          <button mat-stroked-button type="button" (click)="close()">
+            Đóng
+          </button>
+          <button
+            mat-flat-button
+            color="warn"
+            type="submit"
+            [disabled]="f.invalid || !reason.trim()"
+            (click)="submit(f)"
+          >
+            Xác nhận hủy
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

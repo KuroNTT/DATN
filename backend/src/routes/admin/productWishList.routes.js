@@ -1,10 +1,3 @@
-// const express = require("express");
-// const router = express.Router();
-// const productWishListController = require("../../controllers/admin/productWishList.controller");
-
-// router.get("/", productWishListController.getAllWishlistsAdmin);
-// // router.get("/", authMiddleware, wishlistController.getWishlist);
-// module.exports = router;
 
 const express = require("express");
 const router = express.Router();

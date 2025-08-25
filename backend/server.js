@@ -60,6 +60,7 @@ app.use("/api/stock", require("./src/routes/user/stock.routes"));
 // Admin
 app.use("/api/admin/blogs", require("./src/routes/admin/blog.routes"));
 app.use("/api/admin/banners", require("./src/routes/admin/banner.routes"));
+app.use("/api/admin/brands", require("./src/routes/admin/brand.routes"));
 app.use(
   "/api/admin/blog-categories",
   require("./src/routes/admin/blogCategory.routes")
@@ -70,10 +71,10 @@ app.use(
   require("./src/routes/admin/dashboard.routes")
 );
 app.use("/api/admin/products", require("./src/routes/admin/product.routes"));
+app.use("/api/admin/user", require("./src/routes/admin/user.routes"));
+app.use("/api/admin/orders", require("./src/routes/admin/order.routes"));
 
-// app.use("/api/admin/wishlist", require("./src/routes/user/wishlist.routes"));
-// app.use("/api/admin/wishlist", require("./src/routes/admin/productWishList.routes"));
-
+// minh 
 app.use("/api/admin/wishlist", require("./src/routes/admin/productWishList.routes"));
 // Cấu hình nhận form-data, JSON...
 app.use(express.urlencoded({ extended: true }));

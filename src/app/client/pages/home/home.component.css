@@ -69,7 +69,7 @@
 .featured_product {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;  
+  flex-wrap: wrap;
   gap: 12px;
 }
 
@@ -186,13 +186,13 @@
 }
 .favour-list {
   display: flex;
-  flex-wrap: wrap;        /* Cho phép tự động xuống hàng */
+  flex-wrap: wrap; /* Cho phép tự động xuống hàng */
   justify-content: space-between;
   gap: 16px;
 }
 
 .favour-item {
-  flex: 1 1 300px;        /* Tối thiểu 300px, còn lại tự co giãn */
+  flex: 1 1 300px; /* Tối thiểu 300px, còn lại tự co giãn */
   max-width: 100%;
   background-color: #f7f7f7;
   border-radius: 10px;
@@ -200,8 +200,12 @@
   text-align: center;
 }
 @keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {

@@ -37,7 +37,7 @@ export class ProductListComponent implements OnChanges {
       // 1) Nếu user đăng nhập -> map isFavorited dựa trên wishlist
       const user = this.authService.getUser();
       if (user && Array.isArray(this.products) && this.products.length) {
-        this.wishlistService.getFavoritesByUser(user.id).subscribe({
+        this.wishlistService.getFavoritesByUser().subscribe({
           next: (res) => {
             const favoritedIds: number[] = res.productIds || [];
             // gán cờ yêu thích cho mảng đang hiển thị
