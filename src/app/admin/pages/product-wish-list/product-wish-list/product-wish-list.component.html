@@ -1,0 +1,43 @@
+<div>
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Danh sách sản phẩm yêu thích</h2>
+    </div>
+
+    <div class="bg-gray-100 rounded-md">
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-md text-left border border-gray-200">
+                <thead class="bg-gray-200 text-center">
+                    <tr>
+                        <th class="w-56 px-4 py-2 border">Tên sản phẩm</th>
+                        <th class="w-24 px-4 py-2 border">Ảnh</th>
+                        <th class="w-24 px-4 py-2 border">Giá</th>
+                        <th class="w-24 px-4 py-2 border">Màu</th>
+                        <th class="w-24 px-4 py-2 border">Size</th>
+                        <th class="w-32 px-4 py-2 border">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let product of wishlists | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                        <td class="px-4 py-2 border">{{ product.product_name }}</td>
+                        <td class="px-4 py-2 border text-center">
+                            <img [src]="product.image_url" alt="{{ product.product_name }}"
+                                class="w-16 h-16 object-cover" />
+                        </td>
+                        <td class="px-4 py-2 border text-center"> {{ product.price_sale |
+                            currency:'VND':'symbol':'1.0-0' }}</td>
+                        <td class="px-4 py-2 border text-center">{{ product.style_code }}</td>
+                        <td class="px-4 py-2 border text-center">
+                            {{ product.sizes }}
+                            <!-- {{ product.sizes.join(', ') }} -->
+                        </td>
+                        <td class="px-4 py-2 border text-center">
+                            chỉnh sửa
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

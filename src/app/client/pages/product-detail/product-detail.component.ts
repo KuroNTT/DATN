@@ -73,8 +73,10 @@ export class ProductDetailComponent implements OnInit {
       .then((res) => res.json())
       .then((data) => {
         this.product = data.product as IProduct;
+
         this.product_variant_arr = this.product.variants;
         this.selectedVariant = this.product_variant_arr[0] ?? null;
+
         this.size_arr = this.selectedVariant
           ? this.extractSizes(this.selectedVariant)
           : [];
@@ -96,8 +98,10 @@ export class ProductDetailComponent implements OnInit {
 
   onSelectVariant(variant: IProductVariant) {
     this.selectedVariant = variant;
+
     this.size_arr = this.extractSizes(variant);
     this.selectedSize = null;
+
     this.imgList = variant.images?.map((img) => img.image_url) || [];
     this.mainImage = this.imgList[0] || "";
   }
@@ -117,9 +121,14 @@ export class ProductDetailComponent implements OnInit {
       alert("⚠️ Vui lòng chọn size trước khi thêm vào giỏ hàng!");
       return;
     }
+    this.cartService.addToCart(
+      this.selectedVariant.id,
+      this.selectedSize.id,
+      this.quantity
+    );
     Swal.fire({
       toast: true,
-      position: "bottom-end",
+      position: "top-end",
       icon: "success",
       title: "Đã thêm vào giỏ hàng!",
       showConfirmButton: false,

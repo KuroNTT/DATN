@@ -60,7 +60,18 @@ export class ProductFormComponent implements OnInit {
       const slug = this.slugify(name);
       this.form.get("slug")?.setValue(slug, { emitEvent: false });
     });
-    //Gọi hàm thêm vra
+    // Lấy danh sách size, sau đó mới xử lý variants
+    this.productService.getSizes().subscribe((res: any) => {
+      this.sizes = res;
+      if (this.isEditMode && this.formData) {
+        this.form.patchValue(this.formData);
+        this.patchVariants(this.formData.variants || []);
+        this.variantImages = this.formData.variants.map((v) => v.image_url);
+      } else {
+        this.addVariant();
+      }
+    });
+    // //Gọi hàm thêm vra
     this.addVariant();
 
     if (this.isEditMode && this.formData) {
@@ -117,11 +128,11 @@ export class ProductFormComponent implements OnInit {
       images: this.fb.array([]),
     });
 
-    this.sizes.forEach(s => {
-    (variantGroup.get('sizes') as FormArray).push(
-      this.fb.group({ size_id: [s.id], stock: [0, [Validators.min(0)]] })
-    );
-  });
+    this.sizes.forEach((s) => {
+      (variantGroup.get("sizes") as FormArray).push(
+        this.fb.group({ size_id: [s.id], stock: [0, [Validators.min(0)]] })
+      );
+    });
 
     for (let i = 0; i < 8; i++) {
       (variantGroup.get("images") as FormArray).push(this.fb.control(""));

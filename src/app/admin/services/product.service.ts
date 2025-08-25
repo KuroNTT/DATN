@@ -15,7 +15,7 @@ import { environment } from "../../../environments/environment";
   providedIn: "root",
 })
 export class ProductService {
-  private apiUrl = `${environment.apiUrl}/admin/products`; // Thay bằng URL thật nếu có
+  private apiUrl = `${environment.apiUrl}/admin/products`;
 
   constructor(private http: HttpClient) {}
 

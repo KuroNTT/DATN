@@ -1,6 +1,7 @@
 export interface ICategory {
   id: number;
   name: string;
+  slug: string;
   checked?: boolean;
   description?: string;
   sort_order?: number;
@@ -179,6 +180,7 @@ export interface IBlogCreate {
 }
 export interface ICategoryCreate {
   name: string;
+  slug: string;
   description: string;
   sort_order: number;
   status: number;
@@ -248,11 +250,11 @@ export interface IVoucher {
   code: string;
   description?: string;
   discount_type: "percent" | "fixed";
-  discount_value: number; 
+  discount_value: number;
   min_order_value?: number;
   quantity: number;
   start_date: string;
-  end_date: string; 
+  end_date: string;
   is_active: boolean;
 }
 
@@ -269,4 +271,3 @@ export interface IVoucherUser {
 export interface IVoucherResponse {
   data: IVoucherUser[];
 }
-

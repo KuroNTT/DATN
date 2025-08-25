@@ -25,5 +25,10 @@ export class SidebarComponent {
     { label: "Đánh giá", path: "/admin/reviews", icon: "fas fa-star" },
     { label: "Khách hàng", path: "/admin/users", icon: "fas fa-user" },
     { label: "Voucher", path: "/admin/vouchers", icon: "fa-solid fa-ticket" },
+    {
+      label: "Sản phẩm yêu thích",
+      path: "/admin/productWishList",
+      icon: "fa-solid fa-heart",
+    },
   ];
 }

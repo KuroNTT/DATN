@@ -4,7 +4,6 @@ import { AdminLayoutComponent } from "../layouts/admin-layout/admin-layout.compo
 import { AdminRoutingModule } from "./admin-routing.module";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { RouterModule } from "@angular/router";
-
 @NgModule({
   declarations: [],
   imports: [

@@ -16,6 +16,9 @@ const OrderModel = require("./Order");
 const OrderDetailModel = require("./Order-detail");
 const VoucherModel = require("./voucher");
 const VoucherUserModel = require("./vocherUser");
+const WishlistModel = require("./Wishlist");
+
+
 // Một sản phẩm thuộc về một thương hiệu
 ProductModel.belongsTo(BrandModel, {
   foreignKey: "brand_id",
@@ -62,7 +65,7 @@ ProductVariantModel.belongsTo(ColorModel, {
   as: "color",
 });
 
-/** 7. Mỗi biến thể có nhiều dòng variant_sizes */
+/** 7. Mỗi biến thể có nhiều dòng size_variant_rows */
 ProductVariantModel.hasMany(VariantSizeModel, {
   foreignKey: "variant_id",
   as: "product_variant_sizes",
@@ -83,7 +86,7 @@ VariantSizeModel.belongsTo(SizeModel, {
 /** (tuỳ chọn) 10. Một size xuất hiện trong nhiều variant_size  */
 SizeModel.hasMany(VariantSizeModel, {
   foreignKey: "size_id",
-  as: "variant_sizes",
+  as: "size_variant_rows",
 });
 
 /** 11. Mỗi variant đều có 1 kiểu cổ giày */
@@ -150,4 +153,29 @@ VoucherUserModel.belongsTo(VoucherModel, {
 VoucherModel.hasMany(VoucherUserModel, {
   foreignKey: "voucher_id",
   as: "voucher_users",
+});
+// yêu thích
+
+// Một wishlist thuộc về một user
+WishlistModel.belongsTo(UserModel, {
+  foreignKey: "user_id",
+  as: "user",
+});
+
+// Một wishlist thuộc về một biến thể sản phẩm
+WishlistModel.belongsTo(ProductVariantModel, {
+  foreignKey: "variant_id",
+  as: "variant",
+});
+
+// Một biến thể có thể có nhiều wishlist
+ProductVariantModel.hasMany(WishlistModel, {
+  foreignKey: "variant_id",
+  as: "wishlists",
+});
+
+// Một user có thể có nhiều wishlist
+UserModel.hasMany(WishlistModel, {
+  foreignKey: "user_id",
+  as: "wishlists",
 });

@@ -67,6 +67,20 @@ const routes: Routes = [
           import("./pages/voucher/voucher.routes").then((m) => m.voucherRoutes),
         title: "Quản lý Vouchers",
       },
+      {
+        path: "reviews",
+        loadChildren: () =>
+          import("./pages/reviews/review.routes").then((m) => m.reviewRoutes),
+        title: "Quản lý Đánh giá",
+      },
+      {
+        path: "productWishList",
+        loadChildren: () =>
+          import("./pages/product-wish-list/product-wish-list.routes").then(
+            (m) => m.productWishListRoutes
+          ),
+        title: "Theo dõi sản phẩm yêu thích",
+      },
     ],
   },
 ];

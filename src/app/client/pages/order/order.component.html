@@ -1,56 +1,193 @@
-<div>
-  <mat-form-field class="float-right">
-    <mat-label>Tìm kiếm <i class="fa-solid fa-magnifying-glass"></i></mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input>
-  </mat-form-field>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+<div class="breadcrumb flex justify-center py-[12px] px-4 sm:px-0 mt-[60px]">
+  <div class="container">
+    <a href=""><span class="text-base font-semibold">Trang chủ</span></a>
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
+    <a class="cursor-pointer"><span class="text-base font-semibold">Giỏ hàng</span></a>
+    <i class="fa-solid fa-angle-right text-base px-2 text-gray-500 text-center"></i>
+    <a class="cursor-pointer"><span class="text-base font-semibold">Đơn hàng</span></a>
+  </div>
+</div>
 
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">ID</th>
-      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+<div class="container mx-auto px-4 sm:px-0 py-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+  <!-- Thông tin giao hàng -->
+  <div>
+    <h2 class="text-2xl font-bold mb-2">Thông tin giao hàng</h2>
+    <ng-container *ngIf="!user">
+      <p class="mb-4">
+        Bạn đã có tài khoản ?
+        <a [routerLink]="'/sign-in'" class="text-blue-500 font-medium hover:underline">Đăng nhập</a>
+      </p>
     </ng-container>
+    <form #myForm="ngForm" (ngSubmit)="onPay(myForm)" class="space-y-4">
+      <mat-form-field class="w-full rounded">
+        <mat-label>Họ và tên</mat-label>
+        <input matInput placeholder="Nhập họ tên" name="fullName" [(ngModel)]="fullName" required
+          #fullNameRef="ngModel" />
+        <mat-error *ngIf="fullNameRef.invalid && fullNameRef.touched">Họ và tên là bắt buộc</mat-error>
+      </mat-form-field>
 
-    <ng-container matColumnDef="orderCode">
-      <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Mã đơn hàng</th>
-      <td mat-cell *matCellDef="let row">{{ row.order_code }}</td>
-    </ng-container>
+      <div class="grid grid-cols-2 gap-4">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="email" required #emailRef="ngModel" />
+          <mat-error *ngIf="emailRef.invalid && emailRef.touched">Email là bắt buộc</mat-error>
+        </mat-form-field>
 
-    <ng-container matColumnDef="customer">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Customer</th>
-      <td mat-cell *matCellDef="let row">{{ row.customer }}</td>
-    </ng-container>
+        <mat-form-field>
+          <mat-label>Điện thoại</mat-label>
+          <input matInput type="tel" name="phone" [(ngModel)]="phone" required #phoneRef="ngModel" />
+          <mat-error *ngIf="phoneRef.invalid && phoneRef.touched">Số điện thoại là bắt buộc</mat-error>
+        </mat-form-field>
+      </div>
 
-    <ng-container matColumnDef="customerAddress">
-      <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Address</th>
-      <td mat-cell *matCellDef="let row">{{ row.customer_address }}</td>
-    </ng-container>
+      <mat-form-field class="w-full">
+        <mat-label>Ghi chú</mat-label>
+        <input matInput name="note" [(ngModel)]="note" />
+      </mat-form-field>
 
-    <ng-container matColumnDef="customerPhoneNumber">
-      <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Phone</th>
-      <td mat-cell *matCellDef="let row">{{ row.customer_phone_number }}</td>
-    </ng-container>
+      <div class="grid grid-cols-3 gap-4">
+        <mat-form-field>
+          <mat-label>Tỉnh / Thành</mat-label>
+          <mat-select panelClass="!max-h-[200px]" [(ngModel)]="province" name="province" required
+            #provinceRef="ngModel">
+            <mat-option value="">Chọn</mat-option>
+            <mat-option [value]="p.name" *ngFor="let p of provinces" (click)="pickProvince(p.id)">{{ p.name
+              }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="provinceRef.invalid && provinceRef.touched">Vui lòng chọn tỉnh/thành</mat-error>
+        </mat-form-field>
 
-    <ng-container matColumnDef="total_price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Total Price</th>
-      <td mat-cell *matCellDef="let row">{{ row.total_price | number:'1.0-0' }} <i
-          class="fa-sharp fa-solid fa-dong-sign"></i></td>
-    </ng-container>
+        <mat-form-field>
+          <mat-label>Quận / Huyện</mat-label>
+          <mat-select panelClass="!max-h-[200px]" [(ngModel)]="district" name="district" required
+            #districtRef="ngModel">
+            <mat-option value="">Chọn</mat-option>
+            <mat-option [value]="d.name" *ngFor="let d of districts" (click)="pickDistrict(d.id)">{{ d.name
+              }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="districtRef.invalid && districtRef.touched">Vui lòng chọn quận/huyện</mat-error>
+        </mat-form-field>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-weight: bold;">Status</th>
-      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
-    </ng-container>
+        <mat-form-field>
+          <mat-label>Phường / Xã</mat-label>
+          <mat-select panelClass="!max-h-[200px]" [(ngModel)]="ward" name="ward" required #wardRef="ngModel">
+            <mat-option value="">Chọn</mat-option>
+            <mat-option [value]="w.name" *ngFor="let w of wards">{{
+              w.name
+              }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="wardRef.invalid && wardRef.touched">Vui lòng chọn phường/xã</mat-error>
+        </mat-form-field>
+      </div>
 
-    <ng-container matColumnDef="orderDate">
-      <th mat-header-cell *matHeaderCellDef style="font-weight: bold;">Order Date</th>
-      <td mat-cell *matCellDef="let row">{{ row.order_date | date:'short' }}</td>
-    </ng-container>
+      <div class="mt-6">
+        <h2 class="text-lg font-semibold mb-4">Phương thức thanh toán</h2>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <mat-radio-group class="flex flex-col gap-4" name="paymentMethod" [(ngModel)]="paymentMethod" required
+          #paymentRef="ngModel">
+          <mat-radio-button class="flex items-center gap-3" value="Thanh toán khi nhận hàng (COD)">
+            <span>Thanh toán khi nhận hàng (COD)</span>
+          </mat-radio-button>
 
-  </table>
+          <mat-radio-button class="flex items-center gap-3" value="Chuyển khoản ngân hàng">
+            <span>Chuyển khoản ngân hàng</span>
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="paymentRef.invalid && paymentRef.touched">Vui lòng chọn phương thức thanh toán</mat-error>
+      </div>
 
+      <button type="submit"
+        class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer">
+        Thanh toán
+      </button>
+    </form>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <a href="#" class="text-blue-600 font-semibold py-2 inline-block hover:underline"><i
+        class="fa-solid fa-arrow-left"></i> Quay lại giỏ hàng</a>
+  </div>
+
+  <!-- Chi tiết sản phẩm -->
+  <div>
+    <h2 class="text-2xl font-bold mb-4">Chi tiết sản phẩm</h2>
+    <div class="space-y-4">
+      <!-- Sản phẩm -->
+      <div class="flex items-center justify-between" *ngFor="let item of cartItemLocal$ | async">
+        <div class="flex items-center gap-4">
+          <img [src]="item.variant?.image_url" class="w-14 h-14 object-cover" alt="sp" />
+          <p class="text-sm">{{ item.variant?.product?.name }}</p>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-medium">
+            {{ item.variant?.product?.price_sale | number : "1.0-0" }} VNĐ
+          </p>
+          <div class="flex items-center space-x-2">
+            <button class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)">
+              −
+            </button>
+            <span class="w-6 text-center">x{{ item.quantity }}</span>
+            <button class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between" *ngFor="let item of cartItems$ | async">
+        <div class="flex items-center gap-4">
+          <img [src]="item.variant?.image_url" class="w-14 h-14 object-cover" alt="sp" />
+          <p class="text-sm">{{ item.variant?.product?.name }}</p>
+        </div>
+        <div class="text-right text-sm">
+          <p class="font-medium">
+            {{ item.variant?.product?.price_sale | number : "1.0-0" }} VNĐ
+          </p>
+          <div class="flex items-center space-x-2">
+            <button class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="decrease(item)">
+              −
+            </button>
+            <span class="w-6 text-center">x{{ item.quantity }}</span>
+            <button class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-200"
+              (click)="increase(item)">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mã giảm giá -->
+    <div class="flex mt-6 gap-2">
+      <mat-form-field class="flex-grow">
+        <mat-label>Mã giảm giá</mat-label>
+        <input matInput #voucherCodeInput />
+      </mat-form-field>
+      <button
+        class="bg-black text-white px-6 rounded-md hover:bg-gray-800 transition duration-200 float-right w-1/4 cursor-pointer h-14"
+        (click)="applyVoucher(voucherCodeInput.value, originalTotal)">
+        Áp dụng
+      </button>
+    </div>
+
+    <!-- Tổng tiền -->
+    <div class="border-t mt-6 pt-4 text-sm space-y-2">
+      <div class="flex justify-between">
+        <span>Tạm tính:</span>
+        <span>{{ subtotal | number : "1.0-0" }} VNĐ</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Giảm giá:</span>
+        <span *ngIf="discountAmount > 0; else none">{{ discountAmount | number : "1.0-0" }} VNĐ</span>
+      </div>
+      <ng-template #none>
+        <span>---</span>
+      </ng-template>
+      <div class="flex justify-between border-t pt-2 font-semibold">
+        <span>Tổng cộng:</span>
+        <span>{{ total | number : "1.0-0" }} VNĐ</span>
+      </div>
+    </div>
+  </div>
 </div>

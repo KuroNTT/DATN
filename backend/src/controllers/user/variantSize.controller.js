@@ -1,66 +1,8 @@
 
-// exports.toggleWishlist = async (req, res) => {
-//   const user_id = req.user.id;
-//   const { product_id } = req.body;
-
-//   if (!product_id) {
-//     return res.status(400).json({ message: "Thiếu product_id" });
-//   }
-
-//   try {
-//     const sequelize = require("../../config/sequelize");
-
-//     // Tìm variant_id tương ứng với product_id
-//     const [variantRow] = await sequelize.query(
-//       `SELECT id FROM product_variants WHERE product_id = ? LIMIT 1`,
-//       { replacements: [product_id] }
-//     );
-
-//     if (!variantRow.length) {
-//       return res.status(404).json({ message: "Không tìm thấy variant" });
-//     }
-
-//     const variant_id = variantRow[0].id;
-
-//     // Tìm trong wishlist
-//     const exists = await WishlistModel.findOne({
-//       where: { user_id, variant_id },
-//     });
-
-//     if (exists) {
-//       // Nếu đã có → xoá
-//       await WishlistModel.destroy({
-//         where: { user_id, variant_id },
-//       });
-//       return res.status(200).json({ message: "Đã xoá khỏi yêu thích" });
-//     }
-
-//     // Nếu chưa có → thêm mới
-//     await WishlistModel.create({
-//       user_id,
-//       variant_id,
-//       size: null, // hoặc 1 size mặc định nếu cần
-//       create_at: new Date(),
-//       is_active: 1,
-//     });
-
-//     res.status(201).json({ message: "Đã thêm vào yêu thích" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Lỗi server khi toggle yêu thích" });
-//   }
-// };
-
-// test
-
 const VariantSizeModel = require("../../models/VariantSize");
 const WishlistModel = require("../../models/Wishlist");
 const sequelize = require("../../config/sequelize");
 
-/**
- * GET /api/stock?variantId=...&sizeId=...
- * Trả về tồn kho theo variant_id + size_id
- */
 async function getStockByVariantAndSize(req, res) {
   try {
     const { variantId, sizeId } = req.query;
@@ -91,11 +33,6 @@ async function getStockByVariantAndSize(req, res) {
   }
 }
 
-/**
- * POST /api/stock/decrease
- * body: [{ variantId, sizeId, quantity }, ...]
- * Giảm tồn kho theo danh sách items (transaction + lock)
- */
 async function decreaseStock(req, res) {
   const items = req.body;
 
@@ -146,11 +83,6 @@ async function decreaseStock(req, res) {
   }
 }
 
-/**
- * POST /api/wishlist/toggle
- * body: { product_id }
- * Yêu cầu: auth middleware đã gắn req.user.id
- */
 async function toggleWishlist(req, res) {
   const user_id = req.user?.id;
   const { product_id } = req.body;
