@@ -5,7 +5,7 @@
     <button
       *ngFor="let tab of tabs"
       (click)="selectTab(tab.value)"
-      class="px-3 py-1.5 text-sm rounded-full whitespace-nowrap"
+      class="flex-1 py-1.5 text-sm rounded-full whitespace-nowrap"
       [ngClass]="{
         'bg-black text-white': selectedTab === tab.value,
         'bg-gray-200': selectedTab !== tab.value
@@ -44,6 +44,8 @@
             ? "Đã xác nhận"
             : order.status === "completed"
             ? "Hoàn thành"
+            : order.status === "paid"
+            ? "Đã thanh toán"
             : "Đã hủy"
         }}
       </span>
